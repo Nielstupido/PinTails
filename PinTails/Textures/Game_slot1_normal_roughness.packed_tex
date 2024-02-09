@@ -1,0 +1,8 @@
+{
+	"contains_albedo": false,
+	"resolution": 512,
+	"src": {
+		"a": "res://Textures/Dirt/Ground073_1K-JPG_Roughness.jpg",
+		"rgb": "res://Textures/Dirt/Ground073_1K-JPG_NormalGL.jpg"
+	}
+}
