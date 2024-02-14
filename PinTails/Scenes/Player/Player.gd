@@ -6,7 +6,7 @@ onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res:/
 onready var weapon_reload = [preload("res://Audio/Rifle_reload.wav"), preload("res://Audio/Pistol_reload.wav")]
 onready var weapon_ray = $Camroot/h/v/pivot/Camera/ray
 
-var weapons = ["Rifle", "Pistol"]
+var weapons = ["No_weapon"]
 var current_weapon = -1
 var fired_once = false
 
@@ -185,97 +185,97 @@ func _physics_process(delta):
 # ======================================= AIM MODE START ==============================
 
 	if !radial_menu:
-		
-		if (Input.is_action_pressed("aim")) && !$AnimationTree.get(roll_active) && weapon_blend_target == 1:
-			$CamAnimTree.set(cam_aim, lerp($CamAnimTree.get(cam_aim), 1, delta * aim_speed))
-		else:
-			$CamAnimTree.set(cam_aim, lerp($CamAnimTree.get(cam_aim), 0, delta * aim_speed))
-
-		if (Input.is_action_pressed("aim") || Input.is_action_pressed("fire") || !$aim_stay_delay.is_stopped()) && !$AnimationTree.get(roll_active) && weapon_blend_target == 1:
+		if weapons.empty():
+			if (Input.is_action_pressed("aim")) && !$AnimationTree.get(roll_active) && weapon_blend_target == 1:
+				$CamAnimTree.set(cam_aim, lerp($CamAnimTree.get(cam_aim), 1, delta * aim_speed))
+			else:
+				$CamAnimTree.set(cam_aim, lerp($CamAnimTree.get(cam_aim), 0, delta * aim_speed))
 			
-			if Input.is_action_pressed("fire"):
-				$aim_stay_delay.start()
+			if (Input.is_action_pressed("aim") || Input.is_action_pressed("fire") || !$aim_stay_delay.is_stopped()) && !$AnimationTree.get(roll_active) && weapon_blend_target == 1:
 				
-				if $shoot_timer.is_stopped() && $reload_timer.is_stopped() && !$AnimationTree.get(weapon_switch_active) && $WeaponStats.mag() > 0 && ($WeaponStats.auto() || !fired_once):# weapon stats 
-
-					fired_once = true
+				if Input.is_action_pressed("fire"):
+					$aim_stay_delay.start()
 					
-					$shoot_timer.start(1 / $WeaponStats.fire_rate())
-					$shoot_sfx.play()
-				
-					$WeaponStats.mag_decrement()
-				
-					$UI/Crosshair.fire($WeaponStats.fire_rate() * 0.2)
-				
-					neck_attachment.get_node("AnimationPlayer").play("muzzle_flash")
-				
-					
-					$splatters.get_child(splatter).global_transform.origin = weapon_ray_tip
-					$splatters.get_child(splatter).emitting = true
-					
-					splatter += 1
-					if splatter >= $splatters.get_child_count() - 1:
-						splatter = 0
-					
-					var spread = $UI/Crosshair.pos_x/12
-					weapon_ray.rotation_degrees.x = rand_range(-spread, spread)
-					weapon_ray.rotation_degrees.y = rand_range(-spread, spread)
-					
-					$Camroot/h/v.rotate_x(deg2rad($WeaponStats.recoil()))
-					$Camroot.recoil_recovery()
-					
+					if $shoot_timer.is_stopped() && $reload_timer.is_stopped() && !$AnimationTree.get(weapon_switch_active) && $WeaponStats.mag() > 0 && ($WeaponStats.auto() || !fired_once):# weapon stats 
 			
-			if $AnimationTree.get(aim_transition) == 1:
-				$AnimationTree.set(aim_transition, 0)
-				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.start()
-				$AnimationTree.set("parameters/neck_front/blend_amount", 1)
+						fired_once = true
+						
+						$shoot_timer.start(1 / $WeaponStats.fire_rate())
+						$shoot_sfx.play()
+					
+						$WeaponStats.mag_decrement()
+					
+						$UI/Crosshair.fire($WeaponStats.fire_rate() * 0.2)
+					
+						neck_attachment.get_node("AnimationPlayer").play("muzzle_flash")
+					
+						
+						$splatters.get_child(splatter).global_transform.origin = weapon_ray_tip
+						$splatters.get_child(splatter).emitting = true
+						
+						splatter += 1
+						if splatter >= $splatters.get_child_count() - 1:
+							splatter = 0
+						
+						var spread = $UI/Crosshair.pos_x/12
+						weapon_ray.rotation_degrees.x = rand_range(-spread, spread)
+						weapon_ray.rotation_degrees.y = rand_range(-spread, spread)
+						
+						$Camroot/h/v.rotate_x(deg2rad($WeaponStats.recoil()))
+						$Camroot.recoil_recovery()
+						
+				
+				if $AnimationTree.get(aim_transition) == 1:
+					$AnimationTree.set(aim_transition, 0)
+					$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.start()
+					$AnimationTree.set("parameters/neck_front/blend_amount", 1)
+				
+				if $AnimationTree.get(roll_active):
+					$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, delta * angular_acceleration)
+					# Sometimes in the level design you might need to rotate the Player object itself
+					# - rotation.y in case you need to rotate the Player object
+				else:
+					$Mesh.rotation.y = $Camroot/h.rotation.y # when not rolling, Mesh will face where camera is facing. Not lerping as weapon will lerp too.
+				
+				
+				strafe = lerp(strafe, strafe_dir + Vector3.RIGHT * aim_turn, delta * acceleration)
+				
+				if !$AnimationTree.get(roll_active):
+					$AnimationTree.set(walk_blendspace, Vector2(-strafe.x, strafe.z))
+					$AnimationTree.set(crouch_walk_blendspace, Vector2(-strafe.x, strafe.z))
+				
+				$AnimationTree.set(iwr_blend, lerp($AnimationTree.get(iwr_blend), 0, delta * acceleration))
+				$AnimationTree.set(crouch_iw_blend, lerp($AnimationTree.get(crouch_iw_blend), 1, delta * acceleration))
+					
+			else:
+				shoulder_target = 0.5 * sign(shoulder_target)
 			
-			if $AnimationTree.get(roll_active):
+				if $AnimationTree.get(aim_transition) == 0:
+					$AnimationTree.set(aim_transition, 1)
+					$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.stop()
+					$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton.clear_bones_global_pose_override()
+					$AnimationTree.set("parameters/neck_front/blend_amount", 0)
+					
+				
 				$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, delta * angular_acceleration)
-				# Sometimes in the level design you might need to rotate the Player object itself
-				# - rotation.y in case you need to rotate the Player object
-			else:
-				$Mesh.rotation.y = $Camroot/h.rotation.y # when not rolling, Mesh will face where camera is facing. Not lerping as weapon will lerp too.
 			
+				if !$AnimationTree.get(roll_active): # so that roll anim fades out to last walk anim blend position
+					$AnimationTree.set(walk_blendspace, lerp($AnimationTree.get(walk_blendspace), Vector2(0,1), delta * acceleration))
+					$AnimationTree.set(crouch_walk_blendspace, lerp($AnimationTree.get(crouch_walk_blendspace), Vector2(0,1), delta * acceleration))
 			
-			strafe = lerp(strafe, strafe_dir + Vector3.RIGHT * aim_turn, delta * acceleration)
+				var iw_blend = (velocity.length() - walk_speed) / walk_speed
+				var wr_blend = (velocity.length() - walk_speed) / (run_speed - walk_speed)
 			
-			if !$AnimationTree.get(roll_active):
-				$AnimationTree.set(walk_blendspace, Vector2(-strafe.x, strafe.z))
-				$AnimationTree.set(crouch_walk_blendspace, Vector2(-strafe.x, strafe.z))
+				#find the graph here: https://www.desmos.com/calculator/4z9devx1ky
 			
-			$AnimationTree.set(iwr_blend, lerp($AnimationTree.get(iwr_blend), 0, delta * acceleration))
-			$AnimationTree.set(crouch_iw_blend, lerp($AnimationTree.get(crouch_iw_blend), 1, delta * acceleration))
-				
-		else:
-			shoulder_target = 0.5 * sign(shoulder_target)
-		
-			if $AnimationTree.get(aim_transition) == 0:
-				$AnimationTree.set(aim_transition, 1)
-				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.stop()
-				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton.clear_bones_global_pose_override()
-				$AnimationTree.set("parameters/neck_front/blend_amount", 0)
-				
+				if velocity.length() <= walk_speed:
+					$AnimationTree.set(iwr_blend , iw_blend)
+					$AnimationTree.set(ir_rifle_blend, 0)
+				else:
+					$AnimationTree.set(iwr_blend , wr_blend)
+					$AnimationTree.set(ir_rifle_blend, wr_blend)
 			
-			$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, delta * angular_acceleration)
-		
-			if !$AnimationTree.get(roll_active): # so that roll anim fades out to last walk anim blend position
-				$AnimationTree.set(walk_blendspace, lerp($AnimationTree.get(walk_blendspace), Vector2(0,1), delta * acceleration))
-				$AnimationTree.set(crouch_walk_blendspace, lerp($AnimationTree.get(crouch_walk_blendspace), Vector2(0,1), delta * acceleration))
-		
-			var iw_blend = (velocity.length() - walk_speed) / walk_speed
-			var wr_blend = (velocity.length() - walk_speed) / (run_speed - walk_speed)
-		
-			#find the graph here: https://www.desmos.com/calculator/4z9devx1ky
-		
-			if velocity.length() <= walk_speed:
-				$AnimationTree.set(iwr_blend , iw_blend)
-				$AnimationTree.set(ir_rifle_blend, 0)
-			else:
-				$AnimationTree.set(iwr_blend , wr_blend)
-				$AnimationTree.set(ir_rifle_blend, wr_blend)
-		
-			$AnimationTree.set(crouch_iw_blend, velocity.length()/crouch_walk_speed)
+				$AnimationTree.set(crouch_iw_blend, velocity.length()/crouch_walk_speed)
 		
 	# ======================================= AIM MODE END ===================================
 	
@@ -384,3 +384,8 @@ func reload():
 
 func _on_reload_timer_timeout():
 	$WeaponStats.mag_fill()
+
+
+func _on_WeaponPickupRange_area_entered(area):
+	if area.owner.name == "RifleGun":
+		print("gun detected")

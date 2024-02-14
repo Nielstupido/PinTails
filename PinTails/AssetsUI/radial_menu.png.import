@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/radial_menu_hover.png-137dd2384936c4f27405748bc53cb39c.stex"
+path="res://.import/radial_menu.png-9f5fa589c127af5c4a7330a4944bafa9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/ui/radial_menu_hover.png"
-dest_files=[ "res://.import/radial_menu_hover.png-137dd2384936c4f27405748bc53cb39c.stex" ]
+source_file="res://AssetsUI/radial_menu.png"
+dest_files=[ "res://.import/radial_menu.png-9f5fa589c127af5c4a7330a4944bafa9.stex" ]
 
 [params]
 

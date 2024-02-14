@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/flash1.png-1d16309f865bb35ac793113810321c0f.s3tc.stex"
-path.etc2="res://.import/flash1.png-1d16309f865bb35ac793113810321c0f.etc2.stex"
+path.s3tc="res://.import/flash1.png-801295bbaaf5d7b4d07f999144e0ae48.s3tc.stex"
+path.etc2="res://.import/flash1.png-801295bbaaf5d7b4d07f999144e0ae48.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Scenes/ui/flash1.png"
-dest_files=[ "res://.import/flash1.png-1d16309f865bb35ac793113810321c0f.s3tc.stex", "res://.import/flash1.png-1d16309f865bb35ac793113810321c0f.etc2.stex" ]
+source_file="res://AssetsUI/flash1.png"
+dest_files=[ "res://.import/flash1.png-801295bbaaf5d7b4d07f999144e0ae48.s3tc.stex", "res://.import/flash1.png-801295bbaaf5d7b4d07f999144e0ae48.etc2.stex" ]
 
 [params]
 

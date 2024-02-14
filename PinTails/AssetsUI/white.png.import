@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/pistol_icon.png-e10bafa4fb78ecf30c6f3356d27495e0.stex"
+path="res://.import/white.png-34a1880b8efc7e2328fe55be84d528dd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/ui/pistol_icon.png"
-dest_files=[ "res://.import/pistol_icon.png-e10bafa4fb78ecf30c6f3356d27495e0.stex" ]
+source_file="res://AssetsUI/white.png"
+dest_files=[ "res://.import/white.png-34a1880b8efc7e2328fe55be84d528dd.stex" ]
 
 [params]
 

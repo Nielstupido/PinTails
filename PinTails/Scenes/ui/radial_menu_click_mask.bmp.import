@@ -2,12 +2,12 @@
 
 importer="bitmap"
 type="BitMap"
-path="res://.import/radial_menu_click_mask.bmp-eee98d662f35b10a8e8644966e644d31.res"
+path="res://.import/radial_menu_click_mask.bmp-c161372a886dfc5914d62722d2d8f914.res"
 
 [deps]
 
-source_file="res://Scenes/ui/radial_menu_click_mask.bmp"
-dest_files=[ "res://.import/radial_menu_click_mask.bmp-eee98d662f35b10a8e8644966e644d31.res" ]
+source_file="res://Scenes/UI/radial_menu_click_mask.bmp"
+dest_files=[ "res://.import/radial_menu_click_mask.bmp-c161372a886dfc5914d62722d2d8f914.res" ]
 
 [params]
 

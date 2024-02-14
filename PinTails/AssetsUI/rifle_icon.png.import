@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ui_elements.svg-f03021366cc668b52e11fee9a22c0f88.stex"
+path="res://.import/rifle_icon.png-2d85109d90a7e364da748684a6d43290.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/ui/ui_elements.svg"
-dest_files=[ "res://.import/ui_elements.svg-f03021366cc668b52e11fee9a22c0f88.stex" ]
+source_file="res://AssetsUI/rifle_icon.png"
+dest_files=[ "res://.import/rifle_icon.png-2d85109d90a7e364da748684a6d43290.stex" ]
 
 [params]
 
