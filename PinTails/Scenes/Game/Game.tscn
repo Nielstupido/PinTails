@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Characters/Horse/Horse.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Terrains/data.hterrain" type="Resource" id=3]
 [ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=4]
@@ -47,9 +47,6 @@ textures = [ [ ExtResource( 6 ), ExtResource( 8 ) ], [ ExtResource( 5 ), ExtReso
 [node name="Game" type="Node"]
 script = ExtResource( 9 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.322388, 0 )
-
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41661 )
 visible = false
@@ -94,3 +91,5 @@ visible = false
 
 [node name="RifleGun" parent="." instance=ExtResource( 11 )]
 transform = Transform( 0.0708374, 0, 0, 0, 0.0708374, 0, 0, 0, 0.0708374, -3.44477, 0.200751, 1.13668 )
+
+[node name="Horse" parent="." instance=ExtResource( 1 )]

@@ -1,11 +1,7 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=59 format=2]
 
-[ext_resource path="res://Scenes/Player/Godot_Chan_Stealth_Shooter.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Player/Player.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/Player/AnimationNodeBlendTree.tres" type="AnimationNodeBlendTree" id=4]
-[ext_resource path="res://Scenes/Gun/scifi_gun1.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/Gun/scifi_pistol1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/radial_menu_item.tscn" type="PackedScene" id=7]
 [ext_resource path="res://AssetsUI/rifle_icon.png" type="Texture" id=8]
 [ext_resource path="res://AssetsUI/pistol_icon.png" type="Texture" id=9]
@@ -21,86 +17,6 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.514466
 height = 0.506644
-
-[sub_resource type="ParticlesMaterial" id=2]
-gravity = Vector3( 0, 0, 0 )
-angle = 360.0
-angle_random = 1.0
-scale = 0.7
-
-[sub_resource type="SpatialMaterial" id=55]
-flags_transparent = true
-flags_unshaded = true
-params_blend_mode = 1
-params_billboard_mode = 3
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-albedo_texture = ExtResource( 11 )
-
-[sub_resource type="QuadMesh" id=4]
-material = SubResource( 55 )
-
-[sub_resource type="Curve" id=5]
-_data = [ Vector2( 0, 0 ), 0.0, 35.4, 0, 1, Vector2( 0.0282486, 1 ), 35.4, 0.0, 1, 0 ]
-
-[sub_resource type="CurveTexture" id=56]
-curve = SubResource( 5 )
-
-[sub_resource type="ParticlesMaterial" id=7]
-gravity = Vector3( 0, 0, -700 )
-scale_curve = SubResource( 56 )
-
-[sub_resource type="SpatialMaterial" id=57]
-flags_do_not_receive_shadows = true
-params_blend_mode = 1
-emission_enabled = true
-emission = Color( 0.823529, 1, 0, 1 )
-emission_energy = 16.0
-emission_operator = 0
-emission_on_uv2 = false
-
-[sub_resource type="CubeMesh" id=9]
-material = SubResource( 57 )
-size = Vector3( 0.05, 0.05, 12 )
-
-[sub_resource type="Animation" id=10]
-tracks/0/type = "value"
-tracks/0/path = NodePath("muzzle_flash:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("OmniLight:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("streaks:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
 
 [sub_resource type="AnimationNodeAdd2" id=11]
 
@@ -634,7 +550,7 @@ material = SubResource( 52 )
 height = 1.5
 radius = 0.8
 
-[node name="Player" type="KinematicBody" groups=["Player"]]
+[node name="Character" type="KinematicBody" groups=["Player"]]
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
@@ -645,62 +561,7 @@ script = ExtResource( 15 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.766839, 0 )
-visible = false
 shape = SubResource( 1 )
-
-[node name="Mesh" type="Spatial" parent="."]
-
-[node name="Godot_Chan_Stealth_Shooter" parent="Mesh" instance=ExtResource( 1 )]
-
-[node name="gun_attachment" type="BoneAttachment" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="8"]
-transform = Transform( -0.0671774, 0.925462, 0.372837, 0.481924, -0.297103, 0.824306, 0.873634, 0.235054, -0.426043, -0.147884, 1.04996, 0.100186 )
-bone_name = "hand_r"
-
-[node name="Rifle" type="Spatial" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment"]
-
-[node name="scifi_gun1" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment/Rifle" instance=ExtResource( 5 )]
-transform = Transform( -0.0462644, 0.0492228, -0.0213227, 0.00282256, 0.0303522, 0.063943, 0.0535684, 0.0409121, -0.0217845, -0.0174049, 0.189796, 0.0132965 )
-
-[node name="Pistol" type="Spatial" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment"]
-visible = false
-
-[node name="scifi_pistol1" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment/Pistol" instance=ExtResource( 6 )]
-transform = Transform( -0.0212634, 0.0204641, -0.00224973, 0.00140209, 0.00466622, 0.029193, 0.0205397, 0.0208667, -0.00432179, -0.00442243, 0.0715724, 0.0180326 )
-
-[node name="spine_ik" type="SkeletonIK" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="9"]
-process_priority = 1
-root_bone = "spine_1"
-tip_bone = "spine_3"
-target_node = NodePath("../../../../../Camroot/h/v/pivot/spine_ik_target")
-
-[node name="neck_attachment" type="BoneAttachment" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="10"]
-transform = Transform( 0.999954, -0.00876046, 0.00380497, 0.00955074, 0.92041, -0.390838, -7.81317e-05, 0.390857, 0.920451, 0.00330931, 1.2577, -0.0475818 )
-bone_name = "neck_1"
-
-[node name="OmniLight" type="OmniLight" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment"]
-transform = Transform( 0.24106, 0.603549, -0.760012, 0.925422, 0.0929725, 0.367356, 0.292378, -0.791887, -0.536126, -0.00934879, 0.307541, 0.827944 )
-light_color = Color( 1, 0.988235, 0.733333, 1 )
-shadow_enabled = true
-shadow_reverse_cull_face = true
-omni_range = 15.0
-
-[node name="muzzle_flash" type="Particles" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment"]
-transform = Transform( -0.772648, -1.15236e-05, -0.000426421, 0.000181269, 0.690298, -0.347092, 0.000386144, -0.347092, -0.690297, -0.112402, 0.277787, 0.657986 )
-amount = 1
-speed_scale = 8.0
-process_material = SubResource( 2 )
-draw_pass_1 = SubResource( 4 )
-
-[node name="streaks" type="Particles" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment"]
-transform = Transform( -1, -1.45107e-05, 0.0010771, -0.000437217, 0.91931, -0.393536, -0.000984496, -0.393536, -0.919308, -0.116863, 1.50971, 3.60936 )
-amount = 1
-speed_scale = 6.0
-process_material = SubResource( 7 )
-draw_pass_1 = SubResource( 9 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment"]
-playback_speed = 8.0
-anims/muzzle_flash = SubResource( 10 )
 
 [node name="Camroot" type="Spatial" parent="."]
 script = ExtResource( 2 )
@@ -726,39 +587,6 @@ cast_to = Vector3( 0, 0, -1000 )
 
 [node name="spine_ik_target" type="Position3D" parent="Camroot/h/v/pivot"]
 transform = Transform( 1, 0, 0, 0, 0.999473, -0.0324574, 0, 0.0324574, 0.999473, 0.4, 0.643, 0.018 )
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = ExtResource( 4 )
-anim_player = NodePath("../Mesh/Godot_Chan_Stealth_Shooter/AnimationPlayer")
-active = true
-process_mode = 0
-parameters/ag_transition/current = 1
-parameters/ag_weapon_transition/current = 1
-parameters/aim_transition/current = 1
-parameters/crouch_iw_blend/blend_amount = 0.0
-parameters/crouch_walk/blend_position = Vector2( -0.004, 1 )
-parameters/cs_transition/current = 1
-parameters/ir_rifle_blend/blend_amount = 0.0
-parameters/iwr_blend/blend_amount = -1.0
-parameters/jump_blend/blend_position = 1.0
-parameters/neck_front/blend_amount = 0.0
-parameters/reload/active = false
-parameters/reload_scale/scale = 1.25
-parameters/roll/active = false
-parameters/roll_blend/blend_position = 1.0
-parameters/roll_scale/scale = 1.0
-parameters/run_scale/scale = 1.0
-parameters/walk/blend_position = Vector2( 0.004, 1 )
-parameters/walk_scale/scale = 1.5
-parameters/weapon_blend/blend_amount = 1.0
-parameters/weapon_change_aim/blend_position = 0.0
-parameters/weapon_change_idle/blend_position = 0.0
-parameters/weapon_change_on_air/blend_position = 0.0
-parameters/weapon_change_run/blend_position = 0.0
-parameters/weapon_change_switch/blend_position = 0.0
-parameters/weapon_switch/active = false
-parameters/weapon_switch_scale/scale = 1.0
-parameters/weapon_switch_seek/seek_position = -1.0
 
 [node name="CamAnimTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 26 )
@@ -813,9 +641,6 @@ anchor_left = 0.5
 anchor_right = 0.5
 rect_scale = Vector2( 0.876583, 0.876583 )
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="W" type="ColorRect" parent="Status"]
 margin_left = -38.6819
@@ -1581,5 +1406,3 @@ shape = SubResource( 54 )
 
 [connection signal="timeout" from="reload_timer" to="." method="_on_reload_timer_timeout"]
 [connection signal="area_entered" from="WeaponPickupRange" to="." method="_on_WeaponPickupRange_area_entered"]
-
-[editable path="Mesh/Godot_Chan_Stealth_Shooter"]

@@ -1,3 +1,4 @@
+class_name Character
 extends KinematicBody
 
 onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
