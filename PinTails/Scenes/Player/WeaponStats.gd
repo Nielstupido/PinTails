@@ -14,11 +14,11 @@ var Pistol_stats = {"spread": 25.0, "movement_spread": 3.5, "aim_spread": -7,
 					"crouch_spread": -5, "jump_spread": 10, "reload_speed": 0.8, "switch_speed": 1.5, "fire_rate": 6.0, "auto": false,
 					"mag":15, "mag_size": 15, "ammo_backup": 30, "ammo_backup_max": 30, "recoil": 0.5}
 
-var weapon_stats = {"Rifle": Rifle_stats, "Pistol": Pistol_stats, "No_weapon": No_weapon_stats}
+var weapon_stats = {"Rifle": Rifle_stats, "Pistol": Pistol_stats}
+
 
 
 # setters
-
 func mag_decrement():
 	weapon_stats[weapon_name()]["mag"] -= 1
 
@@ -33,9 +33,8 @@ func ammo_refill(ammo_type):
 
 
 # getters
-
 func weapon_name():
-	return player.weapons[player.current_weapon]
+	return player.Weapons_ref.get(player.weapons[player.current_weapon])
 
 func spread():
 	return weapon_stats[weapon_name()]["spread"]

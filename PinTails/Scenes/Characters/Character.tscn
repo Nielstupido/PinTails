@@ -92,7 +92,7 @@ nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
 nodes/shoulder_weapon/node = SubResource( 25 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "Add2", 0, "holster", "Add2", 1, "crouch_stand", "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
+node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
 
 [sub_resource type="Animation" id=27]
 tracks/0/type = "value"
@@ -1074,6 +1074,20 @@ margin_right = 80.0
 margin_bottom = 640.0
 rect_scale = Vector2( 4.76602, 4.76602 )
 
+[node name="PickUpWeapon" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = -144.0
+margin_right = 1.0
+margin_bottom = -122.0
+rect_scale = Vector2( 2, 2 )
+text = "Press E to pick up weapon"
+align = 1
+valign = 1
+
 [node name="Mag" type="Control" parent="UI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -1099,11 +1113,8 @@ margin_top = -95.3755
 margin_right = 139.023
 margin_bottom = -52.3755
 custom_fonts/font = SubResource( 36 )
-text = "35"
+text = "0"
 align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="UI/Mag"]
 margin_left = 101.866
@@ -1123,7 +1134,7 @@ margin_top = -70.0
 margin_right = 221.0
 margin_bottom = -40.0
 custom_fonts/font = SubResource( 38 )
-text = "35"
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1406,3 +1417,4 @@ shape = SubResource( 54 )
 
 [connection signal="timeout" from="reload_timer" to="." method="_on_reload_timer_timeout"]
 [connection signal="area_entered" from="WeaponPickupRange" to="." method="_on_WeaponPickupRange_area_entered"]
+[connection signal="area_exited" from="WeaponPickupRange" to="." method="_on_WeaponPickupRange_area_exited"]

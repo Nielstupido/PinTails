@@ -89,7 +89,7 @@ shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
 pause_mode = 2
 visible = false
 
-[node name="RifleGun" parent="." instance=ExtResource( 11 )]
+[node name="Rifle" parent="." instance=ExtResource( 11 )]
 transform = Transform( 0.0708374, 0, 0, 0, 0.0708374, 0, 0, 0, 0.0708374, -3.44477, 0.200751, 1.13668 )
 
 [node name="Horse" parent="." instance=ExtResource( 1 )]

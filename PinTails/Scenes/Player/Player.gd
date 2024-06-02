@@ -110,19 +110,21 @@ func _input(event):
 			$AnimationTree.set(cs_transition, crouch_stand_target)
 	
 	if weapon_blend_target:
-		if event.is_action_pressed("shoulder_change"):
-			shoulder_target *= -1.0
-			
-		if $AnimationTree.get(aim_transition) == 0:
-			
-			if event.is_action_pressed("lean_right"):
-				shoulder_target = 0.5 if shoulder_target == 1.0 else 1.0
-	
-			if event.is_action_pressed("lean_left"):
-				shoulder_target = -0.5 if shoulder_target == -1.0 else -1.0
-				
 		if event.is_action_pressed("reload"):
 			reload()
+#		if event.is_action_pressed("shoulder_change"):
+#			shoulder_target *= -1.0
+#
+#		if $AnimationTree.get(aim_transition) == 0:
+#
+#			if event.is_action_pressed("lean_right"):
+#				shoulder_target = 0.5 if shoulder_target == 1.0 else 1.0
+#
+#			if event.is_action_pressed("lean_left"):
+#				shoulder_target = -0.5 if shoulder_target == -1.0 else -1.0
+#
+	if event.is_action_pressed("pick_up"):
+		pass
 	
 	if event.is_action_released("fire"):
 		fired_once = false
@@ -373,6 +375,9 @@ func switch_weapon(to):
 
 
 func reload():
+	if weapons.size() == 0:
+		return
+	
 	if $WeaponStats.mag() != $WeaponStats.mag_size() && $WeaponStats.ammo_backup() != 0:
 		$AnimationTree.set("parameters/reload_scale/scale", $WeaponStats.reload_speed())
 		$AnimationTree.set(reload_active, true)
