@@ -121,7 +121,7 @@ func _input(event):
 				crouch_stand_target = 1 - crouch_stand_target
 				$AnimationTree.set(cs_transition, crouch_stand_target)
 		
-		if weapon_blend_target:
+		if weapon_blend_target  && !buy_menu:
 			if event.is_action_pressed("shoulder_change"):
 				shoulder_target *= -1.0
 			
@@ -141,7 +141,7 @@ func _input(event):
 		if event.is_action_pressed("pick_up"):
 			if pickupable_weapons.size() != 0:
 				if add_weapon(pickupable_weapons[0], pickupable_weapons_id[0]):
-					GAME.emit_signal("weapon_picked_up", weapons_id[0])
+					GAME.emit_signal("weapon_picked_up", weapons_id[weapons_id.size() - 1])
 		
 		if event.is_action_pressed("drop_weapon"):
 			drop_weapon()
@@ -210,7 +210,7 @@ func _physics_process(delta):
 		vertical_velocity = 0
 	
 # ======================================= AIM MODE START ==============================
-	if !radial_menu:
+	if !radial_menu && !buy_menu:
 		if (Input.is_action_pressed("aim")) && !$AnimationTree.get(roll_active) && weapon_blend_target == 1:
 			$CamAnimTree.set(cam_aim, lerp($CamAnimTree.get(cam_aim), 1, delta * aim_speed))
 		else:
@@ -386,7 +386,7 @@ func drop_weapon():
 			weapon_instance = rifle_obj.instance()
 	weapon_instance.global_transform = weapon_drop_point.global_transform;
 	weapon_instance.id = weapons_id[current_weapon]
-	GAME.get_node("/root/GAME").add_child(weapon_instance)
+	GAME.get_node(".").add_child(weapon_instance)
 	
 	weapons.pop_at(current_weapon)
 	weapons_id.pop_at(current_weapon)
@@ -419,9 +419,11 @@ func switch_weapon(to):
 			$AnimationTree.set("parameters/weapon_change_on_air/blend_position", to)
 			$AnimationTree.set("parameters/weapon_change_run/blend_position", to)
 			$AnimationTree.set("parameters/weapon_change_switch/blend_position", to)
-			$AnimationTree.set("parameters/weapon_change_idle/blend_position", weapons[current_weapon if weapons.size() == 1 else to])
+			$AnimationTree.set("parameters/weapon_change_idle/blend_position", weapons[current_weapon if weapons.size() == 1 && current_weapon == to else to])
 			
-			gun_attachment.get_node(Weapons_ref.get(weapons[current_weapon])).hide()
+			for gun_node in gun_attachment.get_children():
+				gun_node.hide()
+			
 			current_weapon = to
 			gun_attachment.get_node(Weapons_ref.get(weapons[current_weapon])).show()
 			

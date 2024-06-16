@@ -50,7 +50,7 @@ extents = Vector3( 1.06512, 2.37987, 3.86127 )
 [node name="Pistol" type="RigidBody"]
 script = ExtResource( 2 )
 
-[node name="scifi_pistol" type="MeshInstance" parent="."]
+[node name="Pistol" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
