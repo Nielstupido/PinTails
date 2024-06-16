@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Characters/Horse/Horse.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://textures/Game_slot1_albedo_bump.packed_tex" type="Texture" id=8]
 [ext_resource path="res://Scenes/Game/Game.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Scenes/Gun/scifi_gun1.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -88,8 +87,5 @@ shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
 [node name="GameMenuSettings" parent="." instance=ExtResource( 10 )]
 pause_mode = 2
 visible = false
-
-[node name="Rifle" parent="." instance=ExtResource( 11 )]
-transform = Transform( 0.0708374, 0, 0, 0, 0.0708374, 0, 0, 0, 0.0708374, -3.44477, 0.200751, 1.13668 )
 
 [node name="Horse" parent="." instance=ExtResource( 1 )]

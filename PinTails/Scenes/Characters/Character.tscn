@@ -1,5 +1,6 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=60 format=2]
 
+[ext_resource path="res://Scenes/Game/Shop.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/radial_menu_item.tscn" type="PackedScene" id=7]
@@ -92,7 +93,7 @@ nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
 nodes/shoulder_weapon/node = SubResource( 25 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
+node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "output", 0, "Add2 2" ]
 
 [sub_resource type="Animation" id=27]
 tracks/0/type = "value"
@@ -1414,6 +1415,12 @@ monitorable = false
 [node name="CollisionShape" type="CollisionShape" parent="WeaponPickupRange"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0 )
 shape = SubResource( 54 )
+
+[node name="Shop" parent="." instance=ExtResource( 1 )]
+pause_mode = 2
+
+[node name="DropPoint" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49123, 0.835016 )
 
 [connection signal="timeout" from="reload_timer" to="." method="_on_reload_timer_timeout"]
 [connection signal="area_entered" from="WeaponPickupRange" to="." method="_on_WeaponPickupRange_area_entered"]

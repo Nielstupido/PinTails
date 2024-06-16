@@ -1,8 +1,8 @@
 [gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Gun/scifi_gun1.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Gun/scifi_pistol1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Gun/RifleStatic.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Gun/PistolStatic.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Player/Godot_Chan_Stealth_Shooter.tscn" type="PackedScene" id=4]
 [ext_resource path="res://AssetsUI/flash1.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Characters/Horse/Horse.gd" type="Script" id=6]
@@ -12864,19 +12864,22 @@ script = ExtResource( 6 )
 [node name="Godot_Chan_Stealth_Shooter" parent="Mesh" index="0" instance=ExtResource( 4 )]
 
 [node name="gun_attachment" type="BoneAttachment" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="8"]
-transform = Transform( -0.0671784, 0.925461, 0.372838, 0.476975, -0.298428, 0.826702, 0.876346, 0.233371, -0.421374, -0.147884, 1.05138, 0.10095 )
+transform = Transform( -0.0671776, 0.925461, 0.372838, 0.481152, -0.297311, 0.824681, 0.874059, 0.234792, -0.425315, -0.147885, 1.05074, 0.100587 )
 bone_name = "hand_r"
 
 [node name="Rifle" type="Spatial" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment" index="0"]
+transform = Transform( 0.999997, 0.000990331, -0.00246051, -0.000990838, 1, -0.000181645, 0.00246027, 0.000184029, 0.999997, -0.000409663, 0.000169039, -0.000491977 )
+visible = false
 
 [node name="scifi_gun1" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment/Rifle" index="0" instance=ExtResource( 2 )]
-transform = Transform( -0.0462644, 0.0492228, -0.0213227, 0.00282256, 0.0303522, 0.063943, 0.0535684, 0.0409121, -0.0217845, -0.0174049, 0.189796, 0.0132965 )
+transform = Transform( -0.0462703, 0.0492196, -0.0213174, 0.0028242, 0.0303496, 0.0639441, 0.0535632, 0.0409179, -0.0217864, -0.0174087, 0.1898, 0.0132867 )
 
 [node name="Pistol" type="Spatial" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment" index="1"]
+transform = Transform( 1, 0, 5.96046e-08, -4.47035e-08, 1, 2.23517e-08, -2.98023e-08, 1.49012e-08, 1, 0, 0, 0 )
 visible = false
 
 [node name="scifi_pistol1" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment/Pistol" index="0" instance=ExtResource( 3 )]
-transform = Transform( -0.0212634, 0.0204641, -0.00224973, 0.00140209, 0.00466622, 0.029193, 0.0205397, 0.0208667, -0.00432179, -0.00442243, 0.0715724, 0.0180326 )
+transform = Transform( -0.0213703, 0.0203618, -0.00216341, 0.00144021, 0.00461397, 0.0291995, 0.0204258, 0.020978, -0.00432227, -0.00518799, 0.0718743, 0.0171447 )
 
 [node name="spine_ik" type="SkeletonIK" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="9"]
 process_priority = 1
@@ -12885,12 +12888,11 @@ tip_bone = "spine_3"
 target_node = NodePath("../../../../../Camroot/h/v/pivot/spine_ik_target")
 
 [node name="neck_attachment" type="BoneAttachment" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="10"]
-transform = Transform( 0.999954, -0.00876046, 0.00380497, 0.00955107, 0.917223, -0.398259, -9.88437e-07, 0.398278, 0.917265, 0.00330931, 1.25725, -0.0556516 )
+transform = Transform( 0.999954, -0.00876045, 0.00380497, 0.00955096, 0.919029, -0.394075, -4.45211e-05, 0.394094, 0.91907, 0.00330931, 1.25768, -0.0505019 )
 bone_name = "neck_1"
 
 [node name="OmniLight" type="OmniLight" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment" index="0"]
 transform = Transform( 0.24106, 0.603549, -0.760012, 0.925422, 0.0929725, 0.367356, 0.292378, -0.791887, -0.536126, -0.00934879, 0.307541, 0.827944 )
-visible = false
 light_color = Color( 1, 0.988235, 0.733333, 1 )
 shadow_enabled = true
 shadow_reverse_cull_face = true
@@ -12898,7 +12900,7 @@ omni_range = 15.0
 
 [node name="muzzle_flash" type="Particles" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment" index="1"]
 transform = Transform( -0.772648, -1.15236e-05, -0.000426421, 0.000181269, 0.690298, -0.347092, 0.000386144, -0.347092, -0.690297, -0.112402, 0.277787, 0.657986 )
-visible = false
+emitting = false
 amount = 1
 speed_scale = 8.0
 process_material = SubResource( 9 )
@@ -12906,7 +12908,7 @@ draw_pass_1 = SubResource( 10 )
 
 [node name="streaks" type="Particles" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment" index="2"]
 transform = Transform( -1, -1.45107e-05, 0.0010771, -0.000437217, 0.91931, -0.393536, -0.000984496, -0.393536, -0.919308, -0.116863, 1.50971, 3.60936 )
-visible = false
+emitting = false
 amount = 1
 speed_scale = 6.0
 process_material = SubResource( 12 )

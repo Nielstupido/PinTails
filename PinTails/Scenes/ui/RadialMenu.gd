@@ -11,7 +11,7 @@ func _ready():
 	hide()
 	
 func _input(event):
-	if event.is_action_pressed("radial_menu"):
+	if event.is_action_pressed("radial_menu") and !get_parent().buy_menu:
 		$AnimationPlayer.play("zoom")
 		
 		time_scale_target = 0

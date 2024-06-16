@@ -1,20 +1,25 @@
 class_name Character
 extends KinematicBody
 
-enum Weapons {PISTOL, RIFLE}
-const Weapons_ref = {Weapons.PISTOL : "Pistol", Weapons.RIFLE : "Rifle"}
+enum Weapons {RIFLE, PISTOL}
+const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
 onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
 onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment
 onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res://Audio/Pistol_fire.wav")]
 onready var weapon_reload = [preload("res://Audio/Rifle_reload.wav"), preload("res://Audio/Pistol_reload.wav")]
 onready var weapon_ray = $Camroot/h/v/pivot/Camera/ray
 onready var weapon_pickup_text = $UI/PickUpWeapon
+onready var buy_weapon_menu = $Shop
+onready var weapon_drop_point = $DropPoint
+onready var pistol_obj = preload("res://Scenes/Gun/Pistol.tscn")
+onready var rifle_obj = preload("res://Scenes/Gun/Rifle.tscn")
 
-#var weapons = ["Pistol", "RifleGun"]
 onready var weapons = []
+onready var weapons_id = []
 var current_weapon = -1
 var fired_once = false
 var pickupable_weapons : Array
+var pickupable_weapons_id : Array
 
 var direction = Vector3.BACK
 var velocity = Vector3.ZERO
@@ -70,6 +75,8 @@ var radial_menu = false
 var splatter = 0
 var weapon_ray_tip = Vector3()
 
+var buy_menu = false
+
 
 func _ready():
 	randomize()
@@ -82,69 +89,71 @@ func _ready():
 
 
 func _input(event):
-	if event is InputEventMouseMotion:
-		aim_turn = -event.relative.x * 0.015 # animates player strafe, when standing, aiming, and looking left right
-	
-	if event is InputEventKey:
-		if event.as_text() == "W" || event.as_text() == "A" || event.as_text() == "S" || event.as_text() == "D" || event.as_text() == "Space" || event.as_text() == "Control" || event.as_text() == "Shift" || event.as_text() == "X" || event.as_text() == "F" || event.as_text() == "Q" || event.as_text() == "C" || event.as_text() == "Z" || event.as_text() == "R":
-			if event.pressed:
-				get_node("Status/" + event.as_text()).color = Color("ff6666")
-			else:
-				get_node("Status/" + event.as_text()).color = Color("ffffff")
-	
-	if sprint_toggle:
-		if event.is_action_pressed("sprint"):
-			sprinting = !sprinting
-	else:
-		sprinting = Input.is_action_pressed("sprint")
-	
-	if Input.is_key_pressed(KEY_1):
-		switch_weapon(0)
-	if Input.is_key_pressed(KEY_2):
-		switch_weapon(1)
-	
-	if event.is_action_pressed("holster"):
-		holster()
-	
-	if event.is_action_pressed("crouch"):
-		if $crouch_timer.is_stopped() && !$AnimationTree.get(roll_active):
-			$crouch_timer.start()
-			$AnimationTree.tree_root.get_node("cs_transition").xfade_time = (velocity.length() + 1.5)/ 15.0
-			crouch_stand_target = 1 - crouch_stand_target
-			$AnimationTree.set(cs_transition, crouch_stand_target)
-	
-	if weapon_blend_target:
-		if event.is_action_pressed("shoulder_change"):
-			shoulder_target *= -1.0
-			
-#		if $AnimationTree.get(aim_transition) == 0:
-#			if event.is_action_pressed("lean_right"):
-#				shoulder_target = 0.5 if shoulder_target == 1.0 else 1.0
-#
-#			if event.is_action_pressed("lean_left"):
-#				shoulder_target = -0.5 if shoulder_target == -1.0 else -1.0
+	if !buy_menu:
+		if event is InputEventMouseMotion:
+			aim_turn = -event.relative.x * 0.015 # animates player strafe, when standing, aiming, and looking left right
 		
-		if event.is_action_pressed("reload"):
-			reload()
+		if event is InputEventKey:
+			if event.as_text() == "W" || event.as_text() == "A" || event.as_text() == "S" || event.as_text() == "D" || event.as_text() == "Space" || event.as_text() == "Control" || event.as_text() == "Shift" || event.as_text() == "X" || event.as_text() == "F" || event.as_text() == "Q" || event.as_text() == "C" || event.as_text() == "Z" || event.as_text() == "R":
+				if event.pressed:
+					get_node("Status/" + event.as_text()).color = Color("ff6666")
+				else:
+					get_node("Status/" + event.as_text()).color = Color("ffffff")
+		
+		if sprint_toggle:
+			if event.is_action_pressed("sprint"):
+				sprinting = !sprinting
+		else:
+			sprinting = Input.is_action_pressed("sprint")
+		
+		if Input.is_key_pressed(KEY_1):
+			switch_weapon(0)
+		if Input.is_key_pressed(KEY_2):
+			switch_weapon(1)
+		
+		if event.is_action_pressed("holster"):
+			holster()
+		
+		if event.is_action_pressed("crouch"):
+			if $crouch_timer.is_stopped() && !$AnimationTree.get(roll_active):
+				$crouch_timer.start()
+				$AnimationTree.tree_root.get_node("cs_transition").xfade_time = (velocity.length() + 1.5)/ 15.0
+				crouch_stand_target = 1 - crouch_stand_target
+				$AnimationTree.set(cs_transition, crouch_stand_target)
+		
+		if weapon_blend_target:
+			if event.is_action_pressed("shoulder_change"):
+				shoulder_target *= -1.0
+			
+	#		if $AnimationTree.get(aim_transition) == 0:
+	#			if event.is_action_pressed("lean_right"):
+	#				shoulder_target = 0.5 if shoulder_target == 1.0 else 1.0
+	#			
+	#			if event.is_action_pressed("lean_left"):
+	#				shoulder_target = -0.5 if shoulder_target == -1.0 else -1.0
+			
+			if event.is_action_pressed("reload"):
+				reload()
+		
+		if event.is_action_released("fire"):
+			fired_once = false
+		
+		if event.is_action_pressed("pick_up"):
+			if pickupable_weapons.size() != 0:
+				if add_weapon(pickupable_weapons[0], pickupable_weapons_id[0]):
+					GAME.emit_signal("weapon_picked_up", weapons_id[0])
+		
+		if event.is_action_pressed("drop_weapon"):
+			drop_weapon()
+		
+		if event.is_action_pressed("next_weapon"):
+			switch_weapon(current_weapon + 1 if current_weapon < weapons.size() - 1 else 0)
+		
+		if event.is_action_pressed("prev_weapon"):
+			switch_weapon(current_weapon - 1 if current_weapon > 0 else  weapons.size() - 1)
 	
-	if event.is_action_released("fire"):
-		fired_once = false
-	
-	if event.is_action_pressed("pick_up"):
-		if pickupable_weapons.size() != 0:
-			if !weapons.has(pickupable_weapons[0]):
-				weapons.append(pickupable_weapons[0])
-				if weapons.size() == 1:
-					holster()
-	
-	if event.is_action_pressed("drop_weapon"):
-		drop_weapon()
-	
-	if event.is_action_pressed("next_weapon"):
-		switch_weapon(current_weapon + 1 if current_weapon < weapons.size() - 1 else 0)
-	
-	if event.is_action_pressed("prev_weapon"):
-		switch_weapon(current_weapon - 1 if current_weapon > 0 else  weapons.size() - 1)
+	if event.is_action_pressed("buy_menu"):
+		buy_weapon_menu.open_buy_menu()
 
 
 func _physics_process(delta):
@@ -165,7 +174,7 @@ func _physics_process(delta):
 	
 	var h_rot = $Camroot/h.global_transform.basis.get_euler().y
 	
-	if !radial_menu:
+	if !radial_menu and !buy_menu:
 		if Input.is_action_pressed("forward") ||  Input.is_action_pressed("backward") ||  Input.is_action_pressed("left") ||  Input.is_action_pressed("right"):
 			direction = Vector3(Input.get_action_strength("left") - Input.get_action_strength("right"),
 						0,
@@ -245,7 +254,7 @@ func _physics_process(delta):
 				$AnimationTree.set("parameters/neck_front/blend_amount", 1)
 			
 			if $AnimationTree.get(roll_active):
-				$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, delta * angular_acceleration)
+				$Mesh.rotation.y = lerp_angle  ($Mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, delta * angular_acceleration)
 				# Sometimes in the level design you might need to rotate the Player object itself
 				# - rotation.y in case you need to rotate the Player object
 			else:
@@ -319,7 +328,7 @@ func _physics_process(delta):
 		$CamAnimTree.set(cam_holster, lerp($CamAnimTree.get(cam_holster), weapon_blend_target, delta * 5))
 		$CamAnimTree.set(cam_shoulder, lerp($CamAnimTree.get(cam_shoulder), shoulder_target, delta * 7))
 		$CamAnimTree.set(cam_crouch_stand, lerp($CamAnimTree.get(cam_crouch_stand), crouch_stand_target, delta * 4))
-	
+		
 		if weapons.size() != 0:
 			if $WeaponStats.mag() < 1 && $reload_timer.is_stopped() && !$AnimationTree.get(roll_active):
 				reload()
@@ -348,10 +357,45 @@ func holster():
 	
 	weapon_blend_target = 1 - weapon_blend_target
 	gun_attachment.set("visible", !gun_attachment.get("visible"))
+	
+	if weapons.size() == 1:
+		current_weapon = 0
+		switch_weapon(current_weapon)
+
+
+func add_weapon(passed_weapon, passed_weapon_id) -> bool:
+	if !weapons.has(passed_weapon):
+		weapons.append(passed_weapon)
+		weapons_id.append(passed_weapon_id)
+		if weapons.size() == 1:
+			holster()
+		return true
+	
+	return false
 
 
 func drop_weapon():
-	pass
+	if weapons.size() == 0:
+		return
+	
+	var weapon_instance : Gun
+	match(weapons[current_weapon]):
+		Weapons.PISTOL:
+			weapon_instance = pistol_obj.instance()
+		Weapons.RIFLE:
+			weapon_instance = rifle_obj.instance()
+	weapon_instance.global_transform = weapon_drop_point.global_transform;
+	weapon_instance.id = weapons_id[current_weapon]
+	GAME.get_node("/root/GAME").add_child(weapon_instance)
+	
+	weapons.pop_at(current_weapon)
+	weapons_id.pop_at(current_weapon)
+	
+	if weapons.size() == 0:
+		holster()
+	else:
+#		switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
+		switch_weapon(current_weapon - 1 if current_weapon > 0 else  weapons.size() - 1)
 
 
 func roll():
@@ -360,7 +404,6 @@ func roll():
 	velocity = (direction - get_floor_normal()) * roll_magnitude
 	$AnimationTree.set(reload_active, false) #cancelling reload if rolling
 	$reload_timer.stop() #cancelling reload if rolling
-	
 	$AnimationTree.set(crouch_walk_blendspace, Vector2(0, 0))
 	# so that roll anim fades out to crouch idle anim
 	# need this only for crouch as blending roll to crouch_walk gives weirdness (for the difference of root bone position)
@@ -368,15 +411,15 @@ func roll():
 
 func switch_weapon(to):
 	if weapons.size() != 0:
-		if to < weapons.size() && (to != current_weapon || weapon_blend_target == 0):
+		if to < weapons.size() && (to != current_weapon || weapon_blend_target == 0 || weapons.size() == 1):
 			weapon_blend_target = 1
 			gun_attachment.show()
 			
 			$AnimationTree.set("parameters/weapon_change_aim/blend_position", to)
 			$AnimationTree.set("parameters/weapon_change_on_air/blend_position", to)
-			$AnimationTree.set("parameters/weapon_change_idle/blend_position", to)
 			$AnimationTree.set("parameters/weapon_change_run/blend_position", to)
 			$AnimationTree.set("parameters/weapon_change_switch/blend_position", to)
+			$AnimationTree.set("parameters/weapon_change_idle/blend_position", weapons[current_weapon if weapons.size() == 1 else to])
 			
 			gun_attachment.get_node(Weapons_ref.get(weapons[current_weapon])).hide()
 			current_weapon = to
@@ -385,7 +428,6 @@ func switch_weapon(to):
 			$AnimationTree.set("parameters/weapon_switch_scale/scale", $WeaponStats.switch_speed())
 			$AnimationTree.set("parameters/weapon_switch_seek/seek_position", 0)
 			$AnimationTree.set(weapon_switch_active, true)
-			
 			$reload_timer.stop()#cancelling reload if weapon switching
 			$AnimationTree.set(reload_active, false)#cancelling reload if weapon switching
 			
@@ -413,18 +455,23 @@ func _on_WeaponPickupRange_area_entered(area):
 	if area.owner.name == "Rifle":
 		if pickupable_weapons.has(Weapons.RIFLE):
 			pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
+			pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
 		pickupable_weapons.push_front(Weapons.RIFLE)
+		pickupable_weapons_id.push_front(area.owner.id)
 	
 	if area.owner.name == "Pistol":
 		pickupable_weapons.append(Weapons.PISTOL)
 		if pickupable_weapons.has(Weapons.PISTOL):
 			pickupable_weapons.remove(pickupable_weapons.find(Weapons.PISTOL))
 		pickupable_weapons.push_front(Weapons.PISTOL)
+		pickupable_weapons_id.push_front(area.owner.id)
 
 
 func _on_WeaponPickupRange_area_exited(area):
 	if area.owner.name == "Rifle" and pickupable_weapons.has(Weapons.RIFLE):
+		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
 		pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
 	
 	if area.owner.name == "Pistol" and pickupable_weapons.has(Weapons.PISTOL):
+		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.PISTOL))
 		pickupable_weapons.remove(pickupable_weapons.find(Weapons.PISTOL))
