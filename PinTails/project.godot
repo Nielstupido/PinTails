@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"
 }, {
-"base": "Spatial",
-"class": "Gun",
-"language": "GDScript",
-"path": "res://Scenes/Gun/Gun.gd"
-}, {
 "base": "ResourceFormatLoader",
 "class": "HTerrainDataLoader",
 "language": "GDScript",
@@ -28,12 +23,47 @@ _global_script_classes=[ {
 "class": "HTerrainDataSaver",
 "language": "GDScript",
 "path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
+}, {
+"base": "Node",
+"class": "LobbyManager",
+"language": "GDScript",
+"path": "res://Scenes/Lobby/LobbyManager.gd"
+}, {
+"base": "RigidBody",
+"class": "Tail",
+"language": "GDScript",
+"path": "res://Scenes/Tails/Tail.gd"
+}, {
+"base": "Reference",
+"class": "TailData",
+"language": "GDScript",
+"path": "res://Scenes/Tails/TailData.gd"
+}, {
+"base": "Resource",
+"class": "TailRes",
+"language": "GDScript",
+"path": "res://Scenes/Tails/TailRes.gd"
+}, {
+"base": "Object",
+"class": "TailTypes",
+"language": "GDScript",
+"path": "res://Scenes/Tails/TailTypes.gd"
+}, {
+"base": "RigidBody",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://Scenes/Weapon/Weapon.gd"
 } ]
 _global_script_class_icons={
 "Character": "",
-"Gun": "",
 "HTerrainDataLoader": "",
-"HTerrainDataSaver": ""
+"HTerrainDataSaver": "",
+"LobbyManager": "",
+"Tail": "",
+"TailData": "",
+"TailRes": "",
+"TailTypes": "",
+"Weapon": ""
 }
 
 [application]
@@ -45,6 +75,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GAME="*res://Scenes/Game/Game.gd"
+LOBBYMANAGER="*res://Scenes/Lobby/LobbyManager.gd"
 
 [display]
 
@@ -53,6 +84,7 @@ window/size/height=1080
 window/size/fullscreen=true
 window/size/test_width=1280
 window/size/test_height=720
+window/stretch/aspect="keep_width"
 
 [editor_plugins]
 
@@ -124,7 +156,7 @@ pick_up={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-lean_left={
+attach_tail={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]

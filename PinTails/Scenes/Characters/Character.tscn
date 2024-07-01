@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Scenes/Game/Shop.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=2]
@@ -93,7 +93,7 @@ nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
 nodes/shoulder_weapon/node = SubResource( 25 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "output", 0, "Add2 2" ]
+node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
 
 [sub_resource type="Animation" id=27]
 tracks/0/type = "value"
@@ -551,7 +551,13 @@ material = SubResource( 52 )
 height = 1.5
 radius = 0.8
 
+[sub_resource type="CylinderShape" id=55]
+height = 1.5
+radius = 0.8
+
 [node name="Character" type="KinematicBody" groups=["Player"]]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
@@ -1089,13 +1095,24 @@ text = "Press E to pick up weapon"
 align = 1
 valign = 1
 
+[node name="PickUpTail" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = -188.612
+margin_right = 1.0
+margin_bottom = -166.612
+rect_scale = Vector2( 2, 2 )
+text = "Press Q to attach tail"
+align = 1
+valign = 1
+
 [node name="Mag" type="Control" parent="UI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="UI/Mag"]
 margin_left = 40.9497
@@ -1139,6 +1156,74 @@ text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Tails" type="Control" parent="UI"]
+anchor_bottom = 1.0
+margin_left = 44.0
+margin_top = 56.0
+margin_right = 149.0
+margin_bottom = -827.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/Tails"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0588235, 0.054902, 0.054902, 0.756863 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Tails"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_constants/separation = 10
+alignment = 1
+
+[node name="Control" type="Control" parent="UI/Tails/VBoxContainer"]
+margin_top = 13.0
+margin_right = 100.0
+margin_bottom = 63.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="UI/Tails/VBoxContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Test"
+align = 1
+valign = 1
+
+[node name="Control2" type="Control" parent="UI/Tails/VBoxContainer"]
+margin_top = 73.0
+margin_right = 100.0
+margin_bottom = 123.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="UI/Tails/VBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Test"
+align = 1
+valign = 1
+
+[node name="Control3" type="Control" parent="UI/Tails/VBoxContainer"]
+margin_top = 133.0
+margin_right = 100.0
+margin_bottom = 183.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="UI/Tails/VBoxContainer/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Test"
+align = 1
+valign = 1
 
 [node name="RadialMenu" type="Control" parent="."]
 pause_mode = 2
@@ -1238,9 +1323,6 @@ margin_top = 90.7691
 margin_right = 124.081
 margin_bottom = 104.769
 rect_scale = Vector2( 3.25176, 3.25176 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="splatters" type="Spatial" parent="."]
 
@@ -1410,11 +1492,22 @@ visible = false
 mesh = SubResource( 53 )
 
 [node name="WeaponPickupRange" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="WeaponPickupRange"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0 )
 shape = SubResource( 54 )
+
+[node name="TailPickupRange" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="TailPickupRange"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0 )
+shape = SubResource( 55 )
 
 [node name="Shop" parent="." instance=ExtResource( 1 )]
 pause_mode = 2
@@ -1425,3 +1518,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49123, 0.835016 )
 [connection signal="timeout" from="reload_timer" to="." method="_on_reload_timer_timeout"]
 [connection signal="area_entered" from="WeaponPickupRange" to="." method="_on_WeaponPickupRange_area_entered"]
 [connection signal="area_exited" from="WeaponPickupRange" to="." method="_on_WeaponPickupRange_area_exited"]
+[connection signal="area_entered" from="TailPickupRange" to="." method="_on_TailPickupRange_area_entered"]
+[connection signal="area_exited" from="TailPickupRange" to="." method="_on_TailPickupRange_area_exited"]

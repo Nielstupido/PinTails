@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Fonts/Slowdex.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/MainMenu/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Lobby/Lobby.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=6]
 size = 20
@@ -141,6 +142,8 @@ custom_fonts/font = SubResource( 16 )
 custom_styles/pressed = SubResource( 17 )
 custom_styles/normal = SubResource( 18 )
 text = "Exit"
+
+[node name="Lobby" parent="." instance=ExtResource( 3 )]
 
 [connection signal="pressed" from="PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="SettingsBtn" to="." method="_on_SettingsBtn_pressed"]

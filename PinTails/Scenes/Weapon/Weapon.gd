@@ -1,10 +1,9 @@
-class_name Gun
-extends Spatial
+class_name Weapon
+extends RigidBody
 
 
+export var drop_scale : float = 1.0
 var id : int
-var pistol_scale = Vector3.ONE * 0.03
-var rifle_scale = Vector3.ONE * 0.071
 
 
 func _ready():
@@ -15,10 +14,7 @@ func _ready():
 			id = -1
 	
 	if self.get_parent().name == "GAME":
-		if self.name == "Pistol":
-			self.scale = pistol_scale
-		elif self.name == "Rifle":
-			self.scale = rifle_scale
+		self.scale = (Vector3.ONE * drop_scale)
 
 
 func _weapon_picked_up(picked_up_id):

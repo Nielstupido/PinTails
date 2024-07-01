@@ -1,12 +1,11 @@
 extends Node
 
 
-func _ready():
-	pass 
+onready var lobby_node = $Lobby
 
 
 func _on_PlayBtn_pressed():
-	var _error = get_tree().change_scene("res://Scenes/Game/Game.tscn")
+	lobby_node.open_lobby()
 
 
 func _on_SettingsBtn_pressed():
@@ -15,4 +14,3 @@ func _on_SettingsBtn_pressed():
 
 func _on_ExitBtn_pressed():
 	get_tree().quit()
-

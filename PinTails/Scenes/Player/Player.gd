@@ -86,7 +86,7 @@ func _input(event):
 				get_node("Status/" + event.as_text()).color = Color("ff6666")
 			else:
 				get_node("Status/" + event.as_text()).color = Color("ffffff")
-
+	
 	if sprint_toggle:
 		if event.is_action_pressed("sprint"):
 			sprinting = !sprinting

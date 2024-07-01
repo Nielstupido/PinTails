@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/scifi_gun1.glb-17f22ba0ecb567096af2cb6e01d62d35.scn"
+path="res://.import/scifi_gun1.glb-6b2775822c3798dc5ab7e4274c742218.scn"
 
 [deps]
 
-source_file="res://Scenes/Gun/scifi_gun1.glb"
-dest_files=[ "res://.import/scifi_gun1.glb-17f22ba0ecb567096af2cb6e01d62d35.scn" ]
+source_file="res://Scenes/Weapon/scifi_gun1.glb"
+dest_files=[ "res://.import/scifi_gun1.glb-6b2775822c3798dc5ab7e4274c742218.scn" ]
 
 [params]
 

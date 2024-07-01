@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scenes/Characters/Horse/Horse.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://textures/Game_slot1_albedo_bump.packed_tex" type="Texture" id=8]
 [ext_resource path="res://Scenes/Game/Game.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Tails/Tail.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -71,7 +72,7 @@ centered = true
 _terrain_data = ExtResource( 3 )
 chunk_size = 32
 collision_enabled = true
-collision_layer = 1
+collision_layer = 3
 collision_mask = 1
 shader_type = "Classic4Lite"
 custom_shader = null
@@ -89,3 +90,7 @@ pause_mode = 2
 visible = false
 
 [node name="Horse" parent="." instance=ExtResource( 1 )]
+collision_mask = 1
+
+[node name="Tail" parent="." instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32402, 2.31801 )

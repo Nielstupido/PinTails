@@ -4,8 +4,8 @@
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Player/Player.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Player/AnimationNodeBlendTree.tres" type="AnimationNodeBlendTree" id=4]
-[ext_resource path="res://Scenes/Gun/RifleStatic.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/Gun/PistolStatic.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Weapon/RifleStatic.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Weapon/PistolStatic.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/UI/radial_menu_item.tscn" type="PackedScene" id=7]
 [ext_resource path="res://AssetsUI/rifle_icon.png" type="Texture" id=8]
 [ext_resource path="res://AssetsUI/pistol_icon.png" type="Texture" id=9]
@@ -176,7 +176,7 @@ nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
 nodes/shoulder_weapon/node = SubResource( 25 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "Add2", 0, "holster", "Add2", 1, "crouch_stand", "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
+node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "output", 0, "Add2 2" ]
 
 [sub_resource type="Animation" id=27]
 tracks/0/type = "value"
@@ -657,7 +657,7 @@ bones/27/bound_children = [ NodePath("gun_attachment") ]
 bones/43/bound_children = [ NodePath("neck_attachment") ]
 
 [node name="gun_attachment" type="BoneAttachment" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="8"]
-transform = Transform( -0.0671774, 0.925462, 0.372837, 0.478263, -0.298084, 0.826082, 0.875644, 0.233808, -0.422589, -0.147884, 1.05137, 0.100792 )
+transform = Transform( -0.0671776, 0.925462, 0.372837, 0.476921, -0.298442, 0.826728, 0.876375, 0.233352, -0.421323, -0.147884, 1.05139, 0.100969 )
 bone_name = "hand_r"
 
 [node name="Rifle" type="Spatial" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment"]
@@ -678,7 +678,7 @@ tip_bone = "spine_3"
 target_node = NodePath("../../../../../Camroot/h/v/pivot/spine_ik_target")
 
 [node name="neck_attachment" type="BoneAttachment" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton" index="10"]
-transform = Transform( 0.999954, -0.00876046, 0.00380497, 0.00955106, 0.91784, -0.396835, -1.58174e-05, 0.396854, 0.917882, 0.00330931, 1.25738, -0.0548574 )
+transform = Transform( 0.999954, -0.00876048, 0.00380497, 0.00955108, 0.917157, -0.398411, 5.97203e-07, 0.39843, 0.917199, 0.0033093, 1.25723, -0.0557861 )
 bone_name = "neck_1"
 
 [node name="OmniLight" type="OmniLight" parent="Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment"]

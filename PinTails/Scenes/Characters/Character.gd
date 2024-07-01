@@ -1,6 +1,7 @@
 class_name Character
 extends KinematicBody
 
+const TAIL_MAX_SIZE = 3
 enum Weapons {RIFLE, PISTOL}
 const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
 onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
@@ -9,10 +10,11 @@ onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res:/
 onready var weapon_reload = [preload("res://Audio/Rifle_reload.wav"), preload("res://Audio/Pistol_reload.wav")]
 onready var weapon_ray = $Camroot/h/v/pivot/Camera/ray
 onready var weapon_pickup_text = $UI/PickUpWeapon
+onready var tail_pickup_text = $UI/PickUpTail
 onready var buy_weapon_menu = $Shop
 onready var weapon_drop_point = $DropPoint
-onready var pistol_obj = preload("res://Scenes/Gun/Pistol.tscn")
-onready var rifle_obj = preload("res://Scenes/Gun/Rifle.tscn")
+onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
+onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
 
 onready var weapons = []
 onready var weapons_id = []
@@ -20,6 +22,11 @@ var current_weapon = -1
 var fired_once = false
 var pickupable_weapons : Array
 var pickupable_weapons_id : Array
+
+onready var tails = []
+onready var tails_id = []
+var pickupable_tails : Array
+var pickupable_tails_id : Array
 
 var direction = Vector3.BACK
 var velocity = Vector3.ZERO
@@ -86,6 +93,7 @@ func _ready():
 	switch_weapon(0)
 	$splatters.set_as_toplevel(true)
 	holster()
+	add_tail(LOBBYMANAGER.player_roles.get(LOBBYMANAGER.player_id), GAME.get_tail_id())
 
 
 func _input(event):
@@ -143,6 +151,11 @@ func _input(event):
 				if add_weapon(pickupable_weapons[0], pickupable_weapons_id[0]):
 					GAME.emit_signal("weapon_picked_up", weapons_id[weapons_id.size() - 1])
 		
+		if event.is_action_pressed("attach_tail"):
+			if pickupable_tails.size() != 0:
+				if add_tail(pickupable_tails[0], pickupable_tails_id[0]):
+					GAME.emit_signal("tail_picked_up", tails_id[tails_id.size() - 1])
+		
 		if event.is_action_pressed("drop_weapon"):
 			drop_weapon()
 		
@@ -161,6 +174,11 @@ func _physics_process(delta):
 		weapon_pickup_text.hide()
 	else:
 		weapon_pickup_text.show()
+	
+	if pickupable_tails.size() == 0:
+		tail_pickup_text.hide()
+	else:
+		tail_pickup_text.show()
 	
 	if !$roll_timer.is_stopped(): # we only need roll_timer to change acceleration in the middle (using wait_time)
 		acceleration = 3.5
@@ -287,7 +305,6 @@ func _physics_process(delta):
 			var iw_blend = (velocity.length() - walk_speed) / walk_speed
 			var wr_blend = (velocity.length() - walk_speed) / (run_speed - walk_speed)
 		
-			#find the graph here: https://www.desmos.com/calculator/4z9devx1ky
 		
 			if velocity.length() <= walk_speed:
 				$AnimationTree.set(iwr_blend , iw_blend)
@@ -378,7 +395,7 @@ func drop_weapon():
 	if weapons.size() == 0:
 		return
 	
-	var weapon_instance : Gun
+	var weapon_instance : Weapon
 	match(weapons[current_weapon]):
 		Weapons.PISTOL:
 			weapon_instance = pistol_obj.instance()
@@ -396,6 +413,15 @@ func drop_weapon():
 	else:
 #		switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
 		switch_weapon(current_weapon - 1 if current_weapon > 0 else  weapons.size() - 1)
+
+
+func add_tail(passed_tail, passed_tail_id) -> bool:
+	if !tails.has(passed_tail):
+		tails.append(passed_tail)
+		tails_id.append(passed_tail_id)
+		return true
+	
+	return false
 
 
 func roll():
@@ -454,14 +480,14 @@ func _on_reload_timer_timeout():
 
 
 func _on_WeaponPickupRange_area_entered(area):
-	if area.owner.name == "Rifle":
+	if "Rifle" in area.owner.name:
 		if pickupable_weapons.has(Weapons.RIFLE):
 			pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
 			pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
 		pickupable_weapons.push_front(Weapons.RIFLE)
 		pickupable_weapons_id.push_front(area.owner.id)
 	
-	if area.owner.name == "Pistol":
+	if "Pistol" in area.owner.name:
 		pickupable_weapons.append(Weapons.PISTOL)
 		if pickupable_weapons.has(Weapons.PISTOL):
 			pickupable_weapons.remove(pickupable_weapons.find(Weapons.PISTOL))
@@ -470,10 +496,25 @@ func _on_WeaponPickupRange_area_entered(area):
 
 
 func _on_WeaponPickupRange_area_exited(area):
-	if area.owner.name == "Rifle" and pickupable_weapons.has(Weapons.RIFLE):
+	if "Rifle" in area.owner.name and pickupable_weapons.has(Weapons.RIFLE):
 		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
 		pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
 	
-	if area.owner.name == "Pistol" and pickupable_weapons.has(Weapons.PISTOL):
+	if "Pistol" in area.owner.name and pickupable_weapons.has(Weapons.PISTOL):
 		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.PISTOL))
 		pickupable_weapons.remove(pickupable_weapons.find(Weapons.PISTOL))
+
+
+func _on_TailPickupRange_area_entered(area):
+	if "Tail" in area.owner.name and tails.size() != TAIL_MAX_SIZE:
+		if pickupable_tails.has(area.owner.tail_data):
+			pickupable_tails.remove(pickupable_tails.find(area.owner.tail_data))
+			pickupable_tails_id.remove(pickupable_tails.find(area.owner.tail_data))
+		pickupable_tails.push_front(area.owner.tail_data)
+		pickupable_tails_id.push_front(area.owner.id)
+
+
+func _on_TailPickupRange_area_exited(area):
+	if "Tail" in area.owner.name and pickupable_tails.has(area.owner.tail_data):
+		pickupable_tails_id.remove(pickupable_tails.find(area.owner.tail_data))
+		pickupable_tails.remove(pickupable_tails.find(area.owner.tail_data))
