@@ -15,7 +15,8 @@ func _tail_picked_up(picked_up_id):
 		self.queue_free()
 
 
-#for when adding obj to world
+#when adding obj to world
 func prepare_tail(new_tail_data : TailData) -> bool:
+	self.tail_data = TailData.new()
 	self.tail_data.set_data(new_tail_data)
 	return true

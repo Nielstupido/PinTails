@@ -4,6 +4,7 @@ extends KinematicBody
 const TAIL_MAX_SIZE = 3
 enum Weapons {RIFLE, PISTOL}
 const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
+onready var cam = $Camroot
 onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
 onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment
 onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res://Audio/Pistol_fire.wav")]
@@ -13,6 +14,9 @@ onready var weapon_pickup_text = $UI/PickUpWeapon
 onready var tail_pickup_text = $UI/PickUpTail
 onready var buy_weapon_menu = $Shop
 onready var weapon_drop_point = $DropPoint
+onready var tails_side_bar = $UI/TailsSideBar
+onready var tail_config_menu = $UI/TailConfigMenu
+onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
 onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
 
@@ -86,9 +90,9 @@ var buy_menu = false
 
 
 func _ready():
+	tail_config_menu.hide()
 	randomize()
 	direction = Vector3.BACK.rotated(Vector3.UP, $Camroot/h.global_transform.basis.get_euler().y)
-	
 	$AnimationTree.set("parameters/walk_scale/scale", walk_speed)
 	switch_weapon(0)
 	$splatters.set_as_toplevel(true)
@@ -151,11 +155,6 @@ func _input(event):
 				if add_weapon(pickupable_weapons[0], pickupable_weapons_id[0]):
 					GAME.emit_signal("weapon_picked_up", weapons_id[weapons_id.size() - 1])
 		
-		if event.is_action_pressed("attach_tail"):
-			if pickupable_tails.size() != 0:
-				if add_tail(pickupable_tails[0], pickupable_tails_id[0]):
-					GAME.emit_signal("tail_picked_up", tails_id[tails_id.size() - 1])
-		
 		if event.is_action_pressed("drop_weapon"):
 			drop_weapon()
 		
@@ -191,6 +190,20 @@ func _physics_process(delta):
 		$Status/Aim.color = Color("ffffff")
 	
 	var h_rot = $Camroot/h.global_transform.basis.get_euler().y
+	
+	if Input.is_action_just_pressed("attach_tail"):
+		if pickupable_tails.size() != 0:
+			if add_tail(pickupable_tails[0], pickupable_tails_id[0]):
+				GAME.emit_signal("tail_picked_up", tails_id[tails_id.size() - 1])
+	elif Input.is_action_pressed("attach_tail"):
+		if !tail_config_menu.visible:
+			cam.set_process_input(false)
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			tail_config_menu.show()
+	elif tail_config_menu.visible:
+		cam.set_process_input(true)
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		tail_config_menu.hide()
 	
 	if !radial_menu and !buy_menu:
 		if Input.is_action_pressed("forward") ||  Input.is_action_pressed("backward") ||  Input.is_action_pressed("left") ||  Input.is_action_pressed("right"):
@@ -419,9 +432,19 @@ func add_tail(passed_tail, passed_tail_id) -> bool:
 	if !tails.has(passed_tail):
 		tails.append(passed_tail)
 		tails_id.append(passed_tail_id)
+		tails_side_bar.add_tail(passed_tail)
+		tail_config_menu.add_tail(passed_tail)
 		return true
 	
 	return false
+
+
+func remove_tail(passed_tail):
+	var tail_instance = tail_obj.instance()
+	tail_instance.global_transform = weapon_drop_point.global_transform;
+	tail_instance.id = tails_id[tails.find(passed_tail)]
+	tail_instance.prepare_tail(passed_tail)
+	GAME.get_node(".").add_child(tail_instance)
 
 
 func roll():
