@@ -3,10 +3,17 @@ extends Object
 
 
 enum Types {
-	SCORPION, 
-	CHEETAH, 
-	GECKO, 
-	RHINO
+
+	SCORPION,
+	CHEETAH,
+	GECKO,
+	RHINO,
+	PANGOLIN,
+	PANTHER,
+	CHAMELEON,
+	MEERKAT,
+	MANTISSHRIMP,
+	MONKEY
 }
 
 

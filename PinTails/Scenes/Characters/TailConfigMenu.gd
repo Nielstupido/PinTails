@@ -1,10 +1,9 @@
 extends Control
 
-onready var tail_holder1 = $HBoxContainer/TailMenuHolder
-onready var tail_holder2 = $HBoxContainer/TailMenuHolder2
-onready var tail_holder3 = $HBoxContainer/TailMenuHolder3
-var tails : Dictionary
-var temp_tail_data
+onready var tail_card1 = $HBoxContainer/TailMenuHolder/TailCard
+onready var tail_card2 = $HBoxContainer/TailMenuHolder2/TailCard
+onready var tail_card3 = $HBoxContainer/TailMenuHolder3/TailCard
+var tails : Array
 var tails_side_bar
 
 
@@ -15,34 +14,38 @@ func _ready():
 func add_tail(tail_data):
 	match(tails.size()):
 		0:
-			tail_holder1.get_node("TailCard").prepare_tail_card(tail_data)
+			tail_card1.prepare_tail_card(tail_data)
 		1:
-			tail_holder2.get_node("TailCard").prepare_tail_card(tail_data)
+			tail_card2.prepare_tail_card(tail_data)
 		2:
-			tail_holder3.get_node("TailCard").prepare_tail_card(tail_data)
+			tail_card3.prepare_tail_card(tail_data)
 	
-	tails[tails.size()] = tail_data
+	tails.append(tail_data)
 
 
 func remove_tail(tail_data):
 	var removed_tail_key : int
 	owner.remove_tail(tail_data)
 	
-	for key in tails.keys():
-		if tail_data == tails.get(key):
-			removed_tail_key = key
-			tails.erase(key)
-			tails_side_bar.remove_tail(removed_tail_key)
-			
-		if tails.size() == 0:
-			return
+	removed_tail_key = tails.find(tail_data)
+	tails.remove(removed_tail_key)
+	tails_side_bar.remove_tail(removed_tail_key)
+	
+	if tails.size() == 0:
+		tail_card1.clear_tail_card()
+		return true
 	
 	if removed_tail_key == 0:
-		tail_holder1.get_node("TailCard").prepare_tail_card(tail_holder2.get_node("TailCard").tail_data)
-		if tail_holder3.get_node("TailCard").tail_data:
-			tail_holder2.get_node("TailCard").prepare_tail_card(tail_holder3.get_node("TailCard").tail_data)
-	elif removed_tail_key == 1:
-		if tail_holder3.get_node("TailCard").tail_data:
-			tail_holder2.get_node("TailCard").prepare_tail_card(tail_holder3.get_node("TailCard").tail_data)
+		tail_card1.clear_tail_card()
+		tail_card1.prepare_tail_card(tail_card2.tail_data)
+		if tail_card3.tail_data != null:
+			tail_card2.prepare_tail_card(tail_card3.tail_data)
+		else:
+			tail_card2.clear_tail_card()
 	
-	tail_holder3.get_node("TailCard").clear_tail_card()
+	elif removed_tail_key == 1:
+		tail_card2.clear_tail_card()
+		if tail_card3.tail_data != null:
+			tail_card2.prepare_tail_card(tail_card3.tail_data)
+	
+	tail_card3.clear_tail_card()

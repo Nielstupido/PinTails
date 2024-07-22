@@ -7,7 +7,7 @@ var id : int
 
 
 func _ready():
-	GAME.connect("weapon_picked_up", self, "_weapon_picked_up")
+	GAMEMANAGER.connect("weapon_picked_up", self, "_weapon_picked_up")
 	
 	if self.owner:
 		if self.owner.is_in_group("Player"):

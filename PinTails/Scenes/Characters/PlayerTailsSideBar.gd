@@ -14,9 +14,14 @@ func add_tail(tail_data):
 
 
 func remove_tail(removed_tail_key):
+	_acqrd_tails -= 1
+	
 	if removed_tail_key == 0:
 		tail_label1.text = tail_label2.text
+		if _acqrd_tails == 1:
+			tail_label2.text = "Empty"
+	elif removed_tail_key == 1:
+		tail_label2.text = tail_label3.text
 	
-	tail_label2.text = tail_label3.text
+	
 	tail_label3.text = "Empty"
-	_acqrd_tails -= 1

@@ -97,7 +97,7 @@ func _ready():
 	switch_weapon(0)
 	$splatters.set_as_toplevel(true)
 	holster()
-	add_tail(LOBBYMANAGER.player_roles.get(LOBBYMANAGER.player_id), GAME.get_tail_id())
+	add_tail(LOBBYMANAGER.player_roles.get(LOBBYMANAGER.player_id), GAMEMANAGER.get_tail_id())
 
 
 func _input(event):
@@ -151,9 +151,9 @@ func _input(event):
 			fired_once = false
 		
 		if event.is_action_pressed("pick_up"):
-			if pickupable_weapons.size() != 0:
+			if !pickupable_weapons.empty():
 				if add_weapon(pickupable_weapons[0], pickupable_weapons_id[0]):
-					GAME.emit_signal("weapon_picked_up", weapons_id[weapons_id.size() - 1])
+					GAMEMANAGER.emit_signal("weapon_picked_up", weapons_id[weapons_id.size() - 1])
 		
 		if event.is_action_pressed("drop_weapon"):
 			drop_weapon()
@@ -169,12 +169,12 @@ func _input(event):
 
 
 func _physics_process(delta):
-	if pickupable_weapons.size() == 0:
+	if pickupable_weapons.empty():
 		weapon_pickup_text.hide()
 	else:
 		weapon_pickup_text.show()
 	
-	if pickupable_tails.size() == 0:
+	if pickupable_tails.empty():
 		tail_pickup_text.hide()
 	else:
 		tail_pickup_text.show()
@@ -192,9 +192,9 @@ func _physics_process(delta):
 	var h_rot = $Camroot/h.global_transform.basis.get_euler().y
 	
 	if Input.is_action_just_pressed("attach_tail"):
-		if pickupable_tails.size() != 0:
+		if !pickupable_tails.empty():
 			if add_tail(pickupable_tails[0], pickupable_tails_id[0]):
-				GAME.emit_signal("tail_picked_up", tails_id[tails_id.size() - 1])
+				GAMEMANAGER.emit_signal("tail_picked_up", tails_id[tails_id.size() - 1])
 	elif Input.is_action_pressed("attach_tail"):
 		if !tail_config_menu.visible:
 			cam.set_process_input(false)
@@ -380,8 +380,8 @@ func _physics_process(delta):
 
 
 func holster():
-	if weapons.size() == 0:
-		weapon_blend_target = 0
+	if weapons.empty():
+		weapon_blend_target = 06
 		gun_attachment.set("visible", false)
 		return
 	
@@ -405,7 +405,7 @@ func add_weapon(passed_weapon, passed_weapon_id) -> bool:
 
 
 func drop_weapon():
-	if weapons.size() == 0:
+	if weapons.empty():
 		return
 	
 	var weapon_instance : Weapon
@@ -416,12 +416,12 @@ func drop_weapon():
 			weapon_instance = rifle_obj.instance()
 	weapon_instance.global_transform = weapon_drop_point.global_transform;
 	weapon_instance.id = weapons_id[current_weapon]
-	GAME.get_node(".").add_child(weapon_instance)
+	GAMEMANAGER.get_node(".").add_child(weapon_instance)
 	
 	weapons.pop_at(current_weapon)
 	weapons_id.pop_at(current_weapon)
 	
-	if weapons.size() == 0:
+	if weapons.empty():
 		holster()
 	else:
 #		switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
@@ -444,7 +444,10 @@ func remove_tail(passed_tail):
 	tail_instance.global_transform = weapon_drop_point.global_transform;
 	tail_instance.id = tails_id[tails.find(passed_tail)]
 	tail_instance.prepare_tail(passed_tail)
-	GAME.get_node(".").add_child(tail_instance)
+	GAMEMANAGER.get_node(".").add_child(tail_instance)
+	
+	tails_id.pop_at(tails.find(passed_tail))
+	tails.pop_at(tails.find(passed_tail))
 
 
 func roll():
@@ -459,7 +462,7 @@ func roll():
 
 
 func switch_weapon(to):
-	if weapons.size() != 0:
+	if !weapons.empty():
 		if to < weapons.size() && (to != current_weapon || weapon_blend_target == 0 || weapons.size() == 1):
 			weapon_blend_target = 1
 			gun_attachment.show()
@@ -490,6 +493,9 @@ func switch_weapon(to):
 
 
 func reload():
+	if weapons.empty():
+		return
+	
 	if $WeaponStats.mag() != $WeaponStats.mag_size() && $WeaponStats.ammo_backup() != 0:
 		$AnimationTree.set("parameters/reload_scale/scale", $WeaponStats.reload_speed())
 		$AnimationTree.set(reload_active, true)

@@ -7,7 +7,7 @@ var tail_data : TailData
 
 
 func _ready():
-	GAME.connect("tail_picked_up", self, "_tail_picked_up")
+	GAMEMANAGER.connect("tail_picked_up", self, "_tail_picked_up")
 
 
 func _tail_picked_up(picked_up_id):

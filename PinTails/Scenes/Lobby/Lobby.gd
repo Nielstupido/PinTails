@@ -10,7 +10,7 @@ func _ready():
 	self.hide()
 	var dir = Directory.new()
 	if dir.open(tail_res_folder) == OK:
-		for tail_name in GAME.tail_names:
+		for tail_name in GAMEMANAGER.tail_names:
 			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_name, tail_name]):
 				tail_data_list.append((ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_name, tail_name])).get_tail_data())
 			else:
