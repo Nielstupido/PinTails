@@ -17,7 +17,6 @@ var Pistol_stats = {"spread": 25.0, "movement_spread": 3.5, "aim_spread": -7,
 var weapon_stats = {"Rifle": Rifle_stats, "Pistol": Pistol_stats}
 
 
-
 # setters
 func mag_decrement():
 	weapon_stats[weapon_name()]["mag"] -= 1

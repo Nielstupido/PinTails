@@ -2,7 +2,6 @@ class_name Tail
 extends RigidBody
 
 
-var id : int
 var tail_data : TailData
 
 
@@ -10,8 +9,8 @@ func _ready():
 	GAMEMANAGER.connect("tail_picked_up", self, "_tail_picked_up")
 
 
-func _tail_picked_up(picked_up_id):
-	if picked_up_id == self.id:
+func _tail_picked_up(picked_up_data):
+	if picked_up_data.id == self.tail_data.id:
 		self.queue_free()
 
 

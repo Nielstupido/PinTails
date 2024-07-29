@@ -2,10 +2,10 @@ extends Node
 
 
 signal weapon_picked_up(weapon_id)
-signal tail_picked_up(tail_id)
+signal tail_picked_up(tail_data)
 
-var gun_id
-var tail_id
+var _gun_id
+var _tail_id
 var tail_res : Resource
 
 var tail_names = [
@@ -23,18 +23,19 @@ var tail_names = [
 
 
 func _ready():
-	gun_id = 0
-	tail_id = 0
+	_gun_id = 0
+	_tail_id = 0
 
 
 func get_gun_id() -> int:
-	gun_id += 1
-	return gun_id
+	_gun_id += 1
+	return _gun_id
 
 
 func get_tail_id() -> int:
-	tail_id += 1
-	return tail_id
+	_tail_id += 1
+	print("gun id given = " + str(_tail_id) )
+	return _tail_id
 
 
 func get_tail_dets():

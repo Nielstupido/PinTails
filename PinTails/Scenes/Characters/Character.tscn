@@ -1,10 +1,10 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Scenes/Game/Shop.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Characters/PlayerTailsSideBar.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/Lobby/TailCardsManager/TailCard.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Tails/TailCard.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Characters/TailConfigMenu.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/UI/radial_menu_item.tscn" type="PackedScene" id=7]
 [ext_resource path="res://AssetsUI/rifle_icon.png" type="Texture" id=8]
@@ -17,6 +17,8 @@
 [ext_resource path="res://Scenes/Player/WeaponStats.gd" type="Script" id=15]
 [ext_resource path="res://Fonts/DSEG7ClassicMini-Bold.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://Fonts/Aldrich-Regular.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://Scenes/Characters/TailManager.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Characters/PlayerSkillsManager.gd" type="Script" id=19]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.514466
@@ -96,7 +98,7 @@ nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
 nodes/shoulder_weapon/node = SubResource( 25 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "output", 0, "Add2 2" ]
+node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
 
 [sub_resource type="Animation" id=27]
 tracks/0/type = "value"
@@ -568,6 +570,9 @@ __meta__ = {
 
 [node name="WeaponStats" type="Node" parent="."]
 script = ExtResource( 15 )
+
+[node name="TailManager" type="Node" parent="."]
+script = ExtResource( 18 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.766839, 0 )
@@ -1090,9 +1095,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -192.0
-margin_top = -144.0
+margin_top = -171.389
 margin_right = 1.0
-margin_bottom = -122.0
+margin_bottom = -149.389
 rect_scale = Vector2( 2, 2 )
 text = "Press E to pick up weapon"
 align = 1
@@ -1104,9 +1109,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -192.0
-margin_top = -188.612
+margin_top = -223.315
 margin_right = 1.0
-margin_bottom = -166.612
+margin_bottom = -201.315
 rect_scale = Vector2( 2, 2 )
 text = "Press Q to attach tail"
 align = 1
@@ -1226,6 +1231,124 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 1
 text = "Empty"
+align = 1
+valign = 1
+
+[node name="PlayerSkills" type="Control" parent="UI"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 19 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerSkills"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_constants/separation = 50
+alignment = 1
+
+[node name="Control" type="Control" parent="UI/PlayerSkills/HBoxContainer"]
+margin_left = 760.0
+margin_right = 860.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="UI/PlayerSkills/HBoxContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.301961, 0.227451, 0.227451, 0.196078 )
+
+[node name="Label" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Empty"
+align = 1
+valign = 1
+
+[node name="SkillHotkey" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_right = 50.0
+rect_min_size = Vector2( 100, 30 )
+size_flags_vertical = 1
+text = "0"
+align = 1
+valign = 1
+
+[node name="Control2" type="Control" parent="UI/PlayerSkills/HBoxContainer"]
+margin_left = 910.0
+margin_right = 1010.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="UI/PlayerSkills/HBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.301961, 0.227451, 0.227451, 0.196078 )
+
+[node name="Label" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Empty"
+align = 1
+valign = 1
+
+[node name="SkillHotkey" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_right = 50.0
+rect_min_size = Vector2( 100, 30 )
+size_flags_vertical = 1
+text = "0"
+align = 1
+valign = 1
+
+[node name="Control3" type="Control" parent="UI/PlayerSkills/HBoxContainer"]
+margin_left = 1060.0
+margin_right = 1160.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="UI/PlayerSkills/HBoxContainer/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.301961, 0.227451, 0.227451, 0.196078 )
+
+[node name="Label" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Empty"
+align = 1
+valign = 1
+
+[node name="SkillHotkey" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control3"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_right = 50.0
+rect_min_size = Vector2( 100, 30 )
+size_flags_vertical = 1
+text = "0"
 align = 1
 valign = 1
 

@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var tail_card_holder = preload("res://Scenes/Lobby/TailCardsManager/TailCard.tscn")
+onready var tail_card_holder = preload("res://Scenes/Tails/TailCard.tscn")
 onready var cards_container = $HBoxContainer
 
 
