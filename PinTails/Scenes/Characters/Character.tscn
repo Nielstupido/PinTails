@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://Scenes/Game/Shop.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Fonts/Aldrich-Regular.ttf" type="DynamicFontData" id=17]
 [ext_resource path="res://Scenes/Characters/TailManager.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Characters/PlayerSkillsManager.gd" type="Script" id=19]
+[ext_resource path="res://Scenes/Tails/SkillCard.tscn" type="PackedScene" id=20]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.514466
@@ -1165,6 +1166,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PlayerSkills" type="Control" parent="UI"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 19 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerSkills"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_constants/separation = 50
+alignment = 1
+
+[node name="SkillCard" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource( 20 )]
+
+[node name="SkillCard2" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource( 20 )]
+margin_left = 910.0
+margin_right = 1010.0
+
+[node name="SkillCard3" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource( 20 )]
+margin_left = 1060.0
+margin_right = 1160.0
+
 [node name="TailsSideBar" type="Control" parent="UI"]
 anchor_bottom = 1.0
 margin_left = 44.0
@@ -1231,124 +1258,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 1
 text = "Empty"
-align = 1
-valign = 1
-
-[node name="PlayerSkills" type="Control" parent="UI"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 19 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerSkills"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -100.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-custom_constants/separation = 50
-alignment = 1
-
-[node name="Control" type="Control" parent="UI/PlayerSkills/HBoxContainer"]
-margin_left = 760.0
-margin_right = 860.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 100, 50 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="ColorRect" type="ColorRect" parent="UI/PlayerSkills/HBoxContainer/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.301961, 0.227451, 0.227451, 0.196078 )
-
-[node name="Label" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 1
-text = "Empty"
-align = 1
-valign = 1
-
-[node name="SkillHotkey" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -50.0
-margin_right = 50.0
-rect_min_size = Vector2( 100, 30 )
-size_flags_vertical = 1
-text = "0"
-align = 1
-valign = 1
-
-[node name="Control2" type="Control" parent="UI/PlayerSkills/HBoxContainer"]
-margin_left = 910.0
-margin_right = 1010.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 100, 50 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="ColorRect" type="ColorRect" parent="UI/PlayerSkills/HBoxContainer/Control2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.301961, 0.227451, 0.227451, 0.196078 )
-
-[node name="Label" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 1
-text = "Empty"
-align = 1
-valign = 1
-
-[node name="SkillHotkey" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control2"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -50.0
-margin_right = 50.0
-rect_min_size = Vector2( 100, 30 )
-size_flags_vertical = 1
-text = "0"
-align = 1
-valign = 1
-
-[node name="Control3" type="Control" parent="UI/PlayerSkills/HBoxContainer"]
-margin_left = 1060.0
-margin_right = 1160.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 100, 50 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="ColorRect" type="ColorRect" parent="UI/PlayerSkills/HBoxContainer/Control3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.301961, 0.227451, 0.227451, 0.196078 )
-
-[node name="Label" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 1
-text = "Empty"
-align = 1
-valign = 1
-
-[node name="SkillHotkey" type="Label" parent="UI/PlayerSkills/HBoxContainer/Control3"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -50.0
-margin_right = 50.0
-rect_min_size = Vector2( 100, 30 )
-size_flags_vertical = 1
-text = "0"
 align = 1
 valign = 1
 

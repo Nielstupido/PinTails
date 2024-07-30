@@ -61,7 +61,6 @@ var adtnl_melee_dmg = 0
 var jump_magnitude = 15
 var roll_magnitude = 20
 
-var sprint_toggle = true
 var sprinting = false
 var ag_transition = "parameters/ag_transition/current"
 var ag_weapon_transition = "parameters/ag_weapon_transition/current"
@@ -119,11 +118,7 @@ func _input(event):
 			else:
 				get_node("Status/" + event.as_text()).color = Color("ffffff")
 	
-	if sprint_toggle:
-		if event.is_action_pressed("sprint"):
-			sprinting = !sprinting
-	else:
-		sprinting = Input.is_action_pressed("sprint")
+	sprinting = Input.is_action_pressed("sprint")
 	
 	if Input.is_key_pressed(KEY_1):
 		switch_weapon(0)

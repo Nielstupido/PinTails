@@ -1,9 +1,9 @@
 extends Control
 
 
-onready var skill_hotkey1 = $HBoxContainer/Control/SkillHotkey
-onready var skill_hotkey2 = $HBoxContainer/Control2/SkillHotkey
-onready var skill_hotkey3 = $HBoxContainer/Control3/SkillHotkey
+onready var skill_hotkey1 = $HBoxContainer/SkillCard/SkillHotkey
+onready var skill_hotkey2 = $HBoxContainer/SkillCard2/SkillHotkey
+onready var skill_hotkey3 = $HBoxContainer/SkillCard3/SkillHotkey
 
 
 func _ready():
