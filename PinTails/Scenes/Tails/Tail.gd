@@ -16,6 +16,5 @@ func _tail_picked_up(picked_up_data):
 
 #when adding obj to world
 func prepare_tail(new_tail_data : TailData) -> bool:
-	self.tail_data = TailData.new()
-	self.tail_data.set_data(new_tail_data)
+	self.tail_data = new_tail_data
 	return true

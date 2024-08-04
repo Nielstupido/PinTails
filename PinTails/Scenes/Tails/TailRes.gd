@@ -15,7 +15,6 @@ export var _adtnl_speed : int = 0
 func get_tail_data():
 	_tail_data = TailData.new()
 	_tail_data.set_data(
-		null,
 		_tail_name,
 		_tail_attribs_str,
 		_tail_class,

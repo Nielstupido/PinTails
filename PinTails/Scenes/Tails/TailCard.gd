@@ -6,7 +6,7 @@ onready var attrb_node = $Control/Atrribs
 onready var tail_btn : Button = $Control/Button
 onready var blank_card = $BlankCard
 var tail_config_menu
-var tail_data
+var tail_data : TailData
 
 
 func _ready():
@@ -17,17 +17,8 @@ func _ready():
 		tail_data = null
 
 
-#<---------- GAME LOBBY ---------->
-func _on_Button_pressed():
-	var new_tail_data = TailData.new()
-	new_tail_data.set_data(self.tail_data)
-	LOBBYMANAGER.player_roles[LOBBYMANAGER.player_id] = new_tail_data
-#<---------- GAME LOBBY ---------->
-
-
 func prepare_tail_card(passed_tail_data):
 	if passed_tail_data != null:
-		self.tail_data = null
 		self.tail_data = passed_tail_data
 		self.title_node.text = self.tail_data.tail_name
 		self.attrb_node.text = self.tail_data.tail_attrb_str

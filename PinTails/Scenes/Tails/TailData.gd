@@ -15,7 +15,6 @@ var adtnl_melee_dmg : int = 0
 
 
 func set_data(
-	tail_data : TailData = null,
 	new_tail_name = "",
 	new_tail_attrb_str = "",
 	new_tail_class = 0,
@@ -24,17 +23,6 @@ func set_data(
 	new_adtnl_armor = 0,
 	new_adtnl_movement_speed = 0
 ):
-	if (tail_data != null):
-		self.id = tail_data.id
-		self.tail_name = tail_data.tail_name
-		self.tail_attrb_str = tail_data.tail_attrb_str
-		self.tail_class = tail_data.tail_class
-		self.tail_active_attrb = tail_data.tail_active_attrb
-		self.adtnl_max_health = tail_data.adtnl_max_health
-		self.adtnl_armor = tail_data.adtnl_armor
-		self.adtnl_movement_speed = tail_data.adtnl_movement_speed
-		return
-	
 	self.tail_name = new_tail_name
 	self.tail_attrb_str = new_tail_attrb_str
 	self.tail_class = new_tail_class

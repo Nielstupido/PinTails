@@ -43,11 +43,14 @@ func remove_skill(skill_index):
 		return
 	
 	if skill_index == 0:
+		skill_card1.clear_skill_card()
 		skill_status = skill_card2.on_cooldown() 
 		skill_card1.setup_skill_card(skill_card2.skill_data, skill_status[0], skill_status[1])
+		skill_card2.clear_skill_card()
 	
 	if skill_index == 0 or skill_index == 1:
 		if skill_card3.skill_data:
+			skill_status = []
 			skill_status = skill_card3.on_cooldown()
 			skill_card2.setup_skill_card(skill_card3.skill_data, skill_status[0], skill_status[1])
 		else:

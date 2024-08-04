@@ -23,7 +23,7 @@ func _ready():
 	for tail_data in tail_data_list:
 		var tail_instance = tail_obj.instance()
 		var new_tail_data = TailData.new()
-		new_tail_data.set_data(tail_data)
+		new_tail_data = tail_data
 		tail_instance.global_transform = tail_pos.global_transform
 		tail_instance.global_translation.z = randomZ.randf_range(-6, 6)
 		tail_instance.prepare_tail(new_tail_data)
