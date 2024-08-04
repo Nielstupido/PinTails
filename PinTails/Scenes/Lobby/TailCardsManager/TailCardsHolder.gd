@@ -2,7 +2,7 @@ extends Control
 
 
 onready var tail_card_holder = preload("res://Scenes/Tails/TailCard.tscn")
-onready var cards_container = $HBoxContainer
+onready var cards_container = $GridContainter
 
 
 func prepare_tail_cards(tail_cards):

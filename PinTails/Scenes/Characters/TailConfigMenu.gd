@@ -5,10 +5,13 @@ onready var tail_card2 = $HBoxContainer/TailMenuHolder2/TailCard
 onready var tail_card3 = $HBoxContainer/TailMenuHolder3/TailCard
 var tails : Array
 var tails_side_bar
+var player_skills_bar
 
 
 func _ready():
+	GAMEMANAGER.connect("tail_picked_up", self, "add_tail")
 	tails_side_bar = owner.get_node("UI/TailsSideBar")
+	player_skills_bar = owner.get_node("UI/PlayerSkills")
 
 
 func add_tail(tail_data):
@@ -30,6 +33,7 @@ func remove_tail(tail_data):
 	removed_tail_key = tails.find(tail_data)
 	tails.remove(removed_tail_key)
 	tails_side_bar.remove_tail(removed_tail_key)
+	player_skills_bar.remove_skill(removed_tail_key)
 	
 	if tails.size() == 0:
 		tail_card1.clear_tail_card()

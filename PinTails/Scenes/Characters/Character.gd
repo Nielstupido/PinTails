@@ -14,7 +14,7 @@ onready var weapon_pickup_text = $UI/PickUpWeapon
 onready var tail_pickup_text = $UI/PickUpTail
 onready var buy_weapon_menu = $Shop
 onready var weapon_drop_point = $DropPoint
-onready var tails_side_bar = $UI/TailsSideBar
+onready var tail_manager = $TailManager
 onready var tail_config_menu = $UI/TailConfigMenu
 onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
 onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
@@ -94,6 +94,8 @@ var weapon_ray_tip = Vector3()
 
 var buy_menu = false
 
+var player_id = 0
+
 
 func _ready():
 	tail_config_menu.hide()
@@ -104,6 +106,7 @@ func _ready():
 	$splatters.set_as_toplevel(true)
 	holster()
 	add_tail(LOBBYMANAGER.player_roles.get(LOBBYMANAGER.player_id), GAMEMANAGER.get_tail_id())
+	GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
 	setup_keybinds_UI()
 
 
@@ -127,13 +130,6 @@ func _input(event):
 	
 	if event.is_action_pressed("holster"):
 		holster()
-	
-	if event.is_action_pressed("crouch"):
-		if $crouch_timer.is_stopped() && !$AnimationTree.get(roll_active):
-			$crouch_timer.start()
-			$AnimationTree.tree_root.get_node("cs_transition").xfade_time = (velocity.length() + 1.5)/ 15.0
-			crouch_stand_target = 1 - crouch_stand_target
-			$AnimationTree.set(cs_transition, crouch_stand_target)
 	
 	if weapon_blend_target && !buy_menu:
 		if event.is_action_pressed("shoulder_change"):
@@ -185,6 +181,19 @@ func _physics_process(delta):
 		acceleration = 3.5
 	else:
 		acceleration = 5
+	
+	if Input.is_action_pressed("crouch"):
+		if $crouch_timer.is_stopped() && !$AnimationTree.get(roll_active):
+			crouch_stand_target = 0
+			$crouch_timer.start()
+			$AnimationTree.tree_root.get_node("cs_transition").xfade_time = (velocity.length() + 1.5)/ 15.0
+			$AnimationTree.set(cs_transition, crouch_stand_target)
+	else:
+		if $crouch_timer.is_stopped() && !$AnimationTree.get(roll_active) && $AnimationTree.get(cs_transition) != 1:
+			crouch_stand_target = 1
+			$crouch_timer.start()
+			$AnimationTree.tree_root.get_node("cs_transition").xfade_time = (velocity.length() + 1.5)/ 15.0
+			$AnimationTree.set(cs_transition, crouch_stand_target)
 	
 	if Input.is_action_pressed("aim") and weapons.size() != 0:
 		$Status/Aim.color = Color("ff6666")
@@ -438,9 +447,7 @@ func add_tail(passed_tail, passed_tail_id = -1) -> bool:
 		if passed_tail_id != -1:
 			passed_tail.id = passed_tail_id
 		tails.append(passed_tail)
-		tails_side_bar.add_tail(passed_tail)
-		tail_config_menu.add_tail(passed_tail)
-		$TailManager.set_tail_attr(passed_tail)
+		print("passed tail == " + str(passed_tail))
 		return true
 	
 	return false
@@ -452,9 +459,8 @@ func remove_tail(passed_tail):
 	tail_instance.prepare_tail(passed_tail)
 	GAMEMANAGER.get_node(".").add_child(tail_instance)
 	
-	print("removed tail id = " + str(passed_tail.id))
 	tails.remove(tails.find(passed_tail))
-	$TailManager.remove_tail_attr(passed_tail)
+	tail_manager.remove_tail_attr(passed_tail)
 
 
 func roll():
@@ -532,7 +538,7 @@ func _on_WeaponPickupRange_area_entered(area):
 
 
 func _on_WeaponPickupRange_area_exited(area):
-	if "Rifle" in area.owner.name and pickupable_weapons.has(Weapons.RIFLE):
+	if "Rifle" in area.owner.name and pickupable_weapons.has(Weapons.RIFLE): 
 		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
 		pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
 	
@@ -542,12 +548,13 @@ func _on_WeaponPickupRange_area_exited(area):
 
 
 func _on_TailPickupRange_area_entered(area):
-	if "Tail" in area.owner.name and tails.size() != Tail_max_size:
+	print("tails size == " + str(tails.size()))
+	if area.owner.is_in_group("Tail") and tails.size() != Tail_max_size:
 		if pickupable_tails.has(area.owner.tail_data):
 			pickupable_tails.remove(pickupable_tails.find(area.owner.tail_data))
 		pickupable_tails.push_front(area.owner.tail_data)
 
 
 func _on_TailPickupRange_area_exited(area):
-	if "Tail" in area.owner.name and pickupable_tails.has(area.owner.tail_data):
+	if area.owner.is_in_group("Tail") and pickupable_tails.has(area.owner.tail_data):
 		pickupable_tails.remove(pickupable_tails.find(area.owner.tail_data))

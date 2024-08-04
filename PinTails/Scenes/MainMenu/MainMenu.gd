@@ -1,11 +1,11 @@
 extends Node
 
 
-onready var lobby_node = $Lobby
+onready var lobby_scene = load("res://Scenes/Lobby/Lobby.tscn")
 
 
 func _on_PlayBtn_pressed():
-	lobby_node.open_lobby()
+	get_tree().change_scene_to(lobby_scene)
 
 
 func _on_SettingsBtn_pressed():

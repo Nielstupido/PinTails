@@ -19,395 +19,143 @@
 [ext_resource path="res://Fonts/Aldrich-Regular.ttf" type="DynamicFontData" id=17]
 [ext_resource path="res://Scenes/Characters/TailManager.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Characters/PlayerSkillsManager.gd" type="Script" id=19]
-[ext_resource path="res://Scenes/Tails/SkillCard.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Scenes/Characters/SkillCard.tscn" type="PackedScene" id=20]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CapsuleShape" id=63]
 radius = 0.514466
 height = 0.506644
 
-[sub_resource type="AnimationNodeAdd2" id=11]
+[sub_resource type="AnimationNodeAdd2" id=64]
 
-[sub_resource type="AnimationNodeAdd2" id=12]
+[sub_resource type="AnimationNodeAdd2" id=65]
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=66]
 animation = "holster"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
+[sub_resource type="AnimationNodeAnimation" id=67]
 animation = "aim_cancel"
 
-[sub_resource type="AnimationNodeAnimation" id=15]
+[sub_resource type="AnimationNodeAnimation" id=68]
 animation = "aim"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=16]
-blend_point_0/node = SubResource( 14 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=69]
+blend_point_0/node = SubResource( 67 )
 blend_point_0/pos = 0.0
-blend_point_1/node = SubResource( 15 )
+blend_point_1/node = SubResource( 68 )
 blend_point_1/pos = 1.0
 min_space = 0.0
 
-[sub_resource type="AnimationNodeAnimation" id=17]
+[sub_resource type="AnimationNodeAnimation" id=70]
 animation = "crouch"
 
-[sub_resource type="AnimationNodeAnimation" id=18]
+[sub_resource type="AnimationNodeAnimation" id=71]
 animation = "stand"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=19]
-blend_point_0/node = SubResource( 17 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=72]
+blend_point_0/node = SubResource( 70 )
 blend_point_0/pos = 0.0
-blend_point_1/node = SubResource( 18 )
+blend_point_1/node = SubResource( 71 )
 blend_point_1/pos = 1.0
 min_space = 0.0
 
-[sub_resource type="AnimationNodeBlend2" id=20]
+[sub_resource type="AnimationNodeBlend2" id=73]
 
-[sub_resource type="AnimationNodeAnimation" id=21]
+[sub_resource type="AnimationNodeAnimation" id=74]
 animation = "lean_right"
 
-[sub_resource type="AnimationNodeAnimation" id=22]
+[sub_resource type="AnimationNodeAnimation" id=75]
 animation = "shoulder_right"
 
-[sub_resource type="AnimationNodeAnimation" id=23]
+[sub_resource type="AnimationNodeAnimation" id=76]
 animation = "shoulder_left"
 
-[sub_resource type="AnimationNodeAnimation" id=24]
+[sub_resource type="AnimationNodeAnimation" id=77]
 animation = "lean_left"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=25]
-blend_point_0/node = SubResource( 21 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=78]
+blend_point_0/node = SubResource( 74 )
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 22 )
+blend_point_1/node = SubResource( 75 )
 blend_point_1/pos = 0.5
-blend_point_2/node = SubResource( 23 )
+blend_point_2/node = SubResource( 76 )
 blend_point_2/pos = -0.5
-blend_point_3/node = SubResource( 24 )
+blend_point_3/node = SubResource( 77 )
 blend_point_3/pos = -1.0
 
-[sub_resource type="AnimationNodeBlendTree" id=26]
+[sub_resource type="AnimationNodeBlendTree" id=79]
 graph_offset = Vector2( -410.134, -130.072 )
-nodes/Add2/node = SubResource( 12 )
+nodes/Add2/node = SubResource( 65 )
 nodes/Add2/position = Vector2( 300, 100 )
-"nodes/Add2 2/node" = SubResource( 11 )
+"nodes/Add2 2/node" = SubResource( 64 )
 "nodes/Add2 2/position" = Vector2( 580, 160 )
-nodes/Animation/node = SubResource( 13 )
+nodes/Animation/node = SubResource( 66 )
 nodes/Animation/position = Vector2( -180, -60 )
-nodes/aim/node = SubResource( 16 )
+nodes/aim/node = SubResource( 69 )
 nodes/aim/position = Vector2( 360, 300 )
-nodes/crouch_stand/node = SubResource( 19 )
+nodes/crouch_stand/node = SubResource( 72 )
 nodes/crouch_stand/position = Vector2( 40, 220 )
-nodes/holster/node = SubResource( 20 )
+nodes/holster/node = SubResource( 73 )
 nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
-nodes/shoulder_weapon/node = SubResource( 25 )
+nodes/shoulder_weapon/node = SubResource( 78 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "output", 0, "Add2 2" ]
+node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "output", 0, "Add2 2" ]
 
-[sub_resource type="Animation" id=27]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/Camera:fov")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 35.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/Camera:translation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( -2.98023e-07, 0, -1.81234 ) ]
-}
+[sub_resource type="Animation" id=80]
 
-[sub_resource type="Animation" id=28]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/Camera:fov")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 65.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/Camera:translation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, -2.2 ) ]
-}
+[sub_resource type="Animation" id=81]
 
-[sub_resource type="Animation" id=29]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0, -0.420799, 0 ) ]
-}
+[sub_resource type="Animation" id=82]
 
-[sub_resource type="Animation" id=30]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/spine_ik_target:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0.562912, 0.0182803 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/spine_ik_target:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 1.86, 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Camroot/h/v/pivot:translation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 0 ) ]
-}
+[sub_resource type="Animation" id=83]
 
-[sub_resource type="Animation" id=31]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/spine_ik_target:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0.016, 0.411, -0.01 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/spine_ik_target:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 1.86, 0, -44.693 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Camroot/h/v/pivot:translation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0.75, -0.08, 0 ) ]
-}
+[sub_resource type="Animation" id=84]
 
-[sub_resource type="Animation" id=32]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/spine_ik_target:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( -0.0163011, 0.410832, 0.0104622 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/spine_ik_target:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 1.86, -1.8233e-07, 44.693 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Camroot/h/v/pivot:translation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( -0.75, -0.08, 0 ) ]
-}
+[sub_resource type="Animation" id=85]
 
-[sub_resource type="Animation" id=33]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/spine_ik_target:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( -0.4, 0.643, 0.018 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/spine_ik_target:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 1.86, 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Camroot/h/v/pivot:translation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0.4, -0.08, 0 ) ]
-}
+[sub_resource type="Animation" id=86]
 
-[sub_resource type="Animation" id=34]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot/h/v/pivot/spine_ik_target:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0.4, 0.643, 0.018 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Camroot/h/v/pivot/spine_ik_target:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 1.86, 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Camroot/h/v/pivot:translation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( -0.4, -0.08, 0 ) ]
-}
+[sub_resource type="Animation" id=87]
 
-[sub_resource type="Animation" id=35]
-tracks/0/type = "value"
-tracks/0/path = NodePath("Camroot:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 0 ) ]
-}
+[sub_resource type="Animation" id=88]
 
-[sub_resource type="DynamicFont" id=36]
+[sub_resource type="DynamicFont" id=89]
 size = 43
 outline_size = 2
 outline_color = Color( 0.0235294, 0.466667, 1, 1 )
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=37]
+[sub_resource type="DynamicFont" id=90]
 size = 57
 outline_size = 2
 outline_color = Color( 0.0235294, 0.466667, 1, 1 )
 font_data = ExtResource( 17 )
 
-[sub_resource type="DynamicFont" id=38]
+[sub_resource type="DynamicFont" id=91]
 size = 24
 outline_size = 2
 outline_color = Color( 0.0235294, 0.466667, 1, 1 )
 font_data = ExtResource( 16 )
 
-[sub_resource type="VisualShaderNodeTexture" id=39]
+[sub_resource type="VisualShaderNodeTexture" id=92]
 source = 1
 
-[sub_resource type="VisualShaderNodeInput" id=40]
+[sub_resource type="VisualShaderNodeInput" id=93]
 input_name = "screen_texture"
 
-[sub_resource type="VisualShaderNodeInput" id=41]
+[sub_resource type="VisualShaderNodeInput" id=94]
 input_name = "screen_uv"
 
-[sub_resource type="VisualShaderNodeScalarUniform" id=42]
+[sub_resource type="VisualShaderNodeScalarUniform" id=95]
 uniform_name = "blur_amount"
 
-[sub_resource type="VisualShaderNodeColorOp" id=43]
+[sub_resource type="VisualShaderNodeColorOp" id=96]
 operator = 8
 
-[sub_resource type="VisualShaderNodeColorConstant" id=44]
+[sub_resource type="VisualShaderNodeColorConstant" id=97]
 constant = Color( 0.356863, 0.356863, 0.356863, 1 )
 
-[sub_resource type="VisualShader" id=45]
+[sub_resource type="VisualShader" id=98]
 code = "shader_type canvas_item;
 uniform float blur_amount;
 
@@ -484,25 +232,25 @@ graph_offset = Vector2( -318.667, 197 )
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2( 520, 220 )
-nodes/fragment/2/node = SubResource( 39 )
+nodes/fragment/2/node = SubResource( 92 )
 nodes/fragment/2/position = Vector2( 180, 200 )
-nodes/fragment/3/node = SubResource( 40 )
+nodes/fragment/3/node = SubResource( 93 )
 nodes/fragment/3/position = Vector2( -100, 280 )
-nodes/fragment/4/node = SubResource( 41 )
+nodes/fragment/4/node = SubResource( 94 )
 nodes/fragment/4/position = Vector2( -100, 200 )
-nodes/fragment/5/node = SubResource( 42 )
+nodes/fragment/5/node = SubResource( 95 )
 nodes/fragment/5/position = Vector2( -80, 240 )
-nodes/fragment/6/node = SubResource( 43 )
+nodes/fragment/6/node = SubResource( 96 )
 nodes/fragment/6/position = Vector2( 340, 200 )
-nodes/fragment/8/node = SubResource( 44 )
+nodes/fragment/8/node = SubResource( 97 )
 nodes/fragment/8/position = Vector2( 200, 300 )
 nodes/fragment/connections = PoolIntArray( 5, 0, 2, 1, 4, 0, 2, 0, 3, 0, 2, 2, 2, 0, 6, 0, 6, 0, 0, 0, 8, 0, 6, 1 )
 
-[sub_resource type="ShaderMaterial" id=46]
-shader = SubResource( 45 )
+[sub_resource type="ShaderMaterial" id=99]
+shader = SubResource( 98 )
 shader_param/blur_amount = 0.0
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=100]
 length = 0.4
 step = 0.0
 tracks/0/type = "value"
@@ -530,7 +278,7 @@ tracks/1/keys = {
 "values": [ 0.0, 3.0 ]
 }
 
-[sub_resource type="AudioStreamRandomPitch" id=48]
+[sub_resource type="AudioStreamRandomPitch" id=101]
 
 [sub_resource type="ParticlesMaterial" id=49]
 direction = Vector3( 0, 1, 0 )
@@ -577,7 +325,7 @@ script = ExtResource( 18 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.766839, 0 )
-shape = SubResource( 1 )
+shape = SubResource( 63 )
 
 [node name="Camroot" type="Spatial" parent="."]
 script = ExtResource( 2 )
@@ -605,7 +353,7 @@ cast_to = Vector3( 0, 0, -1000 )
 transform = Transform( 1, 0, 0, 0, 0.999473, -0.0324574, 0, 0.0324574, 0.999473, 0.4, 0.643, 0.018 )
 
 [node name="CamAnimTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 26 )
+tree_root = SubResource( 79 )
 anim_player = NodePath("../CamAnimation")
 active = true
 process_mode = 0
@@ -617,15 +365,15 @@ parameters/holster/blend_amount = 1.0
 parameters/shoulder_weapon/blend_position = 0.5
 
 [node name="CamAnimation" type="AnimationPlayer" parent="."]
-anims/aim = SubResource( 27 )
-anims/aim_cancel = SubResource( 28 )
-anims/crouch = SubResource( 29 )
-anims/holster = SubResource( 30 )
-anims/lean_left = SubResource( 31 )
-anims/lean_right = SubResource( 32 )
-anims/shoulder_left = SubResource( 33 )
-anims/shoulder_right = SubResource( 34 )
-anims/stand = SubResource( 35 )
+anims/aim = SubResource( 80 )
+anims/aim_cancel = SubResource( 81 )
+anims/crouch = SubResource( 82 )
+anims/holster = SubResource( 83 )
+anims/lean_left = SubResource( 84 )
+anims/lean_right = SubResource( 85 )
+anims/shoulder_left = SubResource( 86 )
+anims/shoulder_right = SubResource( 87 )
+anims/stand = SubResource( 88 )
 
 [node name="roll_timer" type="Timer" parent="."]
 process_mode = 0
@@ -1139,7 +887,7 @@ margin_left = 69.0226
 margin_top = -95.3755
 margin_right = 139.023
 margin_bottom = -52.3755
-custom_fonts/font = SubResource( 36 )
+custom_fonts/font = SubResource( 89 )
 text = "0"
 align = 2
 
@@ -1148,7 +896,7 @@ margin_left = 101.866
 margin_top = -90.0782
 margin_right = 171.866
 margin_bottom = -36.0782
-custom_fonts/font = SubResource( 37 )
+custom_fonts/font = SubResource( 90 )
 text = "/"
 align = 2
 __meta__ = {
@@ -1160,7 +908,7 @@ margin_left = 173.0
 margin_top = -70.0
 margin_right = 221.0
 margin_bottom = -40.0
-custom_fonts/font = SubResource( 38 )
+custom_fonts/font = SubResource( 91 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1388,7 +1136,7 @@ __meta__ = {
 }
 
 [node name="blur" type="TextureRect" parent="RadialMenu"]
-material = SubResource( 46 )
+material = SubResource( 99 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -1461,13 +1209,13 @@ position = Vector2( 153.978, -87.3071 )
 texture = ExtResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RadialMenu"]
-anims/zoom = SubResource( 47 )
+anims/zoom = SubResource( 100 )
 
 [node name="Shop" parent="." instance=ExtResource( 1 )]
 pause_mode = 2
 
 [node name="shoot_sfx" type="AudioStreamPlayer" parent="."]
-stream = SubResource( 48 )
+stream = SubResource( 101 )
 
 [node name="reload_sfx" type="AudioStreamPlayer" parent="."]
 

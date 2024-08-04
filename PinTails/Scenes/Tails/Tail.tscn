@@ -6,7 +6,7 @@
 
 [sub_resource type="BoxShape" id=1]
 
-[node name="Tail" type="RigidBody"]
+[node name="Tail" type="RigidBody" groups=["Tail"]]
 collision_mask = 0
 script = ExtResource( 1 )
 
