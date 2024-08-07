@@ -99,7 +99,7 @@ nodes/holster/position = Vector2( 60, -20 )
 nodes/output/position = Vector2( 820, 120 )
 nodes/shoulder_weapon/node = SubResource( 78 )
 nodes/shoulder_weapon/position = Vector2( -200, 80 )
-node_connections = [ "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "output", 0, "Add2 2" ]
+node_connections = [ "Add2 2", 0, "Add2", "Add2 2", 1, "aim", "Add2", 0, "holster", "Add2", 1, "crouch_stand", "holster", 0, "Animation", "holster", 1, "shoulder_weapon", "output", 0, "Add2 2" ]
 
 [sub_resource type="Animation" id=80]
 

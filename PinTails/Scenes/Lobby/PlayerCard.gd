@@ -1,15 +1,22 @@
 extends Control
 
 
-onready var player_name_text = $VBoxContainer/PlayerIcon/Label.text
-onready var tail_name_text = $VBoxContainer/SelectedTail/Label.text
-var player_id : int
+onready var player_name_text = $VBoxContainer/PlayerIcon/Label
+onready var tail_name_text = $VBoxContainer/SelectedTail/Label
 
 
-func setup_player(player_name, id):
-	self.player_name_text = player_name
-	self.player_id = id
+func _ready():
+	MATCHMANAGER.connect("on_player_selected_tail", self, "_on_player_selected_tail")
+
+
+func _on_player_selected_tail(player_name, tail_data):
+	if player_name == self.player_name_text.text:
+		self.set_tail(tail_data.tail_name)
+
+
+func setup_player(player_name):
+	self.player_name_text.text = player_name
 
 
 func set_tail(tail_name):
-	self.tail_name_text = tail_name
+	self.tail_name_text.text = tail_name

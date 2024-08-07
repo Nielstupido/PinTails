@@ -4,6 +4,7 @@ extends Node
 signal weapon_picked_up(weapon_id)
 signal tail_picked_up(tail_data)
 
+var game_node : Game
 var _gun_id
 var _tail_id
 var tail_res : Resource

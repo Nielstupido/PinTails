@@ -45,8 +45,6 @@ surfaces/2 = {
 }
 
 [node name="Pistol" instance=ExtResource( 1 )]
-collision_layer = 1
-collision_mask = 0
 drop_scale = 0.03
 
 [node name="Pistol" type="MeshInstance" parent="." index="0"]

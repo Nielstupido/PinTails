@@ -1,11 +1,8 @@
 extends Node
 
 
-onready var lobby_scene = load("res://Scenes/Lobby/Lobby.tscn")
-
-
 func _on_PlayBtn_pressed():
-	get_tree().change_scene_to(lobby_scene)
+	MATCHMANAGER.start_matchmaking("orya")
 
 
 func _on_SettingsBtn_pressed():

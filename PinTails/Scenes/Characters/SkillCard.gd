@@ -6,6 +6,7 @@ var skill_CD : int
 
 
 func _ready():
+	$Timer.connect("timeout", self, "_on_CD_finished")
 	self.clear_skill_card()
 
 
@@ -49,8 +50,6 @@ func use_skill(remaining_CD = 0):
 		$Timer.start(self.skill_CD)
 	else:
 		$Timer.start(remaining_CD)
-	
-	$Timer.connect("timeout", self, "_on_CD_finished")
 
 
 func _on_CD_finished():

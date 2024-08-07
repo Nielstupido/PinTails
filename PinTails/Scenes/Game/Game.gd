@@ -1,3 +1,4 @@
+class_name Game
 extends Node
 
 
@@ -12,7 +13,9 @@ var tail_data_list : Array
 
 
 func _ready():
-#<-------For testing--------> 
+	GAMEMANAGER.game_node = self
+	
+#<-------For testing-------->
 	var randomZ = RandomNumberGenerator.new()
 	var dir = Directory.new()
 	

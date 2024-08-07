@@ -8,11 +8,11 @@ var No_weapon_stats = {"spread": 0, "movement_spread": 0, "aim_spread": 0,
 
 var Rifle_stats = {"spread": 18.0, "movement_spread": 5.5, "aim_spread": -7,
 					"crouch_spread": -6, "jump_spread": 12, "reload_speed": 0.8, "switch_speed": 1.2, "fire_rate": 8.0, "auto": true,
-					"mag": 40, "mag_size": 40, "ammo_backup": 40, "ammo_backup_max": 40, "recoil": 0.8}
+					"mag": 40, "mag_size": 40, "ammo_backup": 40, "ammo_backup_max": 40, "recoil": 0.8, "damage": 30.0}
 
 var Pistol_stats = {"spread": 25.0, "movement_spread": 3.5, "aim_spread": -7,
 					"crouch_spread": -5, "jump_spread": 10, "reload_speed": 0.8, "switch_speed": 1.5, "fire_rate": 6.0, "auto": false,
-					"mag":15, "mag_size": 15, "ammo_backup": 30, "ammo_backup_max": 30, "recoil": 0.5}
+					"mag":15, "mag_size": 15, "ammo_backup": 30, "ammo_backup_max": 30, "recoil": 0.5, "damage": 20.0}
 
 var weapon_stats = {"Rifle": Rifle_stats, "Pistol": Pistol_stats}
 
@@ -73,3 +73,6 @@ func ammo_backup():
 
 func switch_speed():
 	return weapon_stats[weapon_name()]["switch_speed"]
+
+func damage():
+	return weapon_stats[weapon_name()]["damage"]

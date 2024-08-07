@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"
 }, {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://Scenes/Game/Game.gd"
+}, {
 "base": "ResourceFormatLoader",
 "class": "HTerrainDataLoader",
 "language": "GDScript",
@@ -25,9 +30,9 @@ _global_script_classes=[ {
 "path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
 }, {
 "base": "Node",
-"class": "LobbyManager",
+"class": "MatchManager",
 "language": "GDScript",
-"path": "res://Scenes/Lobby/LobbyManager.gd"
+"path": "res://Scenes/Lobby/MatchManager.gd"
 }, {
 "base": "RigidBody",
 "class": "Tail",
@@ -61,9 +66,10 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Character": "",
+"Game": "",
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",
-"LobbyManager": "",
+"MatchManager": "",
 "Tail": "",
 "TailData": "",
 "TailManager": "",
@@ -80,7 +86,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-LOBBYMANAGER="*res://Scenes/Lobby/LobbyManager.gd"
+MATCHMANAGER="*res://Scenes/Lobby/MatchManager.gd"
 GAMEMANAGER="*res://Scenes/Game/GameManager.gd"
 
 [display]

@@ -7,8 +7,8 @@ const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
 onready var cam = $Camroot
 onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
 onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment
-onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res://Audio/Pistol_fire.wav")]
-onready var weapon_reload = [preload("res://Audio/Rifle_reload.wav"), preload("res://Audio/Pistol_reload.wav")]
+onready var weapon_fire = {"Rifle" : preload("res://Audio/Rifle_fire.wav"), "Pistol" : preload("res://Audio/Pistol_fire.wav")}
+onready var weapon_reload = {"Rifle" : preload("res://Audio/Rifle_reload.wav"), "Pistol" : preload("res://Audio/Pistol_reload.wav")}
 onready var weapon_ray = $Camroot/h/v/pivot/Camera/ray
 onready var weapon_pickup_text = $UI/PickUpWeapon
 onready var tail_pickup_text = $UI/PickUpTail
@@ -19,6 +19,7 @@ onready var tail_config_menu = $UI/TailConfigMenu
 onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
 onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
+onready var bullet_obj = preload("res://Scenes/Weapon/Bullet.tscn")
 
 onready var weapons = []
 onready var weapons_id = []
@@ -42,6 +43,7 @@ var vertical_velocity = 0
 var gravity = 28
 var weight_on_ground = 5
 
+var health = 100
 var movement_speed = 0
 var walk_speed = 2.2
 var crouch_walk_speed = 1
@@ -49,6 +51,7 @@ var run_speed = 5
 var acceleration = 6
 var angular_acceleration = 7
 var footstep_volume = 10
+var current_weapon_dmg = 0
 
 #<--- player tail stats --->
 var adtnl_movement_speed = 0
@@ -105,7 +108,7 @@ func _ready():
 	switch_weapon(0)
 	$splatters.set_as_toplevel(true)
 	holster()
-	add_tail(LOBBYMANAGER.player_roles.get(LOBBYMANAGER.player_id), GAMEMANAGER.get_tail_id())
+	add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name), GAMEMANAGER.get_tail_id())
 	GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
 	setup_keybinds_UI()
 
@@ -264,7 +267,7 @@ func _physics_process(delta):
 			if $shoot_timer.is_stopped() && $reload_timer.is_stopped() && !$AnimationTree.get(weapon_switch_active) && $WeaponStats.mag() > 0 && ($WeaponStats.auto() || !fired_once):# weapon stats 
 			
 				fired_once = true
-				
+			
 				$shoot_timer.start(1 / $WeaponStats.fire_rate())
 				$shoot_sfx.play()
 				
@@ -285,8 +288,14 @@ func _physics_process(delta):
 				weapon_ray.rotation_degrees.x = rand_range(-spread, spread)
 				weapon_ray.rotation_degrees.y = rand_range(-spread, spread)
 				
+				#firing bullet
+				var bullet_instance = bullet_obj.instance()
+				GAMEMANAGER.game_node.add_child(bullet_instance)
+				bullet_instance.setup_bullet(weapon_ray.global_transform, current_weapon_dmg)
+				
 				$Camroot/h/v.rotate_x(deg2rad($WeaponStats.recoil()))
 				$Camroot.recoil_recovery()
+		
 		
 		if $AnimationTree.get(aim_transition) == 1:
 			$AnimationTree.set(aim_transition, 0)
@@ -428,9 +437,10 @@ func drop_weapon():
 			weapon_instance = pistol_obj.instance()
 		Weapons.RIFLE:
 			weapon_instance = rifle_obj.instance()
+	
+	GAMEMANAGER.game_node.add_child(weapon_instance)
 	weapon_instance.global_transform = weapon_drop_point.global_transform;
 	weapon_instance.id = weapons_id[current_weapon]
-	GAMEMANAGER.get_node(".").add_child(weapon_instance)
 	
 	weapons.pop_at(current_weapon)
 	weapons_id.pop_at(current_weapon)
@@ -480,17 +490,18 @@ func switch_weapon(to):
 			weapon_blend_target = 1
 			gun_attachment.show()
 			
-			$AnimationTree.set("parameters/weapon_change_aim/blend_position", to)
-			$AnimationTree.set("parameters/weapon_change_on_air/blend_position", to)
-			$AnimationTree.set("parameters/weapon_change_run/blend_position", to)
-			$AnimationTree.set("parameters/weapon_change_switch/blend_position", to)
-			$AnimationTree.set("parameters/weapon_change_idle/blend_position", weapons[current_weapon if weapons.size() == 1 && current_weapon == to else to])
+			current_weapon = to
+			$AnimationTree.set("parameters/weapon_change_aim/blend_position", weapons[current_weapon])
+			$AnimationTree.set("parameters/weapon_change_on_air/blend_position", weapons[current_weapon])
+			$AnimationTree.set("parameters/weapon_change_run/blend_position", weapons[current_weapon])
+			$AnimationTree.set("parameters/weapon_change_switch/blend_position", weapons[current_weapon])
+			$AnimationTree.set("parameters/weapon_change_idle/blend_position", weapons[current_weapon])
 			
 			for gun_node in gun_attachment.get_children():
 				gun_node.hide()
 			
-			current_weapon = to
-			gun_attachment.get_node(Weapons_ref.get(weapons[current_weapon])).show()
+			gun_attachment.get_node($WeaponStats.weapon_name()).show()
+			current_weapon_dmg = $WeaponStats.damage()
 			
 			$AnimationTree.set("parameters/weapon_switch_scale/scale", $WeaponStats.switch_speed())
 			$AnimationTree.set("parameters/weapon_switch_seek/seek_position", 0)
@@ -502,7 +513,7 @@ func switch_weapon(to):
 			neck_attachment.get_node("streaks").speed_scale = $WeaponStats.fire_rate() / 1.45
 			neck_attachment.get_node("streaks").process_material.gravity.z = -(8000 / $WeaponStats.fire_rate())
 			neck_attachment.get_node("AnimationPlayer").playback_speed = clamp($WeaponStats.fire_rate(), 5, 10)
-			$shoot_sfx.stream.audio_stream = weapon_fire[current_weapon]
+			$shoot_sfx.stream.audio_stream = weapon_fire[$WeaponStats.weapon_name()]
 
 
 func reload():
@@ -513,12 +524,19 @@ func reload():
 		$AnimationTree.set("parameters/reload_scale/scale", $WeaponStats.reload_speed())
 		$AnimationTree.set(reload_active, true)
 		$reload_timer.start(1 / $WeaponStats.reload_speed())
-		$reload_sfx.stream = weapon_reload[current_weapon]
+		$reload_sfx.stream = weapon_reload[$WeaponStats.weapon_name()]
 		$reload_sfx.play()
 
 
 func _on_reload_timer_timeout():
 	$WeaponStats.mag_fill()
+
+
+func on_player_hit(damage_amount):
+	self.health -= damage_amount
+	print("player hit = " + str(self.health))
+	if self.health <= 0:
+		print("Player Dead!")
 
 
 func _on_WeaponPickupRange_area_entered(area):

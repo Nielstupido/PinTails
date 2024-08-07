@@ -2,7 +2,7 @@ class_name Weapon
 extends RigidBody
 
 
-export var drop_scale : float = 1.0
+export var drop_scale : float
 var id : int
 
 
@@ -13,7 +13,7 @@ func _ready():
 		if self.owner.is_in_group("Player"):
 			id = -1
 	
-	if self.get_parent().name == "GAME":
+	if self.get_parent().name == "Game":
 		self.scale = (Vector3.ONE * drop_scale)
 
 
