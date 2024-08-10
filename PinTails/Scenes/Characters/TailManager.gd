@@ -13,7 +13,7 @@ const Active_tail_attrb = {
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", self, "set_tail_attr")
+	GAMEMANAGER.connect("tail_picked_up", Callable(self, "set_tail_attr"))
 
 
 #adds/sets the attributes of the newly pinned tail to player

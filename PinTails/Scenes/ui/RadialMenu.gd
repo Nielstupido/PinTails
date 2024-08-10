@@ -1,6 +1,6 @@
 extends Control
 
-onready var cam = get_node("../Camroot")
+@onready var cam = get_node("../Camroot")
 
 var current_item = -1
 

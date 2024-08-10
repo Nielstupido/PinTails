@@ -1,10 +1,10 @@
 extends Control
 
 
-onready var title_node = $Control/Title
-onready var attrb_node = $Control/Atrribs
-onready var tail_btn : Button = $Control/Button
-onready var blank_card = $BlankCard
+@onready var title_node = $Control/Title
+@onready var attrb_node = $Control/Atrribs
+@onready var tail_btn : Button = $Control/Button
+@onready var blank_card = $BlankCard
 var tail_config_menu
 var tail_data : TailData
 
@@ -12,7 +12,7 @@ var tail_data : TailData
 func _ready():
 	if "TailMenuHolder" in self.get_parent().name:
 		self.tail_btn.disabled = true
-		self.get_parent().get_node("Button").connect("pressed", self, "_on_remove_tail")
+		self.get_parent().get_node("Button").connect("pressed", Callable(self, "_on_remove_tail"))
 		tail_config_menu = owner.get_node("UI/TailConfigMenu")
 		tail_data = null
 

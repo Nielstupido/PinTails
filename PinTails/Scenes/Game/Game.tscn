@@ -1,94 +1,71 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=3 uid="uid://cp8en37sojhym"]
 
-[ext_resource path="res://Scenes/Characters/Horse/Horse.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Terrains/data.hterrain" type="Resource" id=3]
-[ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=4]
-[ext_resource path="res://textures/Game_slot0_normal_roughness.packed_tex" type="Texture" id=5]
-[ext_resource path="res://textures/Game_slot0_albedo_bump.packed_tex" type="Texture" id=6]
-[ext_resource path="res://textures/Game_slot1_normal_roughness.packed_tex" type="Texture" id=7]
-[ext_resource path="res://textures/Game_slot1_albedo_bump.packed_tex" type="Texture" id=8]
-[ext_resource path="res://Scenes/Game/Game.gd" type="Script" id=9]
-[ext_resource path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" type="PackedScene" id=10]
+[ext_resource type="Texture2D" uid="uid://dyke84y80gr4i" path="res://Textures/Grass/Grass004_1K-JPG_Color.jpg" id="2_orfl0"]
+[ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="3_gbe80"]
+[ext_resource type="PackedScene" uid="uid://kicjwmh02uwf" path="res://Scenes/Characters/Player.tscn" id="3_od0wa"]
+[ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="3_ptcbd"]
+[ext_resource type="Texture2D" uid="uid://ctwcjidrufo4k" path="res://Textures/Grass/Grass004_1K-JPG_Roughness.jpg" id="4_2mpm1"]
+[ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="5_kaksc"]
+[ext_resource type="Script" path="res://Scenes/Game/Game.gd" id="9"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" id="10"]
 
-[sub_resource type="CubeMesh" id=1]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
+sky_top_color = Color(0.290301, 0.435623, 0.745498, 1)
+sky_horizon_color = Color(0.109896, 0.753039, 0.694309, 1)
+sky_curve = 0.160766
 
-[sub_resource type="BoxShape" id=2]
+[sub_resource type="Sky" id="Sky_8hx6b"]
+sky_material = SubResource("ProceduralSkyMaterial_wb458")
 
-[sub_resource type="ProceduralSky" id=5]
-ground_bottom_color = Color( 0.337255, 0.486275, 0.635294, 1 )
-sun_longitude = -35.93
-
-[sub_resource type="Environment" id=6]
+[sub_resource type="Environment" id="Environment_ybty4"]
 background_mode = 2
-background_sky = SubResource( 5 )
-dof_blur_far_enabled = true
-dof_blur_far_distance = 0.01
-dof_blur_far_transition = 0.01
-dof_blur_far_amount = 0.0
-dof_blur_far_quality = 2
-dof_blur_near_enabled = true
-dof_blur_near_distance = 8192.0
-dof_blur_near_amount = 0.0
-dof_blur_near_quality = 2
-glow_enabled = true
-glow_intensity = 5.59
-glow_strength = 0.57
-glow_bloom = 0.33
-glow_blend_mode = 1
-glow_hdr_threshold = 0.42
+sky = SubResource("Sky_8hx6b")
+ambient_light_energy = 0.87
 
-[sub_resource type="Resource" id=7]
-script = ExtResource( 4 )
-mode = 0
-textures = [ [ ExtResource( 6 ), ExtResource( 8 ) ], [ ExtResource( 5 ), ExtResource( 7 ) ] ]
+[sub_resource type="BoxMesh" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cptm3"]
+albedo_texture = ExtResource("2_orfl0")
+roughness_texture = ExtResource("4_2mpm1")
+roughness_texture_channel = 3
+normal_enabled = true
+normal_scale = 16.0
+normal_texture = ExtResource("5_kaksc")
+ao_enabled = true
+ao_texture = ExtResource("3_ptcbd")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("3_gbe80")
+uv1_scale = Vector3(15, 15, 15)
+
+[sub_resource type="BoxShape3D" id="2"]
 
 [node name="Game" type="Node"]
-script = ExtResource( 9 )
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41661 )
-visible = false
-mesh = SubResource( 1 )
-
-[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
-
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
-shape = SubResource( 2 )
-
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1049, 0 )
-shadow_enabled = true
+script = ExtResource("9")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 6 )
+environment = SubResource("Environment_ybty4")
 
-[node name="HTerrain" type="Spatial" parent="."]
-script = ExtResource( 2 )
-lod_scale = 2.0
-map_scale = Vector3( 0.1, 0.1, 0.1 )
-centered = true
-_terrain_data = ExtResource( 3 )
-chunk_size = 32
-collision_enabled = true
-collision_layer = 3
-collision_mask = 1
-shader_type = "Classic4Lite"
-custom_shader = null
-custom_globalmap_shader = null
-texture_set = SubResource( 7 )
-render_layers = 1
-cast_shadow = 1
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_triplanar = false
-shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41661)
+mesh = SubResource("1")
+surface_material_override/0 = SubResource("StandardMaterial3D_cptm3")
 
-[node name="GameMenuSettings" parent="." instance=ExtResource( 10 )]
-pause_mode = 2
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1049, 0)
+light_energy = 0.0
+shadow_enabled = true
+
+[node name="GameMenuSettings" parent="." instance=ExtResource("10")]
+process_mode = 3
 visible = false
 
-[node name="Horse" parent="." instance=ExtResource( 1 )]
-collision_mask = 1
+[node name="TailDropPoint" type="Marker3D" parent="."]
 
-[node name="TailDropPoint" type="Position3D" parent="."]
+[node name="Player" parent="." instance=ExtResource("3_od0wa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4438, 0)

@@ -2,12 +2,13 @@
 
 importer="bitmap"
 type="BitMap"
-path="res://.import/radial_menu_click_mask.bmp-c161372a886dfc5914d62722d2d8f914.res"
+uid="uid://dg8wlthwpo2sn"
+path="res://.godot/imported/radial_menu_click_mask.bmp-c161372a886dfc5914d62722d2d8f914.res"
 
 [deps]
 
 source_file="res://Scenes/UI/radial_menu_click_mask.bmp"
-dest_files=[ "res://.import/radial_menu_click_mask.bmp-c161372a886dfc5914d62722d2d8f914.res" ]
+dest_files=["res://.godot/imported/radial_menu_click_mask.bmp-c161372a886dfc5914d62722d2d8f914.res"]
 
 [params]
 

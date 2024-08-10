@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 var camrot_h = 0
 var camrot_v = 0
@@ -13,7 +13,7 @@ var v_acceleration = 10
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	$h/v/pivot/Camera.add_exception(get_parent())
+	$h/v/pivot/Camera3D.add_exception(get_parent())
 	
 func _input(event):
 	if event is InputEventMouseMotion:

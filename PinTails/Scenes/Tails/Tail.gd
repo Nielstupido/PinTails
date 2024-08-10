@@ -1,12 +1,12 @@
 class_name Tail
-extends RigidBody
+extends RigidBody3D
 
 
 var tail_data : TailData
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", self, "_tail_picked_up")
+	GAMEMANAGER.connect("tail_picked_up", Callable(self, "_tail_picked_up"))
 
 
 func _tail_picked_up(picked_up_data):

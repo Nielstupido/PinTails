@@ -3,7 +3,9 @@ extends Node
 
 
 signal on_player_selected_tail(player_name, tail_data)
-onready var lobby_scene = load("res://Scenes/Lobby/Lobby.tscn")
+const SERVER_PORT = 8080
+const SERVER_IP = "127.0.0.1"
+@onready var lobby_scene = load("res://Scenes/Lobby/Lobby.tscn")
 var match_id : int
 var match_players : Dictionary # {player_name : player_role}
 var player_name : String
@@ -32,7 +34,12 @@ func _find_match():
 func _on_match_found(new_match_id, new_players):
 	match_players = new_players
 	match_id = new_match_id
-	get_tree().change_scene_to(lobby_scene)
+	get_tree().change_scene_to_packed(lobby_scene)
+
+
+func host_game():
+	pass
+#	var server_peer = ENet
 
 
 func player_selected_tail(player_name, tail_data):

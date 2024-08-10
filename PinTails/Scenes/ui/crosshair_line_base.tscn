@@ -9,8 +9,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.203063, 1 ),
+"times": PackedFloat32Array( 0, 1 ),
+"transitions": PackedFloat32Array( 0.203063, 1 ),
 "update": 0,
 "values": [ Vector2( 40, 0 ), Vector2( 0, 0 ) ]
 }
@@ -21,14 +21,14 @@ tracks/0/keys = {
 position = Vector2( 15, 0 )
 
 [node name="border" type="Line2D" parent="line_base"]
-points = PoolVector2Array( 0, 0, 10, 0 )
+points = PackedVector2Array( 0, 0, 10, 0 )
 width = 6.0
 default_color = Color( 0, 0.027451, 0.411765, 0.411765 )
 begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="line" type="Line2D" parent="line_base/border"]
-points = PoolVector2Array( 0, 0, 10, 0 )
+points = PackedVector2Array( 0, 0, 10, 0 )
 width = 2.0
 default_color = Color( 0.109804, 0.823529, 1, 1 )
 begin_cap_mode = 2

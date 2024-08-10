@@ -1,12 +1,12 @@
-extends Spatial
+extends Node3D
 
-export(String, "Rifle", "Pistol") var ammo_type = "Rifle"
+@export var ammo_type = "Rifle" # (String, "Rifle", "Pistol")
 
 func _ready():
-	$Viewport/Control/Label.text = ammo_type + "\nRefill"
-	$MeshInstance.material_override = SpatialMaterial.new()
-	$MeshInstance.material_override.set_cull_mode(SpatialMaterial.CULL_DISABLED)
-	$MeshInstance.material_override.albedo_texture = $Viewport.get_texture()
+	$SubViewport/Control/Label.text = ammo_type + "\nRefill"
+	$MeshInstance3D.material_override = StandardMaterial3D.new()
+	$MeshInstance3D.material_override.set_cull_mode(StandardMaterial3D.CULL_DISABLED)
+	$MeshInstance3D.material_override.albedo_texture = $SubViewport.get_texture()
 
 
 func _on_Area_body_entered(body):

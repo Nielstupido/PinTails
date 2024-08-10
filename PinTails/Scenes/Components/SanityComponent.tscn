@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctdx2bs6fji20"]
+
+[ext_resource type="Script" path="res://Scenes/Components/SanityComponent.gd" id="1_bcrjo"]
+
+[node name="SanityComponent" type="Node"]
+script = ExtResource("1_bcrjo")

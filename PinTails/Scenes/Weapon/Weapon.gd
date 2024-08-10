@@ -1,13 +1,13 @@
 class_name Weapon
-extends RigidBody
+extends RigidBody3D
 
 
-export var drop_scale : float
+@export var drop_scale : float
 var id : int
 
 
 func _ready():
-	GAMEMANAGER.connect("weapon_picked_up", self, "_weapon_picked_up")
+	GAMEMANAGER.connect("weapon_picked_up", Callable(self, "_weapon_picked_up"))
 	
 	if self.owner:
 		if self.owner.is_in_group("Player"):

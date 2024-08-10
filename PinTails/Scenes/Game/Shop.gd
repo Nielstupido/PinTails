@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var cam = get_node("../Camroot")
+@onready var cam = get_node("../Camroot")
 
 
 func _ready():

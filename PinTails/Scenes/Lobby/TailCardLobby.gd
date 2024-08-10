@@ -1,12 +1,12 @@
 extends Control
 
 
-onready var tail_cards_holder = self.get_parent().get_parent()
+@onready var tail_cards_holder = self.get_parent().get_parent()
 var tail_data : TailData
 
 
 func prepare_tail_card(passed_tail_data):
-	tail_cards_holder.connect("on_tail_card_pressed", self, "_on_tail_card_pressed")
+	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
 	if passed_tail_data != null:
 		self.tail_data = passed_tail_data
 		$Title.text = self.tail_data.tail_name

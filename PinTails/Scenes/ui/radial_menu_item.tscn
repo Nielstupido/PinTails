@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/UI/radial_menu_item.gd" type="Script" id=1]
-[ext_resource path="res://AssetsUI/radial_menu.png" type="Texture" id=2]
-[ext_resource path="res://AssetsUI/radial_menu_hover.png" type="Texture" id=3]
+[ext_resource path="res://AssetsUI/radial_menu.png" type="Texture2D" id=2]
+[ext_resource path="res://AssetsUI/radial_menu_hover.png" type="Texture2D" id=3]
 [ext_resource path="res://Scenes/UI/radial_menu_click_mask.bmp" type="BitMap" id=4]
 
 [node name="0" type="Control"]
@@ -18,10 +18,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -120.5
-margin_top = -252.608
-margin_right = 120.5
-margin_bottom = -74.6079
+offset_left = -120.5
+offset_top = -252.608
+offset_right = 120.5
+offset_bottom = -74.6079
 mouse_filter = 1
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 3 )

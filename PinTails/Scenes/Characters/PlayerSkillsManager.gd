@@ -1,20 +1,20 @@
 extends Control
 
 
-onready var skill_hotkey1 = $HBoxContainer/SkillCard/SkillHotkey
-onready var skill_hotkey2 = $HBoxContainer/SkillCard2/SkillHotkey
-onready var skill_hotkey3 = $HBoxContainer/SkillCard3/SkillHotkey
-onready var skill_card1 = $HBoxContainer/SkillCard
-onready var skill_card2 = $HBoxContainer/SkillCard2
-onready var skill_card3 = $HBoxContainer/SkillCard3
+@onready var skill_hotkey1 = $HBoxContainer/SkillCard/SkillHotkey
+@onready var skill_hotkey2 = $HBoxContainer/SkillCard2/SkillHotkey
+@onready var skill_hotkey3 = $HBoxContainer/SkillCard3/SkillHotkey
+@onready var skill_card1 = $HBoxContainer/SkillCard
+@onready var skill_card2 = $HBoxContainer/SkillCard2
+@onready var skill_card3 = $HBoxContainer/SkillCard3
 var _acqrd_skills : int = 0
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", self, "add_skill")
-	skill_hotkey1.text = str(OS.get_scancode_string((InputMap.get_action_list("first_skill"))[0].scancode))
-	skill_hotkey2.text = str(OS.get_scancode_string((InputMap.get_action_list("second_skill"))[0].scancode))
-	skill_hotkey3.text = str(OS.get_scancode_string((InputMap.get_action_list("third_skill"))[0].scancode))
+	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
+	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
+	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
+	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("third_skill"))[0].keycode))
 
 
 func _input(event):

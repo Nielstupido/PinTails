@@ -1,10 +1,10 @@
-extends KinematicBody
+extends CharacterBody3D
 
-onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
-onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment
-onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res://Audio/Pistol_fire.wav")]
-onready var weapon_reload = [preload("res://Audio/Rifle_reload.wav"), preload("res://Audio/Pistol_reload.wav")]
-onready var weapon_ray = $Camroot/h/v/pivot/Camera/ray
+@onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/gun_attachment
+@onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/neck_attachment
+@onready var weapon_fire = [preload("res://Audio/Rifle_fire.wav"), preload("res://Audio/Pistol_fire.wav")]
+@onready var weapon_reload = [preload("res://Audio/Rifle_reload.wav"), preload("res://Audio/Pistol_reload.wav")]
+@onready var weapon_ray = $Camroot/h/v/pivot/Camera3D/ray
 
 var weapons = ["Pistol"]
 var current_weapon = -1
@@ -73,7 +73,7 @@ func _ready():
 	
 	$AnimationTree.set("parameters/walk_scale/scale", walk_speed)
 	switch_weapon(0)
-	$splatters.set_as_toplevel(true)
+	$splatters.set_as_top_level(true)
 
 
 func _input(event):
@@ -175,7 +175,9 @@ func _physics_process(delta):
 	
 	velocity = lerp(velocity, direction * movement_speed, delta * acceleration)
 
-	move_and_slide(velocity + Vector3.UP * vertical_velocity - get_floor_normal() * weight_on_ground, Vector3.UP)
+	set_velocity(velocity + Vector3.UP * vertical_velocity - get_floor_normal() * weight_on_ground)
+	set_up_direction(Vector3.UP)
+	move_and_slide()
 	
 	if !is_on_floor():
 		vertical_velocity -= gravity * delta
@@ -219,16 +221,16 @@ func _physics_process(delta):
 						splatter = 0
 					
 					var spread = $UI/Crosshair.pos_x/12
-					weapon_ray.rotation_degrees.x = rand_range(-spread, spread)
-					weapon_ray.rotation_degrees.y = rand_range(-spread, spread)
+					weapon_ray.rotation_degrees.x = randf_range(-spread, spread)
+					weapon_ray.rotation_degrees.y = randf_range(-spread, spread)
 					
-					$Camroot/h/v.rotate_x(deg2rad($WeaponStats.recoil()))
+					$Camroot/h/v.rotate_x(deg_to_rad($WeaponStats.recoil()))
 					$Camroot.recoil_recovery()
 					
 			
 			if $AnimationTree.get(aim_transition) == 1:
 				$AnimationTree.set(aim_transition, 0)
-				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.start()
+				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/spine_ik.start()
 				$AnimationTree.set("parameters/neck_front/blend_amount", 1)
 			
 			if $AnimationTree.get(roll_active):
@@ -253,8 +255,8 @@ func _physics_process(delta):
 		
 			if $AnimationTree.get(aim_transition) == 0:
 				$AnimationTree.set(aim_transition, 1)
-				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.stop()
-				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton.clear_bones_global_pose_override()
+				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/spine_ik.stop()
+				$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D.clear_bones_global_pose_override()
 				$AnimationTree.set("parameters/neck_front/blend_amount", 0)
 				
 			
@@ -328,7 +330,7 @@ func _physics_process(delta):
 	if weapon_ray.is_colliding() && (weapon_ray.get_collision_point()-weapon_ray.global_transform.origin).length() > 0.1:
 		weapon_ray_tip = weapon_ray.get_collision_point()
 	else:
-		weapon_ray_tip = (weapon_ray.get_cast_to().z * weapon_ray.global_transform.basis.z) + weapon_ray.global_transform.origin
+		weapon_ray_tip = (weapon_ray.get_target_position().z * weapon_ray.global_transform.basis.z) + weapon_ray.global_transform.origin
 	
 	neck_attachment.get_node("streaks").look_at(weapon_ray_tip, Vector3.UP)
 

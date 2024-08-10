@@ -1,12 +1,12 @@
 extends Control
 
 
-onready var player_name_text = $VBoxContainer/PlayerIcon/Label
-onready var tail_name_text = $VBoxContainer/SelectedTail/Label
+@onready var player_name_text = $VBoxContainer/PlayerIcon/Label
+@onready var tail_name_text = $VBoxContainer/SelectedTail/Label
 
 
 func _ready():
-	MATCHMANAGER.connect("on_player_selected_tail", self, "_on_player_selected_tail")
+	MATCHMANAGER.connect("on_player_selected_tail", Callable(self, "_on_player_selected_tail"))
 
 
 func _on_player_selected_tail(player_name, tail_data):

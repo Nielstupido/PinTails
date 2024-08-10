@@ -1,39 +1,38 @@
 class_name Character
-extends KinematicBody
+extends CharacterBody3D
 
 const Tail_max_size = 3
 enum Weapons {RIFLE, PISTOL}
 const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
-onready var cam = $Camroot
-onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/gun_attachment
-onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/neck_attachment
-onready var weapon_fire = {"Rifle" : preload("res://Audio/Rifle_fire.wav"), "Pistol" : preload("res://Audio/Pistol_fire.wav")}
-onready var weapon_reload = {"Rifle" : preload("res://Audio/Rifle_reload.wav"), "Pistol" : preload("res://Audio/Pistol_reload.wav")}
-onready var weapon_ray = $Camroot/h/v/pivot/Camera/ray
-onready var weapon_pickup_text = $UI/PickUpWeapon
-onready var tail_pickup_text = $UI/PickUpTail
-onready var buy_weapon_menu = $Shop
-onready var weapon_drop_point = $DropPoint
-onready var tail_manager = $TailManager
-onready var tail_config_menu = $UI/TailConfigMenu
-onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
-onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
-onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
-onready var bullet_obj = preload("res://Scenes/Weapon/Bullet.tscn")
+@onready var cam = $Camroot
+@onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/gun_attachment
+@onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/neck_attachment
+@onready var weapon_fire = {"Rifle" : preload("res://Audio/Rifle_fire.wav"), "Pistol" : preload("res://Audio/Pistol_fire.wav")}
+@onready var weapon_reload = {"Rifle" : preload("res://Audio/Rifle_reload.wav"), "Pistol" : preload("res://Audio/Pistol_reload.wav")}
+@onready var weapon_ray = $Camroot/h/v/pivot/Camera3D/ray
+@onready var weapon_pickup_text = $UI/PickUpWeapon
+@onready var tail_pickup_text = $UI/PickUpTail
+@onready var buy_weapon_menu = $Shop
+@onready var weapon_drop_point = $DropPoint
+@onready var tail_manager = $TailManager
+@onready var tail_config_menu = $UI/TailConfigMenu
+@onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
+@onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
+@onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
+@onready var bullet_obj = preload("res://Scenes/Weapon/Bullet.tscn")
 
-onready var weapons = []
-onready var weapons_id = []
+@onready var weapons = []
+@onready var weapons_id = []
 var current_weapon = -1
 var fired_once = false
 var pickupable_weapons : Array
 var pickupable_weapons_id : Array
 
-onready var tails = []
+@onready var tails = []
 var pickupable_tails : Array
 var current_active_tail_attrb : Array
 
 var direction = Vector3.BACK
-var velocity = Vector3.ZERO
 var strafe_dir = Vector3.ZERO
 var strafe = Vector3.ZERO
 
@@ -106,7 +105,7 @@ func _ready():
 	direction = Vector3.BACK.rotated(Vector3.UP, $Camroot/h.global_transform.basis.get_euler().y)
 	$AnimationTree.set("parameters/walk_scale/scale", walk_speed)
 	switch_weapon(0)
-	$splatters.set_as_toplevel(true)
+	$splatters.set_as_top_level(true)
 	holster()
 	add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name), GAMEMANAGER.get_tail_id())
 	GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
@@ -152,7 +151,7 @@ func _input(event):
 		fired_once = false
 	
 	if event.is_action_pressed("pick_up"):
-		if !pickupable_weapons.empty():
+		if !pickupable_weapons.is_empty():
 			if add_weapon(pickupable_weapons[0], pickupable_weapons_id[0]):
 				GAMEMANAGER.emit_signal("weapon_picked_up", weapons_id[weapons_id.size() - 1])
 	
@@ -170,12 +169,12 @@ func _input(event):
 
 
 func _physics_process(delta):
-	if pickupable_weapons.empty():
+	if pickupable_weapons.is_empty():
 		weapon_pickup_text.hide()
 	else:
 		weapon_pickup_text.show()
 	
-	if pickupable_tails.empty():
+	if pickupable_tails.is_empty():
 		tail_pickup_text.hide()
 	else:
 		tail_pickup_text.show()
@@ -206,7 +205,7 @@ func _physics_process(delta):
 	var h_rot = $Camroot/h.global_transform.basis.get_euler().y
 	
 	if Input.is_action_just_pressed("attach_tail"):
-		if !pickupable_tails.empty():
+		if !pickupable_tails.is_empty():
 			if add_tail(pickupable_tails[0]):
 				GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
 	elif Input.is_action_pressed("attach_tail"):
@@ -244,7 +243,9 @@ func _physics_process(delta):
 	
 	velocity = lerp(velocity, direction * (movement_speed + adtnl_max_health), delta * acceleration)
 	
-	move_and_slide(velocity + Vector3.UP * vertical_velocity - get_floor_normal() * weight_on_ground, Vector3.UP)
+	set_velocity(velocity + Vector3.UP * vertical_velocity - get_floor_normal() * weight_on_ground)
+	set_up_direction(Vector3.UP)
+	move_and_slide()
 	
 	if !is_on_floor():
 		vertical_velocity -= gravity * delta
@@ -285,21 +286,21 @@ func _physics_process(delta):
 					splatter = 0
 				
 				var spread = $UI/Crosshair.pos_x/12
-				weapon_ray.rotation_degrees.x = rand_range(-spread, spread)
-				weapon_ray.rotation_degrees.y = rand_range(-spread, spread)
+				weapon_ray.rotation_degrees.x = randf_range(-spread, spread)
+				weapon_ray.rotation_degrees.y = randf_range(-spread, spread)
 				
 				#firing bullet
 				var bullet_instance = bullet_obj.instance()
 				GAMEMANAGER.game_node.add_child(bullet_instance)
 				bullet_instance.setup_bullet(weapon_ray.global_transform, current_weapon_dmg)
 				
-				$Camroot/h/v.rotate_x(deg2rad($WeaponStats.recoil()))
+				$Camroot/h/v.rotate_x(deg_to_rad($WeaponStats.recoil()))
 				$Camroot.recoil_recovery()
 		
 		
 		if $AnimationTree.get(aim_transition) == 1:
 			$AnimationTree.set(aim_transition, 0)
-			$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.start()
+			$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/spine_ik.start()
 			$AnimationTree.set("parameters/neck_front/blend_amount", 1)
 		
 		if $AnimationTree.get(roll_active):
@@ -323,8 +324,8 @@ func _physics_process(delta):
 		
 		if $AnimationTree.get(aim_transition) == 0:
 			$AnimationTree.set(aim_transition, 1)
-			$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton/spine_ik.stop()
-			$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton.clear_bones_global_pose_override()
+			$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/spine_ik.stop()
+			$Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D.clear_bones_global_pose_override()
 			$AnimationTree.set("parameters/neck_front/blend_amount", 0)
 		
 		$Mesh.rotation.y = lerp_angle($Mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, delta * angular_acceleration)
@@ -392,18 +393,18 @@ func _physics_process(delta):
 	if weapon_ray.is_colliding() && (weapon_ray.get_collision_point()-weapon_ray.global_transform.origin).length() > 0.1:
 		weapon_ray_tip = weapon_ray.get_collision_point()
 	else:
-		weapon_ray_tip = (weapon_ray.get_cast_to().z * weapon_ray.global_transform.basis.z) + weapon_ray.global_transform.origin
+		weapon_ray_tip = (weapon_ray.get_target_position().z * weapon_ray.global_transform.basis.z) + weapon_ray.global_transform.origin
 	
 	neck_attachment.get_node("streaks").look_at(weapon_ray_tip, Vector3.UP)
 
 
 func setup_keybinds_UI():
-	weapon_pickup_text.text = "Press " + str(OS.get_scancode_string((InputMap.get_action_list("pick_up"))[0].scancode)) + " to pick up weapon"
-	tail_pickup_text.text = "Press " + str(OS.get_scancode_string((InputMap.get_action_list("attach_tail"))[0].scancode)) + " to attach tail"
+	weapon_pickup_text.text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("pick_up"))[0].keycode)) + " to pick up weapon"
+	tail_pickup_text.text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("attach_tail"))[0].keycode)) + " to attach tail"
 
 
 func holster():
-	if weapons.empty():
+	if weapons.is_empty():
 		weapon_blend_target = 0
 		gun_attachment.set("visible", false)
 		return
@@ -428,7 +429,7 @@ func add_weapon(passed_weapon, passed_weapon_id) -> bool:
 
 
 func drop_weapon():
-	if weapons.empty():
+	if weapons.is_empty():
 		return
 	
 	var weapon_instance : Weapon
@@ -445,7 +446,7 @@ func drop_weapon():
 	weapons.pop_at(current_weapon)
 	weapons_id.pop_at(current_weapon)
 	
-	if weapons.empty():
+	if weapons.is_empty():
 		holster()
 	else:
 #		switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
@@ -463,14 +464,14 @@ func add_tail(passed_tail, passed_tail_id = -1) -> bool:
 	return false
 
 
-func remove_tail(passed_tail):
+func erase_tail(passed_tail):
 	var tail_instance = tail_obj.instance()
 	tail_instance.global_transform = weapon_drop_point.global_transform;
 	tail_instance.prepare_tail(passed_tail)
 	GAMEMANAGER.get_node(".").add_child(tail_instance)
 	
-	tails.remove(tails.find(passed_tail))
-	tail_manager.remove_tail_attr(passed_tail)
+	tails.erase(tails.find(passed_tail))
+	tail_manager.erase_tail_attr(passed_tail)
 
 
 func roll():
@@ -485,7 +486,7 @@ func roll():
 
 
 func switch_weapon(to):
-	if !weapons.empty():
+	if !weapons.is_empty():
 		if to < weapons.size() && (to != current_weapon || weapon_blend_target == 0 || weapons.size() == 1):
 			weapon_blend_target = 1
 			gun_attachment.show()
@@ -517,7 +518,7 @@ func switch_weapon(to):
 
 
 func reload():
-	if weapons.empty():
+	if weapons.is_empty():
 		return
 	
 	if $WeaponStats.mag() != $WeaponStats.mag_size() && $WeaponStats.ammo_backup() != 0:
@@ -542,37 +543,37 @@ func on_player_hit(damage_amount):
 func _on_WeaponPickupRange_area_entered(area):
 	if "Rifle" in area.owner.name:
 		if pickupable_weapons.has(Weapons.RIFLE):
-			pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
-			pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
+			pickupable_weapons.erase(pickupable_weapons.find(Weapons.RIFLE))
+			pickupable_weapons_id.erase(pickupable_weapons.find(Weapons.RIFLE))
 		pickupable_weapons.push_front(Weapons.RIFLE)
 		pickupable_weapons_id.push_front(area.owner.id)
 	
 	if "Pistol" in area.owner.name:
 		pickupable_weapons.append(Weapons.PISTOL)
 		if pickupable_weapons.has(Weapons.PISTOL):
-			pickupable_weapons.remove(pickupable_weapons.find(Weapons.PISTOL))
+			pickupable_weapons.erase(pickupable_weapons.find(Weapons.PISTOL))
 		pickupable_weapons.push_front(Weapons.PISTOL)
 		pickupable_weapons_id.push_front(area.owner.id)
 
 
 func _on_WeaponPickupRange_area_exited(area):
 	if "Rifle" in area.owner.name and pickupable_weapons.has(Weapons.RIFLE): 
-		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.RIFLE))
-		pickupable_weapons.remove(pickupable_weapons.find(Weapons.RIFLE))
+		pickupable_weapons_id.erase(pickupable_weapons.find(Weapons.RIFLE))
+		pickupable_weapons.erase(pickupable_weapons.find(Weapons.RIFLE))
 	
 	if "Pistol" in area.owner.name and pickupable_weapons.has(Weapons.PISTOL):
-		pickupable_weapons_id.remove(pickupable_weapons.find(Weapons.PISTOL))
-		pickupable_weapons.remove(pickupable_weapons.find(Weapons.PISTOL))
+		pickupable_weapons_id.erase(pickupable_weapons.find(Weapons.PISTOL))
+		pickupable_weapons.erase(pickupable_weapons.find(Weapons.PISTOL))
 
 
 func _on_TailPickupRange_area_entered(area):
 	print("tails size == " + str(tails.size()))
 	if area.owner.is_in_group("Tail") and tails.size() != Tail_max_size:
 		if pickupable_tails.has(area.owner.tail_data):
-			pickupable_tails.remove(pickupable_tails.find(area.owner.tail_data))
+			pickupable_tails.erase(pickupable_tails.find(area.owner.tail_data))
 		pickupable_tails.push_front(area.owner.tail_data)
 
 
 func _on_TailPickupRange_area_exited(area):
 	if area.owner.is_in_group("Tail") and pickupable_tails.has(area.owner.tail_data):
-		pickupable_tails.remove(pickupable_tails.find(area.owner.tail_data))
+		pickupable_tails.erase(pickupable_tails.find(area.owner.tail_data))

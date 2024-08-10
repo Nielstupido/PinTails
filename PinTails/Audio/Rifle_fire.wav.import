@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/Rifle_fire.wav-c11ddebe0b458dd0792ddefb765db35f.sample"
+type="AudioStreamWAV"
+uid="uid://qk5yb80h7lbb"
+path="res://.godot/imported/Rifle_fire.wav-c11ddebe0b458dd0792ddefb765db35f.sample"
 
 [deps]
 
 source_file="res://Audio/Rifle_fire.wav"
-dest_files=[ "res://.import/Rifle_fire.wav-c11ddebe0b458dd0792ddefb765db35f.sample" ]
+dest_files=["res://.godot/imported/Rifle_fire.wav-c11ddebe0b458dd0792ddefb765db35f.sample"]
 
 [params]
 

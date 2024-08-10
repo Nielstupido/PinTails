@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/Pistol_reload.wav-ebeda3c9bfb6346d923546b2f0a2b53f.sample"
+type="AudioStreamWAV"
+uid="uid://dwntyjenkchgb"
+path="res://.godot/imported/Pistol_reload.wav-ebeda3c9bfb6346d923546b2f0a2b53f.sample"
 
 [deps]
 
 source_file="res://Audio/Pistol_reload.wav"
-dest_files=[ "res://.import/Pistol_reload.wav-ebeda3c9bfb6346d923546b2f0a2b53f.sample" ]
+dest_files=["res://.godot/imported/Pistol_reload.wav-ebeda3c9bfb6346d923546b2f0a2b53f.sample"]
 
 [params]
 

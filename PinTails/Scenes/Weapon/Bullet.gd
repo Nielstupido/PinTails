@@ -1,4 +1,4 @@
-extends Area
+extends Area3D
 
 
 var bullet_speed = 50.0
@@ -12,12 +12,10 @@ func _on_Bullet_body_entered(body):
 		self.queue_free()
 
 
-func setup_bullet(starting_transform : Transform, new_damage : int):
+func setup_bullet(starting_transform : Transform3D, new_damage : int):
 	self.global_transform = starting_transform
 	self.damage = new_damage
 
 
 func _process(delta):
 	global_transform.origin -= global_transform.basis.z * bullet_speed * delta
-
-
