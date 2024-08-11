@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 signal toggle_inventory_interface()
 signal player_state_loaded()
+const Tail_max_size = 3
 
 ## Reference to Pause menu node
 @export var pause_menu : NodePath
@@ -34,6 +35,14 @@ signal player_state_loaded()
 @onready var crouch_raycast: RayCast3D = $CrouchRayCast
 @onready var sliding_timer: Timer = $SlidingTimer
 @onready var footstep_timer: Timer = $FootstepTimer
+
+@onready var weapon_pickup_text = $UI/PickUpWeapon
+@onready var tail_pickup_text = $UI/PickUpTail
+@onready var buy_weapon_menu = $Shop
+@onready var weapon_drop_point = $DropPoint
+@onready var tail_manager = $TailManager
+@onready var tail_config_menu = $UI/TailConfigMenu
+@onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
 
 ## Inventory resource that stores the player inventory.
 @export var inventory_data : InventoryPD
@@ -73,15 +82,17 @@ var step_check_height : Vector3 = STEP_HEIGHT_DEFAULT / STEP_CHECK_COUNT
 var gravity_vec : Vector3 = Vector3.ZERO
 var head_offset : Vector3 = Vector3.ZERO
 var snap : Vector3 = Vector3.ZERO
+
 ## This sets the camera smoothing when going up/down stairs as the player snaps to each stair step.
 @export var step_height_camera_lerp : float = 2.5
+
 ## This sets the height of what is still considered a step (instead of a wall/edge)
 @export var STEP_HEIGHT_DEFAULT : Vector3 = Vector3(0, 0.5, 0)
+
 ## This sets the step slope degree check. When set to 0, tiny edges etc might stop the player in it's tracks. 1 seems to work fine.
 @export var STEP_MAX_SLOPE_DEGREE : float = 0.0
 const STEP_CHECK_COUNT : int = 2
 const WALL_MARGIN : float = 0.001
-
 
 @export_group("Ladder Handling")
 var on_ladder : bool = false
@@ -91,6 +102,11 @@ var on_ladder : bool = false
 @export var JOY_DEADZONE : float = 0.25
 @export var JOY_V_SENS : int = 3
 @export var JOY_H_SENS : int = 2
+
+## Tail stuff
+@onready var tails = []
+var pickupable_tails : Array
+var current_active_tail_attrb : Array
 
 var joystick_h_event
 var joystick_v_event
@@ -115,6 +131,13 @@ var last_velocity = Vector3.ZERO
 var stand_after_roll = false
 var is_movement_paused = false
 var is_dead : bool = false
+
+## Player tail stats
+var adtnl_movement_speed = 0
+var adtnl_armor = 0
+var adtnl_max_health = 0
+var adtnl_footstep_silencer = 0
+var adtnl_melee_dmg = 0
 
 
 # Use this to refresh/update when a player state is loaded.
@@ -145,6 +168,13 @@ func _ready():
 	
 	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
 	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
+	
+	setup_keybinds_UI()
+	#<<<Testing>>>
+	add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name), GAMEMANAGER.get_tail_id())
+	GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
+	#<<<Testing>>>
+
 
 # Use this function to manipulate player attributes.
 func increase_attribute(attribute_name: String, value: float) -> bool:
@@ -280,9 +310,36 @@ func _input(event):
 	# Open/closes Inventory if Inventory button is pressed
 	if event.is_action_pressed("inventory") and !is_dead:
 		toggle_inventory_interface.emit()
+	
+	if event.is_action_pressed("buy_menu"):
+		buy_weapon_menu.open_buy_menu()
 
 
 func _process(delta): 
+	#if pickupable_weapons.is_empty():
+		#weapon_pickup_text.hide()
+	#else:
+		#weapon_pickup_text.show()
+	
+	if pickupable_tails.is_empty():
+		tail_pickup_text.hide()
+	else:
+		tail_pickup_text.show()
+	
+	if Input.is_action_just_pressed("attach_tail"):
+		if !pickupable_tails.is_empty():
+			if add_tail(pickupable_tails[0]):
+				GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
+	elif Input.is_action_pressed("attach_tail"):
+		if !tail_config_menu.visible:
+			camera.set_process_input(false)
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			tail_config_menu.show()
+	elif tail_config_menu.visible:
+		camera.set_process_input(true)
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		tail_config_menu.hide()
+	
 	# If SanityComponent is used, this decreases health when sanity is 0.
 	if sanity_component.current_sanity <= 0:
 		take_damage(health_component.no_sanity_damage * delta)
@@ -303,12 +360,13 @@ func params(transform3d, motion):
 func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
 	return PhysicsServer3D.body_test_motion(self_rid, params(transform3d, motion), test_motion_result)	
 
+
 ### LADDER MOVEMENT
 func _process_on_ladder(_delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
-
+	
 	var jump = Input.is_action_pressed("jump")
-
+	
 	# Processing analog stick mouselook
 	if joystick_h_event:
 			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
@@ -322,11 +380,11 @@ func _process_on_ladder(_delta):
 		if abs(joystick_v_event.get_axis_value()) > JOY_DEADZONE:
 			neck.rotate_y(deg_to_rad(-joystick_v_event.get_axis_value() * JOY_V_SENS))
 			neck.rotation.y = clamp(neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
-
+	
 	# Applying ladder input_dir to direction
 	direction = (transform.basis * Vector3(input_dir.x,input_dir.y * -1,0)).normalized()
 	velocity = direction * ladder_speed
-
+	
 	var look_vector = camera.get_camera_transform().basis
 	if jump:
 		velocity += look_vector * Vector3(JUMP_VELOCITY, JUMP_VELOCITY, JUMP_VELOCITY)
@@ -447,7 +505,6 @@ func _physics_process(delta):
 			delta*LERP_SPEED
 		)
 	
-	
 	### STAIR FLOOR SNAP
 		#jumping and gravity
 	if is_on_floor():
@@ -457,7 +514,6 @@ func _physics_process(delta):
 		snap = Vector3.DOWN
 		gravity_vec = Vector3.DOWN * gravity * delta
 	###
-	
 	
 	if not is_on_floor():
 		#snap = Vector3.DOWN
@@ -541,8 +597,7 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 	
 	last_velocity = velocity
-
-
+	
 	# STAIR HANDLING
 	is_step = false
 	
@@ -573,7 +628,7 @@ func _physics_process(delta):
 							break
 				else:
 					var wall_collision_normal: Vector3 = test_motion_result.get_collision_normal(0)
-
+					
 					transform3d.origin += test_motion_result.get_collision_normal(0) * WALL_MARGIN
 					motion = (velocity * delta).slide(wall_collision_normal)
 					is_player_collided = test_motion(transform3d, motion)
@@ -606,8 +661,6 @@ func _physics_process(delta):
 								is_step = true
 								global_transform.origin += -test_motion_result.get_remainder()
 								break
-
-	
 	
 	if not is_step and is_on_floor():
 		var step_height: Vector3 = STEP_HEIGHT_DEFAULT
@@ -644,7 +697,6 @@ func _physics_process(delta):
 					else:
 						is_falling = true
 	
-	
 	if is_step and !is_falling:
 		head.position -= head_offset
 		head.position.y = lerp(head.position.y, 0.0, delta * step_height_camera_lerp)
@@ -653,11 +705,10 @@ func _physics_process(delta):
 		head.position.y = lerp(head.position.y, 0.0, delta * step_height_camera_lerp)
 	
 	velocity += gravity_vec
-
+	
 	if is_falling:
 		snap = Vector3.ZERO
-
-
+	
 	if !is_movement_paused:
 		move_and_slide()
 	
@@ -671,11 +722,48 @@ func _physics_process(delta):
 			else:
 				footstep_timer.start(.6)
 
+
 func _on_sliding_timer_timeout():
 	is_free_looking = false
+
 
 func _on_animation_player_animation_finished(anim_name):
 	stand_after_roll = anim_name == 'roll' and !is_crouching
 
 
+func setup_keybinds_UI():
+	weapon_pickup_text.text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("pick_up"))[0].keycode)) + " to pick up weapon"
+	tail_pickup_text.text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("attach_tail"))[0].keycode)) + " to attach tail"
 
+
+func add_tail(passed_tail, passed_tail_id = -1) -> bool:
+	if !tails.has(passed_tail):
+		if passed_tail_id != -1:
+			passed_tail.id = passed_tail_id
+		tails.append(passed_tail)
+		print("passed tail == " + str(passed_tail))
+		return true
+	 
+	return false
+
+
+func remove_tail(passed_tail):
+	var tail_instance = tail_obj.instantiate()
+	tail_instance.global_transform = weapon_drop_point.global_transform;
+	tail_instance.prepare_tail(passed_tail)
+	GAMEMANAGER.get_node(".").add_child(tail_instance)
+	
+	tails.erase(passed_tail)
+	tail_manager.remove_tail_attr(passed_tail)
+
+
+func _on_tail_pickup_range_body_entered(body):
+	if body.is_in_group("Tail") and tails.size() != Tail_max_size:
+		if pickupable_tails.has(body.tail_data):
+			pickupable_tails.erase(body.tail_data)
+		pickupable_tails.push_front(body.tail_data)
+
+
+func _on_tail_pickup_range_body_exited(body):
+	if pickupable_tails.has(body.tail_data):
+		pickupable_tails.erase(body.tail_data)

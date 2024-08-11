@@ -28,7 +28,7 @@ func set_tail_attr(passed_tail_data):
 
 #removes the attributes of the removed tail from player
 func remove_tail_attr(passed_tail_data):
-	owner.current_active_tail_attrb.remove(owner.current_active_tail_attrb.find(passed_tail_data.tail_active_attrb))
+	owner.current_active_tail_attrb.erase(passed_tail_data.tail_active_attrb)
 	owner.adtnl_movement_speed -= passed_tail_data.adtnl_movement_speed
 	owner.adtnl_armor -= passed_tail_data.adtnl_armor
 	owner.adtnl_max_health -= passed_tail_data.adtnl_max_health

@@ -31,7 +31,7 @@ func remove_tail(tail_data):
 	owner.remove_tail(tail_data)
 	
 	removed_tail_key = tails.find(tail_data)
-	tails.erase(removed_tail_key)
+	tails.erase(tail_data)
 	tails_side_bar.remove_tail(removed_tail_key)
 	player_skills_bar.remove_skill(removed_tail_key)
 	

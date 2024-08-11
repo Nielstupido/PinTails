@@ -52,6 +52,8 @@ mesh = SubResource("1")
 surface_material_override/0 = SubResource("StandardMaterial3D_cptm3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+collision_layer = 9
+collision_mask = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("2")
@@ -66,6 +68,7 @@ process_mode = 3
 visible = false
 
 [node name="TailDropPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
 
 [node name="Player" parent="." instance=ExtResource("3_od0wa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4438, 0)

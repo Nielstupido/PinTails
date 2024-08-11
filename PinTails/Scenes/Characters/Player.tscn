@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=44 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="Resource" uid="uid://ev2xuamhfojm" path="res://Scenes/InventoryPD/Inventories/PlayerInventory.tres" id="2_qleua"]
@@ -21,6 +21,14 @@
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
 [ext_resource type="PackedScene" uid="uid://dy3tudla5p2nc" path="res://Scenes/Components/PlayerInteractionComponent.tscn" id="13_rawn6"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
+[ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
+[ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerSkillsManager.gd" id="26_s03ct"]
+[ext_resource type="PackedScene" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerTailsSideBar.gd" id="28_2ypcp"]
+[ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
+[ext_resource type="PackedScene" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
+[ext_resource type="PackedScene" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bvi11"]
 size = Vector3(0.8, 1.6, 0.8)
@@ -95,6 +103,50 @@ stream_3/stream = ExtResource("7_swbyy")
 stream_3/weight = 1.0
 stream_4/stream = ExtResource("8_2tp8b")
 stream_4/weight = 1.0
+
+[sub_resource type="FontFile" id="FontFile_e2vop"]
+fallbacks = Array[Font]([ExtResource("24_ckrm3")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="FontFile" id="FontFile_uv35x"]
+fallbacks = Array[Font]([ExtResource("25_1wh4p")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="FontFile" id="FontFile_vaj12"]
+fallbacks = Array[Font]([ExtResource("24_ckrm3")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lanog"]
+height = 1.5
+radius = 0.8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4n4va"]
+height = 1.5
+radius = 0.8
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
@@ -245,5 +297,327 @@ start_sanity = 30.0
 [node name="TailManager" type="Node" parent="."]
 script = ExtResource("21_u8uix")
 
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 626.0
+offset_right = 80.0
+offset_bottom = 640.0
+scale = Vector2(4.76602, 4.76602)
+
+[node name="PickUpWeapon" type="Label" parent="UI"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -171.389
+offset_right = 1.0
+offset_bottom = -149.389
+scale = Vector2(2, 2)
+text = "Press E to pick up weapon"
+
+[node name="PickUpTail" type="Label" parent="UI"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -223.315
+offset_right = 1.0
+offset_bottom = -201.315
+scale = Vector2(2, 2)
+text = "Press Q to attach tail"
+
+[node name="Mag" type="Control" parent="UI"]
+anchors_preset = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/Mag"]
+layout_mode = 0
+offset_left = 40.9497
+offset_top = -111.121
+offset_right = 233.95
+offset_bottom = -31.1213
+mouse_filter = 2
+color = Color(0, 0.0901961, 0.282353, 0.666667)
+
+[node name="mag" type="Label" parent="UI/Mag"]
+layout_mode = 0
+offset_left = 69.0226
+offset_top = -95.3755
+offset_right = 139.023
+offset_bottom = -52.3755
+theme_override_fonts/font = SubResource("FontFile_e2vop")
+text = "0"
+
+[node name="Label" type="Label" parent="UI/Mag"]
+layout_mode = 0
+offset_left = 101.866
+offset_top = -90.0782
+offset_right = 171.866
+offset_bottom = -36.0782
+theme_override_fonts/font = SubResource("FontFile_uv35x")
+text = "/"
+
+[node name="ammo_backup" type="Label" parent="UI/Mag"]
+layout_mode = 0
+offset_left = 173.0
+offset_top = -70.0
+offset_right = 221.0
+offset_bottom = -40.0
+theme_override_fonts/font = SubResource("FontFile_vaj12")
+text = "0"
+
+[node name="PlayerSkills" type="Control" parent="UI"]
+anchors_preset = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("26_s03ct")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerSkills"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="SkillCard" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+layout_mode = 2
+
+[node name="SkillCard2" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+layout_mode = 2
+
+[node name="SkillCard3" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+layout_mode = 2
+
+[node name="TailsSideBar" type="Control" parent="UI"]
+anchors_preset = 0
+anchor_bottom = 1.0
+offset_left = 44.0
+offset_top = 56.0
+offset_right = 149.0
+offset_bottom = -827.0
+script = ExtResource("28_2ypcp")
+
+[node name="ColorRect" type="ColorRect" parent="UI/TailsSideBar"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0588235, 0.054902, 0.054902, 0.756863)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TailsSideBar"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Control" type="Control" parent="UI/TailsSideBar/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="UI/TailsSideBar/VBoxContainer/Control"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Empty"
+
+[node name="Control2" type="Control" parent="UI/TailsSideBar/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="UI/TailsSideBar/VBoxContainer/Control2"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Empty"
+
+[node name="Control3" type="Control" parent="UI/TailsSideBar/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="UI/TailsSideBar/VBoxContainer/Control3"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Empty"
+
+[node name="TailConfigMenu" type="Control" parent="UI"]
+process_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("29_mjx67")
+
+[node name="ColorRect" type="ColorRect" parent="UI/TailConfigMenu"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.647059)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TailConfigMenu"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -518.0
+offset_top = -136.0
+offset_right = 518.0
+offset_bottom = 136.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="TailMenuHolder" type="Control" parent="UI/TailConfigMenu/HBoxContainer"]
+custom_minimum_size = Vector2(200, 250)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="TailCard" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder" instance=ExtResource("30_xj7v5")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = -50.0
+
+[node name="Button" type="Button" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+text = "Unpin"
+
+[node name="TailMenuHolder2" type="Control" parent="UI/TailConfigMenu/HBoxContainer"]
+custom_minimum_size = Vector2(200, 250)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="TailCard" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder2" instance=ExtResource("30_xj7v5")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = -50.0
+
+[node name="Button" type="Button" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder2"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+text = "Unpin"
+
+[node name="TailMenuHolder3" type="Control" parent="UI/TailConfigMenu/HBoxContainer"]
+custom_minimum_size = Vector2(200, 250)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="TailCard" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder3" instance=ExtResource("30_xj7v5")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = -50.0
+
+[node name="Button" type="Button" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder3"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+text = "Unpin"
+
+[node name="Shop" parent="." instance=ExtResource("31_lvldf")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WeaponPickupRange" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.88679, 0)
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponPickupRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0)
+shape = SubResource("CylinderShape3D_lanog")
+
+[node name="TailPickupRange" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.871261, 0)
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TailPickupRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0)
+shape = SubResource("CylinderShape3D_4n4va")
+
+[node name="DropPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)
+
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="SlidingTimer" to="." method="_on_sliding_timer_timeout"]
+[connection signal="body_entered" from="TailPickupRange" to="." method="_on_tail_pickup_range_body_entered"]
+[connection signal="body_exited" from="TailPickupRange" to="." method="_on_tail_pickup_range_body_exited"]

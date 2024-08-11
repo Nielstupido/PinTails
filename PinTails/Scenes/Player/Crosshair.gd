@@ -1,6 +1,6 @@
 extends Control
 
-var pos_x = 15
+var pos_x = 15.0
 
 func fire(speed):
 	for line in $reticle/lines.get_children():
@@ -12,4 +12,4 @@ func fire(speed):
 
 func _process(delta):
 	for line in $reticle/lines.get_children():
-		line.get_node("line_base").position.x = lerp(line.get_node("line_base").position.x, pos_x, delta * 12)
+		line.get_node("line_base").position.x = lerp(line.get_node("line_base").position.x, pos_x, delta * 12.0)

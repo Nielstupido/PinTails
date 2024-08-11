@@ -5,15 +5,13 @@ extends Control
 @onready var attrb_node = $Control/Atrribs
 @onready var tail_btn : Button = $Control/Button
 @onready var blank_card = $BlankCard
-var tail_config_menu
 var tail_data : TailData
 
 
 func _ready():
 	if "TailMenuHolder" in self.get_parent().name:
 		self.tail_btn.disabled = true
-		self.get_parent().get_node("Button").connect("pressed", Callable(self, "_on_remove_tail"))
-		tail_config_menu = owner.get_node("UI/TailConfigMenu")
+		self.get_parent().get_node("Button").pressed.connect(_on_remove_tail)
 		tail_data = null
 
 
@@ -35,5 +33,5 @@ func clear_tail_card():
 
 func _on_remove_tail():
 	if self.tail_data:
-		tail_config_menu.remove_tail(self.tail_data)
+		owner.tail_config_menu.remove_tail(self.tail_data)
 #<---------- IN-GAME ---------->

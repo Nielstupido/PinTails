@@ -1310,7 +1310,6 @@ draw_pass_1 = SubResource("51")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.993528, 0.113584, 0, -0.113584, -0.993528, 0, 1.07494, 2)
-visible = false
 mesh = SubResource("53")
 
 [node name="WeaponPickupRange" type="Area3D" parent="."]
