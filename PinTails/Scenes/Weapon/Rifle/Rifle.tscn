@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource path="res://Scenes/Weapon/Weapon.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Weapon/Material_001.material" type="Material" id=2]
-[ext_resource path="res://Scenes/Weapon/Material_002.material" type="Material" id=3]
-[ext_resource path="res://Scenes/Weapon/scifi_gun1.material" type="Material" id=4]
+[ext_resource type="PackedScene" path="res://Scenes/Weapon/Weapon_old.tscn" id="1"]
+[ext_resource type="Material" path="res://Scenes/Weapon/Material_001.material" id="2"]
+[ext_resource type="Material" path="res://Scenes/Weapon/Material_002.material" id="3"]
+[ext_resource type="Material" path="res://Scenes/Weapon/scifi_gun1.material" id="4"]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "scifi_gun1_Cube001"

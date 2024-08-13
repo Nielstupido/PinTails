@@ -28,6 +28,7 @@ func _ready():
 	for node in wieldable_nodes:
 		node.hide()
 
+
 func _process(_delta):
 	# when carrying object, disable all other prompts.
 	if carried_object:
@@ -41,7 +42,7 @@ func _process(_delta):
 			emit_signal("interaction_prompt", interactable.interaction_text)
 		else:
 			emit_signal("interaction_prompt", "")
-
+	
 	else:
 		if !is_reset:
 			emit_signal("interaction_prompt", "")
@@ -53,13 +54,12 @@ func _process(_delta):
 
 
 func _input(event):
-	if event.is_action_pressed("interact"):
-		
-		# if carrying an object, drop it.
+	if event.is_action_pressed("drop_weapon"):
 		if carried_object:
 			carried_object.throw(throw_power)
 			carried_object = null
-			
+	
+	if event.is_action_pressed("pick_up"):
 		if interaction_raycast.is_colliding():
 			var interactable = interaction_raycast.get_collider()
 			if interactable.has_method("interact"):
@@ -98,7 +98,6 @@ func get_interaction_raycast_tip(distance_offset : float) -> Vector3:
 		return destination_point
 
 
-
 ### Wieldable Management
 func equip_wieldable(wieldable_item:InventoryItemPD):
 	if wieldable_item != null:
@@ -113,8 +112,8 @@ func equip_wieldable(wieldable_item:InventoryItemPD):
 				equipped_wieldable_node.player_interaction_component = self
 				wieldable_animation_player.queue(equipped_wieldable_item.equip_anim)
 				is_wielding = true
-		
-		
+
+
 func change_wieldable_to(next_wieldable: InventoryItemPD):
 	if equipped_wieldable_item != null:
 		wieldable_animation_player.queue(equipped_wieldable_item.unequip_anim)
@@ -187,7 +186,6 @@ func attempt_reload():
 		equipped_wieldable_item.update_wieldable_data(self)
 
 
-
 # Function called by interactables if they need to send a hint. The signal sent here gets picked up by the Player_Hud_Manager.
 func send_hint(hint_icon,hint_text):
 	hint_prompt.emit(hint_icon,hint_text)
@@ -208,8 +206,8 @@ func Get_Camera_Collision() -> Vector3:
 		return Col_Point
 	else:
 		return Ray_End
-	
-	
+
+
 func save():
 	var interaction_component_data = {
 	"equipped_wieldable_item": equipped_wieldable_item,
@@ -218,7 +216,8 @@ func save():
 		
 	}
 	return interaction_component_data
-	
+
+
 func set_state():
 	if equipped_wieldable_item and is_wielding:
 		change_wieldable_to(equipped_wieldable_item)

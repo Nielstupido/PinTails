@@ -67,7 +67,7 @@ func _on_hidden():
 	release_focus()
 
 func _on_focus_entered() -> void:
-	Audio.play_sound(sound_highlight)
+	#Audio.play_sound(sound_highlight)
 	$Panel.show()
 	selection_panel.show()
 

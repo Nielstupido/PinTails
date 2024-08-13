@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=39 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="Resource" uid="uid://ev2xuamhfojm" path="res://Scenes/InventoryPD/Inventories/PlayerInventory.tres" id="2_qleua"]
@@ -6,13 +6,11 @@
 [ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="4_d51ss"]
 [ext_resource type="AnimationLibrary" uid="uid://cdchpsv104er2" path="res://Scenes/Assets/Animations/player_eyes.tres" id="4_juktk"]
 [ext_resource type="AudioStream" uid="uid://crj07wq4oocwi" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep01.ogg" id="5_6htai"]
-[ext_resource type="Script" path="res://Scenes/Scripts/Wieldable_Flashlight.gd" id="5_iwnf5"]
 [ext_resource type="AudioStream" uid="uid://dewyukd562k37" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep02.ogg" id="6_nrttm"]
 [ext_resource type="AnimationLibrary" uid="uid://cbfutvkb1x3kr" path="res://Scenes/Assets/Animations/anim_wieldable_pistol.es.tres" id="6_nt2qd"]
 [ext_resource type="Script" path="res://Scenes/Scripts/Wieldable_Pistol.gd" id="7_2f3bv"]
 [ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="7_swbyy"]
 [ext_resource type="AudioStream" uid="uid://b4mt1tuxo2144" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep04.ogg" id="8_2tp8b"]
-[ext_resource type="AudioStream" uid="uid://dsp8iwkwq2rlu" path="res://Scenes/Assets/Audio/Kenney/UiAudio/switch1.ogg" id="9_omv36"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
 [ext_resource type="PackedScene" uid="uid://b37xr3nyh6aog" path="res://Scenes/Components/StaminaComponent.tscn" id="11_cbmdm"]
@@ -25,7 +23,6 @@
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerSkillsManager.gd" id="26_s03ct"]
 [ext_resource type="PackedScene" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
-[ext_resource type="Script" path="res://Scenes/Characters/PlayerTailsSideBar.gd" id="28_2ypcp"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
 [ext_resource type="PackedScene" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
@@ -36,17 +33,6 @@ size = Vector3(0.8, 1.6, 0.8)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fgxde"]
 radius = 0.4
 height = 0.8
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lbp4w"]
-albedo_color = Color(0.0392157, 0.0431373, 0.0745098, 1)
-metallic = 0.95
-metallic_specular = 0.1
-metallic_texture_channel = 3
-roughness = 0.15
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0btuw"]
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
 _data = PackedByteArray(2, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0, 2, 0, 0, 0, 115, 66, 19, 0, 77, 0, 72, 115, 204, 0, 0, 0, 209, 226, 4, 0, 0, 1, 0, 0, 1, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 8, 0, 2, 0, 2, 0, 169, 0, 0, 0, 64, 0, 0, 0, 56, 181, 0, 0, 0, 1, 1, 4, 0, 4, 0, 1, 0, 1, 0, 233, 0, 0, 0, 16, 0, 0, 0, 200, 214, 0, 0, 0, 2, 1, 2, 0, 2, 0, 1, 0, 1, 0, 249, 0, 0, 0, 16, 0, 0, 0, 172, 110, 0, 0, 0, 3, 1, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1, 0, 0, 16, 0, 0, 0, 6, 136, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 8, 93, 129, 224, 4, 29, 157, 85, 72, 68, 68, 68, 55, 222, 22, 247, 8, 108, 145, 99, 148, 156, 158, 85, 0, 0, 0, 0, 26, 15, 141, 171, 176, 20, 161, 81, 28, 158, 158, 94, 0, 0, 0, 0, 0, 0, 243, 230, 80, 193, 136, 65, 222, 222, 95, 223, 0, 0, 127, 119, 127, 119, 127, 119, 119, 247, 182, 86, 59, 182, 181, 2, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -195,45 +181,9 @@ libraries = {
 
 [node name="InteractionRaycast" type="RayCast3D" parent="Neck/Head/Eyes/Camera"]
 target_position = Vector3(0, 0, -2.5)
-collision_mask = 2
+collision_mask = 4
 
 [node name="Wieldables" type="Node3D" parent="Neck/Head"]
-
-[node name="Flashlight" type="RigidBody3D" parent="Neck/Head/Wieldables"]
-transform = Transform3D(-2.56068e-07, -3.61092e-06, 1, -0.997495, 0.0707372, 0, -0.0707372, -0.997495, -3.61999e-06, 0.325805, -0.8, -0.531526)
-visible = false
-collision_layer = 3
-mass = 2.0
-freeze = true
-script = ExtResource("5_iwnf5")
-drain_rate = 4.0
-switch_sound = ExtResource("9_omv36")
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Neck/Head/Wieldables/Flashlight"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.0541318, 0, 0)
-radius = 0.05
-height = 0.3
-material = SubResource("StandardMaterial3D_lbp4w")
-
-[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Neck/Head/Wieldables/Flashlight"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.145868, 0, 0)
-radius = 0.06
-height = 0.1
-material = SubResource("StandardMaterial3D_lbp4w")
-
-[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Neck/Head/Wieldables/Flashlight"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.196543, 0, 0)
-radius = 0.05
-height = 0.01
-material = SubResource("StandardMaterial3D_0btuw")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/Wieldables/Flashlight"]
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Neck/Head/Wieldables/Flashlight"]
-transform = Transform3D(-4.37114e-08, -4.37114e-08, -1, -1, 1.91069e-15, 4.37114e-08, 0, 1, -4.37114e-08, 0.174371, 0, 0)
-visible = false
-spot_range = 8.0
-spot_angle = 30.0
 
 [node name="Foam Pistol" type="RigidBody3D" parent="Neck/Head/Wieldables"]
 transform = Transform3D(-3.61999e-06, 0, 0.999999, 0, 1, 0, -1, 0, -3.61999e-06, 0.328536, -0.26394, -0.53488)
@@ -279,7 +229,7 @@ one_shot = true
 [node name="PlayerInteractionComponent" parent="." node_paths=PackedStringArray("interaction_raycast", "carryable_position", "wieldable_nodes") instance=ExtResource("13_rawn6")]
 interaction_raycast = NodePath("../Neck/Head/Eyes/Camera/InteractionRaycast")
 carryable_position = NodePath("../CarryablePosition")
-wieldable_nodes = [NodePath("../Neck/Head/Wieldables/Foam Pistol"), NodePath("../Neck/Head/Wieldables/Flashlight")]
+wieldable_nodes = [NodePath("../Neck/Head/Wieldables/Foam Pistol"), NodePath("")]
 
 [node name="HealthComponent" parent="." instance=ExtResource("11_ms07f")]
 max_health = 100.0
@@ -408,69 +358,6 @@ layout_mode = 2
 
 [node name="SkillCard3" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
 layout_mode = 2
-
-[node name="TailsSideBar" type="Control" parent="UI"]
-anchors_preset = 0
-anchor_bottom = 1.0
-offset_left = 44.0
-offset_top = 56.0
-offset_right = 149.0
-offset_bottom = -827.0
-script = ExtResource("28_2ypcp")
-
-[node name="ColorRect" type="ColorRect" parent="UI/TailsSideBar"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0.0588235, 0.054902, 0.054902, 0.756863)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/TailsSideBar"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="Control" type="Control" parent="UI/TailsSideBar/VBoxContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="Label" type="Label" parent="UI/TailsSideBar/VBoxContainer/Control"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 1
-text = "Empty"
-
-[node name="Control2" type="Control" parent="UI/TailsSideBar/VBoxContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="Label" type="Label" parent="UI/TailsSideBar/VBoxContainer/Control2"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 1
-text = "Empty"
-
-[node name="Control3" type="Control" parent="UI/TailsSideBar/VBoxContainer"]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="Label" type="Label" parent="UI/TailsSideBar/VBoxContainer/Control3"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 1
-text = "Empty"
 
 [node name="TailConfigMenu" type="Control" parent="UI"]
 process_mode = 3

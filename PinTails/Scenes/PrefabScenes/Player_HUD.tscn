@@ -1,18 +1,18 @@
 [gd_scene load_steps=26 format=3 uid="uid://0c32kepv0ahx"]
 
-[ext_resource type="Script" path="res://COGITO/Scripts/Player_Hud_Manager.gd" id="1_0wdkf"]
-[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://COGITO/Assets/Graphics/Crosshair.png" id="3_ahile"]
-[ext_resource type="PackedScene" uid="uid://dtdjlu4dtm6wh" path="res://COGITO/InventoryPD/UiScenes/InventoryUI.tscn" id="3_krf2d"]
-[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://COGITO/Assets/Textures/CameraDamageVignette.png" id="3_lb6l4"]
-[ext_resource type="Script" path="res://COGITO/InventoryPD/UiScenes/inventory_interface.gd" id="3_lyywb"]
-[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://COGITO/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="3_o56n0"]
-[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://COGITO/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="4_2dtpt"]
-[ext_resource type="PackedScene" uid="uid://cg41w2fijcp4q" path="res://COGITO/InventoryPD/UiScenes/Slot.tscn" id="5_juyvt"]
-[ext_resource type="PackedScene" uid="uid://bf2qmquc7ys81" path="res://COGITO/InventoryPD/UiScenes/HotBarInventoryUi.tscn" id="6_8odro"]
-[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://COGITO/Assets/Graphics/ProgressBar_FiveUnits.png" id="6_f5jpm"]
-[ext_resource type="AudioStream" uid="uid://bnqnuewmntcyp" path="res://COGITO/Assets/Audio/Kenney/UiAudio/error_008.ogg" id="8_bxpra"]
-[ext_resource type="Texture2D" uid="uid://02033aa8j18m" path="res://COGITO/Assets/Graphics/InputIcons/Keyboard/Mouse_Left.png" id="11_c625v"]
-[ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://COGITO/Components/DynamicInputIcon.tscn" id="12_jgxar"]
+[ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="1_0wdkf"]
+[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="3_ahile"]
+[ext_resource type="PackedScene" uid="uid://dtdjlu4dtm6wh" path="res://Scenes/InventoryPD/UiScenes/InventoryUI.tscn" id="3_krf2d"]
+[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="3_lb6l4"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/UiScenes/inventory_interface.gd" id="3_lyywb"]
+[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="3_o56n0"]
+[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="4_2dtpt"]
+[ext_resource type="PackedScene" uid="uid://cg41w2fijcp4q" path="res://Scenes/InventoryPD/UiScenes/Slot.tscn" id="5_juyvt"]
+[ext_resource type="PackedScene" uid="uid://bf2qmquc7ys81" path="res://Scenes/InventoryPD/UiScenes/HotBarInventoryUi.tscn" id="6_8odro"]
+[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="6_f5jpm"]
+[ext_resource type="AudioStream" uid="uid://bnqnuewmntcyp" path="res://Scenes/Assets/Audio/Kenney/UiAudio/error_008.ogg" id="8_bxpra"]
+[ext_resource type="Texture2D" uid="uid://02033aa8j18m" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Mouse_Left.png" id="11_c625v"]
+[ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="12_jgxar"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1f12m"]
 blend_mode = 1
@@ -154,7 +154,6 @@ position = Vector2(0, 0)
 scale = Vector2(0.4, 0.4)
 centered = false
 frame = 6
-action_name = "interact"
 
 [node name="InteractionText" type="Label" parent="ButtonPrompt/HBoxContainer"]
 layout_mode = 2
@@ -228,7 +227,6 @@ theme_override_constants/margin_bottom = 20
 [node name="PrimaryUseIcon" parent="UseBar/HBoxContainer/WieldablePrimaryUse/MarginContainer" instance=ExtResource("12_jgxar")]
 position = Vector2(20, 20)
 scale = Vector2(0.4, 0.4)
-action_name = "action_primary"
 
 [node name="PrimaryUseLabel" type="Label" parent="UseBar/HBoxContainer/WieldablePrimaryUse"]
 layout_mode = 2
@@ -358,7 +356,6 @@ offset_top = -245.0
 offset_right = 63.0
 offset_bottom = -199.0
 grow_vertical = 0
-inventory_name = "Player Inventory"
 
 [node name="ExternalInventoryUI" parent="InventoryInterface" instance=ExtResource("3_krf2d")]
 visible = false
@@ -440,7 +437,6 @@ theme_override_constants/margin_bottom = 15
 [node name="BtnUse" parent="InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxUse/MarginContainer" instance=ExtResource("12_jgxar")]
 position = Vector2(15, 15)
 scale = Vector2(0.3, 0.3)
-action_name = "inventory_use_item"
 
 [node name="TextUse" type="Label" parent="InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxUse"]
 layout_mode = 2
@@ -469,7 +465,6 @@ theme_override_constants/margin_bottom = 15
 [node name="BtnMove" parent="InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxMove/MarginContainer" instance=ExtResource("12_jgxar")]
 position = Vector2(15, 15)
 scale = Vector2(0.3, 0.3)
-action_name = "inventory_move_item"
 
 [node name="TextMove" type="Label" parent="InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxMove"]
 layout_mode = 2
@@ -498,7 +493,6 @@ theme_override_constants/margin_bottom = 15
 [node name="BtnDrop" parent="InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxDrop/MarginContainer" instance=ExtResource("12_jgxar")]
 position = Vector2(15, 15)
 scale = Vector2(0.3, 0.3)
-action_name = "inventory_drop_item"
 
 [node name="TextDrop" type="Label" parent="InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxDrop"]
 layout_mode = 2
@@ -557,7 +551,6 @@ theme_override_font_sizes/font_size = 30
 text = "Restart"
 
 [connection signal="timeout" from="HintTimer" to="." method="_on_hint_timer_timeout"]
-[connection signal="drop_slot_data" from="InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
 [connection signal="gui_input" from="InventoryInterface" to="InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]
 [connection signal="pressed" from="DeathScreen/Panel/BoxContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

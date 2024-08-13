@@ -2,7 +2,7 @@ extends PanelContainer
 
 signal hot_bar_use(index: int)
 
-const Slot = preload("res://COGITO/InventoryPD/UiScenes/Slot.tscn")
+const Slot = preload("res://Scenes/InventoryPD/UiScenes/Slot.tscn")
 @onready var h_box_container = $MarginContainer/VBoxContainer/TopRow
 
 
@@ -28,6 +28,7 @@ func set_inventory_data(inventory_data : InventoryPD) -> void:
 	inventory_data.inventory_updated.connect(populate_hotbar)
 	populate_hotbar(inventory_data)
 	hot_bar_use.connect(inventory_data.use_slot_data)
+
 
 func populate_hotbar(inventory_data : InventoryPD) -> void:
 	for child in h_box_container.get_children():

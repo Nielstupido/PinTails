@@ -127,7 +127,7 @@ func on_inventory_button_press(inventory_data: InventoryPD, index: int, action: 
 			grabbed_slot_data = inventory_data.get_slot_data(index)
 			if grabbed_slot_data:
 				if grabbed_slot_data.inventory_item.ItemType.WIELDABLE and grabbed_slot_data.inventory_item.is_being_wielded:
-					Audio.play_sound(sound_error)
+					#Audio.play_sound(sound_error)
 					print("Can't drop while wielding this item.")
 					grabbed_slot_data = null
 				else:
@@ -156,7 +156,7 @@ func _on_gui_input(event):
 			match event.button_index:
 				MOUSE_BUTTON_LEFT:
 					if grabbed_slot_data.inventory_item.ItemType.WIELDABLE and grabbed_slot_data.inventory_item.is_being_wielded:
-						Audio.play_sound(sound_error)
+						#Audio.play_sound(sound_error)
 						print("Can't drop while wielding this item.")
 					else:
 						drop_slot_data.emit(grabbed_slot_data)
@@ -165,7 +165,7 @@ func _on_gui_input(event):
 					
 				MOUSE_BUTTON_RIGHT:
 					if grabbed_slot_data.inventory_item.ItemType.WIELDABLE and grabbed_slot_data.inventory_item.is_being_wielded:
-						Audio.play_sound(sound_error)
+						#Audio.play_sound(sound_error)
 						print("Can't drop while wielding this item.")
 					else:
 						drop_slot_data.emit(grabbed_slot_data.create_single_slot_data())

@@ -11,9 +11,9 @@ var device
 var device_index
 
 
-func _ready():
-	InputHelper.device_changed.connect(update_device)
-	update_device(InputHelper.device,InputHelper.device_index)
+#func _ready():
+	#InputHelper.device_changed.connect(update_device)
+	#update_device(InputHelper.device,InputHelper.device_index)
 
 
 func update_device(_device, _device_index):
@@ -22,7 +22,7 @@ func update_device(_device, _device_index):
 	# Rudimentary Steam Deck detection, treating it as an Xbox Controller
 	if _is_steam_deck():
 		device_index = 0
-	update_input_icon()
+	#update_input_icon()
 	
 func _is_steam_deck() -> bool:
 	if RenderingServer.get_rendering_device() == null:
@@ -35,36 +35,36 @@ func _is_steam_deck() -> bool:
 		return false
 
 
-func update_input_icon():
-	if device == InputHelper.DEVICE_KEYBOARD:
-		set_texture(keyboard_icons)
-		var keyboard_input = InputHelper.get_keyboard_input_for_action(action_name)
-		if keyboard_input is InputEventKey:
-			#print("DynamicInputIcon: Action=", action_name, ". Physical keycode=", keyboard_input.get_physical_keycode(), ". Keycode string=", OS.get_keycode_string(keyboard_input.get_physical_keycode()))
-			frame = keycode_to_sprite_frame_index(OS.get_keycode_string(keyboard_input.get_physical_keycode()))
-		elif keyboard_input is InputEventMouseButton:
-			if keyboard_input.get_button_index() == 2:
-				frame = keycode_to_sprite_frame_index("Mouse Right")
-			if keyboard_input.get_button_index() == 1:
-				frame = keycode_to_sprite_frame_index("Mouse Left")
-		else:
-			print("DynamicInputIcon: Action=", action_name, ". No primary keyboard/mouse input map assigned.")
-			frame = 0
-		
-	else:
-		var joypad_input = InputHelper.get_joypad_input_for_action(action_name)
-		if joypad_input is InputEventJoypadButton:
-			#print("DynamicInputIcon: Action=", action_name, ". Joypad btn=", joypad_input.button_index)
-			set_texture(gamepad_icons)
-			frame = joypad_input.button_index
-			
-		elif joypad_input is InputEventJoypadMotion:
-			#print("DynamicInputIcon: Action=", action_name, ". Joypad motion=", joypad_motion.axis)
-			set_texture(gamepad_icons)
-			if joypad_input.axis == 5:
-				frame = 18 #Sets icon to RT
-			if joypad_input.axis == 4:
-				frame = 17 #Sets icon to LT
+#func update_input_icon():
+	#if device == InputHelper.DEVICE_KEYBOARD:
+		#set_texture(keyboard_icons)
+		#var keyboard_input = InputHelper.get_keyboard_input_for_action(action_name)
+		#if keyboard_input is InputEventKey:
+			##print("DynamicInputIcon: Action=", action_name, ". Physical keycode=", keyboard_input.get_physical_keycode(), ". Keycode string=", OS.get_keycode_string(keyboard_input.get_physical_keycode()))
+			#frame = keycode_to_sprite_frame_index(OS.get_keycode_string(keyboard_input.get_physical_keycode()))
+		#elif keyboard_input is InputEventMouseButton:
+			#if keyboard_input.get_button_index() == 2:
+				#frame = keycode_to_sprite_frame_index("Mouse Right")
+			#if keyboard_input.get_button_index() == 1:
+				#frame = keycode_to_sprite_frame_index("Mouse Left")
+		#else:
+			#print("DynamicInputIcon: Action=", action_name, ". No primary keyboard/mouse input map assigned.")
+			#frame = 0
+		#
+	#else:
+		#var joypad_input = InputHelper.get_joypad_input_for_action(action_name)
+		#if joypad_input is InputEventJoypadButton:
+			##print("DynamicInputIcon: Action=", action_name, ". Joypad btn=", joypad_input.button_index)
+			#set_texture(gamepad_icons)
+			#frame = joypad_input.button_index
+			#
+		#elif joypad_input is InputEventJoypadMotion:
+			##print("DynamicInputIcon: Action=", action_name, ". Joypad motion=", joypad_motion.axis)
+			#set_texture(gamepad_icons)
+			#if joypad_input.axis == 5:
+				#frame = 18 #Sets icon to RT
+			#if joypad_input.axis == 4:
+				#frame = 17 #Sets icon to LT
 
 
 

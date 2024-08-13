@@ -126,7 +126,6 @@ func _on_player_state_load():
 			node.toggle_inventory.connect(toggle_inventory_interface)
 
 
-
 func _is_steam_deck() -> bool:
 	if RenderingServer.get_rendering_device().get_device_name().contains("RADV VANGOGH") \
 	or OS.get_processor_name().contains("AMD CUSTOM APU 0405"):
@@ -164,7 +163,7 @@ func toggle_inventory_interface(external_inventory_owner = null):
 func _on_interaction_prompt(passed_interaction_prompt):
 	if(passed_interaction_prompt == ""):
 		interaction_button.hide()
-#		interaction_button.set_texture(empty_texture)
+#		interaction_button.set_texture(empty_texture) 
 	else:
 #		interaction_button.set_texture(interaction_texture)
 		interaction_button.show()

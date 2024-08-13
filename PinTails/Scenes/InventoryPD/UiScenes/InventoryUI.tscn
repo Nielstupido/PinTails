@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtdjlu4dtm6wh"]
 
-[ext_resource type="Script" path="res://COGITO/InventoryPD/UiScenes/InventoryUI.gd" id="1_qgor6"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/UiScenes/InventoryUI.gd" id="1_qgor6"]
 
 [node name="InventoryUI" type="PanelContainer"]
 offset_right = 40.0

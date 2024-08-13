@@ -16,10 +16,10 @@ var global_position : Vector3 # Used for Audio
 @export var spawn_on_death : PackedScene
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	current_health = start_health
 	global_position = get_parent().global_position
+
 
 func add(amount):
 	current_health += amount
@@ -27,7 +27,8 @@ func add(amount):
 	if current_health > max_health:
 		current_health = max_health
 	emit_signal("health_changed", current_health, max_health)
-		
+
+
 func subtract(amount):
 	current_health -= amount
 	
@@ -37,6 +38,7 @@ func subtract(amount):
 		on_death()
 	emit_signal("damage_taken")
 	emit_signal("health_changed", current_health, max_health)
+
 
 func on_death():
 	if sound_on_death:

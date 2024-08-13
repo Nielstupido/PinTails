@@ -1,6 +1,6 @@
 extends PanelContainer
 
-const Slot = preload("res://COGITO/InventoryPD/UiScenes/Slot.tscn")
+const Slot = preload("res://Scenes/InventoryPD/UiScenes/Slot.tscn")
 
 @export var inventory_name : String = ""
 @onready var grid_container = $MarginContainer/VBoxContainer/GridContainer

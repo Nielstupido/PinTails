@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=22 format=3 uid="uid://cp8en37sojhym"]
 
 [ext_resource type="Texture2D" uid="uid://dyke84y80gr4i" path="res://Textures/Grass/Grass004_1K-JPG_Color.jpg" id="2_orfl0"]
 [ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="3_gbe80"]
@@ -7,7 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://ctwcjidrufo4k" path="res://Textures/Grass/Grass004_1K-JPG_Roughness.jpg" id="4_2mpm1"]
 [ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="5_kaksc"]
 [ext_resource type="Script" path="res://Scenes/Game/Game.gd" id="9"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/InventoryPD.gd" id="9_ruspy"]
+[ext_resource type="PackedScene" uid="uid://0c32kepv0ahx" path="res://Scenes/PrefabScenes/Player_HUD.tscn" id="9_suwuj"]
+[ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://Scenes/Weapon/Pistol/Pistol.tscn" id="9_u5o07"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" id="10"]
+[ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://Scenes/InventoryPD/Items/Cogito_Pistol.tres" id="11_ooqqk"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/InventorySlotPD.gd" id="12_oe854"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
 sky_top_color = Color(0.290301, 0.435623, 0.745498, 1)
@@ -40,6 +45,15 @@ uv1_scale = Vector3(15, 15, 15)
 
 [sub_resource type="BoxShape3D" id="2"]
 
+[sub_resource type="Resource" id="Resource_xjwe4"]
+script = ExtResource("9_ruspy")
+inventory_slots = Array[ExtResource("12_oe854")]([])
+
+[sub_resource type="Resource" id="Resource_8lp7r"]
+script = ExtResource("12_oe854")
+inventory_item = ExtResource("11_ooqqk")
+quantity = 1
+
 [node name="Game" type="Node"]
 script = ExtResource("9")
 
@@ -52,8 +66,8 @@ mesh = SubResource("1")
 surface_material_override/0 = SubResource("StandardMaterial3D_cptm3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-collision_layer = 9
-collision_mask = 9
+collision_layer = 13
+collision_mask = 13
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("2")
@@ -72,3 +86,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
 
 [node name="Player" parent="." instance=ExtResource("3_od0wa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4438, 0)
+player_hud = NodePath("../Player_HUD")
+inventory_data = SubResource("Resource_xjwe4")
+
+[node name="Player_HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("9_suwuj")]
+player = NodePath("../Player")
+
+[node name="pickup_pistol" parent="." instance=ExtResource("9_u5o07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.476655, 0)
+slot_data = SubResource("Resource_8lp7r")
+interaction_text = "Pick Up Gun"

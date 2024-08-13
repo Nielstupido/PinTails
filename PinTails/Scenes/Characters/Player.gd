@@ -347,12 +347,14 @@ func _process(delta):
 # Cache allocation of test motion parameters.
 @onready var _params: PhysicsTestMotionParameters3D = PhysicsTestMotionParameters3D.new()
 
+
 func params(transform3d, motion):
 	var params : PhysicsTestMotionParameters3D = _params
 	params.from = transform3d
 	params.motion = motion
 	params.recovery_as_collision = true
 	return params
+
 
 @onready var self_rid: RID = self.get_rid()
 @onready var test_motion_result: PhysicsTestMotionResult3D = PhysicsTestMotionResult3D.new()
