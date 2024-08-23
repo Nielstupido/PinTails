@@ -3,7 +3,7 @@ class_name InventorySlotPD
 
 const MAX_STACK_SIZE : int = 99
 
-@export var inventory_item : InventoryItemPD
+@export var inventory_item : WeaponData
 #@export_range(1, MAX_STACK_SIZE) var quantity : int = 1: set = set_quantity
 @export var quantity : int = 1
 

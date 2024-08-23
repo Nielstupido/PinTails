@@ -16,7 +16,6 @@ extends Control
 @onready var hint_icon = $HintPrompt/MarginContainer/HBoxContainer/HintIcon
 @onready var hint_text = $HintPrompt/MarginContainer/HBoxContainer/HintText
 @onready var hint_timer = $HintTimer
-@onready var inventory_interface = $InventoryInterface
 
 @onready var primary_use_icon = $UseBar/HBoxContainer/WieldablePrimaryUse/MarginContainer/PrimaryUseIcon
 @onready var primary_use_label = $UseBar/HBoxContainer/WieldablePrimaryUse/PrimaryUseLabel
@@ -29,7 +28,6 @@ extends Control
 
 var hurt_tween : Tween
 
-var is_inventory_open : bool = false
 var device_id : int = -1
 var interaction_texture : Texture2D
 
@@ -96,34 +94,11 @@ func _ready():
 	hint_icon.set_texture(empty_texture)
 	hint_text.text = ""
 	
-	# Fill inventory HUD with player inventory
-	inventory_interface.set_player_inventory_data(player.inventory_data)
-	inventory_interface.hot_bar_inventory.set_inventory_data(player.inventory_data)
-	
-	
 	# Connecting to Signals from Player
 	player.player_interaction_component.interaction_prompt.connect(_on_interaction_prompt)
 	player.player_interaction_component.set_use_prompt.connect(_on_set_use_prompt)
 	player.player_interaction_component.hint_prompt.connect(_on_set_hint_prompt)
-	player.toggle_inventory_interface.connect(toggle_inventory_interface)
-	player.player_state_loaded.connect(_on_player_state_load)
 	player.player_interaction_component.updated_wieldable_data.connect(_on_update_wieldable_data)
-
-	# Grabbing external inventories in scene.
-	for node in get_tree().get_nodes_in_group("external_inventory"):
-		print("Is in external_inventory group: ", node)
-		node.toggle_inventory.connect(toggle_inventory_interface)
-
-
-func _on_player_state_load():
-	inventory_interface.set_player_inventory_data(player.inventory_data)
-	inventory_interface.hot_bar_inventory.set_inventory_data(player.inventory_data)
-	
-	# Grabbing external inventories in scene.
-	for node in get_tree().get_nodes_in_group("external_inventory"):
-		print("Is in external_inventory group: ", node)
-		if !node.is_connected("toggle_inventory",toggle_inventory_interface):
-			node.toggle_inventory.connect(toggle_inventory_interface)
 
 
 func _is_steam_deck() -> bool:
@@ -139,24 +114,6 @@ func _on_input_device_change(_device, _device_index):
 		$InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxDrop.hide()
 	else:
 		$InventoryInterface/InfoPanel/MarginContainer/VBoxContainer/HBoxDrop.show()
-
-
-func toggle_inventory_interface(external_inventory_owner = null):
-	if !inventory_interface.is_inventory_open:
-		player._on_pause_movement()
-		inventory_interface.open_inventory()
-		if external_inventory_owner:
-			external_inventory_owner.interaction_text = "Close"
-	else:
-		inventory_interface.close_inventory()
-		player._on_resume_movement()
-		if external_inventory_owner:
-			external_inventory_owner.interaction_text = "Open"
-		
-	if external_inventory_owner and inventory_interface.is_inventory_open:
-		inventory_interface.set_external_inventory(external_inventory_owner)
-	else:
-		inventory_interface.clear_external_inventory()
 
 
 # When HUD receives interaction prompt signal (usually if player interaction raycast hits an object on layer 2)
@@ -182,6 +139,7 @@ func _on_set_use_prompt(passed_use_text):
 # Updating HUD wieldable data, used for stuff like flashlight battery charge, ammo display, etc
 func _on_update_wieldable_data(passed_wieldable_icon, passed_wieldable_text):
 	wieldable_text.text = passed_wieldable_text
+	
 	if passed_wieldable_icon != null:
 		wieldable_icon.set_texture(passed_wieldable_icon)
 	else:
@@ -251,13 +209,3 @@ func _on_player_sanity_changed(new_sanity, max_sanity):
 func _on_player_brightness_changed(new_brightness, max_brightness):
 	brightness_bar.value = new_brightness
 	brightness_bar.max_value = max_brightness
-
-
-# On Inventory UI Item Drop
-func _on_inventory_interface_drop_slot_data(slot_data):
-	var scene_to_drop = load(slot_data.inventory_item.drop_scene)
-	#Audio.play_sound(slot_data.inventory_item.sound_drop)
-	var dropped_item = scene_to_drop.instantiate()
-	dropped_item.position = player.player_interaction_component.get_interaction_raycast_tip(0)
-	dropped_item.slot_data = slot_data
-	get_parent().add_child(dropped_item)

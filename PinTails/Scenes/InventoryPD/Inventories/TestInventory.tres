@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="InventoryPD" load_steps=2 format=3 uid="uid://b7mkykos46gnt"]
 
-[ext_resource type="Script" path="res://Scenes/InventoryPD/InventoryPD.gd" id="1_wxkif"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/Wea.gd" id="1_wxkif"]
 
 [resource]
 script = ExtResource("1_wxkif")

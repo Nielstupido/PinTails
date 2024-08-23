@@ -1,23 +1,23 @@
-[gd_scene load_steps=39 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=37 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
-[ext_resource type="Resource" uid="uid://ev2xuamhfojm" path="res://Scenes/InventoryPD/Inventories/PlayerInventory.tres" id="2_qleua"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
 [ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="4_d51ss"]
 [ext_resource type="AnimationLibrary" uid="uid://cdchpsv104er2" path="res://Scenes/Assets/Animations/player_eyes.tres" id="4_juktk"]
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerInteractionComponent.gd" id="4_mguki"]
+[ext_resource type="Script" path="res://Scenes/Characters/WeaponInventory.gd" id="4_yum5u"]
 [ext_resource type="AudioStream" uid="uid://crj07wq4oocwi" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep01.ogg" id="5_6htai"]
 [ext_resource type="AudioStream" uid="uid://dewyukd562k37" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep02.ogg" id="6_nrttm"]
 [ext_resource type="AnimationLibrary" uid="uid://cbfutvkb1x3kr" path="res://Scenes/Assets/Animations/anim_wieldable_pistol.es.tres" id="6_nt2qd"]
-[ext_resource type="Script" path="res://Scenes/Scripts/Wieldable_Pistol.gd" id="7_2f3bv"]
 [ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="7_swbyy"]
 [ext_resource type="AudioStream" uid="uid://b4mt1tuxo2144" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep04.ogg" id="8_2tp8b"]
+[ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="9_66enf"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
 [ext_resource type="PackedScene" uid="uid://b37xr3nyh6aog" path="res://Scenes/Components/StaminaComponent.tscn" id="11_cbmdm"]
 [ext_resource type="PackedScene" uid="uid://c4p6cl0xvfdar" path="res://Scenes/Components/HealthComponent.tscn" id="11_ms07f"]
-[ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/projectile_pistol.tscn" id="11_ydo45"]
+[ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/weapon_projectile.tscn" id="11_ydo45"]
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
-[ext_resource type="PackedScene" uid="uid://dy3tudla5p2nc" path="res://Scenes/Components/PlayerInteractionComponent.tscn" id="13_rawn6"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
@@ -126,21 +126,33 @@ cache/0/16/0/underline_thickness = 0.0
 cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_lanog"]
-height = 1.5
-radius = 0.8
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_4n4va"]
-height = 1.5
-radius = 0.8
-
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 script = ExtResource("1_3fm13")
 fall_damage = 10
-inventory_data = ExtResource("2_qleua")
 jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
+
+[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("interaction_raycast", "carryable_position")]
+script = ExtResource("4_mguki")
+interaction_raycast = NodePath("../Neck/Head/Eyes/Camera/InteractionRaycast")
+carryable_position = NodePath("../CarryablePosition")
+default_position = Vector3(0.329, -0.264, -0.535)
+sound_primary_use = ExtResource("11_45f3g")
+
+[node name="WeaponInventory" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_yum5u")
+projectile_prefab = ExtResource("11_ydo45")
+projectile_velocity = 200.0
+
+[node name="TailManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("21_u8uix")
 
 [node name="StandingCollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_bvi11")
@@ -183,36 +195,45 @@ libraries = {
 target_position = Vector3(0, 0, -2.5)
 collision_mask = 4
 
-[node name="Wieldables" type="Node3D" parent="Neck/Head"]
+[node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 
-[node name="Foam Pistol" type="RigidBody3D" parent="Neck/Head/Wieldables"]
-transform = Transform3D(-3.61999e-06, 0, 0.999999, 0, 1, 0, -1, 0, -3.61999e-06, 0.328536, -0.26394, -0.53488)
+[node name="Pistol" type="RigidBody3D" parent="Neck/Head/WeaponAttachments"]
+transform = Transform3D(-0.485192, -0.755641, 0.439994, -0.841471, 0.540302, 0, -0.23773, -0.370243, -0.898, 0.328536, -1.079, -0.53488)
 visible = false
 collision_layer = 3
 freeze = true
-script = ExtResource("7_2f3bv")
-projectile_prefab = ExtResource("11_ydo45")
-projectile_velocity = 50.0
-default_position = Vector3(0.329, -0.264, -0.535)
-sound_primary_use = ExtResource("11_45f3g")
 
-[node name="pistol_mesh" type="MeshInstance3D" parent="Neck/Head/Wieldables/Foam Pistol"]
+[node name="pistol_mesh" type="MeshInstance3D" parent="Neck/Head/WeaponAttachments/Pistol"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 mesh = SubResource("ArrayMesh_gjvni")
 skeleton = NodePath("")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/Wieldables/Foam Pistol"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/WeaponAttachments/Pistol"]
 
-[node name="Bullet_Point" type="Node3D" parent="Neck/Head/Wieldables/Foam Pistol"]
+[node name="BulletPoint" type="Node3D" parent="Neck/Head/WeaponAttachments/Pistol"]
 transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.277335, 0.0601448, 0.00182778)
 
-[node name="WieldableAnimationPlayer" type="AnimationPlayer" parent="Neck/Head/Wieldables"]
+[node name="Rifle" type="RigidBody3D" parent="Neck/Head/WeaponAttachments"]
+transform = Transform3D(-0.898, 0, 0.439994, 0, 1, 0, -0.439994, 0, -0.898, 0.328536, -1.079, -0.53488)
+visible = false
+collision_layer = 3
+freeze = true
+
+[node name="RifleMesh" parent="Neck/Head/WeaponAttachments/Rifle" instance=ExtResource("9_66enf")]
+transform = Transform3D(-8.74223e-09, 0, 0.2, 0, 0.2, 0, -0.2, 0, -8.74229e-09, 0, 0, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/WeaponAttachments/Rifle"]
+
+[node name="BulletPoint" type="Node3D" parent="Neck/Head/WeaponAttachments/Rifle"]
+transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.277335, 0.0601448, 0.00182778)
+
+[node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="Neck/Head/WeaponAttachments"]
 reset_on_save = false
 libraries = {
 "": ExtResource("6_nt2qd")
 }
 
-[node name="WieldableAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/Wieldables"]
+[node name="WeaponAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/WeaponAttachments"]
 
 [node name="SlidingTimer" type="Timer" parent="."]
 wait_time = 1.5
@@ -226,11 +247,6 @@ volume_db = -38.0
 [node name="FootstepTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="PlayerInteractionComponent" parent="." node_paths=PackedStringArray("interaction_raycast", "carryable_position", "wieldable_nodes") instance=ExtResource("13_rawn6")]
-interaction_raycast = NodePath("../Neck/Head/Eyes/Camera/InteractionRaycast")
-carryable_position = NodePath("../CarryablePosition")
-wieldable_nodes = [NodePath("../Neck/Head/Wieldables/Foam Pistol"), NodePath("")]
-
 [node name="HealthComponent" parent="." instance=ExtResource("11_ms07f")]
 max_health = 100.0
 start_health = 80.0
@@ -243,9 +259,6 @@ max_stamina = 30.0
 start_sanity = 30.0
 
 [node name="BrightnessComponent" parent="." instance=ExtResource("9_x4tef")]
-
-[node name="TailManager" type="Node" parent="."]
-script = ExtResource("21_u8uix")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -263,32 +276,6 @@ offset_top = 626.0
 offset_right = 80.0
 offset_bottom = 640.0
 scale = Vector2(4.76602, 4.76602)
-
-[node name="PickUpWeapon" type="Label" parent="UI"]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -171.389
-offset_right = 1.0
-offset_bottom = -149.389
-scale = Vector2(2, 2)
-text = "Press E to pick up weapon"
-
-[node name="PickUpTail" type="Label" parent="UI"]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -223.315
-offset_right = 1.0
-offset_bottom = -201.315
-scale = Vector2(2, 2)
-text = "Press Q to attach tail"
 
 [node name="Mag" type="Control" parent="UI"]
 anchors_preset = 0
@@ -481,30 +468,8 @@ anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WeaponPickupRange" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.88679, 0)
-collision_layer = 0
-collision_mask = 4
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponPickupRange"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0)
-shape = SubResource("CylinderShape3D_lanog")
-
-[node name="TailPickupRange" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.871261, 0)
-collision_layer = 0
-collision_mask = 8
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TailPickupRange"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.651744, 0)
-shape = SubResource("CylinderShape3D_4n4va")
-
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)
 
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="SlidingTimer" to="." method="_on_sliding_timer_timeout"]
-[connection signal="body_entered" from="TailPickupRange" to="." method="_on_tail_pickup_range_body_entered"]
-[connection signal="body_exited" from="TailPickupRange" to="." method="_on_tail_pickup_range_body_exited"]

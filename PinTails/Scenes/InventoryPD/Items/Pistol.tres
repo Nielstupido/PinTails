@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=6 format=3 uid="uid://lc5uq2e6ldah"]
+
+[ext_resource type="Texture2D" uid="uid://78js4558o61m" path="res://Scenes/Assets/Graphics/ItemIcons/Cogito_Pistol.png" id="1_x0815"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/WeaponData.gd" id="2_xg5g1"]
+[ext_resource type="AudioStream" uid="uid://1w0db1u6lv7t" path="res://Scenes/Assets/Audio/Kenney/UiAudio/rollover6.ogg" id="3_23bba"]
+[ext_resource type="AudioStream" uid="uid://npav2p2tk10i" path="res://Scenes/Assets/Audio/Kenney/handleSmallLeather.ogg" id="4_f102p"]
+[ext_resource type="AudioStream" uid="uid://dc2gop22l8vu8" path="res://Audio/Pistol_fire.wav" id="5_ilurx"]
+
+[resource]
+script = ExtResource("2_xg5g1")
+name = "Pistol"
+descpription = "There's a reason it looks like a toy. Shoots foam bullets."
+icon = ExtResource("1_x0815")
+power = 0
+drop_scene = "res://Scenes/Weapon/Pistol/Pistol.tscn"
+sound_use = ExtResource("5_ilurx")
+sound_pickup = ExtResource("4_f102p")
+sound_drop = ExtResource("3_23bba")
+primary_use_prompt = "Shoot"
+secondary_use_prompt = "Aim"
+mag_size = 12.0
+starting_total_ammo = null
+weapon_range = 15.0
+weapon_damage = 20.0
+equip_anim = "Pistol_equip"
+unequip_anim = "Pistol_unequip"
+reload_anim = "Pistol_reload"
+use_anim = "Pistol_shoot"

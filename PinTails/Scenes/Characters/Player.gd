@@ -15,7 +15,7 @@ const Tail_max_size = 3
 @export var fall_damage_threshold : float = -5
 
 ## Flag if Stamina component isused (as this effects movement)
-@export var is_using_stamina : bool = true
+@export var is_using_stamina : bool = true 
 #Components:
 @onready var health_component = $HealthComponent
 @onready var sanity_component = $SanityComponent
@@ -24,6 +24,7 @@ const Tail_max_size = 3
 
 # Node caching
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
+@onready var weapon_inventory = $WeaponInventory
 @onready var neck: Node3D = $Neck
 @onready var head: Node3D = $Neck/Head
 @onready var eyes: Node3D = $Neck/Head/Eyes
@@ -36,16 +37,11 @@ const Tail_max_size = 3
 @onready var sliding_timer: Timer = $SlidingTimer
 @onready var footstep_timer: Timer = $FootstepTimer
 
-@onready var weapon_pickup_text = $UI/PickUpWeapon
-@onready var tail_pickup_text = $UI/PickUpTail
 @onready var buy_weapon_menu = $Shop
 @onready var weapon_drop_point = $DropPoint
 @onready var tail_manager = $TailManager
 @onready var tail_config_menu = $UI/TailConfigMenu
 @onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
-
-## Inventory resource that stores the player inventory.
-@export var inventory_data : InventoryPD
 
 # Adding carryable position for item control.
 @onready var carryable_position = %CarryablePosition
@@ -69,7 +65,7 @@ const Tail_max_size = 3
 @export var WIGGLE_ON_WALKING_SPEED = 14.0
 @export var WIGGLE_ON_SPRINTING_SPEED = 22.0
 @export var WIGGLE_ON_CROUCHING_SPEED = 10.0
-@export var WIGGLE_ON_WALKING_INTENSITY = 0.1
+@export var WIGGLE_ON_WALKING_INTENSITY = 0.1 
 @export var WIGGLE_ON_SPRINTING_INTENSITY = 0.2
 @export var WIGGLE_ON_CROUCHING_INTENSITY = 0.05
 @export var BUNNY_HOP_ACCELERATION = 0.1
@@ -169,7 +165,6 @@ func _ready():
 	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
 	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
 	
-	setup_keybinds_UI()
 	#<<<Testing>>>
 	add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name), GAMEMANAGER.get_tail_id())
 	GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
@@ -253,6 +248,7 @@ func _on_brightness_changed(current_brightness,max_brightness):
 			sanity_component.start_recovery(2.0, (sanity_component.max_sanity/max_brightness) * current_brightness)
 			
 
+
 # Methods to pause input (for Menu or Dialogues etc)
 func _on_pause_movement():
 	if !is_movement_paused:
@@ -263,6 +259,7 @@ func _on_resume_movement():
 	if is_movement_paused:
 		is_movement_paused = false
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 
 # reload options user may have changed while paused.
 #func _reload_options():
@@ -307,24 +304,15 @@ func _input(event):
 			_on_pause_movement()
 			get_node(pause_menu).open_pause_menu()
 	
-	# Open/closes Inventory if Inventory button is pressed
-	if event.is_action_pressed("inventory") and !is_dead:
-		toggle_inventory_interface.emit()
-	
 	if event.is_action_pressed("buy_menu"):
-		buy_weapon_menu.open_buy_menu()
+		buy_weapon_menu.open_buy_menu() 
 
 
 func _process(delta): 
 	#if pickupable_weapons.is_empty():
 		#weapon_pickup_text.hide()
-	#else:
+	#else: 
 		#weapon_pickup_text.show()
-	
-	if pickupable_tails.is_empty():
-		tail_pickup_text.hide()
-	else:
-		tail_pickup_text.show()
 	
 	if Input.is_action_just_pressed("attach_tail"):
 		if !pickupable_tails.is_empty():
@@ -731,11 +719,6 @@ func _on_sliding_timer_timeout():
 
 func _on_animation_player_animation_finished(anim_name):
 	stand_after_roll = anim_name == 'roll' and !is_crouching
-
-
-func setup_keybinds_UI():
-	weapon_pickup_text.text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("pick_up"))[0].keycode)) + " to pick up weapon"
-	tail_pickup_text.text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("attach_tail"))[0].keycode)) + " to attach tail"
 
 
 func add_tail(passed_tail, passed_tail_id = -1) -> bool:

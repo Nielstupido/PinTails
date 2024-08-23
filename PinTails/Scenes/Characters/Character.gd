@@ -353,14 +353,14 @@ func _physics_process(delta):
 	if is_on_floor():
 		$AnimationTree.set(ag_transition, 1)
 		$AnimationTree.set(ag_weapon_transition, crouch_stand_target)
-
+		
 		if !$AnimationTree.get(roll_active):
 			if Input.is_action_just_pressed("jump"):
 				crouch_stand_target = 1
 				$AnimationTree.set(cs_transition, 1)
 				
 				vertical_velocity = jump_magnitude
-
+		
 			if Input.is_action_just_pressed("roll"):
 				roll()
 				
@@ -432,7 +432,7 @@ func drop_weapon():
 	if weapons.is_empty():
 		return
 	
-	var weapon_instance : Weapon
+	var weapon_instance : Weapon_old
 	match(weapons[current_weapon]):
 		Weapons.PISTOL:
 			weapon_instance = pistol_obj.instance()

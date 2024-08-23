@@ -8,7 +8,7 @@ signal drop_slot_data(slot_data : InventorySlotPD)
 @onready var hot_bar_inventory = $HotBarInventory
 @onready var info_panel = $InfoPanel
 @onready var item_name = $InfoPanel/MarginContainer/VBoxContainer/ItemName
-@onready var item_description = $InfoPanel/MarginContainer/VBoxContainer/ItemDescription
+@onready var item_description = $InfoPanel/arginContainer/VBoxContainer/ItemDescription
 
 ## Sound that plays as a generic error.
 @export var sound_error : AudioStream
@@ -17,6 +17,7 @@ var is_inventory_open : bool
 var grabbed_slot_data: InventorySlotPD
 var external_inventory_owner : Node
 var control_in_focus
+
 
 func _ready():
 	is_inventory_open = false
@@ -33,12 +34,13 @@ func open_inventory():
 		inventory_ui.slot_array[0].grab_focus()
 #		inventory_interface.grabbed_slot.show()
 #		inventory_interface.external_inventory_ui.show()
-
+	
 		for slot_panel in inventory_ui.slot_array:
 			if !slot_panel.mouse_exited.is_connected(_slot_on_mouse_exit):
 				slot_panel.mouse_exited.connect(_slot_on_mouse_exit)
 	hot_bar_inventory.hide()
-	
+
+
 func close_inventory():
 	if is_inventory_open:
 		print("Inventory interface: Closing inventory.")
@@ -57,7 +59,7 @@ func close_inventory():
 func _on_focus_changed(control: Control):
 	if control != null:
 		control_in_focus = control
-		
+	
 	if control_in_focus.item_data and !grabbed_slot.visible:
 		item_name.text = control_in_focus.item_data.name
 		item_description.text = control_in_focus.item_data.descpription
@@ -71,10 +73,12 @@ func _on_focus_changed(control: Control):
 
 
 func _slot_on_mouse_exit():
-	info_panel.hide()		
-
+	info_panel.hide()
+	
 # DEPRECATED. Was used to move the grabbed slot icon with the mouse cursor.
 # Could bring this back later and make it conditional to mouse/kb input.
+
+
 func _physics_process(_delta):
 	if grabbed_slot.visible:
 		pass
@@ -111,6 +115,7 @@ func set_player_inventory_data(inventory_data : InventoryPD):
 	inventory_data.inventory_button_press.connect(on_inventory_button_press)
 	inventory_ui.set_inventory_data(inventory_data)
 
+
 # Inventory handling on gamepad buttons
 func on_inventory_button_press(inventory_data: InventoryPD, index: int, action: String):
 	match [grabbed_slot_data, action]:
@@ -135,7 +140,7 @@ func on_inventory_button_press(inventory_data: InventoryPD, index: int, action: 
 					grabbed_slot_data = inventory_data.grab_single_slot_data(index)
 					drop_slot_data.emit(grabbed_slot_data.create_single_slot_data())
 					grabbed_slot_data = null
-
+	
 	inventory_ui.slot_array[index].grab_focus()
 	update_grabbed_slot()
 
@@ -146,6 +151,7 @@ func update_grabbed_slot():
 		grabbed_slot.set_slot_data(grabbed_slot_data)
 	else:
 		grabbed_slot.hide()
+
 
 # Grabbed slot data handling for mouse buttons
 func _on_gui_input(event):
@@ -180,4 +186,3 @@ func _on_visibility_changed():
 		drop_slot_data.emit(grabbed_slot_data)
 		grabbed_slot_data = null
 		update_grabbed_slot()
-

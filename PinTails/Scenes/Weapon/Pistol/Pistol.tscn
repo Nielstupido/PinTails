@@ -1,13 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://o0xgl5obc551"]
+[gd_scene load_steps=9 format=3 uid="uid://o0xgl5obc551"]
 
 [ext_resource type="Script" path="res://Scenes/Weapon/Weapon.gd" id="1_wcowm"]
-[ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://Scenes/InventoryPD/Items/Cogito_Pistol.tres" id="2_1pgh5"]
-[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/InventorySlotPD.gd" id="3_00451"]
-
-[sub_resource type="Resource" id="Resource_hlfp1"]
-script = ExtResource("3_00451")
-inventory_item = ExtResource("2_1pgh5")
-quantity = 1
+[ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://Scenes/InventoryPD/Items/Pistol.tres" id="2_a3qmc"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
 _data = PackedByteArray(2, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0, 2, 0, 0, 0, 115, 66, 19, 0, 77, 0, 72, 115, 204, 0, 0, 0, 209, 226, 4, 0, 0, 1, 0, 0, 1, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 8, 0, 2, 0, 2, 0, 169, 0, 0, 0, 64, 0, 0, 0, 56, 181, 0, 0, 0, 1, 1, 4, 0, 4, 0, 1, 0, 1, 0, 233, 0, 0, 0, 16, 0, 0, 0, 200, 214, 0, 0, 0, 2, 1, 2, 0, 2, 0, 1, 0, 1, 0, 249, 0, 0, 0, 16, 0, 0, 0, 172, 110, 0, 0, 0, 3, 1, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1, 0, 0, 16, 0, 0, 0, 6, 136, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 8, 93, 129, 224, 4, 29, 157, 85, 72, 68, 68, 68, 55, 222, 22, 247, 8, 108, 145, 99, 148, 156, 158, 85, 0, 0, 0, 0, 26, 15, 141, 171, 176, 20, 161, 81, 28, 158, 158, 94, 0, 0, 0, 0, 0, 0, 243, 230, 80, 193, 136, 65, 222, 222, 95, 223, 0, 0, 127, 119, 127, 119, 127, 119, 119, 247, 182, 86, 59, 182, 181, 2, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -59,10 +53,10 @@ size = Vector3(0.439306, 0.0828058, 0.0807639)
 size = Vector3(0.0942247, 0.2, 0.0599624)
 
 [node name="Pistol" type="RigidBody3D" groups=["Weapon"]]
-collision_layer = 4
-collision_mask = 4
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_wcowm")
-slot_data = SubResource("Resource_hlfp1")
+weapon_data = ExtResource("2_a3qmc")
 
 [node name="pistol_mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)

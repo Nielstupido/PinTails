@@ -1,5 +1,6 @@
 extends Node
 
+
 @onready var player = get_parent()
 
 var No_weapon_stats = {"spread": 0, "movement_spread": 0, "aim_spread": 0,

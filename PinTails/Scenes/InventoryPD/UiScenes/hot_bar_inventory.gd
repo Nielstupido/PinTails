@@ -10,13 +10,13 @@ func _input(event):
 	# Handles Gamepad Hotbar input
 	if not visible:
 		return
-		
+	
 	if event.is_action_released("quickslot_1"):
 		hot_bar_use.emit(0)
 	
 	if event.is_action_released("quickslot_2"):
 		hot_bar_use.emit(1)
-		
+	
 	if event.is_action_released("quickslot_3"):
 		hot_bar_use.emit(2)
 	
