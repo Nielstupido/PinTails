@@ -50,12 +50,17 @@ func holster():
 
 
 func add_weapon(passed_weapon_data) -> bool:
-	if !weapons.has(passed_weapon_data):
-		weapons.append(passed_weapon_data)
-		change_weapon_to()
-		return true
+	if weapons.has(passed_weapon_data):
+		return false
 	
-	return false
+	weapons.append(passed_weapon_data)
+	
+	if weapons.size() > 1:
+		switch_weapon("Next")
+	else:
+		switch_weapon()
+	return true
+	
 
 
 func drop_weapon():
@@ -68,12 +73,9 @@ func drop_weapon():
 	dropped_item.position = owner.player_interaction_component.get_interaction_raycast_tip(0)
 	dropped_item.weapon_data = current_weapon
 	GAMEMANAGER.game_node.add_child(dropped_item)
-	
 	weapons.erase(current_weapon)
-	current_weapon_node = null
-	
-	change_weapon_to()
-#		switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
+	switch_weapon()
+		#switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
 		#switch_weapon(current_weapon - 1 if current_weapon > 0 else  weapons.size() - 1)
 
 
@@ -81,29 +83,38 @@ func equip_weapon(weapon_data : WeaponData):
 	current_weapon = weapon_data
 	var node_path = "../Neck/Head/WeaponAttachments/" + current_weapon.name
 	current_weapon_node = get_node(node_path)
-	print("current weapon animation name == " + current_weapon.equip_anim)
 	weapon_animation_player.queue(current_weapon.equip_anim)
 	player_interaction.is_wielding = true
 
 
-func change_weapon_to(to = ""):
-	if weapons.is_empty():
+func switch_weapon(to = ""):
+	### weapon switching only allowed if player has more than 1 weapon
+	if weapons.size() == 1 && current_weapon != null:
 		return
 	
 	if current_weapon != null:
-		weapon_animation_player.queue(current_weapon.unequip_anim)
-		current_weapon.is_being_wielded = false
-	current_weapon_node = null
-	current_weapon = null
-	player_interaction.is_wielding = false
+		print("unequiping current weapon")
+		weapon_animation_player.play(current_weapon.unequip_anim)
+	
+	if weapons.is_empty():
+		current_weapon_node = null
+		current_weapon = null
+		player_interaction.is_wielding = false
+		return
 	
 	match(to):
 		"":
-			equip_weapon(weapons[0])
+			equip_weapon(weapons.front())
 		"Next":
-			equip_weapon(weapons[0])
+			if weapons.back() != current_weapon:
+				equip_weapon(weapons[weapons.rfind(current_weapon) + 1])
+			else:
+				equip_weapon(weapons.front())
 		"Prev":
-			equip_weapon(weapons[0])
+			if weapons.front() != current_weapon:
+				equip_weapon(weapons[weapons.rfind(current_weapon) - 1])
+			else:
+				equip_weapon(weapons.back())
 
 
 func attempt_reload():

@@ -272,6 +272,7 @@ func _on_pause_menu_resume():
 	#_reload_options()
 	_on_resume_movement()
 
+
 # Signal from Inventory
 func _on_player_hud_resume():
 	_on_resume_movement()
@@ -354,7 +355,6 @@ func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
 ### LADDER MOVEMENT
 func _process_on_ladder(_delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
-	
 	var jump = Input.is_action_pressed("jump")
 	
 	# Processing analog stick mouselook
@@ -503,7 +503,7 @@ func _physics_process(delta):
 	else:
 		snap = Vector3.DOWN
 		gravity_vec = Vector3.DOWN * gravity * delta
-	###
+	### 
 	
 	if not is_on_floor():
 		#snap = Vector3.DOWN

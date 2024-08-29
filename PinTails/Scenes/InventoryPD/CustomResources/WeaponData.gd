@@ -42,7 +42,6 @@ var weapon_data_text : String
 @export var reload_anim : String
 @export var use_anim : String
 
-
 # Variables for Wielded Items
 var current_total_ammo : float
 var current_mag_ammo : float

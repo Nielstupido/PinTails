@@ -198,7 +198,7 @@ collision_mask = 4
 [node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 
 [node name="Pistol" type="RigidBody3D" parent="Neck/Head/WeaponAttachments"]
-transform = Transform3D(-0.485192, -0.755641, 0.439994, -0.841471, 0.540302, 0, -0.23773, -0.370243, -0.898, 0.328536, -1.079, -0.53488)
+transform = Transform3D(-0.485192, -0.755641, 0.439994, -0.841471, 0.540302, 0, -0.23773, -0.370242, -0.898, 0.328536, -1.079, -0.53488)
 visible = false
 collision_layer = 3
 freeze = true
