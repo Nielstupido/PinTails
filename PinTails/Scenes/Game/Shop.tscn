@@ -1,48 +1,64 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://biw1l5wvijj0v"]
 
-[ext_resource path="res://Scenes/Game/Shop.gd" type="Script" id=1]
-[ext_resource path="res://Fonts/Aldrich-Regular.ttf" type="FontFile" id=2]
+[ext_resource type="Script" path="res://Scenes/Game/Shop.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="2"]
+[ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://Scenes/InventoryPD/Items/Pistol.tres" id="2_mhlal"]
+[ext_resource type="Resource" uid="uid://b0iw131oy32gt" path="res://Scenes/InventoryPD/Items/Rifle.tres" id="3_wb1vu"]
 
-[sub_resource type="FontFile" id=3]
-size = 50
-outline_size = 2
-font_data = ExtResource( 2 )
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("2")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=1]
-size = 32
-font_data = ExtResource( 2 )
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("2")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="FontFile" id=2]
-size = 32
-font_data = ExtResource( 2 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("2")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[node name="Shop" type="Control"]
+[node name="Shop" type="CanvasLayer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource("1")
+pistol_data = ExtResource("2_mhlal")
+rifle_data = ExtResource("3_wb1vu")
 
 [node name="Bg" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.647059 )
-__meta__ = {
-"_edit_lock_": true
-}
+color = Color(0, 0, 0, 0.647059)
 
 [node name="CloseBuyMenuBtn" type="Button" parent="."]
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -99.0
 offset_top = 50.0
 offset_right = -49.0
 offset_bottom = 104.0
-theme_override_colors/font_color = Color( 1, 1, 1, 1 )
-theme_override_fonts/font = SubResource( 3 )
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("3")
 text = "X"
 flat = true
 
 [node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 428.0
@@ -50,162 +66,108 @@ offset_top = 209.0
 offset_right = -428.0
 offset_bottom = -209.0
 columns = 5
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="PistolBuyBtn" type="Button" parent="GridContainer"]
-offset_right = 210.0
-offset_bottom = 163.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "Pistol"
 
 [node name="RifleBuyBtn" type="Button" parent="GridContainer"]
-offset_left = 214.0
-offset_right = 424.0
-offset_bottom = 163.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = SubResource( 2 )
+theme_override_fonts/font = SubResource("2")
 text = "Rifle"
 
 [node name="Button3" type="Button" parent="GridContainer"]
-offset_left = 428.0
-offset_right = 638.0
-offset_bottom = 163.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button4" type="Button" parent="GridContainer"]
-offset_left = 642.0
-offset_right = 851.0
-offset_bottom = 163.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button5" type="Button" parent="GridContainer"]
-offset_left = 855.0
-offset_right = 1064.0
-offset_bottom = 163.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button6" type="Button" parent="GridContainer"]
-offset_top = 167.0
-offset_right = 210.0
-offset_bottom = 330.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button7" type="Button" parent="GridContainer"]
-offset_left = 214.0
-offset_top = 167.0
-offset_right = 424.0
-offset_bottom = 330.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button8" type="Button" parent="GridContainer"]
-offset_left = 428.0
-offset_top = 167.0
-offset_right = 638.0
-offset_bottom = 330.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button9" type="Button" parent="GridContainer"]
-offset_left = 642.0
-offset_top = 167.0
-offset_right = 851.0
-offset_bottom = 330.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button10" type="Button" parent="GridContainer"]
-offset_left = 855.0
-offset_top = 167.0
-offset_right = 1064.0
-offset_bottom = 330.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button11" type="Button" parent="GridContainer"]
-offset_top = 334.0
-offset_right = 210.0
-offset_bottom = 496.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button12" type="Button" parent="GridContainer"]
-offset_left = 214.0
-offset_top = 334.0
-offset_right = 424.0
-offset_bottom = 496.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button13" type="Button" parent="GridContainer"]
-offset_left = 428.0
-offset_top = 334.0
-offset_right = 638.0
-offset_bottom = 496.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button14" type="Button" parent="GridContainer"]
-offset_left = 642.0
-offset_top = 334.0
-offset_right = 851.0
-offset_bottom = 496.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button15" type="Button" parent="GridContainer"]
-offset_left = 855.0
-offset_top = 334.0
-offset_right = 1064.0
-offset_bottom = 496.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button16" type="Button" parent="GridContainer"]
-offset_top = 500.0
-offset_right = 210.0
-offset_bottom = 662.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button17" type="Button" parent="GridContainer"]
-offset_left = 214.0
-offset_top = 500.0
-offset_right = 424.0
-offset_bottom = 662.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button18" type="Button" parent="GridContainer"]
-offset_left = 428.0
-offset_top = 500.0
-offset_right = 638.0
-offset_bottom = 662.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button19" type="Button" parent="GridContainer"]
-offset_left = 642.0
-offset_top = 500.0
-offset_right = 851.0
-offset_bottom = 662.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button20" type="Button" parent="GridContainer"]
-offset_left = 855.0
-offset_top = 500.0
-offset_right = 1064.0
-offset_bottom = 662.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

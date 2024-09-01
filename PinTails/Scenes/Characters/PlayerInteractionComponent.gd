@@ -1,6 +1,7 @@
 extends Node3D
 class_name PlayerInteractionComponent
 
+const Tail_max_size = 3
 signal interaction_prompt(interaction_text : String)
 signal hint_prompt(hint_icon:Texture2D, hint_text: String)
 signal set_use_prompt(use_text:String)
@@ -10,7 +11,7 @@ signal updated_wieldable_data(wieldable_icon:Texture2D, wieldable_text: String)
 @export var interaction_raycast : RayCast3D
 @export var carryable_position : Node3D
 
-@onready var weapon_inventory = $"../WeaponInventory"
+@onready var buy_weapon_menu = $"../Shop"
 
 ## The Field Of View change when aiming down sight. In degrees.
 @export var ads_fov = 65
@@ -27,9 +28,24 @@ var look_vector : Vector3
 var is_reset : bool  = true
 var device_id : int = -1
 var obj_in_focus = null
+var pickupable_tail : TailData = null
 
 
 func _process(_delta):
+	if Input.is_action_just_pressed("attach_tail"):
+		if pickupable_tail != null:
+			if owner.tail_manager.add_tail(pickupable_tail):
+				GAMEMANAGER.emit_signal("tail_picked_up", pickupable_tail)
+	elif Input.is_action_pressed("attach_tail"):
+		if !owner.tail_config_menu.visible:
+			owner.is_looking_aroung_paused = true
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			owner.tail_config_menu.show()
+	elif owner.tail_config_menu.visible:
+		owner.is_looking_aroung_paused = false
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		owner.tail_config_menu.hide()
+	
 	if interaction_raycast.is_colliding():
 		var interactable = interaction_raycast.get_collider()
 		if obj_in_focus != interactable and interactable.has_method("pick_up"):
@@ -48,45 +64,61 @@ func _process(_delta):
 
 
 func _input(event):
-	if event.is_action_pressed("drop_weapon"):
-		weapon_inventory.drop_weapon()
-	
-	if event.is_action_pressed("pick_up"):
-		if obj_in_focus != null and obj_in_focus.has_method("pick_up"):
-			if weapon_inventory.add_weapon(obj_in_focus.weapon_data):
-				obj_in_focus.pick_up()
-	
-	# Wieldable primary Action Input
-	if !get_parent().is_movement_paused:
-		if is_wielding and Input.is_action_just_pressed("action_primary"):
-			weapon_inventory.action_primary()
+	if !owner.is_looking_aroung_paused:
+		if event.is_action_pressed("buy_menu"):
+			buy_weapon_menu.open_buy_menu() 
 		
-		if is_wielding and Input.is_action_just_pressed("action_secondary"):
-			weapon_inventory.action_secondary(false)
-		if is_wielding and Input.is_action_just_released("action_secondary"):
-			weapon_inventory.action_secondary(true)
+		if event.is_action_pressed("drop_weapon"):
+			owner.weapon_inventory.drop_weapon()
 		
-		if is_wielding and event.is_action_pressed("reload"):
-			if interaction_raycast.is_colliding() and interaction_raycast.get_collider().has_method("interact"):
-				return
-			else:
-				weapon_inventory.attempt_reload()
-	
-	# Weapon switching using middle mouse dial
-	if event.is_action_pressed("next_weapon"):
-		weapon_inventory.switch_weapon("Next")
-	
-	if event.is_action_pressed("prev_weapon"):
-		weapon_inventory.switch_weapon("Prev")
-	
-	if event.is_action_pressed("holster"):
-		weapon_inventory.holster()
+		if event.is_action_pressed("pick_up"):
+			if obj_in_focus != null and obj_in_focus.has_method("pick_up"):
+				if owner.weapon_inventory.add_weapon(obj_in_focus.weapon_data):
+					obj_in_focus.pick_up()
+		
+		# Wieldable primary Action Input
+		if !get_parent().is_movement_paused:
+			if is_wielding and Input.is_action_just_pressed("action_primary"):
+				owner.weapon_inventory.action_primary()
+			
+			if is_wielding and Input.is_action_just_pressed("action_secondary"):
+				owner.weapon_inventory.action_secondary(false)
+			if is_wielding and Input.is_action_just_released("action_secondary"):
+				owner.weapon_inventory.action_secondary(true)
+			
+			if is_wielding and event.is_action_pressed("reload"):
+				if interaction_raycast.is_colliding() and interaction_raycast.get_collider().has_method("interact"):
+					return
+				else:
+					owner.weapon_inventory.attempt_reload()
+		
+		# Weapon switching using middle mouse dial
+		if event.is_action_pressed("next_weapon"):
+			owner.weapon_inventory.switch_weapon("Next")
+		
+		if event.is_action_pressed("prev_weapon"):
+			owner.weapon_inventory.switch_weapon("Prev")
+		
+		if event.is_action_pressed("holster"):
+			owner.weapon_inventory.holster()
 
 
 ## Helper function to always get raycast destination point
 func get_interaction_raycast_tip(distance_offset : float) -> Vector3:
 	if interaction_raycast.is_colliding():
-		return interaction_raycast.get_collision_point()
+		return interaction_raycast.get_collision_point() 
 	else:
 		var destination_point = interaction_raycast.global_position + (interaction_raycast.target_position.z - distance_offset) * get_viewport().get_camera_3d().get_global_transform().basis.z
 		return destination_point
+
+
+func _on_tail_collision_area_body_entered(body):
+	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != Tail_max_size:
+		emit_signal("interaction_prompt", body.interaction_text)
+		pickupable_tail = body.tail_data
+
+
+func _on_tail_collision_area_body_exited(body):
+	if body.is_in_group("Tail") and body.tail_data == pickupable_tail:
+		emit_signal("interaction_prompt", "")
+		pickupable_tail = null

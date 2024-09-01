@@ -66,25 +66,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1049, 0)
 light_energy = 0.0
 shadow_enabled = true
 
+[node name="TailDropPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
+
 [node name="GameMenuSettings" parent="." instance=ExtResource("10")]
 process_mode = 3
 visible = false
 
-[node name="TailDropPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
-
 [node name="Player" parent="." instance=ExtResource("3_od0wa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4438, 0)
-collision_layer = 2
-collision_mask = 2
 player_hud = NodePath("../Player_HUD")
 
 [node name="Player_HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("9_suwuj")]
+z_as_relative = true
 player = NodePath("../Player")
 
-[node name="pickup_pistol" parent="." instance=ExtResource("9_u5o07")]
+[node name="Pistol" parent="." instance=ExtResource("9_u5o07")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.476655, 0)
-interaction_text = "Pick Up Gun"
 
-[node name="Pistol" parent="." instance=ExtResource("11_8jrpd")]
+[node name="Rifle" parent="." instance=ExtResource("11_8jrpd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)

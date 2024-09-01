@@ -1,6 +1,6 @@
 [gd_scene load_steps=69 format=3 uid="uid://c36q53jf1bj66"]
 
-[ext_resource type="PackedScene" path="res://Scenes/Game/Shop.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="1"]
 [ext_resource type="Script" path="res://Scenes/Player/Camera.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/Characters/Character.gd" id="3"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerTailsSideBar.gd" id="4"]
@@ -1129,10 +1129,6 @@ libraries = {
 
 [node name="Shop" parent="." instance=ExtResource("1")]
 process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="shoot_sfx" type="AudioStreamPlayer" parent="."]
 stream = SubResource("101")

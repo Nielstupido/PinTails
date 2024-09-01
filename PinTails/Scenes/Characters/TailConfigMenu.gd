@@ -26,7 +26,7 @@ func add_tail(tail_data):
 
 func remove_tail(tail_data):
 	var removed_tail_key : int
-	owner.remove_tail(tail_data)
+	owner.tail_manager.remove_tail(tail_data)
 	
 	removed_tail_key = tails.find(tail_data)
 	tails.erase(tail_data)

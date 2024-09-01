@@ -2,12 +2,7 @@ class_name WeaponInventory
 extends Node
 
 const Tail_max_size = 3
-enum Weapons {RIFLE, PISTOL}
-const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
 
-@onready var player_interaction = $"../PlayerInteractionComponent"
-@onready var weapon_attachment = $"../Neck/Head/WeaponAttachments"
-@onready var weapon_drop_point = $"../DropPoint"
 @onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 @onready var rifle_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 
@@ -42,11 +37,11 @@ func holster():
 	
 	print("weapon node visible == " + str(current_weapon_node.visible))
 	if current_weapon_node.visible:
-		player_interaction.is_wielding = false
-		weapon_animation_player.play("Pistol_unequip")
+		owner.player_interaction_component.is_wielding = false
+		weapon_animation_player.play(current_weapon.unequip_anim)
 	else:
-		player_interaction.is_wielding = true
-		weapon_animation_player.play("Pistol_equip")
+		owner.player_interaction_component.is_wielding = true
+		weapon_animation_player.play(current_weapon.equip_anim)
 
 
 func add_weapon(passed_weapon_data) -> bool:
@@ -73,10 +68,17 @@ func drop_weapon():
 	dropped_item.position = owner.player_interaction_component.get_interaction_raycast_tip(0)
 	dropped_item.weapon_data = current_weapon
 	GAMEMANAGER.game_node.add_child(dropped_item)
+	var item_index = weapons.rfind(current_weapon)
 	weapons.erase(current_weapon)
-	switch_weapon()
-		#switch_weapon(current_weapon if current_weapon < weapons.size() else  weapons.size() - 1)
-		#switch_weapon(current_weapon - 1 if current_weapon > 0 else  weapons.size() - 1)
+	weapon_animation_player.play(current_weapon.unequip_anim)
+	
+	if weapons.is_empty():
+		current_weapon_node = null
+		current_weapon = null
+		owner.player_interaction_component.is_wielding = false
+	else:
+		if weapons.front() != current_weapon:
+			equip_weapon(weapons[item_index - 1])
 
 
 func equip_weapon(weapon_data : WeaponData):
@@ -84,23 +86,20 @@ func equip_weapon(weapon_data : WeaponData):
 	var node_path = "../Neck/Head/WeaponAttachments/" + current_weapon.name
 	current_weapon_node = get_node(node_path)
 	weapon_animation_player.queue(current_weapon.equip_anim)
-	player_interaction.is_wielding = true
+	owner.player_interaction_component.is_wielding = true
 
 
 func switch_weapon(to = ""):
-	### weapon switching only allowed if player has more than 1 weapon
-	if weapons.size() == 1 && current_weapon != null:
+	## weapon switching only allowed if player has more than 1 weapon
+	if ((weapons.size() == 1 && current_weapon != null) || weapons.is_empty()):
 		return
 	
-	if current_weapon != null:
-		print("unequiping current weapon")
+	## weapon switching only allowed if weapon is not holstered
+	if (!owner.player_interaction_component.is_wielding && weapons.size() > 1):
+		return
+	
+	if current_weapon != null and owner.player_interaction_component.is_wielding:
 		weapon_animation_player.play(current_weapon.unequip_anim)
-	
-	if weapons.is_empty():
-		current_weapon_node = null
-		current_weapon = null
-		player_interaction.is_wielding = false
-		return
 	
 	match(to):
 		"":
@@ -139,7 +138,7 @@ func attempt_reload():
 	#current_weapon.update_wieldable_data(self)
 
 
-# Primary function/action of the weapon
+## Primary function/action of the weapon
 func action_primary():
 	print("current ammo " + str(current_weapon.current_mag_ammo))
 	if current_weapon.current_mag_ammo == 0:
@@ -172,13 +171,13 @@ func action_secondary(is_released:bool):
 		var tween_cam = get_tree().create_tween()
 		tween_cam.tween_property(camera,"fov", 75, .2)
 		var tween_pistol = get_tree().create_tween()
-		tween_pistol.tween_property(current_weapon_node, "position", player_interaction.default_position, .2)
+		tween_pistol.tween_property(current_weapon_node, "position", owner.player_interaction_component.default_position, .2)
 	else:
 		# ADS Camera Zoom IN
 		var tween_cam = get_tree().create_tween()
-		tween_cam.tween_property(camera,"fov", player_interaction.ads_fov, .2)
+		tween_cam.tween_property(camera,"fov", owner.player_interaction_component.ads_fov, .2)
 		var tween_pistol = get_tree().create_tween()
-		tween_pistol.tween_property(current_weapon_node, "position", Vector3(0,player_interaction.default_position.y,player_interaction.default_position.z), .2)
+		tween_pistol.tween_property(current_weapon_node, "position", Vector3(0,owner.player_interaction_component.default_position.y,owner.player_interaction_component .default_position.z), .2)
 
 
 func get_camera_collision() -> Vector3:
@@ -189,7 +188,7 @@ func get_camera_collision() -> Vector3:
 	var Ray_End = Ray_Origin + camera.project_ray_normal(viewport/2) * current_weapon.weapon_range
 	
 	var New_Intersection = PhysicsRayQueryParameters3D.create(Ray_Origin,Ray_End)
-	var Intersection = player_interaction.get_world_3d().direct_space_state.intersect_ray(New_Intersection)
+	var Intersection = owner.player_interaction_component.get_world_3d().direct_space_state.intersect_ray(New_Intersection)
 	
 	if not Intersection.is_empty():
 		var Col_Point = Intersection.position

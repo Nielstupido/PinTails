@@ -2,7 +2,7 @@ class_name Weapon
 extends RigidBody3D
 
 @export var weapon_data : WeaponData
-@export var interaction_text : String = "Pick up"
+var interaction_text : String
 
 
 func _ready():

@@ -2,7 +2,6 @@ extends CharacterBody3D
 
 signal toggle_inventory_interface()
 signal player_state_loaded()
-const Tail_max_size = 3
 
 ## Reference to Pause menu node
 @export var pause_menu : NodePath
@@ -25,6 +24,8 @@ const Tail_max_size = 3
 # Node caching
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
 @onready var weapon_inventory = $WeaponInventory
+@onready var tail_manager = $TailManager
+@onready var tail_config_menu = $UI/TailConfigMenu
 @onready var neck: Node3D = $Neck
 @onready var head: Node3D = $Neck/Head
 @onready var eyes: Node3D = $Neck/Head/Eyes
@@ -36,12 +37,6 @@ const Tail_max_size = 3
 @onready var crouch_raycast: RayCast3D = $CrouchRayCast
 @onready var sliding_timer: Timer = $SlidingTimer
 @onready var footstep_timer: Timer = $FootstepTimer
-
-@onready var buy_weapon_menu = $Shop
-@onready var weapon_drop_point = $DropPoint
-@onready var tail_manager = $TailManager
-@onready var tail_config_menu = $UI/TailConfigMenu
-@onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
 
 # Adding carryable position for item control.
 @onready var carryable_position = %CarryablePosition
@@ -99,11 +94,6 @@ var on_ladder : bool = false
 @export var JOY_V_SENS : int = 3
 @export var JOY_H_SENS : int = 2
 
-## Tail stuff
-@onready var tails = []
-var pickupable_tails : Array
-var current_active_tail_attrb : Array
-
 var joystick_h_event
 var joystick_v_event
  
@@ -126,6 +116,7 @@ var bunny_hop_speed = SPRINTING_SPEED
 var last_velocity = Vector3.ZERO
 var stand_after_roll = false
 var is_movement_paused = false
+var is_looking_aroung_paused = false
 var is_dead : bool = false
 
 ## Player tail stats
@@ -147,9 +138,7 @@ func _ready():
 	#Some Setup steps
 	#CogitoSceneManager._current_player_node = self
 	player_interaction_component.interaction_raycast = $Neck/Head/Eyes/Camera/InteractionRaycast
-	
 	randomize()
-	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	# Pause Menu setup
@@ -164,11 +153,6 @@ func _ready():
 	
 	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
 	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
-	
-	#<<<Testing>>>
-	add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name), GAMEMANAGER.get_tail_id())
-	GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
-	#<<<Testing>>>
 
 
 # Use this function to manipulate player attributes.
@@ -253,11 +237,13 @@ func _on_brightness_changed(current_brightness,max_brightness):
 func _on_pause_movement():
 	if !is_movement_paused:
 		is_movement_paused = true
+		is_looking_aroung_paused = true
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_resume_movement():
 	if is_movement_paused:
 		is_movement_paused = false
+		is_looking_aroung_paused = false
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
@@ -279,7 +265,7 @@ func _on_player_hud_resume():
 
 
 func _input(event):
-	if event is InputEventMouseMotion and !is_movement_paused:
+	if event is InputEventMouseMotion and !is_looking_aroung_paused:
 		if is_free_looking:
 			neck.rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
 			neck.rotation.y = clamp(neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
@@ -293,7 +279,7 @@ func _input(event):
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 		
 	# Checking Analog stick input for mouse look
-	if event is InputEventJoypadMotion and !is_movement_paused:
+	if event is InputEventJoypadMotion and !is_looking_aroung_paused:
 		if event.get_axis() == 2:
 			joystick_v_event = event
 		if event.get_axis() == 3:
@@ -304,31 +290,9 @@ func _input(event):
 		if !is_movement_paused and !is_dead:
 			_on_pause_movement()
 			get_node(pause_menu).open_pause_menu()
-	
-	if event.is_action_pressed("buy_menu"):
-		buy_weapon_menu.open_buy_menu() 
 
 
 func _process(delta): 
-	#if pickupable_weapons.is_empty():
-		#weapon_pickup_text.hide()
-	#else: 
-		#weapon_pickup_text.show()
-	
-	if Input.is_action_just_pressed("attach_tail"):
-		if !pickupable_tails.is_empty():
-			if add_tail(pickupable_tails[0]):
-				GAMEMANAGER.emit_signal("tail_picked_up", tails[tails.size() - 1])
-	elif Input.is_action_pressed("attach_tail"):
-		if !tail_config_menu.visible:
-			camera.set_process_input(false)
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			tail_config_menu.show()
-	elif tail_config_menu.visible:
-		camera.set_process_input(true)
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		tail_config_menu.hide()
-	
 	# If SanityComponent is used, this decreases health when sanity is 0.
 	if sanity_component.current_sanity <= 0:
 		take_damage(health_component.no_sanity_damage * delta)
@@ -719,36 +683,3 @@ func _on_sliding_timer_timeout():
 
 func _on_animation_player_animation_finished(anim_name):
 	stand_after_roll = anim_name == 'roll' and !is_crouching
-
-
-func add_tail(passed_tail, passed_tail_id = -1) -> bool:
-	if !tails.has(passed_tail):
-		if passed_tail_id != -1:
-			passed_tail.id = passed_tail_id
-		tails.append(passed_tail)
-		print("passed tail == " + str(passed_tail))
-		return true
-	 
-	return false
-
-
-func remove_tail(passed_tail):
-	var tail_instance = tail_obj.instantiate()
-	tail_instance.global_transform = weapon_drop_point.global_transform;
-	tail_instance.prepare_tail(passed_tail)
-	GAMEMANAGER.get_node(".").add_child(tail_instance)
-	
-	tails.erase(passed_tail)
-	tail_manager.remove_tail_attr(passed_tail)
-
-
-func _on_tail_pickup_range_body_entered(body):
-	if body.is_in_group("Tail") and tails.size() != Tail_max_size:
-		if pickupable_tails.has(body.tail_data):
-			pickupable_tails.erase(body.tail_data)
-		pickupable_tails.push_front(body.tail_data)
-
-
-func _on_tail_pickup_range_body_exited(body):
-	if pickupable_tails.has(body.tail_data):
-		pickupable_tails.erase(body.tail_data)

@@ -32,6 +32,7 @@ func clear_tail_card():
  
 
 func _on_remove_tail():
+	print("pindot")
 	if self.tail_data:
 		owner.tail_config_menu.remove_tail(self.tail_data)
 #<---------- IN-GAME ---------->
