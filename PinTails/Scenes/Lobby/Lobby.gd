@@ -4,7 +4,7 @@ extends Control
 @onready var main_menu_scene = load("res://Scenes/MainMenu/MainMenu.tscn")
 @onready var tail_cards_holder = $TailCardsHolder
 @onready var player_cards_holder = $Players/PlayerCardsHolder
-@onready var grid_container = $TailCardsHolder/GridContainter
+@onready var grid_container = $TailCardsHolder/ScrollContainer/GridContainter
 var tail_res_folder = "res://Scenes/Tails/"
 var tail_data_list : Array
 var current_tail_data : TailData

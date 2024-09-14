@@ -4,12 +4,10 @@ extends Control
 @onready var tail_card2 = $HBoxContainer/TailMenuHolder2/TailCard
 @onready var tail_card3 = $HBoxContainer/TailMenuHolder3/TailCard
 var tails : Array
-var player_skills_bar
 
 
 func _ready():
 	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
-	player_skills_bar = owner.get_node("UI/PlayerSkills")
 
 
 func add_tail(tail_data):
@@ -30,7 +28,7 @@ func remove_tail(tail_data):
 	
 	removed_tail_key = tails.find(tail_data)
 	tails.erase(tail_data)
-	player_skills_bar.remove_skill(removed_tail_key)
+	owner.skill_manager.remove_skill(removed_tail_key)
 	
 	if tails.size() == 0:
 		tail_card1.clear_tail_card()

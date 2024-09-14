@@ -18,7 +18,7 @@
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="16"]
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="17"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="18"]
-[ext_resource type="Script" path="res://Scenes/Characters/PlayerSkillsManager.gd" id="19"]
+[ext_resource type="Script" path="res://Scenes/Characters/SkillManager.gd" id="19"]
 [ext_resource type="PackedScene" path="res://Scenes/Characters/SkillCard.tscn" id="20"]
 
 [sub_resource type="CapsuleShape3D" id="63"]

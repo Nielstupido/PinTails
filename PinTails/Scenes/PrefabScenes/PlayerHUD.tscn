@@ -1,12 +1,12 @@
 [gd_scene load_steps=18 format=3 uid="uid://0c32kepv0ahx"]
 
-[ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="1_0wdkf"]
-[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="3_ahile"]
-[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="3_lb6l4"]
-[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="3_o56n0"]
-[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="4_2dtpt"]
-[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="6_f5jpm"]
-[ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="12_jgxar"]
+[ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="1_ly0f7"]
+[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="2_d4a31"]
+[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="3_bvane"]
+[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="4_vsyhi"]
+[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="5_3ai1h"]
+[ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="6_dud2n"]
+[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="7_s3sqr"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1f12m"]
 blend_mode = 1
@@ -41,7 +41,7 @@ bg_color = Color(0.6, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbke8"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="Player_HUD" type="Control"]
+[node name="PlayerHUD" type="Control"]
 z_as_relative = false
 layout_mode = 3
 anchors_preset = 15
@@ -49,8 +49,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0wdkf")
-default_hint_icon = ExtResource("3_o56n0")
+script = ExtResource("1_ly0f7")
+default_hint_icon = ExtResource("2_d4a31")
 
 [node name="DamageOverlay" type="Control" parent="."]
 layout_mode = 1
@@ -68,7 +68,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_lb6l4")
+texture = ExtResource("3_bvane")
 expand_mode = 5
 
 [node name="Crosshair" type="Control" parent="."]
@@ -95,7 +95,7 @@ offset_right = 16.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_ahile")
+texture = ExtResource("4_vsyhi")
 expand_mode = 1
 
 [node name="ButtonPrompt" type="Control" parent="."]
@@ -125,7 +125,7 @@ grow_horizontal = 2
 visible = false
 custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
-texture = ExtResource("4_2dtpt")
+texture = ExtResource("5_3ai1h")
 expand_mode = 2
 
 [node name="Container" type="MarginContainer" parent="ButtonPrompt/HBoxContainer"]
@@ -136,7 +136,7 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="InteractionButton" parent="ButtonPrompt/HBoxContainer/Container" instance=ExtResource("12_jgxar")]
+[node name="InteractionButton" parent="ButtonPrompt/HBoxContainer/Container" instance=ExtResource("6_dud2n")]
 position = Vector2(0, 0)
 scale = Vector2(0.4, 0.4)
 centered = false
@@ -167,7 +167,7 @@ layout_mode = 2
 [node name="HintIcon" type="TextureRect" parent="HintPrompt/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-texture = ExtResource("3_o56n0")
+texture = ExtResource("2_d4a31")
 expand_mode = 2
 
 [node name="HintText" type="Label" parent="HintPrompt/MarginContainer/HBoxContainer"]
@@ -211,7 +211,7 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="PrimaryUseIcon" parent="UseBar/HBoxContainer/WieldablePrimaryUse/MarginContainer" instance=ExtResource("12_jgxar")]
+[node name="PrimaryUseIcon" parent="UseBar/HBoxContainer/WieldablePrimaryUse/MarginContainer" instance=ExtResource("6_dud2n")]
 position = Vector2(20, 20)
 scale = Vector2(0.4, 0.4)
 
@@ -268,7 +268,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 value = 40.0
-texture_progress = ExtResource("6_f5jpm")
+texture_progress = ExtResource("7_s3sqr")
 
 [node name="SanityBar" type="ProgressBar" parent="PlayerAttributes/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 16)

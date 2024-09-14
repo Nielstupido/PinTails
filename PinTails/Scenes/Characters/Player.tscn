@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=39 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -11,18 +11,19 @@
 [ext_resource type="AnimationLibrary" uid="uid://cbfutvkb1x3kr" path="res://Scenes/Assets/Animations/anim_wieldable_pistol.es.tres" id="6_nt2qd"]
 [ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="7_swbyy"]
 [ext_resource type="AudioStream" uid="uid://b4mt1tuxo2144" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep04.ogg" id="8_2tp8b"]
+[ext_resource type="Script" path="res://Scenes/Characters/SkillManager.gd" id="8_xkga3"]
 [ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="9_66enf"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
 [ext_resource type="PackedScene" uid="uid://b37xr3nyh6aog" path="res://Scenes/Components/StaminaComponent.tscn" id="11_cbmdm"]
 [ext_resource type="PackedScene" uid="uid://c4p6cl0xvfdar" path="res://Scenes/Components/HealthComponent.tscn" id="11_ms07f"]
-[ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/weapon_projectile.tscn" id="11_ydo45"]
+[ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/WeaponProjectile.tscn" id="11_ydo45"]
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
-[ext_resource type="Script" path="res://Scenes/Characters/PlayerSkillsManager.gd" id="26_s03ct"]
-[ext_resource type="PackedScene" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
+[ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
+[ext_resource type="PackedScene" uid="uid://0c32kepv0ahx" path="res://Scenes/PrefabScenes/PlayerHUD.tscn" id="27_ygtlk"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
 [ext_resource type="PackedScene" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
@@ -158,6 +159,13 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("21_u8uix")
 
+[node name="SkillManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("8_xkga3")
+
 [node name="StandingCollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_bvi11")
 
@@ -167,6 +175,8 @@ shape = SubResource("CapsuleShape3D_fgxde")
 disabled = true
 
 [node name="TailCollisionArea" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TailCollisionArea"]
 shape = SubResource("CylinderShape3D_w874f")
@@ -204,7 +214,7 @@ process_mode = 1
 
 [node name="InteractionRaycast" type="RayCast3D" parent="Neck/Head/Eyes/Camera"]
 target_position = Vector3(0, 0, -2.5)
-collision_mask = 4
+collision_mask = 8
 
 [node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 
@@ -332,7 +342,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("26_s03ct")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerSkills"]
 layout_mode = 0
@@ -474,6 +483,9 @@ text = "Unpin"
 
 [node name="Shop" parent="." instance=ExtResource("31_lvldf")]
 process_mode = 3
+
+[node name="Player_HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("27_ygtlk")]
+player = NodePath("..")
 
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)

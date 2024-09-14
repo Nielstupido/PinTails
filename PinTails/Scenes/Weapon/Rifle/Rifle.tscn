@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bukjp5ei5khrl"]
 
-[ext_resource type="Script" path="res://Scenes/Weapon/Weapon.gd" id="1_c0v5l"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/Item.gd" id="1_5hm81"]
 [ext_resource type="Resource" uid="uid://b0iw131oy32gt" path="res://Scenes/InventoryPD/Items/Rifle.tres" id="2_4vagi"]
 [ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="3_j00gu"]
 
@@ -11,10 +11,11 @@ size = Vector3(1.60374, 0.226095, 0.0807639)
 size = Vector3(0.583371, 0.654553, 0.0599624)
 
 [node name="Rifle" type="RigidBody3D" groups=["Weapon"]]
-collision_layer = 5
-collision_mask = 5
-script = ExtResource("1_c0v5l")
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_5hm81")
 weapon_data = ExtResource("2_4vagi")
+action_keyword = "pick_up"
 
 [node name="RifleMesh" parent="." instance=ExtResource("3_j00gu")]
 transform = Transform3D(-8.74228e-09, 0, 0.2, 0, 0.2, 0, -0.2, 0, -8.74228e-09, 0, 0, 0)

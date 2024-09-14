@@ -1,7 +1,6 @@
 extends Control
 
-
-@onready var tail_cards_holder = self.get_parent().get_parent()
+@onready var tail_cards_holder = self.get_parent().get_parent().get_parent()
 var tail_data : TailData
 
 

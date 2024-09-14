@@ -1,12 +1,12 @@
 extends Control
 
 
-var skill_data : TailData = null
-var skill_CD : int
+var tail_data : TailData = null
+var skill_cooldown : int
 
 
 func _ready():
-	$Timer.connect("timeout", Callable(self, "_on_CD_finished"))
+	$Timer.connect("timeout", Callable(self, "_on_cooldown_finished"))
 	self.clear_skill_card()
 
 
@@ -15,24 +15,24 @@ func _process(delta):
 		$CD.text = str(int($Timer.time_left))
 
 
-func setup_skill_card(passed_tail_data, on_CD = false, remaining_CD = 0):
-	self.skill_data = passed_tail_data
-	$Label.text = self.skill_data.tail_name
-	self.skill_CD = owner.tail_manager.get_skill_CD(self.skill_data.tail_active_attrb)
+func setup_skill_card(passed_tail_data, on_cooldown = false, remaining_cooldown = 0):
+	self.tail_data = passed_tail_data
+	$Label.text = self.tail_data.tail_name
+	self.skill_cooldown = owner.tail_manager.get_skill_CD(self.tail_data.tail_skill_name)
 	
-	if on_CD:
-		self.use_skill(remaining_CD)
+	if on_cooldown:
+		self.start_cooldown(remaining_cooldown)
 
 
 func clear_skill_card():
-	self.skill_data = null
+	self.tail_data = null
 	$Label.text = "Empty"
 	$Timer.stop()
-	$CD.text = ""
+	$CD.text = "" 
 
 
 func can_use_skill() -> bool:
-	if !on_cooldown()[0] and skill_data:
+	if !on_cooldown()[0] and tail_data:
 		return true
 	
 	return false
@@ -45,12 +45,12 @@ func on_cooldown() -> Array:
 	return [true, $Timer.time_left]
 
 
-func use_skill(remaining_CD = 0):
-	if remaining_CD == 0:
-		$Timer.start(self.skill_CD)
+func start_cooldown(remaining_cooldown = 0):
+	if remaining_cooldown == 0:
+		$Timer.start(self.skill_cooldown)
 	else:
-		$Timer.start(remaining_CD)
+		$Timer.start(remaining_cooldown)
 
 
-func _on_CD_finished():
+func _on_cooldown_finished():
 	$CD.text = ""

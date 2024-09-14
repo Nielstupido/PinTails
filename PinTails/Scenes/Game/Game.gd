@@ -25,11 +25,8 @@ func _ready():
 	
 	for tail_data in tail_data_list:
 		var tail_instance = tail_obj.instantiate()
-		var new_tail_data = TailData.new()
-		new_tail_data = tail_data
 		GAMEMANAGER.get_node(".").add_child(tail_instance)
 		tail_instance.global_transform = tail_pos.global_transform
 		tail_instance.global_position.z = randomZ.randf_range(-6, 6)
-		tail_instance.prepare_tail(new_tail_data)
-		tail_instance.tail_data.id = GAMEMANAGER.get_tail_id()
+		tail_instance.tail_data = tail_data
 #<-------For testing-------->

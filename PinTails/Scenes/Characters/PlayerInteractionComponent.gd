@@ -1,7 +1,8 @@
 extends Node3D
 class_name PlayerInteractionComponent
 
-const Tail_max_size = 3
+const Tail_Max_Size = 3
+const Hold_Time_Thres = 20
 signal interaction_prompt(interaction_text : String)
 signal hint_prompt(hint_icon:Texture2D, hint_text: String)
 signal set_use_prompt(use_text:String)
@@ -28,19 +29,30 @@ var look_vector : Vector3
 var is_reset : bool  = true
 var device_id : int = -1
 var obj_in_focus = null
-var pickupable_tail : TailData = null
+var pickupable_tail_obj : Object = null
+var hold_time : int = 0
 
 
-func _process(_delta):
-	if Input.is_action_just_pressed("attach_tail"):
-		if pickupable_tail != null:
-			if owner.tail_manager.add_tail(pickupable_tail):
-				GAMEMANAGER.emit_signal("tail_picked_up", pickupable_tail)
-	elif Input.is_action_pressed("attach_tail"):
-		if !owner.tail_config_menu.visible:
-			owner.is_looking_aroung_paused = true
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			owner.tail_config_menu.show()
+func _process(delta):
+	if Input.is_action_pressed("attach_tail"):
+		hold_time += (delta * 100)
+		print("hold time == " + str(hold_time))
+		if hold_time > Hold_Time_Thres:
+			if !owner.tail_config_menu.visible:
+				owner.is_looking_aroung_paused = true
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+				owner.tail_config_menu.show()
+	elif Input.is_action_just_released("attach_tail"):
+		if hold_time < Hold_Time_Thres:
+			if pickupable_tail_obj != null:
+				if owner.tail_manager.add_tail(pickupable_tail_obj.tail_data):
+					pickupable_tail_obj.pick_up()
+					GAMEMANAGER.emit_signal("tail_picked_up", pickupable_tail_obj.tail_data)
+					
+					if owner.tail_manager.tails.size() == Tail_Max_Size:
+						emit_signal("interaction_prompt", "")
+						pickupable_tail_obj = null
+		hold_time = 0
 	elif owner.tail_config_menu.visible:
 		owner.is_looking_aroung_paused = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -79,6 +91,8 @@ func _input(event):
 		# Wieldable primary Action Input
 		if !get_parent().is_movement_paused:
 			if is_wielding and Input.is_action_just_pressed("action_primary"):
+				if owner.skill_manager.is_skill_waiting_shot_trigger:
+					owner.activate_skill
 				owner.weapon_inventory.action_primary()
 			
 			if is_wielding and Input.is_action_just_pressed("action_secondary"):
@@ -100,7 +114,7 @@ func _input(event):
 			owner.weapon_inventory.switch_weapon("Prev")
 		
 		if event.is_action_pressed("holster"):
-			owner.weapon_inventory.holster()
+			owner.weapon_inventory.holster() 
 
 
 ## Helper function to always get raycast destination point
@@ -113,12 +127,13 @@ func get_interaction_raycast_tip(distance_offset : float) -> Vector3:
 
 
 func _on_tail_collision_area_body_entered(body):
-	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != Tail_max_size:
+	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != Tail_Max_Size:
 		emit_signal("interaction_prompt", body.interaction_text)
-		pickupable_tail = body.tail_data
+		pickupable_tail_obj = body
 
 
 func _on_tail_collision_area_body_exited(body):
-	if body.is_in_group("Tail") and body.tail_data == pickupable_tail:
-		emit_signal("interaction_prompt", "")
-		pickupable_tail = null
+	if body.is_in_group("Tail")and owner.tail_manager.tails.size() != Tail_Max_Size and pickupable_tail_obj != null:
+		if body.tail_data == pickupable_tail_obj.tail_data:
+			emit_signal("interaction_prompt", "")
+			pickupable_tail_obj = null

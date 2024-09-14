@@ -5,8 +5,6 @@ signal player_state_loaded()
 
 ## Reference to Pause menu node
 @export var pause_menu : NodePath
-## Refereence to Player HUD node
-@export var player_hud : NodePath
 
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.
 @export var fall_damage : int
@@ -22,12 +20,14 @@ signal player_state_loaded()
 @onready var stamina_component = $StaminaComponent
 
 # Node caching
+@onready var player_hud = $Player_HUD
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
 @onready var weapon_inventory = $WeaponInventory
 @onready var tail_manager = $TailManager
+@onready var skill_manager = $SkillManager
 @onready var tail_config_menu = $UI/TailConfigMenu
 @onready var neck: Node3D = $Neck
-@onready var head: Node3D = $Neck/Head
+@onready var head: Node3D = $Neck/Head 
 @onready var eyes: Node3D = $Neck/Head/Eyes
 @onready var camera: Camera3D = $Neck/Head/Eyes/Camera
 @onready var animationPlayer: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
@@ -43,7 +43,7 @@ signal player_state_loaded()
 @onready var footstep_player = $FootstepPlayer
 
 @export_group("Audio")
-## AudioStream that gets played when the player jumps.
+## AudioStream that gets played when the player jumps.a
 @export var jump_sound : AudioStream
 
 @export_group("Movement Properties")
@@ -128,13 +128,13 @@ var adtnl_melee_dmg = 0
 
 
 # Use this to refresh/update when a player state is loaded.
-func _on_player_state_loaded():
+func _on_player_state_loaded() -> void:
 	health_component.health_changed.emit(health_component.current_health,health_component.max_health)
 	stamina_component.stamina_changed.emit(stamina_component.current_stamina,stamina_component.max_stamina)
 	sanity_component.sanity_changed.emit(sanity_component.current_sanity,sanity_component.max_sanity)
 
 
-func _ready():
+func _ready() -> void:
 	#Some Setup steps
 	#CogitoSceneManager._current_player_node = self
 	player_interaction_component.interaction_raycast = $Neck/Head/Eyes/Camera/InteractionRaycast
@@ -151,8 +151,13 @@ func _ready():
 		
 	initial_carryable_height = carryable_position.position.y #DEPRECATED
 	
+	player_hud.setup_player_hud()
 	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
 	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
+	
+	##player tail initialization
+	tail_manager.add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name))
+	GAMEMANAGER.emit_signal("tail_picked_up", MATCHMANAGER.match_players.get(MATCHMANAGER.player_name))
 
 
 # Use this function to manipulate player attributes.

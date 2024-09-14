@@ -42,7 +42,7 @@ var interaction_texture : Texture2D
 @export var use_stamina_component : bool
 
 
-func _ready():
+func setup_player_hud():
 	# Connect to signal that detects change of input device
 	#InputHelper.device_changed.connect(_on_input_device_change)
 	# Calling this function once to set proper input icons

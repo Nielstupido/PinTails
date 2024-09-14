@@ -1,0 +1,87 @@
+extends Control
+
+@onready var player_skills_container = $"../UI/PlayerSkills/HBoxContainer"
+@onready var skill_hotkey1 = $"../UI/PlayerSkills/HBoxContainer/SkillCard/SkillHotkey"
+@onready var skill_hotkey2 = $"../UI/PlayerSkills/HBoxContainer/SkillCard2/SkillHotkey"
+@onready var skill_hotkey3 = $"../UI/PlayerSkills/HBoxContainer/SkillCard3/SkillHotkey"
+@onready var skill_card1 = $"../UI/PlayerSkills/HBoxContainer/SkillCard"
+@onready var skill_card2 = $"../UI/PlayerSkills/HBoxContainer/SkillCard2"
+@onready var skill_card3 = $"../UI/PlayerSkills/HBoxContainer/SkillCard3"
+
+var _acqrd_skills : int = 0
+var is_skill_waiting_shot_trigger = false
+var active_skill_card = null
+
+
+func _ready():
+	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
+	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
+	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
+	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("third_skill"))[0].keycode))
+
+
+func _input(event):
+	if event.is_action_pressed("first_skill"):
+		if skill_card1.can_use_skill():
+			use_skill(skill_card1.tail_data, skill_card1)
+			print("First Skill")
+	
+	if event.is_action_pressed("second_skill"):
+		if skill_card2.can_use_skill():
+			use_skill(skill_card2.tail_data, skill_card2)
+			print("Second Skill")
+	
+	if event.is_action_pressed("third_skill"):
+		if skill_card3.can_use_skill():
+			use_skill(skill_card3.tail_data, skill_card3)
+			print("Third Skill")
+
+
+func remove_skill(skill_index) -> void:
+	var skill_status
+	_acqrd_skills -= 1
+	
+	if _acqrd_skills == 0:
+		skill_card1.clear_skill_card()
+		return
+	
+	if skill_index == 0:
+		skill_card1.clear_skill_card()
+		skill_status = skill_card2.on_cooldown() 
+		skill_card1.setup_skill_card(skill_card2.tail_data, skill_status[0], skill_status[1])
+		skill_card2.clear_skill_card()
+	
+	if skill_index == 0 or skill_index == 1:
+		if skill_card3.tail_data:
+			skill_status = []
+			skill_status = skill_card3.on_cooldown()
+			skill_card2.setup_skill_card(skill_card3.tail_data, skill_status[0], skill_status[1])
+		else:
+			skill_card2.clear_skill_card()
+	
+	skill_card3.clear_skill_card()
+
+ 
+func add_skill(passed_tail_data) -> void:
+	player_skills_container.get_child(_acqrd_skills).setup_skill_card(passed_tail_data)
+	_acqrd_skills += 1
+	print("picked up data == " + str(passed_tail_data))
+
+
+func use_skill(passed_tail_data : TailData, skill_card : Node) -> void:
+	active_skill_card = skill_card
+	
+	match(owner.tail_manager.get_skill_type(passed_tail_data.tail_skill_name)):
+		GAMEMANAGER.SkillTypes.SINGLE_TRIGGER:
+			active_skill_card.start_cooldown()
+			print("single trigger")
+		GAMEMANAGER.SkillTypes.SHOT_TRIGGER:
+			if is_skill_waiting_shot_trigger:
+				pass
+			else:
+				is_skill_waiting_shot_trigger = true
+				print("shot trigger")
+		GAMEMANAGER.SkillTypes.TOGGLE_TRIGGER:
+			print("toggle trigger")
+		GAMEMANAGER.SkillTypes.DOUBLE_TRIGGER:
+			print("double trigger")

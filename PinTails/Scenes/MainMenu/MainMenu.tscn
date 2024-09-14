@@ -127,13 +127,18 @@ theme_override_styles/focus = SubResource("19")
 text = "Capture the Flag"
 
 [node name="PlayBtn" type="Button" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
+anchor_bottom = 1.0
 offset_left = -130.0
-offset_top = 25.0
+offset_top = -190.0
 offset_right = 130.0
-offset_bottom = 123.0
+offset_bottom = -92.0004
+grow_horizontal = 2
+grow_vertical = 0
 theme_override_colors/font_color = Color(0.945098, 0.705882, 0.733333, 1)
 theme_override_fonts/font = SubResource("11")
 theme_override_styles/normal = SubResource("10")

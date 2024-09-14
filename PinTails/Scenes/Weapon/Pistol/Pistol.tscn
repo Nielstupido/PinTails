@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://o0xgl5obc551"]
 
-[ext_resource type="Script" path="res://Scenes/Weapon/Weapon.gd" id="1_wcowm"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/Item.gd" id="1_5hydm"]
 [ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://Scenes/InventoryPD/Items/Pistol.tres" id="2_a3qmc"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
@@ -53,10 +53,11 @@ size = Vector3(0.439306, 0.0828058, 0.0807639)
 size = Vector3(0.0942247, 0.2, 0.0599624)
 
 [node name="Pistol" type="RigidBody3D" groups=["Weapon"]]
-collision_layer = 5
-collision_mask = 5
-script = ExtResource("1_wcowm")
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_5hydm")
 weapon_data = ExtResource("2_a3qmc")
+action_keyword = "pick_up"
 
 [node name="pistol_mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)

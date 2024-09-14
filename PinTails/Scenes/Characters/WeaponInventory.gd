@@ -31,7 +31,7 @@ func _ready():
 		node.hide()
 
 
-func holster():
+func holster() -> void:
 	if weapons.is_empty() or current_weapon == null:
 		return
 	
@@ -44,7 +44,7 @@ func holster():
 		weapon_animation_player.play(current_weapon.equip_anim)
 
 
-func add_weapon(passed_weapon_data) -> bool:
+func add_weapon(passed_weapon_data : WeaponData) -> bool:
 	if weapons.has(passed_weapon_data):
 		return false
 	
@@ -58,7 +58,7 @@ func add_weapon(passed_weapon_data) -> bool:
 	
 
 
-func drop_weapon():
+func drop_weapon() -> void:
 	if weapons.is_empty():
 		return
 	
@@ -81,7 +81,7 @@ func drop_weapon():
 			equip_weapon(weapons[item_index - 1])
 
 
-func equip_weapon(weapon_data : WeaponData):
+func equip_weapon(weapon_data : WeaponData) -> void:
 	current_weapon = weapon_data
 	var node_path = "../Neck/Head/WeaponAttachments/" + current_weapon.name
 	current_weapon_node = get_node(node_path)
@@ -89,7 +89,7 @@ func equip_weapon(weapon_data : WeaponData):
 	owner.player_interaction_component.is_wielding = true
 
 
-func switch_weapon(to = ""):
+func switch_weapon(to : String = "") -> void:
 	## weapon switching only allowed if player has more than 1 weapon
 	if ((weapons.size() == 1 && current_weapon != null) || weapons.is_empty()):
 		return
@@ -116,7 +116,7 @@ func switch_weapon(to = ""):
 				equip_weapon(weapons.back())
 
 
-func attempt_reload():
+func attempt_reload() -> void:
 	if current_weapon == null:
 		print("Player weapon is null! or No more ammo left!!")
 		return
@@ -139,7 +139,7 @@ func attempt_reload():
 
 
 ## Primary function/action of the weapon
-func action_primary():
+func action_primary() -> void:
 	print("current ammo " + str(current_weapon.current_mag_ammo))
 	if current_weapon.current_mag_ammo == 0:
 		## play out of ammo audio
@@ -160,7 +160,7 @@ func action_primary():
  
 
 # Secondary function/action of the weapon
-func action_secondary(is_released:bool):
+func action_secondary(is_released : bool) -> void:
 	if current_weapon_node == null:
 		print("Nothing equipped, but is_wielding was true. This shouldn't happen!")
 		return
