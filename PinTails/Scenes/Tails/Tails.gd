@@ -1,9 +1,8 @@
-class_name TailTypes
+class_name Tails
 extends Object
 
 
 enum Types {
-
 	SCORPION,
 	CHEETAH,
 	GECKO,

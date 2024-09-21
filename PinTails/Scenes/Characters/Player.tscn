@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=57 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -14,19 +14,51 @@
 [ext_resource type="Script" path="res://Scenes/Characters/SkillManager.gd" id="8_xkga3"]
 [ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="9_66enf"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
+[ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonStab.gd" id="9_y08ai"]
+[ext_resource type="Script" path="res://Scenes/Tails/Cheetah/Dash.gd" id="10_sjl30"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
 [ext_resource type="PackedScene" uid="uid://b37xr3nyh6aog" path="res://Scenes/Components/StaminaComponent.tscn" id="11_cbmdm"]
 [ext_resource type="PackedScene" uid="uid://c4p6cl0xvfdar" path="res://Scenes/Components/HealthComponent.tscn" id="11_ms07f"]
 [ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/WeaponProjectile.tscn" id="11_ydo45"]
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
+[ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
+[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="22_72wj0"]
+[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="23_cawh8"]
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
+[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="24_jy0ck"]
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
+[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="25_odgrj"]
+[ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="26_qgdrd"]
 [ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
-[ext_resource type="PackedScene" uid="uid://0c32kepv0ahx" path="res://Scenes/PrefabScenes/PlayerHUD.tscn" id="27_ygtlk"]
+[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="27_bqavb"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
-[ext_resource type="PackedScene" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
+[ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i1sqj"]
+radius = 0.1
+height = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3olrp"]
+radius = 0.1
+height = 1.0
+
+[sub_resource type="Animation" id="Animation_7skgk"]
+resource_name = "poison_stab"
+length = 0.2
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PoisonStab/Area3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 4.37114e-08, 0.1, 1, 0, 1, -2, 0.2, 1, 0, 1, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o6fi3"]
+_data = {
+"poison_stab": SubResource("Animation_7skgk")
+}
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bvi11"]
 size = Vector3(0.8, 1.6, 0.8)
@@ -92,6 +124,26 @@ stream_3/stream = ExtResource("7_swbyy")
 stream_3/weight = 1.0
 stream_4/stream = ExtResource("8_2tp8b")
 stream_4/weight = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1f12m"]
+blend_mode = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_qgnac"]
+font_size = 18
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0cmrj"]
+bg_color = Color(0.0117647, 0.6, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nnlae"]
+bg_color = Color(0.6, 0.509804, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbswy"]
+bg_color = Color(0.6, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbke8"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="FontFile" id="FontFile_e2vop"]
 fallbacks = Array[Font]([ExtResource("24_ckrm3")])
@@ -165,6 +217,31 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("8_xkga3")
+
+[node name="SkillNodes" type="Node3D" parent="."]
+
+[node name="PoisonStab" type="Node3D" parent="SkillNodes"]
+script = ExtResource("9_y08ai")
+
+[node name="Area3D" type="Area3D" parent="SkillNodes/PoisonStab"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
+metadata/_edit_group_ = true
+
+[node name="TailStinger" type="MeshInstance3D" parent="SkillNodes/PoisonStab/Area3D"]
+mesh = SubResource("CapsuleMesh_i1sqj")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SkillNodes/PoisonStab/Area3D"]
+shape = SubResource("CapsuleShape3D_3olrp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SkillNodes/PoisonStab"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_o6fi3")
+}
+
+[node name="Dash" type="Node3D" parent="SkillNodes"]
+script = ExtResource("10_sjl30")
 
 [node name="StandingCollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_bvi11")
@@ -281,16 +358,286 @@ start_sanity = 30.0
 
 [node name="BrightnessComponent" parent="." instance=ExtResource("9_x4tef")]
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="UI"]
+[node name="Player_HUD" type="CanvasLayer" parent="UI" node_paths=PackedStringArray("player")]
+script = ExtResource("21_r8tdw")
+player = NodePath("../..")
+default_hint_icon = ExtResource("22_72wj0")
+
+[node name="DamageOverlay" type="Control" parent="UI/Player_HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Player_HUD/DamageOverlay"]
+material = SubResource("CanvasItemMaterial_1f12m")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_cawh8")
+expand_mode = 5
+
+[node name="Crosshair" type="Control" parent="UI/Player_HUD"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Player_HUD/Crosshair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("24_jy0ck")
+expand_mode = 1
+
+[node name="ButtonPrompt" type="Control" parent="UI/Player_HUD"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Player_HUD/ButtonPrompt"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -37.0
+offset_right = 37.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="InteractionButton_old" type="TextureRect" parent="UI/Player_HUD/ButtonPrompt/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+texture = ExtResource("25_odgrj")
+expand_mode = 2
+
+[node name="Container" type="MarginContainer" parent="UI/Player_HUD/ButtonPrompt/HBoxContainer"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="InteractionButton" parent="UI/Player_HUD/ButtonPrompt/HBoxContainer/Container" instance=ExtResource("26_qgdrd")]
+position = Vector2(0, 0)
+scale = Vector2(0.4, 0.4)
+centered = false
+frame = 6
+
+[node name="InteractionText" type="Label" parent="UI/Player_HUD/ButtonPrompt/HBoxContainer"]
+layout_mode = 2
+text = "Interact"
+label_settings = SubResource("LabelSettings_qgnac")
+
+[node name="HintPrompt" type="Control" parent="UI/Player_HUD"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Player_HUD/HintPrompt"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Player_HUD/HintPrompt/MarginContainer"]
+layout_mode = 2
+
+[node name="HintIcon" type="TextureRect" parent="UI/Player_HUD/HintPrompt/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("22_72wj0")
+expand_mode = 2
+
+[node name="HintText" type="Label" parent="UI/Player_HUD/HintPrompt/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Hint text appears here and can be longer."
+label_settings = SubResource("LabelSettings_qgnac")
+
+[node name="HintTimer" type="Timer" parent="UI/Player_HUD"]
+wait_time = 3.5
+
+[node name="PlayerAttributes" type="PanelContainer" parent="UI/Player_HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -10.0
+offset_right = 104.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Player_HUD/PlayerAttributes"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Player_HUD/PlayerAttributes/MarginContainer"]
+layout_mode = 2
+
+[node name="BrightnessBar" type="TextureProgressBar" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+value = 40.0
+texture_progress = ExtResource("27_bqavb")
+
+[node name="SanityBar" type="ProgressBar" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 16)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_0cmrj")
+value = 50.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer/SanityBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StaminaBar" type="ProgressBar" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 16)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_nnlae")
+value = 50.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer/StaminaBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "50/50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 18)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_tbswy")
+value = 50.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeathScreen" type="Control" parent="UI/Player_HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="UI/Player_HUD/DeathScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rbke8")
+
+[node name="BoxContainer" type="BoxContainer" parent="UI/Player_HUD/DeathScreen/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -49.5
+offset_right = 175.0
+offset_bottom = 49.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Player_HUD/DeathScreen/Panel/BoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Player_HUD/DeathScreen/Panel/BoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Player_HUD/DeathScreen/Panel/BoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "You died."
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/Player_HUD/DeathScreen/Panel/BoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 30
+text = "Restart"
+
+[node name="PlayerTails" type="CanvasLayer" parent="UI"]
+
+[node name="Label" type="Label" parent="UI/PlayerTails"]
 offset_left = 40.0
 offset_top = 626.0
 offset_right = 80.0
 offset_bottom = 640.0
 scale = Vector2(4.76602, 4.76602)
 
-[node name="Mag" type="Control" parent="UI"]
+[node name="Mag" type="Control" parent="UI/PlayerTails"]
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
@@ -298,7 +645,7 @@ anchor_bottom = 1.0
 grow_vertical = 0
 mouse_filter = 2
 
-[node name="ColorRect" type="ColorRect" parent="UI/Mag"]
+[node name="ColorRect" type="ColorRect" parent="UI/PlayerTails/Mag"]
 layout_mode = 0
 offset_left = 40.9497
 offset_top = -111.121
@@ -307,7 +654,7 @@ offset_bottom = -31.1213
 mouse_filter = 2
 color = Color(0, 0.0901961, 0.282353, 0.666667)
 
-[node name="mag" type="Label" parent="UI/Mag"]
+[node name="mag" type="Label" parent="UI/PlayerTails/Mag"]
 layout_mode = 0
 offset_left = 69.0226
 offset_top = -95.3755
@@ -316,7 +663,7 @@ offset_bottom = -52.3755
 theme_override_fonts/font = SubResource("FontFile_e2vop")
 text = "0"
 
-[node name="Label" type="Label" parent="UI/Mag"]
+[node name="Label" type="Label" parent="UI/PlayerTails/Mag"]
 layout_mode = 0
 offset_left = 101.866
 offset_top = -90.0782
@@ -325,7 +672,7 @@ offset_bottom = -36.0782
 theme_override_fonts/font = SubResource("FontFile_uv35x")
 text = "/"
 
-[node name="ammo_backup" type="Label" parent="UI/Mag"]
+[node name="ammo_backup" type="Label" parent="UI/PlayerTails/Mag"]
 layout_mode = 0
 offset_left = 173.0
 offset_top = -70.0
@@ -334,7 +681,7 @@ offset_bottom = -40.0
 theme_override_fonts/font = SubResource("FontFile_vaj12")
 text = "0"
 
-[node name="PlayerSkills" type="Control" parent="UI"]
+[node name="PlayerSkills" type="Control" parent="UI/PlayerTails"]
 layout_mode = 3
 anchors_preset = 12
 anchor_top = 1.0
@@ -343,7 +690,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerSkills"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerTails/PlayerSkills"]
 layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -354,17 +701,18 @@ size_flags_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="SkillCard" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+[node name="SkillCard" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
 layout_mode = 2
 
-[node name="SkillCard2" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+[node name="SkillCard2" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
 layout_mode = 2
 
-[node name="SkillCard3" parent="UI/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+[node name="SkillCard3" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
 layout_mode = 2
 
-[node name="TailConfigMenu" type="Control" parent="UI"]
+[node name="TailConfigMenu" type="Control" parent="UI/PlayerTails"]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -373,13 +721,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("29_mjx67")
 
-[node name="ColorRect" type="ColorRect" parent="UI/TailConfigMenu"]
+[node name="ColorRect" type="ColorRect" parent="UI/PlayerTails/TailConfigMenu"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(2.52686e-07, 0.222795, 0.226575, 0.819608)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/TailConfigMenu"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerTails/TailConfigMenu"]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -394,14 +742,15 @@ size_flags_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="TailMenuHolder" type="Control" parent="UI/TailConfigMenu/HBoxContainer"]
+[node name="TailMenuHolder" type="Control" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer"]
 custom_minimum_size = Vector2(200, 250)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="TailCard" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder" instance=ExtResource("30_xj7v5")]
-anchors_preset = 0
+[node name="TailCard" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer/TailMenuHolder" instance=ExtResource("30_xj7v5")]
+layout_mode = 1
+anchors_preset = 15
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -411,7 +760,7 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = -50.0
 
-[node name="Button" type="Button" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder"]
+[node name="Button" type="Button" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer/TailMenuHolder"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 0
 anchor_left = 0.5
@@ -423,14 +772,15 @@ offset_top = -50.0
 offset_right = 100.0
 text = "Unpin"
 
-[node name="TailMenuHolder2" type="Control" parent="UI/TailConfigMenu/HBoxContainer"]
+[node name="TailMenuHolder2" type="Control" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer"]
 custom_minimum_size = Vector2(200, 250)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="TailCard" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder2" instance=ExtResource("30_xj7v5")]
-anchors_preset = 0
+[node name="TailCard" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer/TailMenuHolder2" instance=ExtResource("30_xj7v5")]
+layout_mode = 1
+anchors_preset = 15
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -440,7 +790,7 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = -50.0
 
-[node name="Button" type="Button" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder2"]
+[node name="Button" type="Button" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer/TailMenuHolder2"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 0
 anchor_left = 0.5
@@ -452,14 +802,15 @@ offset_top = -50.0
 offset_right = 100.0
 text = "Unpin"
 
-[node name="TailMenuHolder3" type="Control" parent="UI/TailConfigMenu/HBoxContainer"]
+[node name="TailMenuHolder3" type="Control" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer"]
 custom_minimum_size = Vector2(200, 250)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="TailCard" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder3" instance=ExtResource("30_xj7v5")]
-anchors_preset = 0
+[node name="TailCard" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer/TailMenuHolder3" instance=ExtResource("30_xj7v5")]
+layout_mode = 1
+anchors_preset = 15
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -469,7 +820,7 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = -50.0
 
-[node name="Button" type="Button" parent="UI/TailConfigMenu/HBoxContainer/TailMenuHolder3"]
+[node name="Button" type="Button" parent="UI/PlayerTails/TailConfigMenu/HBoxContainer/TailMenuHolder3"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 0
 anchor_left = 0.5
@@ -481,16 +832,16 @@ offset_top = -50.0
 offset_right = 100.0
 text = "Unpin"
 
-[node name="Shop" parent="." instance=ExtResource("31_lvldf")]
+[node name="Shop" parent="UI" instance=ExtResource("31_lvldf")]
 process_mode = 3
-
-[node name="Player_HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("27_ygtlk")]
-player = NodePath("..")
 
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)
 
+[connection signal="body_entered" from="SkillNodes/PoisonStab/Area3D" to="SkillNodes/PoisonStab" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_entered"]
 [connection signal="body_exited" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_exited"]
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="SlidingTimer" to="." method="_on_sliding_timer_timeout"]
+[connection signal="timeout" from="UI/Player_HUD/HintTimer" to="UI/Player_HUD" method="_on_hint_timer_timeout"]
+[connection signal="pressed" from="UI/Player_HUD/DeathScreen/Panel/BoxContainer/VBoxContainer/RestartButton" to="UI/Player_HUD" method="_on_restart_button_pressed"]

@@ -2,7 +2,7 @@ extends Node3D
 class_name PlayerInteractionComponent
 
 const Tail_Max_Size = 3
-const Hold_Time_Thres = 20
+const Hold_Time_Thres = 15
 signal interaction_prompt(interaction_text : String)
 signal hint_prompt(hint_icon:Texture2D, hint_text: String)
 signal set_use_prompt(use_text:String)
@@ -12,7 +12,7 @@ signal updated_wieldable_data(wieldable_icon:Texture2D, wieldable_text: String)
 @export var interaction_raycast : RayCast3D
 @export var carryable_position : Node3D
 
-@onready var buy_weapon_menu = $"../Shop"
+@onready var buy_weapon_menu = $"../UI/Shop"
 
 ## The Field Of View change when aiming down sight. In degrees.
 @export var ads_fov = 65
@@ -36,7 +36,7 @@ var hold_time : int = 0
 func _process(delta):
 	if Input.is_action_pressed("attach_tail"):
 		hold_time += (delta * 100)
-		print("hold time == " + str(hold_time))
+		
 		if hold_time > Hold_Time_Thres:
 			if !owner.tail_config_menu.visible:
 				owner.is_looking_aroung_paused = true
@@ -92,8 +92,9 @@ func _input(event):
 		if !get_parent().is_movement_paused:
 			if is_wielding and Input.is_action_just_pressed("action_primary"):
 				if owner.skill_manager.is_skill_waiting_shot_trigger:
-					owner.activate_skill
-				owner.weapon_inventory.action_primary()
+					owner.skill_manager.prepare_skill()
+				else:
+					owner.weapon_inventory.action_primary()
 			
 			if is_wielding and Input.is_action_just_pressed("action_secondary"):
 				owner.weapon_inventory.action_secondary(false)

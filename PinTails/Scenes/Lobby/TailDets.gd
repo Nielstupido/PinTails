@@ -14,4 +14,4 @@ func _on_tail_card_pressed(tail_data):
 		self.show()
 	current_tail_data = tail_data
 	$Title.text = current_tail_data.tail_name
-	$Atrribs.text = current_tail_data.tail_attrb_str
+	$Atrribs.text = current_tail_data.attrb_str

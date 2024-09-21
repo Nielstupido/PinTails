@@ -4,32 +4,32 @@ extends Node
 
 const Active_tail_attrb = {
 	"Poison Stab" : 
-		{"Action" : GAMEMANAGER.SkillEffects.DAMAGE, 
+		{"Effect" : GAMEMANAGER.SkillEffects.DAMAGE, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 20, 
 		"CD" : 8},
 	"Dash" : 
-		{"Action" : GAMEMANAGER.SkillEffects.DASH, 
+		{"Effect" : GAMEMANAGER.SkillEffects.DASH, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
-		"Value" : 80, 
+		"Value" : 80,  
 		"CD" : 3},
 	"Horn Charge" : 
-		{"Action" : GAMEMANAGER.SkillEffects.DAMAGE, 
+		{"Effect" : GAMEMANAGER.SkillEffects.DAMAGE, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 30, 
 		"CD" : 12},
 	"Ball Roll" : 
-		{"Action" : GAMEMANAGER.SkillEffects.ARMOR, 
+		{"Effect" : GAMEMANAGER.SkillEffects.ARMOR, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 100, 
 		"CD" : 12},
 	"Pounce" : 
-		{"Action" : GAMEMANAGER.SkillEffects.DAMAGE, 
+		{"Effect" : GAMEMANAGER.SkillEffects.DAMAGE, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 30, 
 		"CD" : 8},
 	"Untouchable" : 
-		{"Action" : GAMEMANAGER.SkillEffects.STICK, 
+		{"Effect" : GAMEMANAGER.SkillEffects.STICK, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 0, 
 		"CD" : 10}
@@ -65,7 +65,7 @@ func remove_tail(passed_tail : TailData) -> void:
 
 #adds/sets the attributes of the newly pinned tail to player
 func set_tail_attr(passed_tail_data : TailData) -> void:
-	current_active_tail_attrb.append(passed_tail_data.tail_skill_name)
+	current_active_tail_attrb.append(passed_tail_data.skill_name)
 	owner.adtnl_movement_speed = passed_tail_data.adtnl_movement_speed
 	owner.adtnl_armor = passed_tail_data.adtnl_armor
 	owner.adtnl_max_health = passed_tail_data.adtnl_max_health
@@ -75,7 +75,7 @@ func set_tail_attr(passed_tail_data : TailData) -> void:
 
 #removes the attributes of the removed tail from player
 func remove_tail_attr(passed_tail_data : TailData) -> void:
-	current_active_tail_attrb.erase(passed_tail_data.tail_skill_name)
+	current_active_tail_attrb.erase(passed_tail_data.skill_name)
 	owner.adtnl_movement_speed -= passed_tail_data.adtnl_movement_speed
 	owner.adtnl_armor -= passed_tail_data.adtnl_armor
 	owner.adtnl_max_health -= passed_tail_data.adtnl_max_health
@@ -83,8 +83,8 @@ func remove_tail_attr(passed_tail_data : TailData) -> void:
 	owner.adtnl_melee_dmg -= passed_tail_data.adtnl_melee_dmg
 
 
-func get_skill_action(skill_name : String) -> Array:
-	return Active_tail_attrb[skill_name]["Action"]
+func get_skill_effect(skill_name : String) -> GAMEMANAGER.SkillEffects:
+	return Active_tail_attrb[skill_name]["Effect"]
 
 
 func get_skill_type(skill_name : String) -> GAMEMANAGER.SkillTypes:

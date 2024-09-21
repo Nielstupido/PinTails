@@ -1,14 +1,16 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" script_class="TailRes" load_steps=2 format=3 uid="uid://v3xmbb0ba5e2"]
 
-[ext_resource path="res://Scenes/Tails/TailRes.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Scenes/Tails/TailRes.gd" id="1"]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource("1")
 _tail_name = "Scorpion"
-_tail_attribs_str = "+5 speed
-+20 armor"
-_tail_class = 0
-_tail_active_attrb = "Poison Stab"
+_attribs_str = ""
+_tail_class = 1
+_skill_name = "Poison Stab"
+_skill_animation = ""
 _adtnl_max_health = 0
 _adtnl_armor = 0
 _adtnl_speed = 0
+_adtnl_footstep_silencer = 0
+_adtnl_dmg = 0

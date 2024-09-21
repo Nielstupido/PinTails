@@ -60,8 +60,8 @@ script = ExtResource("9")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ybty4")
 
-[node name="Wall" type="MeshInstance3D" parent="."]
-transform = Transform3D(21.8399, 0, 0, 0, 6.25143, 0, 0, 0, 0.998293, 0, 2.93494, -5.41013)
+[node name="Wall" type="MeshInstance3D" parent="." groups=["Wall"]]
+transform = Transform3D(21.8399, 0, 0, 0, 6.25143, 0, 0, 0, 0.998293, -0.420959, 3.12197, -5.09108)
 layers = 31
 mesh = SubResource("BoxMesh_v276p")
 
@@ -94,6 +94,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
 
 [node name="GameMenuSettings" parent="." instance=ExtResource("10")]
 process_mode = 3
+layer = 2
 visible = false
 
 [node name="Pistol" parent="." instance=ExtResource("9_u5o07")]
@@ -105,4 +106,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)
 [node name="PlayerNodes" type="Node" parent="."]
 
 [node name="Player" parent="PlayerNodes" instance=ExtResource("3_od0wa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4438, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16608, 0)

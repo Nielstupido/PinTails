@@ -19,7 +19,7 @@ func prepare_tail_card(passed_tail_data):
 	if passed_tail_data != null:
 		self.tail_data = passed_tail_data
 		self.title_node.text = self.tail_data.tail_name
-		self.attrb_node.text = self.tail_data.tail_attrb_str
+		self.attrb_node.text = self.tail_data.attrb_str
 		self.blank_card.hide()
 
 

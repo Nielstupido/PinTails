@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 @onready var health_bar = $PlayerAttributes/MarginContainer/VBoxContainer/HealthBar
 @onready var sanity_bar = $PlayerAttributes/MarginContainer/VBoxContainer/SanityBar
@@ -16,12 +16,6 @@ extends Control
 @onready var hint_icon = $HintPrompt/MarginContainer/HBoxContainer/HintIcon
 @onready var hint_text = $HintPrompt/MarginContainer/HBoxContainer/HintText
 @onready var hint_timer = $HintTimer
-
-@onready var primary_use_icon = $UseBar/HBoxContainer/WieldablePrimaryUse/MarginContainer/PrimaryUseIcon
-@onready var primary_use_label = $UseBar/HBoxContainer/WieldablePrimaryUse/PrimaryUseLabel
-
-@onready var wieldable_icon = $UseBar/HBoxContainer/WieldableData/WieldableIcon
-@onready var wieldable_text = $UseBar/HBoxContainer/WieldableData/WieldableText
 
 ## Reference to the Node that has the player.gd script.
 @export var player : Node
@@ -85,10 +79,6 @@ func setup_player_hud():
 	# Set up for HUD elements for interactions and wieldables
 	interaction_button.hide()
 	interaction_text.text = ""
-	primary_use_label.text = ""
-	primary_use_icon.hide()
-	wieldable_icon.set_texture(empty_texture)
-	wieldable_text.text = ""
 	
 	# Set up for HUD elements for hints
 	hint_icon.set_texture(empty_texture)
@@ -96,9 +86,7 @@ func setup_player_hud():
 	
 	# Connecting to Signals from Player
 	player.player_interaction_component.interaction_prompt.connect(_on_interaction_prompt)
-	player.player_interaction_component.set_use_prompt.connect(_on_set_use_prompt)
 	player.player_interaction_component.hint_prompt.connect(_on_set_hint_prompt)
-	player.player_interaction_component.updated_wieldable_data.connect(_on_update_wieldable_data)
 
 
 func _is_steam_deck() -> bool:
@@ -125,25 +113,6 @@ func _on_interaction_prompt(passed_interaction_prompt):
 #		interaction_button.set_texture(interaction_texture)
 		interaction_button.show()
 	interaction_text.text = passed_interaction_prompt
-
-
-# When HUD receives set use prompt signal (usually when equipping a wieldable)
-func _on_set_use_prompt(passed_use_text):
-	primary_use_label.text = passed_use_text
-	if passed_use_text != "":
-		primary_use_icon.show()
-	else:
-		primary_use_icon.hide()
-
-
-# Updating HUD wieldable data, used for stuff like flashlight battery charge, ammo display, etc
-func _on_update_wieldable_data(passed_wieldable_icon, passed_wieldable_text):
-	wieldable_text.text = passed_wieldable_text
-	
-	if passed_wieldable_icon != null:
-		wieldable_icon.set_texture(passed_wieldable_icon)
-	else:
-		wieldable_icon.set_texture(empty_texture)
 
 
 # When the HUD receives hint prompt signal

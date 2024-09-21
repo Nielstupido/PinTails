@@ -1,14 +1,16 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" script_class="TailRes" load_steps=2 format=3 uid="uid://ctqrvvy8l0wh3"]
 
-[ext_resource path="res://Scenes/Tails/TailRes.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://Scenes/Tails/TailRes.gd" id="1"]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource("1")
 _tail_name = "Gecko"
-_tail_attribs_str = "+10 armor
-+5 invisibility"
-_tail_class = 2
-_tail_active_attrb = "Untouchable"
+_attribs_str = ""
+_tail_class = 0
+_skill_name = "Untouchable"
+_skill_animation = ""
 _adtnl_max_health = 0
 _adtnl_armor = 0
-_adtnl_speed = 0
+_adtnl_speed = 50
+_adtnl_footstep_silencer = 0
+_adtnl_dmg = 0

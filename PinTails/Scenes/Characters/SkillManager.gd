@@ -1,12 +1,12 @@
 extends Control
 
-@onready var player_skills_container = $"../UI/PlayerSkills/HBoxContainer"
-@onready var skill_hotkey1 = $"../UI/PlayerSkills/HBoxContainer/SkillCard/SkillHotkey"
-@onready var skill_hotkey2 = $"../UI/PlayerSkills/HBoxContainer/SkillCard2/SkillHotkey"
-@onready var skill_hotkey3 = $"../UI/PlayerSkills/HBoxContainer/SkillCard3/SkillHotkey"
-@onready var skill_card1 = $"../UI/PlayerSkills/HBoxContainer/SkillCard"
-@onready var skill_card2 = $"../UI/PlayerSkills/HBoxContainer/SkillCard2"
-@onready var skill_card3 = $"../UI/PlayerSkills/HBoxContainer/SkillCard3"
+@onready var player_skills_container = $"../UI/PlayerTails/PlayerSkills/HBoxContainer"
+@onready var skill_hotkey1 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard/SkillHotkey"
+@onready var skill_hotkey2 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard2/SkillHotkey"
+@onready var skill_hotkey3 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard3/SkillHotkey"
+@onready var skill_card1 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard"
+@onready var skill_card2 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard2"
+@onready var skill_card3 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard3"
 
 var _acqrd_skills : int = 0
 var is_skill_waiting_shot_trigger = false
@@ -15,6 +15,8 @@ var active_skill_card = null
 
 func _ready():
 	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
+	GAMEMANAGER.connect("tail_picked_up", Callable(self, "reset_skill"))
+	GAMEMANAGER.connect("tail_removed", Callable(self, "reset_skill"))
 	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
 	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
 	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("third_skill"))[0].keycode))
@@ -23,17 +25,17 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("first_skill"):
 		if skill_card1.can_use_skill():
-			use_skill(skill_card1.tail_data, skill_card1)
+			use_skill(skill_card1)
 			print("First Skill")
 	
 	if event.is_action_pressed("second_skill"):
 		if skill_card2.can_use_skill():
-			use_skill(skill_card2.tail_data, skill_card2)
+			use_skill(skill_card2)
 			print("Second Skill")
 	
 	if event.is_action_pressed("third_skill"):
 		if skill_card3.can_use_skill():
-			use_skill(skill_card3.tail_data, skill_card3)
+			use_skill(skill_card3)
 			print("Third Skill")
 
 
@@ -68,20 +70,55 @@ func add_skill(passed_tail_data) -> void:
 	print("picked up data == " + str(passed_tail_data))
 
 
-func use_skill(passed_tail_data : TailData, skill_card : Node) -> void:
+func use_skill(skill_card : Node) -> void:
 	active_skill_card = skill_card
 	
-	match(owner.tail_manager.get_skill_type(passed_tail_data.tail_skill_name)):
+	match(owner.tail_manager.get_skill_type(active_skill_card.tail_data.skill_name)):
 		GAMEMANAGER.SkillTypes.SINGLE_TRIGGER:
 			active_skill_card.start_cooldown()
+			prepare_skill()
 			print("single trigger")
 		GAMEMANAGER.SkillTypes.SHOT_TRIGGER:
-			if is_skill_waiting_shot_trigger:
-				pass
-			else:
-				is_skill_waiting_shot_trigger = true
-				print("shot trigger")
+			is_skill_waiting_shot_trigger = true
+			print("shot trigger")
 		GAMEMANAGER.SkillTypes.TOGGLE_TRIGGER:
 			print("toggle trigger")
 		GAMEMANAGER.SkillTypes.DOUBLE_TRIGGER:
 			print("double trigger")
+
+
+func reset_skill(passed_tail_data) -> void:
+	is_skill_waiting_shot_trigger = false
+	active_skill_card = null
+
+
+func prepare_skill():
+	match(owner.tail_manager.get_skill_effect(active_skill_card.tail_data.skill_name)):
+		GAMEMANAGER.SkillEffects.DAMAGE:
+			execute_skill()
+			print("damage skill")
+		GAMEMANAGER.SkillEffects.ARMOR:
+			execute_skill()
+			print("armor skil")
+		GAMEMANAGER.SkillEffects.DASH:
+			execute_skill()
+			print("dash skill")
+		GAMEMANAGER.SkillEffects.STICK:
+			execute_skill()
+			print("stick skill")
+
+
+func execute_skill():
+	match(active_skill_card.tail_data.skill_name):
+		"Poison Stab" : 
+			owner.skill_nodes.get_child(0).execute_skill()
+		"Dash" : 
+			owner.skill_nodes.get_child(1).execute_skill()
+		"Horn Charge" : 
+			pass
+		"Ball Roll" : 
+			pass
+		"Pounce" : 
+			pass
+		"Untouchable" : 
+			pass

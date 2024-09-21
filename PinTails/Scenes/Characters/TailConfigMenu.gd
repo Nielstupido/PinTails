@@ -23,6 +23,8 @@ func add_tail(tail_data):
 
 
 func remove_tail(tail_data):
+	GAMEMANAGER.emit_signal("tail_removed", tail_data)
+	
 	var removed_tail_key : int
 	owner.tail_manager.remove_tail(tail_data)
 	

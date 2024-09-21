@@ -20,12 +20,13 @@ signal player_state_loaded()
 @onready var stamina_component = $StaminaComponent
 
 # Node caching
-@onready var player_hud = $Player_HUD
+@onready var player_hud = $UI/Player_HUD
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
 @onready var weapon_inventory = $WeaponInventory
 @onready var tail_manager = $TailManager
 @onready var skill_manager = $SkillManager
-@onready var tail_config_menu = $UI/TailConfigMenu
+@onready var skill_nodes = $SkillNodes
+@onready var tail_config_menu = $UI/PlayerTails/TailConfigMenu
 @onready var neck: Node3D = $Neck
 @onready var head: Node3D = $Neck/Head 
 @onready var eyes: Node3D = $Neck/Head/Eyes
@@ -54,6 +55,7 @@ signal player_state_loaded()
 @export var CROUCHING_DEPTH = -0.9
 @export var MOUSE_SENS = 0.25
 @export var LERP_SPEED = 10.0
+@export var DASH_LERP_SPEED = 15.0
 @export var AIR_LERP_SPEED = 6.0
 @export var FREE_LOOK_TILT_AMOUNT = 5.0
 @export var SLIDING_SPEED = 5.0
@@ -107,6 +109,7 @@ var direction = Vector3.ZERO
 var is_walking = false
 var is_sprinting = false
 var is_crouching = false
+var is_dashing = false
 var is_free_looking = false
 var slide_vector = Vector2.ZERO
 var wiggle_vector = Vector2.ZERO
@@ -125,6 +128,10 @@ var adtnl_armor = 0
 var adtnl_max_health = 0
 var adtnl_footstep_silencer = 0
 var adtnl_melee_dmg = 0
+
+
+##Testing Purposes
+var temp = 0
 
 
 # Use this to refresh/update when a player state is loaded.
@@ -364,7 +371,7 @@ func _physics_process(delta):
 		_process_on_ladder(delta)
 		return
 		
-	var is_falling: bool = false	
+	var is_falling: bool = false
 	
 	# Getting input direction
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
@@ -561,7 +568,7 @@ func _physics_process(delta):
 	is_step = false
 	
 	if gravity_vec.y >= 0:
-		for i in range(STEP_CHECK_COUNT):			
+		for i in range(STEP_CHECK_COUNT):
 			var step_height: Vector3 = STEP_HEIGHT_DEFAULT - i * step_check_height
 			var transform3d: Transform3D = global_transform
 			var motion: Vector3 = step_height
@@ -666,7 +673,15 @@ func _physics_process(delta):
 	velocity += gravity_vec
 	
 	if is_falling:
-		snap = Vector3.ZERO
+		snap = Vector3.ZERO 
+	
+	if is_dashing:
+		velocity = lerp(velocity, (velocity * 15), delta * DASH_LERP_SPEED)
+		temp += 1
+		
+		if temp >= DASH_LERP_SPEED:
+			temp = 0
+			is_dashing = false
 	
 	if !is_movement_paused:
 		move_and_slide()

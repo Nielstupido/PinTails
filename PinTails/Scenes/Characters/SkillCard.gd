@@ -1,6 +1,7 @@
 extends Control
 
 
+@onready var disabled_cover = $DisabledCover
 var tail_data : TailData = null
 var skill_cooldown : int
 
@@ -18,13 +19,15 @@ func _process(delta):
 func setup_skill_card(passed_tail_data, on_cooldown = false, remaining_cooldown = 0):
 	self.tail_data = passed_tail_data
 	$Label.text = self.tail_data.tail_name
-	self.skill_cooldown = owner.tail_manager.get_skill_CD(self.tail_data.tail_skill_name)
+	self.skill_cooldown = owner.tail_manager.get_skill_CD(self.tail_data.skill_name)
+	disabled_cover.hide()
 	
 	if on_cooldown:
 		self.start_cooldown(remaining_cooldown)
 
 
 func clear_skill_card():
+	disabled_cover.show()
 	self.tail_data = null
 	$Label.text = "Empty"
 	$Timer.stop()
@@ -50,7 +53,10 @@ func start_cooldown(remaining_cooldown = 0):
 		$Timer.start(self.skill_cooldown)
 	else:
 		$Timer.start(remaining_cooldown)
+	
+	disabled_cover.show()
 
 
 func _on_cooldown_finished():
 	$CD.text = ""
+	disabled_cover.hide()
