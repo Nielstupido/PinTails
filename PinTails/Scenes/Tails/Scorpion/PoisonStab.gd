@@ -4,7 +4,7 @@ extends Node3D
 @onready var skill_animation_player = $AnimationPlayer
 
 
-func execute_skill():
+func execute_skill(stab_dmg : int):
 	skill_animation_player.play("poison_stab")
 
 

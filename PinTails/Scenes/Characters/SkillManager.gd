@@ -76,7 +76,7 @@ func use_skill(skill_card : Node) -> void:
 	match(owner.tail_manager.get_skill_type(active_skill_card.tail_data.skill_name)):
 		GAMEMANAGER.SkillTypes.SINGLE_TRIGGER:
 			active_skill_card.start_cooldown()
-			prepare_skill()
+			execute_skill()
 			print("single trigger")
 		GAMEMANAGER.SkillTypes.SHOT_TRIGGER:
 			is_skill_waiting_shot_trigger = true
@@ -92,33 +92,23 @@ func reset_skill(passed_tail_data) -> void:
 	active_skill_card = null
 
 
-func prepare_skill():
-	match(owner.tail_manager.get_skill_effect(active_skill_card.tail_data.skill_name)):
-		GAMEMANAGER.SkillEffects.DAMAGE:
-			execute_skill()
-			print("damage skill")
-		GAMEMANAGER.SkillEffects.ARMOR:
-			execute_skill()
-			print("armor skil")
-		GAMEMANAGER.SkillEffects.DASH:
-			execute_skill()
-			print("dash skill")
-		GAMEMANAGER.SkillEffects.STICK:
-			execute_skill()
-			print("stick skill")
+##Filler - might needed later on
+#func prepare_skill():
+	#match(owner.tail_manager.get_skill_effect(active_skill_card.tail_data.skill_name)):
+		#GAMEMANAGER.SkillEffects.DAMAGE:
+			#execute_skill()
+			#print("damage skill")
+		#GAMEMANAGER.SkillEffects.ARMOR:
+			#execute_skill()
+			#print("armor skil")
+		#GAMEMANAGER.SkillEffects.DASH:
+			#execute_skill() 
+			#print("dash skill")
+		#GAMEMANAGER.SkillEffects.STICK: 
+			#execute_skill()
+			#print("stick skill")
 
 
 func execute_skill():
-	match(active_skill_card.tail_data.skill_name):
-		"Poison Stab" : 
-			owner.skill_nodes.get_child(0).execute_skill()
-		"Dash" : 
-			owner.skill_nodes.get_child(1).execute_skill()
-		"Horn Charge" : 
-			pass
-		"Ball Roll" : 
-			pass
-		"Pounce" : 
-			pass
-		"Untouchable" : 
-			pass
+	var skill_name = active_skill_card.tail_data.skill_name
+	owner.skill_nodes.get_node(skill_name.replace(" ", "")).execute_skill(owner.tail_manager.get_skill_value(skill_name))

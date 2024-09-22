@@ -11,12 +11,12 @@ const Active_tail_attrb = {
 	"Dash" : 
 		{"Effect" : GAMEMANAGER.SkillEffects.DASH, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
-		"Value" : 80,  
+		"Value" : 15,  
 		"CD" : 3},
 	"Horn Charge" : 
 		{"Effect" : GAMEMANAGER.SkillEffects.DAMAGE, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
-		"Value" : 30, 
+		"Value" : 20, 
 		"CD" : 12},
 	"Ball Roll" : 
 		{"Effect" : GAMEMANAGER.SkillEffects.ARMOR, 
@@ -28,7 +28,7 @@ const Active_tail_attrb = {
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 30, 
 		"CD" : 8},
-	"Untouchable" : 
+	"Wall Run" : 
 		{"Effect" : GAMEMANAGER.SkillEffects.STICK, 
 		"Type" : GAMEMANAGER.SkillTypes.SINGLE_TRIGGER,
 		"Value" : 0, 

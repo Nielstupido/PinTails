@@ -92,7 +92,7 @@ func _input(event):
 		if !get_parent().is_movement_paused:
 			if is_wielding and Input.is_action_just_pressed("action_primary"):
 				if owner.skill_manager.is_skill_waiting_shot_trigger:
-					owner.skill_manager.prepare_skill()
+					owner.skill_manager.execute_skill()
 				else:
 					owner.weapon_inventory.action_primary()
 			

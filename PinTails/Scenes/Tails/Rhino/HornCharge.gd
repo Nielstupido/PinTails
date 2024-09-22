@@ -1,4 +1,4 @@
-extends Node3D
+extends Node
 
 
 func execute_skill(dash_rate : int):

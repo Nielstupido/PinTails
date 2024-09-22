@@ -55,7 +55,8 @@ signal player_state_loaded()
 @export var CROUCHING_DEPTH = -0.9
 @export var MOUSE_SENS = 0.25
 @export var LERP_SPEED = 10.0
-@export var DASH_LERP_SPEED = 15.0
+@export var DASH_LERP_SPEED = Vector3(15.0, 1.0, 15.0)
+@export var IDLE_DASH_LERP_SPEED = Vector3.ZERO
 @export var AIR_LERP_SPEED = 6.0
 @export var FREE_LOOK_TILT_AMOUNT = 5.0
 @export var SLIDING_SPEED = 5.0
@@ -634,7 +635,7 @@ func _physics_process(delta):
 		var motion: Vector3 = velocity * delta
 		var is_player_collided: bool = test_motion(transform3d, motion)
 		
-		if not is_player_collided:
+		if not is_player_collided:  
 			transform3d.origin += motion
 			motion = -step_height
 			is_player_collided = test_motion(transform3d, motion)
@@ -676,10 +677,15 @@ func _physics_process(delta):
 		snap = Vector3.ZERO 
 	
 	if is_dashing:
-		velocity = lerp(velocity, (velocity * 15), delta * DASH_LERP_SPEED)
+		if input_dir == Vector2.ZERO:
+			IDLE_DASH_LERP_SPEED = Vector3(WALKING_SPEED * DASH_LERP_SPEED.x, 1.0, WALKING_SPEED * DASH_LERP_SPEED.z)
+			velocity = lerp(velocity, (-camera.global_transform.basis.z.normalized() * IDLE_DASH_LERP_SPEED), (delta * DASH_LERP_SPEED.z))
+		else:
+			velocity = lerp(velocity, (velocity * DASH_LERP_SPEED), (delta * DASH_LERP_SPEED.x))
+		
 		temp += 1
 		
-		if temp >= DASH_LERP_SPEED:
+		if temp >= DASH_LERP_SPEED.x:
 			temp = 0
 			is_dashing = false
 	
