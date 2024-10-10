@@ -1,14 +1,14 @@
-[gd_scene load_steps=20 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=24 format=3 uid="uid://cp8en37sojhym"]
 
 [ext_resource type="Texture2D" uid="uid://jwl7fxpjedca" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="2_yfmlr"]
 [ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="3_gbe80"]
-[ext_resource type="PackedScene" uid="uid://kicjwmh02uwf" path="res://Scenes/Characters/Player.tscn" id="3_od0wa"]
 [ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="3_ptcbd"]
 [ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="5_kaksc"]
 [ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="6_s4dyk"]
 [ext_resource type="Script" path="res://Scenes/Game/Game.gd" id="9"]
 [ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://Scenes/Weapon/Pistol/Pistol.tscn" id="9_u5o07"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://kicjwmh02uwf" path="res://Scenes/Characters/Player.tscn" id="10_3lol5"]
 [ext_resource type="PackedScene" uid="uid://bukjp5ei5khrl" path="res://Scenes/Weapon/Rifle/Rifle.tscn" id="11_8jrpd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
@@ -33,8 +33,16 @@ billboard_keep_scale = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_v276p"]
 material = SubResource("StandardMaterial3D_npkha")
+size = Vector3(25, 6, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hkgkl"]
+size = Vector3(25, 6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_165ux"]
+size = Vector3(1, 5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_omq27"]
+size = Vector3(1, 5, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cptm3"]
 albedo_texture = ExtResource("2_yfmlr")
@@ -54,6 +62,10 @@ uv2_padding = 0.0
 
 [sub_resource type="BoxShape3D" id="2"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qau8h"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a51qo"]
+
 [node name="Game" type="Node"]
 script = ExtResource("9")
 
@@ -61,16 +73,28 @@ script = ExtResource("9")
 environment = SubResource("Environment_ybty4")
 
 [node name="Wall" type="MeshInstance3D" parent="." groups=["Wall"]]
-transform = Transform3D(21.8399, 0, 0, 0, 6.25143, 0, 0, 0, 0.998293, -0.420959, 3.12197, -5.09108)
+transform = Transform3D(0.997935, 0, 0, 0, 0.997935, 0, 0, 0, 0.997935, -1.21395, 3.00355, -5.09108)
 layers = 31
 mesh = SubResource("BoxMesh_v276p")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
+transform = Transform3D(1.00207, 0, 0, 0, 1.00207, 0, 0, 0, 1.00207, 5.80498, 0.118668, 0)
 collision_layer = 31
 collision_mask = 31
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79299, -0.118423, 0)
 shape = SubResource("BoxShape3D_hkgkl")
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.84894, 9.40409, 11.0604)
+layers = 31
+mesh = SubResource("BoxMesh_165ux")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
+shape = SubResource("BoxShape3D_omq27")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41661)
@@ -105,5 +129,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)
 
 [node name="PlayerNodes" type="Node" parent="."]
 
-[node name="Player" parent="PlayerNodes" instance=ExtResource("3_od0wa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16608, 0)
+[node name="CharacterBody3D" type="CharacterBody3D" parent="PlayerNodes" groups=["Player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.24891, 6.66274)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerNodes/CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_qau8h")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerNodes/CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_a51qo")
+
+[node name="Player" parent="PlayerNodes" instance=ExtResource("10_3lol5")]

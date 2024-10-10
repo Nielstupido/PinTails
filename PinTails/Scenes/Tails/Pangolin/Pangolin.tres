@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="TailRes" load_steps=2 format=3 uid="uid://dd3lkr0hwhc22"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/TailRes.gd" id="1_o3s5r"]
+
+[resource]
+script = ExtResource("1_o3s5r")
+_tail_class = 4
+_attribs_str = ""
+_adtnl_max_health = 0
+_adtnl_armor = 50
+_adtnl_speed = 0
+_adtnl_footstep_silencer = 0
+_adtnl_dmg = 0
+_skill_name = "Ball Roll"
+_skill_animation = ""
+_skill_effect = 2
+_skill_type = 1
+_skill_value = 50
+_skill_cd = 10

@@ -90,10 +90,10 @@ func _input(event):
 		
 		# Wieldable primary Action Input
 		if !get_parent().is_movement_paused:
-			if is_wielding and Input.is_action_just_pressed("action_primary"):
-				if owner.skill_manager.is_skill_waiting_shot_trigger:
+			if Input.is_action_just_pressed("action_primary"):
+				if owner.skill_manager.is_waiting_shot_trigger:
 					owner.skill_manager.execute_skill()
-				else:
+				elif is_wielding:
 					owner.weapon_inventory.action_primary()
 			
 			if is_wielding and Input.is_action_just_pressed("action_secondary"):

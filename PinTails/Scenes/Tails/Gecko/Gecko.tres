@@ -4,13 +4,16 @@
 
 [resource]
 script = ExtResource("1")
-_tail_name = "Gecko"
+_tail_class = 2
 _attribs_str = ""
-_tail_class = 0
-_skill_name = "Wall Run"
-_skill_animation = ""
 _adtnl_max_health = 0
 _adtnl_armor = 0
 _adtnl_speed = 50
 _adtnl_footstep_silencer = 0
 _adtnl_dmg = 0
+_skill_name = "Wall Run"
+_skill_animation = ""
+_skill_effect = 4
+_skill_type = 3
+_skill_value = 0
+_skill_cd = 15

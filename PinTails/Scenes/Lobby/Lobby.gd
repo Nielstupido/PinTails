@@ -15,15 +15,14 @@ var player_name : String
 func _ready():
 	match_players = MATCHMANAGER.match_players
 	player_name = MATCHMANAGER.player_name
-	#player_cards_holder
 	$StartMatch.disabled = true
 	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
 	
 	var dir = DirAccess.open(tail_res_folder)
 	if dir:
-		for tail_name in GAMEMANAGER.tail_names:
-			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_name, tail_name]):
-				tail_data_list.append((ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_name, tail_name])).get_tail_data())
+		for tail_class in Tail.Classes.keys():
+			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]):
+				tail_data_list.append((ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class])).get_tail_data())
 			else:
 				tail_data_list.append(TailData.new())
 		
@@ -31,7 +30,7 @@ func _ready():
 	else:
 		OS.alert("Game files not found! \nRestart Game", "ERROR")
 		get_tree().quit()
-	
+	 
 	for x in 5:
 		player_cards_holder.get_child(x).setup_player(match_players.keys()[x])
 

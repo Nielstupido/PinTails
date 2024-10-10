@@ -13,7 +13,7 @@ func _ready():
 
 
 func add_tail(tail_data):
-	box_container.get_child(_acqrd_tails).get_child(0).text = tail_data.tail_name
+	box_container.get_child(_acqrd_tails).get_child(0).text = STRINGHELPER.filter_string(Tail.Classes.find_key(tail_data.tail_class))
 	_acqrd_tails += 1
 
 

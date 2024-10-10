@@ -1,18 +1,18 @@
-class_name Tails
+class_name Tail
 extends Object
 
 
-enum Types {
-	SCORPION,
-	CHEETAH,
-	GECKO,
-	RHINO,
-	PANGOLIN,
-	PANTHER,
-	CHAMELEON,
-	MEERKAT,
-	MANTISSHRIMP,
-	MONKEY
+enum Classes {
+	Scorpion,
+	Cheetah,
+	Gecko,
+	Rhino,
+	Pangolin,
+	Panther,
+	Chameleon,
+	Meerkat,
+	Mantis_Shrimp,
+	Monkey
 }
 
 

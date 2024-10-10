@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=75 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -23,6 +23,12 @@
 [ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/WeaponProjectile.tscn" id="11_ydo45"]
 [ext_resource type="Script" path="res://Scenes/Tails/Rhino/HornCharge.gd" id="12_d8ssq"]
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
+[ext_resource type="Script" path="res://Scenes/Tails/Chameleon/Conceal.gd" id="13_qaocy"]
+[ext_resource type="Script" path="res://Scenes/Tails/Pangolin/BallRoll.gd" id="14_jm1l0"]
+[ext_resource type="Script" path="res://Scenes/Tails/Panther/Pounce.gd" id="15_v0mrh"]
+[ext_resource type="Script" path="res://Scenes/Tails/Mantis_Shrimp/Punch.gd" id="16_v1lw2"]
+[ext_resource type="Script" path="res://Scenes/Tails/Monkey/Grapple_Hook.gd" id="17_1mxqs"]
+[ext_resource type="Script" path="res://addons/grappling_hook_3d/src/hook_controller.gd" id="17_q8wh5"]
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
 [ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="22_72wj0"]
@@ -38,38 +44,194 @@
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_i1sqj"]
-radius = 0.1
-height = 1.0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tq2b"]
+transparency = 1
+albedo_color = Color(1, 0.411765, 1, 1)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3olrp"]
-radius = 0.1
-height = 1.0
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_51qed"]
+material = SubResource("StandardMaterial3D_5tq2b")
+
+[sub_resource type="Animation" id="Animation_wif3r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Neck/Head/SkillComponentNodes/PunchDamageArea:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Neck/Head/SkillComponentNodes/PunchDamageArea:monitorable")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea:monitorable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_7skgk"]
 resource_name = "poison_stab"
 length = 0.2
+step = 0.01
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PoisonStab/Area3D")
+tracks/0/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 4.37114e-08, 0.1, 1, 0, 1, -2, 0.2, 1, 0, 1, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Neck/Head/SkillComponentNodes/PoisonStabDamageArea:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_eeerv"]
+resource_name = "punch"
+length = 0.2
+step = 0.01
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Neck/Head/SkillComponentNodes/PunchDamageArea")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.5, -1, 0.2, 1, 0, 0.5, -7)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Neck/Head/SkillComponentNodes/PunchDamageArea:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Neck/Head/SkillComponentNodes/PunchDamageArea:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Neck/Head/SkillComponentNodes/PunchDamageArea:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o6fi3"]
 _data = {
-"poison_stab": SubResource("Animation_7skgk")
+"RESET": SubResource("Animation_wif3r"),
+"poison_stab": SubResource("Animation_7skgk"),
+"punch": SubResource("Animation_eeerv")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_bvi11"]
-size = Vector3(0.8, 1.6, 0.8)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yvve3"]
+height = 3.5
+radius = 5.0
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fgxde"]
-radius = 0.4
-height = 0.8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1g34x"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+albedo_color = Color(0.854902, 0.490196, 0, 0.509804)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_w874f"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_0tlx8"]
+material = SubResource("StandardMaterial3D_1g34x")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 3.5
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
 _data = PackedByteArray(2, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0, 2, 0, 0, 0, 115, 66, 19, 0, 77, 0, 72, 115, 204, 0, 0, 0, 209, 226, 4, 0, 0, 1, 0, 0, 1, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 8, 0, 2, 0, 2, 0, 169, 0, 0, 0, 64, 0, 0, 0, 56, 181, 0, 0, 0, 1, 1, 4, 0, 4, 0, 1, 0, 1, 0, 233, 0, 0, 0, 16, 0, 0, 0, 200, 214, 0, 0, 0, 2, 1, 2, 0, 2, 0, 1, 0, 1, 0, 249, 0, 0, 0, 16, 0, 0, 0, 172, 110, 0, 0, 0, 3, 1, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1, 0, 0, 16, 0, 0, 0, 6, 136, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 8, 93, 129, 224, 4, 29, 157, 85, 72, 68, 68, 68, 55, 222, 22, 247, 8, 108, 145, 99, 148, 156, 158, 85, 0, 0, 0, 0, 26, 15, 141, 171, 176, 20, 161, 81, 28, 158, 158, 94, 0, 0, 0, 0, 0, 0, 243, 230, 80, 193, 136, 65, 222, 222, 95, 223, 0, 0, 127, 119, 127, 119, 127, 119, 119, 247, 182, 86, 59, 182, 181, 2, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -113,6 +275,33 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_gcevq")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lcorq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wtxo2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovxei"]
+transparency = 1
+depth_draw_mode = 1
+albedo_color = Color(0.219608, 0.219608, 0.219608, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i1sqj"]
+material = SubResource("StandardMaterial3D_ovxei")
+radius = 0.1
+height = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3olrp"]
+radius = 0.1
+height = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bvi11"]
+size = Vector3(0.8, 1.6, 0.8)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fgxde"]
+radius = 0.4
+height = 0.8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_w874f"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_af0lu"]
 streams_count = 5
@@ -192,6 +381,9 @@ fall_damage = 10
 jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
 
+[node name="TempBodyMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_51qed")
+
 [node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("interaction_raycast", "carryable_position")]
 script = ExtResource("4_mguki")
 interaction_raycast = NodePath("../Neck/Head/Eyes/Camera/InteractionRaycast")
@@ -222,25 +414,13 @@ script = ExtResource("8_xkga3")
 
 [node name="SkillNodes" type="Node3D" parent="."]
 
-[node name="PoisonStab" type="Node3D" parent="SkillNodes"]
-script = ExtResource("9_y08ai")
-
-[node name="Area3D" type="Area3D" parent="SkillNodes/PoisonStab"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
-metadata/_edit_group_ = true
-
-[node name="TailStinger" type="MeshInstance3D" parent="SkillNodes/PoisonStab/Area3D"]
-mesh = SubResource("CapsuleMesh_i1sqj")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SkillNodes/PoisonStab/Area3D"]
-shape = SubResource("CapsuleShape3D_3olrp")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SkillNodes/PoisonStab"]
-root_node = NodePath("../..")
+[node name="SkillAnimationsPlayer" type="AnimationPlayer" parent="SkillNodes"]
 libraries = {
 "": SubResource("AnimationLibrary_o6fi3")
 }
+
+[node name="PoisonStab" type="Node3D" parent="SkillNodes"]
+script = ExtResource("9_y08ai")
 
 [node name="Dash" type="Node3D" parent="SkillNodes"]
 script = ExtResource("10_sjl30")
@@ -251,33 +431,40 @@ script = ExtResource("11_2qdi1")
 [node name="HornCharge" type="Node3D" parent="SkillNodes"]
 script = ExtResource("12_d8ssq")
 
-[node name="StandingCollisionShape" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_bvi11")
+[node name="Conceal" type="Node3D" parent="SkillNodes"]
+script = ExtResource("13_qaocy")
 
-[node name="CrouchingCollisionShape" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
-shape = SubResource("CapsuleShape3D_fgxde")
-disabled = true
+[node name="BallRoll" type="Node3D" parent="SkillNodes"]
+script = ExtResource("14_jm1l0")
 
-[node name="TailCollisionArea" type="Area3D" parent="."]
-collision_layer = 4
-collision_mask = 4
+[node name="Pounce" type="Node3D" parent="SkillNodes"]
+script = ExtResource("15_v0mrh")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TailCollisionArea"]
-shape = SubResource("CylinderShape3D_w874f")
+[node name="DamageArea" type="Area3D" parent="SkillNodes/Pounce"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
+visible = false
 
-[node name="StaircheckRayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
-target_position = Vector3(0, -0.5, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SkillNodes/Pounce/DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000370026, 1.01126, 0.00944042)
+shape = SubResource("CylinderShape3D_yvve3")
 
-[node name="CrouchRayCast" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
-target_position = Vector3(0, 1.6, 0)
-collision_mask = 3
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SkillNodes/Pounce/DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_0tlx8")
 
-[node name="CarryablePosition" type="Node3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.2, 0.341, -0.3)
+[node name="Punch" type="Node3D" parent="SkillNodes"]
+script = ExtResource("16_v1lw2")
+
+[node name="GrappleHook" type="Node3D" parent="SkillNodes"]
+script = ExtResource("17_1mxqs")
+
+[node name="HookController" type="Node" parent="SkillNodes/GrappleHook" node_paths=PackedStringArray("hook_raycast", "player_body", "hook_source")]
+script = ExtResource("17_q8wh5")
+hook_raycast = NodePath("../../../Neck/Head/Hook Raycast")
+player_body = NodePath("../../..")
+launch_action_name = "action_primary"
+retract_action_name = "action_primary"
+hook_source = NodePath("../../../Neck/Head/HookRopeStart")
 
 [node name="Neck" type="Node3D" parent="."]
 process_mode = 1
@@ -340,6 +527,73 @@ libraries = {
 }
 
 [node name="WeaponAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/WeaponAttachments"]
+
+[node name="SkillComponentNodes" type="Node3D" parent="Neck/Head"]
+
+[node name="PunchDamageArea" type="Area3D" parent="Neck/Head/SkillComponentNodes"]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, -0.2, -7)
+visible = false
+collision_layer = 2
+collision_mask = 2
+monitoring = false
+monitorable = false
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Neck/Head/SkillComponentNodes/PunchDamageArea"]
+mesh = SubResource("CapsuleMesh_lcorq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Head/SkillComponentNodes/PunchDamageArea"]
+shape = SubResource("CapsuleShape3D_wtxo2")
+
+[node name="PoisonStabDamageArea" type="Area3D" parent="Neck/Head/SkillComponentNodes"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.3, 0)
+visible = false
+collision_layer = 2
+collision_mask = 2
+monitoring = false
+monitorable = false
+metadata/_edit_group_ = true
+
+[node name="TailStinger" type="MeshInstance3D" parent="Neck/Head/SkillComponentNodes/PoisonStabDamageArea"]
+mesh = SubResource("CapsuleMesh_i1sqj")
+skeleton = NodePath("../../../../../SkillNodes/PoisonStab")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Head/SkillComponentNodes/PoisonStabDamageArea"]
+shape = SubResource("CapsuleShape3D_3olrp")
+
+[node name="Hook Raycast" type="RayCast3D" parent="Neck/Head"]
+target_position = Vector3(0, 0, -25)
+
+[node name="HookRopeStart" type="Marker3D" parent="Neck/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.409778, -0.404464, -0.5)
+
+[node name="StandingCollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_bvi11")
+
+[node name="CrouchingCollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("CapsuleShape3D_fgxde")
+disabled = true
+
+[node name="TailCollisionArea" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TailCollisionArea"]
+shape = SubResource("CylinderShape3D_w874f")
+
+[node name="StaircheckRayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+target_position = Vector3(0, -0.5, 0)
+
+[node name="CrouchRayCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+target_position = Vector3(0, 1.6, 0)
+collision_mask = 3
+
+[node name="CarryablePosition" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.2, 0.341, -0.3)
 
 [node name="SlidingTimer" type="Timer" parent="."]
 wait_time = 1.5
@@ -846,10 +1100,9 @@ process_mode = 3
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)
 
-[connection signal="body_entered" from="SkillNodes/PoisonStab/Area3D" to="SkillNodes/PoisonStab" method="_on_area_3d_body_entered"]
+[connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_entered"]
 [connection signal="body_exited" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_exited"]
-[connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="SlidingTimer" to="." method="_on_sliding_timer_timeout"]
 [connection signal="timeout" from="UI/Player_HUD/HintTimer" to="UI/Player_HUD" method="_on_hint_timer_timeout"]
 [connection signal="pressed" from="UI/Player_HUD/DeathScreen/Panel/BoxContainer/VBoxContainer/RestartButton" to="UI/Player_HUD" method="_on_restart_button_pressed"]

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="TailRes" load_steps=2 format=3 uid="uid://bygg734rt70bo"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/TailRes.gd" id="1_8omkt"]
+
+[resource]
+script = ExtResource("1_8omkt")
+_tail_class = 8
+_attribs_str = ""
+_adtnl_max_health = 0
+_adtnl_armor = 0
+_adtnl_speed = 0
+_adtnl_footstep_silencer = 0
+_adtnl_dmg = 0
+_skill_name = "Punch"
+_skill_animation = ""
+_skill_effect = 1
+_skill_type = 1
+_skill_value = 70
+_skill_cd = 5

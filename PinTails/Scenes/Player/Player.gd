@@ -11,7 +11,6 @@ var current_weapon = -1
 var fired_once = false
 
 var direction = Vector3.BACK
-var velocity = Vector3.ZERO
 var strafe_dir = Vector3.ZERO
 var strafe = Vector3.ZERO
 

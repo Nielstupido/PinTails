@@ -9,7 +9,8 @@ extends Control
 @onready var skill_card3 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard3"
 
 var _acqrd_skills : int = 0
-var is_skill_waiting_shot_trigger = false
+var is_waiting_shot_trigger = false
+var is_wating_double_trigger = false
 var active_skill_card = null
 
 
@@ -26,17 +27,14 @@ func _input(event):
 	if event.is_action_pressed("first_skill"):
 		if skill_card1.can_use_skill():
 			use_skill(skill_card1)
-			print("First Skill")
 	
 	if event.is_action_pressed("second_skill"):
 		if skill_card2.can_use_skill():
 			use_skill(skill_card2)
-			print("Second Skill")
 	
 	if event.is_action_pressed("third_skill"):
 		if skill_card3.can_use_skill():
 			use_skill(skill_card3)
-			print("Third Skill")
 
 
 func remove_skill(skill_index) -> void:
@@ -67,48 +65,48 @@ func remove_skill(skill_index) -> void:
 func add_skill(passed_tail_data) -> void:
 	player_skills_container.get_child(_acqrd_skills).setup_skill_card(passed_tail_data)
 	_acqrd_skills += 1
-	print("picked up data == " + str(passed_tail_data))
 
 
 func use_skill(skill_card : Node) -> void:
+	if is_wating_double_trigger and active_skill_card != null:
+		execute_skill()
+	
 	active_skill_card = skill_card
 	
-	match(owner.tail_manager.get_skill_type(active_skill_card.tail_data.skill_name)):
-		GAMEMANAGER.SkillTypes.SINGLE_TRIGGER:
-			active_skill_card.start_cooldown()
+	match(active_skill_card.tail_data.skill_type):
+		SKILLS.Skill_Types.SINGLE_TRIGGER:
 			execute_skill()
-			print("single trigger")
-		GAMEMANAGER.SkillTypes.SHOT_TRIGGER:
-			is_skill_waiting_shot_trigger = true
-			print("shot trigger")
-		GAMEMANAGER.SkillTypes.TOGGLE_TRIGGER:
+		SKILLS.Skill_Types.SHOT_TRIGGER:
+			is_waiting_shot_trigger = true
+		SKILLS.Skill_Types.TOGGLE_TRIGGER:
 			print("toggle trigger")
-		GAMEMANAGER.SkillTypes.DOUBLE_TRIGGER:
-			print("double trigger")
+		SKILLS.Skill_Types.DOUBLE_TRIGGER:
+			is_wating_double_trigger = true
 
 
-func reset_skill(passed_tail_data) -> void:
-	is_skill_waiting_shot_trigger = false
+func reset_skill(passed_skill_data) -> void:
+	is_waiting_shot_trigger = false
 	active_skill_card = null
 
 
 ##Filler - might needed later on
 #func prepare_skill():
 	#match(owner.tail_manager.get_skill_effect(active_skill_card.tail_data.skill_name)):
-		#GAMEMANAGER.SkillEffects.DAMAGE:
+		#SKILLS.Skill_Effects.DAMAGE:
 			#execute_skill()
 			#print("damage skill")
-		#GAMEMANAGER.SkillEffects.ARMOR:
+		#SKILLS.Skill_Effects.ARMOR:
 			#execute_skill()
 			#print("armor skil")
-		#GAMEMANAGER.SkillEffects.DASH:
+		#SKILLS.Skill_Effects.DASH:
 			#execute_skill() 
 			#print("dash skill")
-		#GAMEMANAGER.SkillEffects.STICK: 
+		#SKILLS.Skill_Effects.STICK: 
 			#execute_skill()
 			#print("stick skill")
 
 
 func execute_skill():
-	var skill_name = active_skill_card.tail_data.skill_name
-	owner.skill_nodes.get_node(skill_name.replace(" ", "")).execute_skill(owner.tail_manager.get_skill_value(skill_name))
+	active_skill_card.start_cooldown()
+	owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
+	reset_skill(null)

@@ -29,10 +29,10 @@ transform = Transform3D(0.101897, 0, 0, 0, 0.101897, 0, 0, 0, 0.101897, 0, 0, 0)
 mesh = SubResource("2")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.00127316, 0.149026, 0.000488341)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00127316, 0.396417, 0.000488341)
 mesh = SubResource("CylinderMesh_defpb")
 surface_material_override/0 = SubResource("StandardMaterial3D_xba06")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.148649, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.396, 0)
 shape = SubResource("CylinderShape3D_bj2hi")

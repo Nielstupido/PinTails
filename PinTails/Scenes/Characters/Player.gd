@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 signal toggle_inventory_interface()
 signal player_state_loaded()
+signal player_just_landed()
 
 ## Reference to Pause menu node
 @export var pause_menu : NodePath
@@ -27,6 +28,7 @@ signal player_state_loaded()
 @onready var skill_manager = $SkillManager
 @onready var skill_nodes = $SkillNodes
 @onready var tail_config_menu = $UI/PlayerTails/TailConfigMenu
+@onready var body: MeshInstance3D = $TempBodyMesh
 @onready var neck: Node3D = $Neck
 @onready var head: Node3D = $Neck/Head 
 @onready var eyes: Node3D = $Neck/Head/Eyes
@@ -55,8 +57,6 @@ signal player_state_loaded()
 @export var CROUCHING_DEPTH = -0.9
 @export var MOUSE_SENS = 0.25
 @export var LERP_SPEED = 10.0
-@export var DASH_LERP_SPEED = Vector3(15.0, 1.0, 15.0)
-@export var IDLE_DASH_LERP_SPEED = Vector3.ZERO
 @export var AIR_LERP_SPEED = 6.0
 @export var FREE_LOOK_TILT_AMOUNT = 5.0
 @export var SLIDING_SPEED = 5.0
@@ -104,6 +104,11 @@ var initial_carryable_height #DEPRECATED Used to change carryable position based
 
 var config = ConfigFile.new()
 
+var dash_rate : Vector3
+var dash_lerp_speed : float
+var dash_length : float
+var idle_dash_rate : Vector3
+
 var current_speed = 5.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var direction = Vector3.ZERO
@@ -112,6 +117,8 @@ var is_sprinting = false
 var is_crouching = false
 var is_dashing = false
 var is_free_looking = false
+var is_jumping = false
+var just_jumped = false
 var slide_vector = Vector2.ZERO
 var wiggle_vector = Vector2.ZERO
 var wiggle_index = 0.0
@@ -122,6 +129,7 @@ var stand_after_roll = false
 var is_movement_paused = false
 var is_looking_aroung_paused = false
 var is_dead : bool = false
+var is_dmg_immuned : bool = false 
 
 ## Player tail stats
 var adtnl_movement_speed = 0
@@ -148,7 +156,7 @@ func _ready() -> void:
 	player_interaction_component.interaction_raycast = $Neck/Head/Eyes/Camera/InteractionRaycast
 	randomize()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
+	
 	# Pause Menu setup
 	if pause_menu:
 		var pause_menu_node = get_node(pause_menu)
@@ -266,6 +274,7 @@ func _on_resume_movement():
 	#if err == 0:
 		#INVERT_Y_AXIS = config.get_value(OptionsConstants.section_name, OptionsConstants.invert_vertical_axis_key, true)
 
+
 # Signal from Pause Menu
 func _on_pause_menu_resume():
 	#_reload_options()
@@ -369,11 +378,10 @@ func _physics_process(delta):
 		return
 		
 	if on_ladder:
-		_process_on_ladder(delta)
+		_process_on_ladder(delta)  
 		return
 		
-	var is_falling: bool = false
-	
+	var is_falling: bool = false 
 	# Getting input direction
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	
@@ -425,7 +433,7 @@ func _physics_process(delta):
 		sliding_timer.stop()
 		# Prevent sprinting if player is out of stamina.
 		if Input.is_action_pressed("sprint") and is_using_stamina and stamina_component.current_stamina > 0:
-			if !Input.is_action_pressed("jump"):
+			if !Input.is_action_pressed("jump") and !is_jumping:
 				bunny_hop_speed = SPRINTING_SPEED
 			current_speed = lerp(current_speed, bunny_hop_speed, delta * LERP_SPEED)
 			wiggle_current_intensity = WIGGLE_ON_SPRINTING_INTENSITY
@@ -434,7 +442,7 @@ func _physics_process(delta):
 			is_sprinting = true
 			is_crouching = false
 		elif Input.is_action_pressed("sprint") and !is_using_stamina:	
-			if !Input.is_action_pressed("jump"):
+			if !Input.is_action_pressed("jump") and !is_jumping:
 				bunny_hop_speed = SPRINTING_SPEED
 			current_speed = lerp(current_speed, bunny_hop_speed, delta * LERP_SPEED)
 			wiggle_current_intensity = WIGGLE_ON_SPRINTING_INTENSITY
@@ -515,23 +523,25 @@ func _physics_process(delta):
 		if fall_damage > 0 and last_velocity.y <= fall_damage_threshold:
 			health_component.subtract(fall_damage)
 	
-	if Input.is_action_pressed("jump") and !is_movement_paused and is_on_floor():
+	if (Input.is_action_pressed("jump") or is_jumping) and !is_movement_paused and is_on_floor():
 		snap = Vector3.ZERO
 		is_falling = true
+		
 		# If Stamina Component is used, this checks if there's enough stamina to jump and denies it if not.
 		if is_using_stamina and stamina_component.current_stamina >= stamina_component.jump_exhaustion:
 			decrease_attribute("stamina",stamina_component.jump_exhaustion)
 		else:
 			print("Not enough stamina to jump.")
 			return
-			
+		
 		animationPlayer.play("jump")
 		#Audio.play_sound(jump_sound)
 		if !sliding_timer.is_stopped():
-			velocity.y = JUMP_VELOCITY * 1.5
+			velocity.y = JUMP_VELOCITY * 1.5 
 			sliding_timer.stop()
 		else:
 			velocity.y = JUMP_VELOCITY
+		
 		if is_sprinting:
 			bunny_hop_speed += BUNNY_HOP_ACCELERATION
 		else:
@@ -678,16 +688,18 @@ func _physics_process(delta):
 	
 	if is_dashing:
 		if input_dir == Vector2.ZERO:
-			IDLE_DASH_LERP_SPEED = Vector3(WALKING_SPEED * DASH_LERP_SPEED.x, 1.0, WALKING_SPEED * DASH_LERP_SPEED.z)
-			velocity = lerp(velocity, (-camera.global_transform.basis.z.normalized() * IDLE_DASH_LERP_SPEED), (delta * DASH_LERP_SPEED.z))
+			idle_dash_rate = Vector3(WALKING_SPEED * dash_rate.x, 1.0, WALKING_SPEED * dash_rate.z)
+			velocity = lerp(velocity, (-camera.global_transform.basis.z.normalized() * idle_dash_rate), dash_lerp_speed)
 		else:
-			velocity = lerp(velocity, (velocity * DASH_LERP_SPEED), (delta * DASH_LERP_SPEED.x))
+			velocity = lerp(velocity, (velocity * dash_rate), dash_lerp_speed)
 		
 		temp += 1
 		
-		if temp >= DASH_LERP_SPEED.x:
+		if temp >= (dash_length):
 			temp = 0
 			is_dashing = false
+	else:
+		temp = 0
 	
 	if !is_movement_paused:
 		move_and_slide()
@@ -698,9 +710,15 @@ func _physics_process(delta):
 			footstep_player.play()
 			# These "magic numbers" determine the frequency of sounds depending on speed of player. Need to make these variables.
 			if velocity.length() >= 3.4:
-				footstep_timer.start(.3)
+				footstep_timer.start(.3) 
 			else:
 				footstep_timer.start(.6)
+	
+	if is_on_floor() and just_jumped:
+		just_jumped = false
+		player_just_landed.emit()
+	
+	is_jumping = false
 
 
 func _on_sliding_timer_timeout():

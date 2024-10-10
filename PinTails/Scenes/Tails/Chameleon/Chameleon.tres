@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="TailRes" load_steps=2 format=3 uid="uid://dcldpt4iwqgtg"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/TailRes.gd" id="1_qo6kf"]
+
+[resource]
+script = ExtResource("1_qo6kf")
+_tail_class = 6
+_attribs_str = ""
+_adtnl_max_health = 0
+_adtnl_armor = 0
+_adtnl_speed = 0
+_adtnl_footstep_silencer = 0
+_adtnl_dmg = 0
+_skill_name = "Conceal"
+_skill_animation = ""
+_skill_effect = 0
+_skill_type = 1
+_skill_value = 10
+_skill_cd = 15

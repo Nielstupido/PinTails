@@ -4,13 +4,16 @@
 
 [resource]
 script = ExtResource("1_ihoxf")
-_tail_name = "Rhino"
-_attribs_str = ""
 _tail_class = 3
-_skill_name = "Horn Charge"
-_skill_animation = ""
+_attribs_str = ""
 _adtnl_max_health = 100
 _adtnl_armor = 0
 _adtnl_speed = 0
 _adtnl_footstep_silencer = 0
 _adtnl_dmg = 0
+_skill_name = "Horn Charge"
+_skill_animation = ""
+_skill_effect = 3
+_skill_type = 4
+_skill_value = 30
+_skill_cd = 10

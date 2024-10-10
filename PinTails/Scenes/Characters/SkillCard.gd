@@ -17,9 +17,9 @@ func _process(delta):
 
 
 func setup_skill_card(passed_tail_data, on_cooldown = false, remaining_cooldown = 0):
-	self.tail_data = passed_tail_data
-	$Label.text = self.tail_data.tail_name
-	self.skill_cooldown = owner.tail_manager.get_skill_CD(self.tail_data.skill_name)
+	self.tail_data = passed_tail_data          
+	$Label.text = STRINGHELPER.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
+	self.skill_cooldown = self.tail_data.skill_cd
 	disabled_cover.hide()
 	
 	if on_cooldown:
@@ -41,7 +41,7 @@ func can_use_skill() -> bool:
 	return false
 
 
-func on_cooldown() -> Array:
+func on_cooldown() -> Array: 
 	if $Timer.is_stopped():
 		return [false, 0]
 	

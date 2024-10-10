@@ -6,37 +6,11 @@ signal weapon_picked_up(weapon_id)
 signal tail_picked_up(tail_data)
 signal tail_removed()
 
-enum SkillEffects {
-	DAMAGE,
-	ARMOR,
-	DASH,
-	STICK
-}
-
-enum SkillTypes {
-	SINGLE_TRIGGER, ##skills that activates after pressing "skill hotkey"
-	SHOT_TRIGGER, ##skills that activates when "skill hotkey" is pressed and followed by pressing "left-mouse button"
-	TOGGLE_TRIGGER, ##skills that
-	DOUBLE_TRIGGER ##skills that activates when "skill hotkey" is pressed and followed by pressing again the "skill hotkey"
-}
 
 var game_node : Game
 var _gun_id
 var _tail_id
 var tail_res : Resource
-
-var tail_names = [
-	"Scorpion",
-	"Cheetah",
-	"Gecko",
-	"Rhino",
-	"Pangolin",
-	"Panther",
-	"Chameleon",
-	"Meerkat",
-	"Mantis Shrimp",
-	"Monkey"
-]
 
 
 func _ready():

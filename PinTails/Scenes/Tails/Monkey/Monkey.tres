@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="TailRes" load_steps=2 format=3 uid="uid://c7soomqcrd846"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/TailRes.gd" id="1_eirsm"]
+
+[resource]
+script = ExtResource("1_eirsm")
+_tail_class = 9
+_attribs_str = ""
+_adtnl_max_health = 0
+_adtnl_armor = 0
+_adtnl_speed = 0
+_adtnl_footstep_silencer = 0
+_adtnl_dmg = 0
+_skill_name = "GrappleHook"
+_skill_animation = ""
+_skill_effect = 3
+_skill_type = 0
+_skill_value = 0
+_skill_cd = 0
