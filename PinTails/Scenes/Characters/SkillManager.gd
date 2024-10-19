@@ -11,6 +11,7 @@ extends Control
 var _acqrd_skills : int = 0
 var is_waiting_shot_trigger = false
 var is_wating_double_trigger = false
+var is_timed_trigger_enabled = false
 var active_skill_card = null
 
 
@@ -68,6 +69,9 @@ func add_skill(passed_tail_data) -> void:
 
 
 func use_skill(skill_card : Node) -> void:
+	if is_timed_trigger_enabled:
+		return
+	
 	if is_wating_double_trigger and active_skill_card != null:
 		execute_skill()
 	
@@ -78,14 +82,18 @@ func use_skill(skill_card : Node) -> void:
 			execute_skill()
 		SKILLS.Skill_Types.SHOT_TRIGGER:
 			is_waiting_shot_trigger = true
+		SKILLS.Skill_Types.TIMED_SHOT_TRIGGER:
+			is_timed_trigger_enabled = true
+			execute_skill()
 		SKILLS.Skill_Types.TOGGLE_TRIGGER:
-			print("toggle trigger")
-		SKILLS.Skill_Types.DOUBLE_TRIGGER:
+			execute_skill()
+		SKILLS.Skill_Types.DOUBLE_TRIGGER: 
 			is_wating_double_trigger = true
 
 
 func reset_skill(passed_skill_data) -> void:
 	is_waiting_shot_trigger = false
+	is_timed_trigger_enabled = false
 	active_skill_card = null
 
 
@@ -97,7 +105,7 @@ func reset_skill(passed_skill_data) -> void:
 			#print("damage skill")
 		#SKILLS.Skill_Effects.ARMOR:
 			#execute_skill()
-			#print("armor skil")
+			#print("armor skil")s
 		#SKILLS.Skill_Effects.DASH:
 			#execute_skill() 
 			#print("dash skill")
@@ -107,6 +115,11 @@ func reset_skill(passed_skill_data) -> void:
 
 
 func execute_skill():
-	active_skill_card.start_cooldown()
 	owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
+	
+	if is_timed_trigger_enabled:
+		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
+		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
+	
+	active_skill_card.start_cooldown()
 	reset_skill(null)

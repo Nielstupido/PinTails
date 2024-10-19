@@ -29,7 +29,7 @@ func remove_tail(passed_tail : TailData) -> void:
 	remove_tail_attr(passed_tail)
 
 
-#adds/sets the attributes of the newly pinned tail to player
+#adds/sets the attributes of the newly pinned tail to player 
 func set_tail_attr(passed_tail_data : TailData) -> void:
 	current_active_tail_attrb.append(passed_tail_data.skill_name)
 	owner.adtnl_movement_speed = passed_tail_data.adtnl_movement_speed

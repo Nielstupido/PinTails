@@ -9,7 +9,7 @@ extends Node
 #<-------For testing-------->
 var tail_res_folder = "res://Scenes/Tails/"
 var tail_data_list : Array
-#<-------For testing-------->
+#<-------For testing-------->	
 
 
 func _ready():

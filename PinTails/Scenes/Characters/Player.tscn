@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=76 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -50,6 +50,7 @@ albedo_color = Color(1, 0.411765, 1, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_51qed"]
 material = SubResource("StandardMaterial3D_5tq2b")
+height = 1.8
 
 [sub_resource type="Animation" id="Animation_wif3r"]
 length = 0.001
@@ -301,6 +302,10 @@ size = Vector3(0.8, 1.6, 0.8)
 radius = 0.4
 height = 0.8
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xrhh1"]
+height = 1.8
+radius = 1.0
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_w874f"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_af0lu"]
@@ -382,11 +387,11 @@ jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
 
 [node name="TempBodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("CapsuleMesh_51qed")
 
-[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("interaction_raycast", "carryable_position")]
+[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("carryable_position")]
 script = ExtResource("4_mguki")
-interaction_raycast = NodePath("../Neck/Head/Eyes/Camera/InteractionRaycast")
 carryable_position = NodePath("../CarryablePosition")
 default_position = Vector3(0.329, -0.264, -0.535)
 sound_primary_use = ExtResource("11_45f3g")
@@ -463,7 +468,7 @@ script = ExtResource("17_q8wh5")
 hook_raycast = NodePath("../../../Neck/Head/Hook Raycast")
 player_body = NodePath("../../..")
 launch_action_name = "action_primary"
-retract_action_name = "action_primary"
+retract_action_name = "action_secondary"
 hook_source = NodePath("../../../Neck/Head/HookRopeStart")
 
 [node name="Neck" type="Node3D" parent="."]
@@ -574,6 +579,14 @@ shape = SubResource("BoxShape3D_bvi11")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 shape = SubResource("CapsuleShape3D_fgxde")
 disabled = true
+
+[node name="PlayerCollisionArea" type="Area3D" parent="."]
+collision_layer = 31
+collision_mask = 31
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCollisionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("CylinderShape3D_xrhh1")
 
 [node name="TailCollisionArea" type="Area3D" parent="."]
 collision_layer = 4

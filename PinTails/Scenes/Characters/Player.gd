@@ -35,6 +35,7 @@ signal player_just_landed()
 @onready var camera: Camera3D = $Neck/Head/Eyes/Camera
 @onready var animationPlayer: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
 
+@onready var interaction_raycast: RayCast3D = $Neck/Head/Eyes/Camera/InteractionRaycast
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var crouching_collision_shape: CollisionShape3D = $CrouchingCollisionShape
 @onready var crouch_raycast: RayCast3D = $CrouchRayCast
@@ -97,6 +98,7 @@ var on_ladder : bool = false
 @export var JOY_V_SENS : int = 3
 @export var JOY_H_SENS : int = 2
 
+var input_dir : Vector2
 var joystick_h_event
 var joystick_v_event
  
@@ -118,6 +120,8 @@ var is_crouching = false
 var is_dashing = false
 var is_free_looking = false
 var is_jumping = false
+var is_falling = false 
+var on_wall_run = false
 var just_jumped = false
 var slide_vector = Vector2.ZERO
 var wiggle_vector = Vector2.ZERO
@@ -130,6 +134,7 @@ var is_movement_paused = false
 var is_looking_aroung_paused = false
 var is_dead : bool = false
 var is_dmg_immuned : bool = false 
+var temp = 0
 
 ## Player tail stats
 var adtnl_movement_speed = 0
@@ -138,22 +143,31 @@ var adtnl_max_health = 0
 var adtnl_footstep_silencer = 0
 var adtnl_melee_dmg = 0
 
+## Cache allocation of test motion parameters.
+@onready var _params: PhysicsTestMotionParameters3D = PhysicsTestMotionParameters3D.new()
+@onready var self_rid: RID = self.get_rid()
+@onready var test_motion_result: PhysicsTestMotionResult3D = PhysicsTestMotionResult3D.new()
 
-##Testing Purposes
-var temp = 0
+## Wallrun
+@export_group("Wallrun Skill Properties")
+@export var wallrun_angle : float = 15.0
+@export var wall_jump_power_h : float = 1.5
+@export var wall_jump_power_v : float = 0.75
+@export_range(0.0, 1.0) var wall_jump_factor : float = 0.4
 
-
-# Use this to refresh/update when a player state is loaded.
-func _on_player_state_loaded() -> void:
-	health_component.health_changed.emit(health_component.current_health,health_component.max_health)
-	stamina_component.stamina_changed.emit(stamina_component.current_stamina,stamina_component.max_stamina)
-	sanity_component.sanity_changed.emit(sanity_component.current_sanity,sanity_component.max_sanity)
+@onready var wallrun_delay_default = wallrun_delay
+var is_wallrunning = false
+var can_wallrun = false
+var wallrun_delay = 0.2
+var wallrun_current_angle = 0
+var side = ""
+var is_wallrun_jumping = false
+var wall_jump_dir = Vector3.ZERO
 
 
 func _ready() -> void:
 	#Some Setup steps
 	#CogitoSceneManager._current_player_node = self
-	player_interaction_component.interaction_raycast = $Neck/Head/Eyes/Camera/InteractionRaycast
 	randomize()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -319,11 +333,8 @@ func _process(delta):
 	if sanity_component.current_sanity <= 0:
 		take_damage(health_component.no_sanity_damage * delta)
 
-# Cache allocation of test motion parameters.
-@onready var _params: PhysicsTestMotionParameters3D = PhysicsTestMotionParameters3D.new()
 
-
-func params(transform3d, motion):
+func params(transform3d, motion) -> PhysicsTestMotionParameters3D:
 	var params : PhysicsTestMotionParameters3D = _params
 	params.from = transform3d
 	params.motion = motion
@@ -331,14 +342,53 @@ func params(transform3d, motion):
 	return params
 
 
-@onready var self_rid: RID = self.get_rid()
-@onready var test_motion_result: PhysicsTestMotionResult3D = PhysicsTestMotionResult3D.new()
-
 func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
 	return PhysicsServer3D.body_test_motion(self_rid, params(transform3d, motion), test_motion_result)	
 
 
-### LADDER MOVEMENT
+func _physics_process(delta):
+	if is_movement_paused or on_wall_run:
+		return
+		
+	if on_ladder:
+		_process_on_ladder(delta)  
+		return
+	
+	is_falling = false 
+	# Getting input direction
+	input_dir = Input.get_vector("left", "right", "forward", "back")
+	
+	# LERP the up/down rotation of whatever you're carrying.
+	carryable_position.rotation.z = lerp_angle(carryable_position.rotation.z, head.rotation.x, 5 * delta)
+	
+	_process_mouse_look(delta)
+	_process_gravity(delta)
+	_process_jump(delta)
+	_process_wallrun()
+	_process_wallrun_rotation(delta)
+	_process_movement_velocity(delta)
+	_process_stair_stepping(delta)
+	
+	velocity += gravity_vec
+	
+	if is_falling:
+		snap = Vector3.ZERO 
+	
+	_process_dash(delta)
+	
+	if !is_movement_paused:
+		move_and_slide()
+	
+	# FOOTSTEP SOUNDS SYSTEM = CHECK IF ON GROUND AND MOVING
+	_process_footstep_sound()
+	
+	if is_on_floor() and just_jumped:
+		just_jumped = false
+		player_just_landed.emit()
+	
+	is_jumping = false
+
+
 func _process_on_ladder(_delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var jump = Input.is_action_pressed("jump")
@@ -373,22 +423,7 @@ func _process_on_ladder(_delta):
 		on_ladder = false
 
 
-func _physics_process(delta):
-	if is_movement_paused:
-		return
-		
-	if on_ladder:
-		_process_on_ladder(delta)  
-		return
-		
-	var is_falling: bool = false 
-	# Getting input direction
-	var input_dir = Input.get_vector("left", "right", "forward", "back")
-	
-	# LERP the up/down rotation of whatever you're carrying.
-	carryable_position.rotation.z = lerp_angle(carryable_position.rotation.z, head.rotation.x, 5 * delta)
-	
-	# Processing analog stick mouselook
+func _process_mouse_look(delta) -> void:
 	if joystick_h_event and !is_movement_paused:
 			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
 				if INVERT_Y_AXIS:
@@ -396,7 +431,7 @@ func _physics_process(delta):
 				else:
 					head.rotate_x(-deg_to_rad(joystick_h_event.get_axis_value() * JOY_H_SENS))
 				head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-				
+	
 	if joystick_v_event and !is_movement_paused:
 		if abs(joystick_v_event.get_axis_value()) > JOY_DEADZONE:
 			neck.rotate_y(deg_to_rad(-joystick_v_event.get_axis_value() * JOY_V_SENS))
@@ -466,7 +501,7 @@ func _physics_process(delta):
 			)
 		else:
 			eyes.rotation.z = lerp(
-				eyes.rotation.z,
+				eyes.rotation.z, 
 				deg_to_rad(4.0), 
 				delta * LERP_SPEED
 			)
@@ -479,18 +514,29 @@ func _physics_process(delta):
 			0.0,
 			delta*LERP_SPEED
 		)
-	
-	### STAIR FLOOR SNAP
-		#jumping and gravity
+
+
+func _process_gravity(delta) -> void:
 	if is_on_floor():
 		snap = -get_floor_normal()
 		gravity_vec = Vector3.ZERO
+		
+		can_wallrun = false
+		is_wallrunning = false
+		is_wallrun_jumping = false
+		wallrun_delay = wallrun_delay_default
 	else:
 		snap = Vector3.DOWN
 		gravity_vec = Vector3.DOWN * gravity * delta
-	### 
-	
-	if not is_on_floor():
+		
+		wallrun_delay = clamp(wallrun_delay - delta, 0, wallrun_delay_default)
+		 
+		if wallrun_delay == 0:
+			can_wallrun = true
+
+
+func _process_jump(delta) -> void:
+	if !is_on_floor():
 		#snap = Vector3.DOWN
 		#velocity.y -= gravity * delta
 		pass
@@ -546,7 +592,79 @@ func _physics_process(delta):
 			bunny_hop_speed += BUNNY_HOP_ACCELERATION
 		else:
 			bunny_hop_speed = SPRINTING_SPEED
+
+
+##<<<< WALLRUNNING SKILL >>>>
+
+func _process_wallrun() -> void:
+	if can_wallrun:
+		if is_on_wall() and Input.is_action_pressed("forward") and Input.is_action_pressed("sprint"):
+			var collision = get_slide_collision(0)
+			var normal = collision.get_normal()
+			
+			var wallrun_dir = Vector3.UP.cross(normal)
+			
+			var player_view_dir = camera.global_transform.basis.z
+			var dot = wallrun_dir.dot(player_view_dir)
+			
+			if dot > 0:
+				wallrun_dir = -wallrun_dir
+			
+			#var wallrun_axis_2d = Vector2(wallrun_dir.x, wallrun_dir.z)
+			#var view_dir_2d = Vector2(player_view_dir.x, player_view_dir.z)
+			#var angle = wallrun_axis_2d.angle_to(view_dir_2d)
+			#
+			#angle = rad_to_deg(angle)
+			#if dot < 0:
+				#angle = -angle
+			#
+			#if angle > 80:
+				#is_wallrunning = false
+				#return
+			
+			wallrun_dir += -normal * 0.01
+			is_wallrunning = true
+			side = get_side(collision.get_position())
+			gravity_vec = Vector3.DOWN * -0.01
+			direction = wallrun_dir
+		else:
+			is_wallrunning = false
+			
+
+
+func _process_wallrun_rotation(delta) -> void:
+	if is_wallrunning:
+		if side == "RIGHT":
+			wallrun_current_angle += delta * 60
+			wallrun_current_angle = clamp(wallrun_current_angle, -wallrun_angle, wallrun_angle)
+		elif side == "LEFT":
+			wallrun_current_angle -= delta * 60
+			wallrun_current_angle = clamp(wallrun_current_angle, -wallrun_angle, wallrun_angle)
+	else:
+		if wallrun_current_angle > 0:
+			wallrun_current_angle -= delta * 40
+			wallrun_current_angle = max(0, wallrun_current_angle)
+		elif wallrun_current_angle < 0:
+			wallrun_current_angle += delta * 40
+			wallrun_current_angle = min(wallrun_current_angle, 0)
+	 
+	neck.rotation_degrees = Vector3.BACK * wallrun_current_angle
+
+
+func get_side(point) -> String: 
+	point = to_local(point)
 	
+	if point.x > 0:
+		return "RIGHT"
+	elif point.x < 0:
+		return "LEFT"
+	else:
+		return "CENTER"
+
+##<<<< WALLRUNNING SKILL >>>>
+
+
+func _process_movement_velocity(delta) -> void:
 	if sliding_timer.is_stopped():
 		if is_on_floor():
 			direction = lerp(
@@ -574,8 +692,9 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 	
 	last_velocity = velocity
-	
-	# STAIR HANDLING
+
+
+func _process_stair_stepping(delta) -> void:
 	is_step = false
 	
 	if gravity_vec.y >= 0:
@@ -680,12 +799,9 @@ func _physics_process(delta):
 	else:
 		head_offset = head_offset.lerp(Vector3.ZERO, delta * LERP_SPEED)
 		head.position.y = lerp(head.position.y, 0.0, delta * step_height_camera_lerp)
-	
-	velocity += gravity_vec
-	
-	if is_falling:
-		snap = Vector3.ZERO 
-	
+
+
+func _process_dash(delta) -> void:
 	if is_dashing:
 		if input_dir == Vector2.ZERO:
 			idle_dash_rate = Vector3(WALKING_SPEED * dash_rate.x, 1.0, WALKING_SPEED * dash_rate.z)
@@ -700,11 +816,9 @@ func _physics_process(delta):
 			is_dashing = false
 	else:
 		temp = 0
-	
-	if !is_movement_paused:
-		move_and_slide()
-	
-	# FOOTSTEP SOUNDS SYSTEM = CHECK IF ON GROUND AND MOVING
+
+
+func _process_footstep_sound() -> void:
 	if is_on_floor() and velocity.length() >= 0.2:
 		if footstep_timer.time_left <= 0:
 			footstep_player.play()
@@ -713,15 +827,9 @@ func _physics_process(delta):
 				footstep_timer.start(.3) 
 			else:
 				footstep_timer.start(.6)
-	
-	if is_on_floor() and just_jumped:
-		just_jumped = false
-		player_just_landed.emit()
-	
-	is_jumping = false
 
 
-func _on_sliding_timer_timeout():
+func _on_sliding_timer_timeout() -> void:
 	is_free_looking = false
 
 

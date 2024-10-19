@@ -10,12 +10,12 @@ func _ready() -> void:
 	damage_area_node.connect("body_entered", Callable(self, "_on_enemy_hit"))
 
 
-func execute_skill(damage : int):
+func execute_skill(damage : int) -> void:
 	stab_damage = damage
 	skill_animation_player.play("poison_stab")
 
 
-func _on_enemy_hit(body):
+func _on_enemy_hit(body) -> void:
 	if body.is_in_group("Player") and body != owner:
 		#body.take_damage(stab_damage)
 		print("ENEMY HIT!! ----> " + str(body))

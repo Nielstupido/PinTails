@@ -27,7 +27,7 @@ ambient_light_energy = 0.87
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npkha"]
 albedo_texture = ExtResource("6_s4dyk")
 rim_tint = 0.33
-uv1_scale = Vector3(10, 10, 10)
+uv1_scale = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
 billboard_keep_scale = true
 
@@ -52,7 +52,7 @@ normal_texture = ExtResource("5_kaksc")
 ao_texture = ExtResource("3_ptcbd")
 heightmap_scale = 1.0
 heightmap_texture = ExtResource("3_gbe80")
-uv1_scale = Vector3(40, 40, 40)
+uv1_scale = Vector3(20, 20, 20)
 uv1_triplanar = true
 point_size = 0.1
 
@@ -72,12 +72,12 @@ script = ExtResource("9")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ybty4")
 
-[node name="Wall" type="MeshInstance3D" parent="." groups=["Wall"]]
+[node name="Wall" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.997935, 0, 0, 0, 0.997935, 0, 0, 0, 0.997935, -1.21395, 3.00355, -5.09108)
 layers = 31
 mesh = SubResource("BoxMesh_v276p")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall" groups=["Wall"]]
 transform = Transform3D(1.00207, 0, 0, 0, 1.00207, 0, 0, 0, 1.00207, 5.80498, 0.118668, 0)
 collision_layer = 31
 collision_mask = 31
@@ -92,6 +92,8 @@ layers = 31
 mesh = SubResource("BoxMesh_165ux")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+collision_layer = 31
+collision_mask = 31
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
 shape = SubResource("BoxShape3D_omq27")
@@ -141,3 +143,4 @@ shape = SubResource("CapsuleShape3D_qau8h")
 mesh = SubResource("CapsuleMesh_a51qo")
 
 [node name="Player" parent="PlayerNodes" instance=ExtResource("10_3lol5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -4.06277)

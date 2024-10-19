@@ -19,6 +19,7 @@ var _tail_data : TailData
 @export var _skill_effect : SKILLS.Skill_Effects
 @export var _skill_type :  SKILLS.Skill_Types
 @export var _skill_value : int = 0
+@export var _skill_duration : int = 0
 @export var _skill_cd : int = 0
 
 
@@ -37,6 +38,7 @@ func get_tail_data():
 		_skill_effect,
 		_skill_type,
 		_skill_value,
+		_skill_duration,
 		_skill_cd
 	)
 	

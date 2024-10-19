@@ -9,7 +9,6 @@ signal set_use_prompt(use_text:String)
 signal updated_wieldable_data(wieldable_icon:Texture2D, wieldable_text: String)
 
 ## Raycast3D for interaction check.
-@export var interaction_raycast : RayCast3D
 @export var carryable_position : Node3D
 
 @onready var buy_weapon_menu = $"../UI/Shop"
@@ -58,8 +57,8 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		owner.tail_config_menu.hide()
 	
-	if interaction_raycast.is_colliding():
-		var interactable = interaction_raycast.get_collider()
+	if owner.interaction_raycast.is_colliding():
+		var interactable = owner.interaction_raycast.get_collider()
 		if obj_in_focus != interactable and interactable.has_method("pick_up"):
 			obj_in_focus = interactable
 			is_reset = false
@@ -93,16 +92,17 @@ func _input(event):
 			if Input.is_action_just_pressed("action_primary"):
 				if owner.skill_manager.is_waiting_shot_trigger:
 					owner.skill_manager.execute_skill()
-				elif is_wielding:
+				elif is_wielding and !owner.skill_manager.is_timed_trigger_enabled:
 					owner.weapon_inventory.action_primary()
 			
-			if is_wielding and Input.is_action_just_pressed("action_secondary"):
-				owner.weapon_inventory.action_secondary(false)
-			if is_wielding and Input.is_action_just_released("action_secondary"):
-				owner.weapon_inventory.action_secondary(true)
+			if !owner.skill_manager.is_timed_trigger_enabled:
+				if is_wielding and Input.is_action_just_pressed("action_secondary"):
+					owner.weapon_inventory.action_secondary(false)
+				if is_wielding and Input.is_action_just_released("action_secondary"):
+					owner.weapon_inventory.action_secondary(true)
 			
 			if is_wielding and event.is_action_pressed("reload"):
-				if interaction_raycast.is_colliding() and interaction_raycast.get_collider().has_method("interact"):
+				if owner.interaction_raycast.is_colliding() and owner.interaction_raycast.get_collider().has_method("interact"):
 					return
 				else:
 					owner.weapon_inventory.attempt_reload()
@@ -120,10 +120,10 @@ func _input(event):
 
 ## Helper function to always get raycast destination point
 func get_interaction_raycast_tip(distance_offset : float) -> Vector3:
-	if interaction_raycast.is_colliding():
-		return interaction_raycast.get_collision_point() 
+	if owner.interaction_raycast.is_colliding():
+		return owner.interaction_raycast.get_collision_point() 
 	else:
-		var destination_point = interaction_raycast.global_position + (interaction_raycast.target_position.z - distance_offset) * get_viewport().get_camera_3d().get_global_transform().basis.z
+		var destination_point = owner.interaction_raycast.global_position + (owner.interaction_raycast.target_position.z - distance_offset) * get_viewport().get_camera_3d().get_global_transform().basis.z
 		return destination_point
 
 

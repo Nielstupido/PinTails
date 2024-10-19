@@ -1,6 +1,5 @@
 class_name HookController
 extends Node
-## Node that is responsible for managing the hook, and the hook interface.
 
 
 @export_category("Hook Controller")
@@ -30,20 +29,23 @@ signal hook_detached()
 
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed(launch_action_name):
+	if Input.is_action_just_pressed(launch_action_name) and get_parent().is_skill_triggered:
 		hook_launched.emit()
-		
-		match is_hook_launched:
-			false: _launch_hook()
-			true: _retract_hook()
+		_launch_hook()
+	
+	if Input.is_action_just_pressed(retract_action_name):
+		_retract_hook()
 	
 	if is_hook_launched:
 		_handle_hook(delta)
 
 
-## Attaches a Marker3D to the body that is in the way of the raycast.
+## Attaches a Marker3D to the body that is in the way of the 7dc6wesx 3raycast.
 ## Enables the hook, emits proper signals.
 func _launch_hook() -> void:
+	if is_hook_launched:
+		return
+	
 	if not hook_raycast.is_colliding():
 		return
 	
@@ -64,6 +66,9 @@ func _launch_hook() -> void:
 
 ## Disables the hook, frees the target node and the hook model, emits required signals.
 func _retract_hook() -> void:
+	if !is_hook_launched:
+		return
+	
 	is_hook_launched = false
 	
 	hook_target_node.queue_free()
