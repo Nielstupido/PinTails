@@ -151,7 +151,7 @@ var adtnl_melee_dmg = 0
 ## Wallrun
 @export_group("Wallrun Skill Properties")
 @export var wallrun_angle : float = 15.0
-@export var wall_jump_power_h : float = 1.5
+@export var wall_jump_power_h : float = 1.0
 @export var wall_jump_power_v : float = 0.75
 @export_range(0.0, 1.0) var wall_jump_factor : float = 0.4
 
@@ -533,6 +533,24 @@ func _process_gravity(delta) -> void:
 		 
 		if wallrun_delay == 0:
 			can_wallrun = true
+	
+	if Input.is_action_pressed("jump") and is_wallrunning:
+		can_wallrun = false
+		is_wallrunning = false
+		velocity = Vector3.ZERO
+		velocity.y = JUMP_VELOCITY * wall_jump_power_v
+		is_wallrun_jumping = true
+		
+		if side == "LEFT":
+			wall_jump_dir = global_transform.basis.x * wall_jump_power_h
+		elif side == "RIGHT":
+			wall_jump_dir = -global_transform.basis.x * wall_jump_power_h
+		
+		wall_jump_dir *= wall_jump_factor
+	
+	if is_wallrun_jumping:
+		direction = (direction * (1 - wall_jump_factor)) + wall_jump_dir
+		return
 
 
 func _process_jump(delta) -> void:
@@ -631,7 +649,7 @@ func _process_wallrun() -> void:
 			is_wallrunning = false
 			
 
-
+ 
 func _process_wallrun_rotation(delta) -> void:
 	if is_wallrunning:
 		if side == "RIGHT":

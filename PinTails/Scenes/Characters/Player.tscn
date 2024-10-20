@@ -383,6 +383,7 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_3fm13")
 fall_damage = 10
+fall_damage_threshold = -5.6
 jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
 

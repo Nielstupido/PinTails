@@ -32,4 +32,4 @@ func _input(event) -> void:
 
 
 func stick_to_wall() -> void:
-	owner.global_transform.origin = owner.interaction_raycast.get_collision_point()
+	pass
