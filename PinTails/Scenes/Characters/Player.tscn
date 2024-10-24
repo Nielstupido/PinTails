@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=77 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://Scenes/Tails/Mantis_Shrimp/Punch.gd" id="16_v1lw2"]
 [ext_resource type="Script" path="res://Scenes/Tails/Monkey/Grapple_Hook.gd" id="17_1mxqs"]
 [ext_resource type="Script" path="res://addons/grappling_hook_3d/src/hook_controller.gd" id="17_q8wh5"]
+[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://addons/motion_blur/motion_blur.tscn" id="20_332lt"]
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
 [ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="22_72wj0"]
@@ -494,6 +495,9 @@ process_mode = 1
 target_position = Vector3(0, 0, -2.5)
 collision_mask = 8
 
+[node name="MotionBlurEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("20_332lt")]
+visible = false
+
 [node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 
 [node name="Pistol" type="RigidBody3D" parent="Neck/Head/WeaponAttachments"]
@@ -582,8 +586,8 @@ shape = SubResource("CapsuleShape3D_fgxde")
 disabled = true
 
 [node name="PlayerCollisionArea" type="Area3D" parent="."]
-collision_layer = 31
-collision_mask = 31
+collision_layer = 29
+collision_mask = 29
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCollisionArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)

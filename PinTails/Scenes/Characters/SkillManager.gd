@@ -74,7 +74,7 @@ func use_skill(skill_card : Node) -> void:
 	
 	if is_wating_double_trigger and active_skill_card != null:
 		execute_skill()
-	
+	 
 	active_skill_card = skill_card
 	
 	match(active_skill_card.tail_data.skill_type):

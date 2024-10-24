@@ -34,10 +34,13 @@ signal player_just_landed()
 @onready var eyes: Node3D = $Neck/Head/Eyes
 @onready var camera: Camera3D = $Neck/Head/Eyes/Camera
 @onready var animationPlayer: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
+@onready var wallrun_skill_node = $SkillNodes/WallRun
+@onready var motion_blur_effect = $Neck/Head/Eyes/Camera/MotionBlurEffect
 
 @onready var interaction_raycast: RayCast3D = $Neck/Head/Eyes/Camera/InteractionRaycast
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
 @onready var crouching_collision_shape: CollisionShape3D = $CrouchingCollisionShape
+@onready var player_collision_area: Area3D = $PlayerCollisionArea
 @onready var crouch_raycast: RayCast3D = $CrouchRayCast
 @onready var sliding_timer: Timer = $SlidingTimer
 @onready var footstep_timer: Timer = $FootstepTimer
@@ -122,7 +125,7 @@ var is_free_looking = false
 var is_jumping = false
 var is_falling = false 
 var on_wall_run = false
-var just_jumped = false
+var is_pouncing = false
 var slide_vector = Vector2.ZERO
 var wiggle_vector = Vector2.ZERO
 var wiggle_index = 0.0
@@ -382,8 +385,8 @@ func _physics_process(delta):
 	# FOOTSTEP SOUNDS SYSTEM = CHECK IF ON GROUND AND MOVING
 	_process_footstep_sound()
 	
-	if is_on_floor() and just_jumped:
-		just_jumped = false
+	if is_on_floor() and is_pouncing:
+		is_pouncing = false
 		player_just_landed.emit()
 	
 	is_jumping = false
@@ -529,11 +532,15 @@ func _process_gravity(delta) -> void:
 		snap = Vector3.DOWN
 		gravity_vec = Vector3.DOWN * gravity * delta
 		
+		if is_pouncing:
+			gravity_vec *= 3.0
+		
 		wallrun_delay = clamp(wallrun_delay - delta, 0, wallrun_delay_default)
 		 
 		if wallrun_delay == 0:
 			can_wallrun = true
 	
+	## Wallrunning jump
 	if Input.is_action_pressed("jump") and is_wallrunning:
 		can_wallrun = false
 		is_wallrunning = false
@@ -606,6 +613,9 @@ func _process_jump(delta) -> void:
 		else:
 			velocity.y = JUMP_VELOCITY
 		
+		if is_pouncing:
+			velocity.y *= 4.0
+		
 		if is_sprinting:
 			bunny_hop_speed += BUNNY_HOP_ACCELERATION
 		else:
@@ -615,7 +625,7 @@ func _process_jump(delta) -> void:
 ##<<<< WALLRUNNING SKILL >>>>
 
 func _process_wallrun() -> void:
-	if can_wallrun:
+	if can_wallrun and wallrun_skill_node.is_skill_enabled:
 		if is_on_wall() and Input.is_action_pressed("forward") and Input.is_action_pressed("sprint"):
 			var collision = get_slide_collision(0)
 			var normal = collision.get_normal()
@@ -627,18 +637,6 @@ func _process_wallrun() -> void:
 			
 			if dot > 0:
 				wallrun_dir = -wallrun_dir
-			
-			#var wallrun_axis_2d = Vector2(wallrun_dir.x, wallrun_dir.z)
-			#var view_dir_2d = Vector2(player_view_dir.x, player_view_dir.z)
-			#var angle = wallrun_axis_2d.angle_to(view_dir_2d)
-			#
-			#angle = rad_to_deg(angle)
-			#if dot < 0:
-				#angle = -angle
-			#
-			#if angle > 80:
-				#is_wallrunning = false
-				#return
 			
 			wallrun_dir += -normal * 0.01
 			is_wallrunning = true

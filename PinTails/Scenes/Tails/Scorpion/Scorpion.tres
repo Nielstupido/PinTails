@@ -16,4 +16,5 @@ _skill_animation = ""
 _skill_effect = 1
 _skill_type = 3
 _skill_value = 100
+_skill_duration = 10
 _skill_cd = 10
