@@ -30,12 +30,14 @@ signal player_just_landed()
 @onready var tail_config_menu = $UI/PlayerTails/TailConfigMenu
 @onready var body: MeshInstance3D = $TempBodyMesh
 @onready var neck: Node3D = $Neck
-@onready var head: Node3D = $Neck/Head 
+@onready var head: Node3D = $Neck/Head
 @onready var eyes: Node3D = $Neck/Head/Eyes
 @onready var camera: Camera3D = $Neck/Head/Eyes/Camera
 @onready var animationPlayer: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
 @onready var wallrun_skill_node = $SkillNodes/WallRun
-@onready var motion_blur_effect = $Neck/Head/Eyes/Camera/MotionBlurEffect
+@onready var movement_motion_blur = $Neck/Head/Eyes/Camera/MovementMotionBlur
+@onready var impact_motion_blur = $Neck/Head/Eyes/Camera/ImpactMotionBlur
+@onready var invi_screen_effect = $Neck/Head/Eyes/Camera/InviScreenEffect
 
 @onready var interaction_raycast: RayCast3D = $Neck/Head/Eyes/Camera/InteractionRaycast
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
@@ -364,12 +366,12 @@ func _physics_process(delta):
 	# LERP the up/down rotation of whatever you're carrying.
 	carryable_position.rotation.z = lerp_angle(carryable_position.rotation.z, head.rotation.x, 5 * delta)
 	
-	_process_mouse_look(delta)
+	_process_movement(delta)
 	_process_gravity(delta)
 	_process_jump(delta)
 	_process_wallrun()
 	_process_wallrun_rotation(delta)
-	_process_movement_velocity(delta)
+	_process_velocity(delta)
 	_process_stair_stepping(delta)
 	
 	velocity += gravity_vec
@@ -388,6 +390,9 @@ func _physics_process(delta):
 	if is_on_floor() and is_pouncing:
 		is_pouncing = false
 		player_just_landed.emit()
+		impact_motion_blur.toggle_motion_blur(true)
+		await get_tree().create_timer(0.5).timeout
+		impact_motion_blur.toggle_motion_blur(false)
 	
 	is_jumping = false
 
@@ -426,7 +431,7 @@ func _process_on_ladder(_delta):
 		on_ladder = false
 
 
-func _process_mouse_look(delta) -> void:
+func _process_movement(delta) -> void:
 	if joystick_h_event and !is_movement_paused:
 			if abs(joystick_h_event.get_axis_value()) > JOY_DEADZONE:
 				if INVERT_Y_AXIS:
@@ -479,6 +484,7 @@ func _process_mouse_look(delta) -> void:
 			is_walking = false
 			is_sprinting = true
 			is_crouching = false
+			movement_motion_blur.toggle_motion_blur(true)
 		elif Input.is_action_pressed("sprint") and !is_using_stamina:	
 			if !Input.is_action_pressed("jump") and !is_jumping:
 				bunny_hop_speed = SPRINTING_SPEED
@@ -488,6 +494,7 @@ func _process_mouse_look(delta) -> void:
 			is_walking = false
 			is_sprinting = true
 			is_crouching = false
+			movement_motion_blur.toggle_motion_blur(true)
 		else:
 			current_speed = lerp(current_speed, WALKING_SPEED, delta * LERP_SPEED)
 			wiggle_current_intensity = WIGGLE_ON_WALKING_INTENSITY
@@ -495,6 +502,7 @@ func _process_mouse_look(delta) -> void:
 			is_walking = true
 			is_sprinting = false
 			is_crouching = false
+			movement_motion_blur.toggle_motion_blur(false)
 	
 	if Input.is_action_pressed("free_look") or !sliding_timer.is_stopped():
 		is_free_looking = true
@@ -533,7 +541,7 @@ func _process_gravity(delta) -> void:
 		gravity_vec = Vector3.DOWN * gravity * delta
 		
 		if is_pouncing:
-			gravity_vec *= 3.0
+			gravity_vec = gravity_vec * (Vector3.DOWN * -3.0) 
 		
 		wallrun_delay = clamp(wallrun_delay - delta, 0, wallrun_delay_default)
 		 
@@ -605,6 +613,7 @@ func _process_jump(delta) -> void:
 			print("Not enough stamina to jump.")
 			return
 		
+		movement_motion_blur.toggle_motion_blur(true)
 		animationPlayer.play("jump")
 		#Audio.play_sound(jump_sound)
 		if !sliding_timer.is_stopped():
@@ -614,7 +623,7 @@ func _process_jump(delta) -> void:
 			velocity.y = JUMP_VELOCITY
 		
 		if is_pouncing:
-			velocity.y *= 4.0
+			velocity.y *= 2.5
 		
 		if is_sprinting:
 			bunny_hop_speed += BUNNY_HOP_ACCELERATION
@@ -645,7 +654,6 @@ func _process_wallrun() -> void:
 			direction = wallrun_dir
 		else:
 			is_wallrunning = false
-			
 
  
 func _process_wallrun_rotation(delta) -> void:
@@ -680,7 +688,7 @@ func get_side(point) -> String:
 ##<<<< WALLRUNNING SKILL >>>>
 
 
-func _process_movement_velocity(delta) -> void:
+func _process_velocity(delta) -> void:
 	if sliding_timer.is_stopped():
 		if is_on_floor():
 			direction = lerp(

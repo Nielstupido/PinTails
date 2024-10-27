@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=79 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -29,10 +29,12 @@
 [ext_resource type="Script" path="res://Scenes/Tails/Mantis_Shrimp/Punch.gd" id="16_v1lw2"]
 [ext_resource type="Script" path="res://Scenes/Tails/Monkey/Grapple_Hook.gd" id="17_1mxqs"]
 [ext_resource type="Script" path="res://addons/grappling_hook_3d/src/hook_controller.gd" id="17_q8wh5"]
-[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://addons/motion_blur/motion_blur.tscn" id="20_332lt"]
+[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://addons/motion_blur/MovementMotionBlur.tscn" id="20_f5bfb"]
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
+[ext_resource type="PackedScene" uid="uid://pnvlneu52i53" path="res://Scenes/Tails/Chameleon/InviScreenEffect.tscn" id="21_uodof"]
 [ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="22_72wj0"]
+[ext_resource type="PackedScene" uid="uid://dddalir30107a" path="res://Scenes/Characters/ImpactMotionBlur.tscn" id="22_tujae"]
 [ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="23_cawh8"]
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
 [ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="24_jy0ck"]
@@ -495,8 +497,12 @@ process_mode = 1
 target_position = Vector3(0, 0, -2.5)
 collision_mask = 8
 
-[node name="MotionBlurEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("20_332lt")]
-visible = false
+[node name="MovementMotionBlur" parent="Neck/Head/Eyes/Camera" instance=ExtResource("20_f5bfb")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -3)
+
+[node name="InviScreenEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("21_uodof")]
+
+[node name="ImpactMotionBlur" parent="Neck/Head/Eyes/Camera" instance=ExtResource("22_tujae")]
 
 [node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 

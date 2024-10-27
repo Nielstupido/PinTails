@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://pnvlneu52i53"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/Chameleon/InviScreenEffect.gd" id="1_e6go4"]
+[ext_resource type="Shader" path="res://Scenes/Tails/Chameleon/InviScreenEffect.gdshader" id="1_eujpy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_00r11"]
+shader = ExtResource("1_eujpy")
+shader_parameter/kelvin = 1000.0
+shader_parameter/red_colour = 13.3
+shader_parameter/green_colour = 14.0
+shader_parameter/blue_colour = 6.5
+shader_parameter/time_factor = 1.0
+shader_parameter/move = false
+shader_parameter/resolution = 0.4
+shader_parameter/sin_roll = 0.1
+shader_parameter/cos_roll = 0.1
+shader_parameter/alpha = 0.4
+
+[node name="InviScreenEffect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e6go4")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_00r11")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

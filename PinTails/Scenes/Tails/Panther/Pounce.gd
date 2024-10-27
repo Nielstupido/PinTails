@@ -14,7 +14,6 @@ func execute_skill(damage : int) -> void:
 	pounce_damage = damage
 	owner.is_jumping = true
 	owner.is_pouncing = true
-	owner.motion_blur_effect.show()
   
 
 func do_damage():
@@ -25,4 +24,3 @@ func do_damage():
 	$DamageArea.show() 
 	await get_tree().create_timer(0.3).timeout
 	$DamageArea.hide() 
-	owner.motion_blur_effect.hide()

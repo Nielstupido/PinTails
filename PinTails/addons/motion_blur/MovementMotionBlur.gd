@@ -30,6 +30,10 @@ func _process(_delta):
 		cam_rot_prev = Quaternion(camera.global_transform.basis)
 
 
+func toggle_motion_blur(switch : bool):
+	get_surface_override_material(0).set_shader_parameter("is_active", switch)
+
+
 # Calculate the conjugate of a quaternion.
 func conjugate(quat):
 	return Quaternion(-quat.x, -quat.y, -quat.z, quat.w)
