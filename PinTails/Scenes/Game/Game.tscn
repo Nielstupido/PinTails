@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=27 format=3 uid="uid://cp8en37sojhym"]
 
 [ext_resource type="Texture2D" uid="uid://jwl7fxpjedca" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="2_yfmlr"]
 [ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="3_gbe80"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://Scenes/Weapon/Pistol/Pistol.tscn" id="9_u5o07"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://kicjwmh02uwf" path="res://Scenes/Characters/Player.tscn" id="10_3lol5"]
+[ext_resource type="Script" path="res://Scenes/Game/TEST_SCRIPT.gd" id="10_c00j4"]
 [ext_resource type="PackedScene" uid="uid://bukjp5ei5khrl" path="res://Scenes/Weapon/Rifle/Rifle.tscn" id="11_8jrpd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
@@ -65,6 +66,23 @@ uv2_padding = 0.0
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qau8h"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_a51qo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pehbg"]
+render_priority = 1
+transparency = 1
+albedo_color = Color(0.373184, 0.452456, 0.774325, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n1wgy"]
+next_pass = SubResource("StandardMaterial3D_pehbg")
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+albedo_color = Color(0.345098, 0.235294, 0.0745098, 0.67451)
+heightmap_scale = 5.756
+refraction_scale = 1.0
+detail_blend_mode = 3
+grow_amount = 2.016
+proximity_fade_distance = 484.78
 
 [node name="Game" type="Node"]
 script = ExtResource("9")
@@ -135,12 +153,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.24891, 6.66274)
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("10_c00j4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerNodes/CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_qau8h")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerNodes/CharacterBody3D"]
 mesh = SubResource("CapsuleMesh_a51qo")
+surface_material_override/0 = SubResource("StandardMaterial3D_n1wgy")
 
 [node name="Player" parent="PlayerNodes" instance=ExtResource("10_3lol5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -4.06277)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 5.52703)

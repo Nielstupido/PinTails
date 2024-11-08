@@ -21,6 +21,7 @@ func _ready():
 	var dir = DirAccess.open(tail_res_folder)
 	if dir:
 		for tail_class in Tail.Classes.keys():
+			tail_class = STRINGHELPER.filter_string(tail_class, true, "_")
 			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]):
 				tail_data_list.append((ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class])).get_tail_data())
 			else:

@@ -5,7 +5,7 @@ extends Node
 signal weapon_picked_up(weapon_id)
 signal tail_picked_up(tail_data)
 signal tail_removed()
-
+ 
 
 var game_node : Game
 var _gun_id

@@ -17,7 +17,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-MATCHMANAGER="*res://Scenes/Lobby/MatchManager.gd"
+MATCHMANAGER="*res://Scenes/Network/MatchManager.gd"
 GAMEMANAGER="*res://Scenes/Game/GameManager.gd"
 STRINGHELPER="*res://Scenes/Tools/StringHelper.gd"
 SKILLS="*res://Scenes/Tails/Skills.gd"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=81 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -26,9 +26,10 @@
 [ext_resource type="Script" path="res://Scenes/Tails/Chameleon/Conceal.gd" id="13_qaocy"]
 [ext_resource type="Script" path="res://Scenes/Tails/Pangolin/BallRoll.gd" id="14_jm1l0"]
 [ext_resource type="Script" path="res://Scenes/Tails/Panther/Pounce.gd" id="15_v0mrh"]
-[ext_resource type="Script" path="res://Scenes/Tails/Mantis_Shrimp/Punch.gd" id="16_v1lw2"]
-[ext_resource type="Script" path="res://Scenes/Tails/Monkey/Grapple_Hook.gd" id="17_1mxqs"]
+[ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Punch.gd" id="16_cvlqi"]
+[ext_resource type="Script" path="res://Scenes/Tails/Monkey/GrappleHook.gd" id="17_6s1br"]
 [ext_resource type="Script" path="res://addons/grappling_hook_3d/src/hook_controller.gd" id="17_q8wh5"]
+[ext_resource type="Script" path="res://Scenes/Tails/Meerkat/PackVision.gd" id="19_oihxx"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://addons/motion_blur/MovementMotionBlur.tscn" id="20_f5bfb"]
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
@@ -47,9 +48,16 @@
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tq2b"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_47ukd"]
 transparency = 1
-albedo_color = Color(1, 0.411765, 1, 1)
+albedo_color = Color(0.525402, 0.322921, 0.902867, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tq2b"]
+next_pass = SubResource("StandardMaterial3D_47ukd")
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.672199, 0.265541, 0.141287, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_51qed"]
 material = SubResource("StandardMaterial3D_5tq2b")
@@ -462,10 +470,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_0tlx8")
 
 [node name="Punch" type="Node3D" parent="SkillNodes"]
-script = ExtResource("16_v1lw2")
+script = ExtResource("16_cvlqi")
 
 [node name="GrappleHook" type="Node3D" parent="SkillNodes"]
-script = ExtResource("17_1mxqs")
+script = ExtResource("17_6s1br")
 
 [node name="HookController" type="Node" parent="SkillNodes/GrappleHook" node_paths=PackedStringArray("hook_raycast", "player_body", "hook_source")]
 script = ExtResource("17_q8wh5")
@@ -474,6 +482,9 @@ player_body = NodePath("../../..")
 launch_action_name = "action_primary"
 retract_action_name = "action_secondary"
 hook_source = NodePath("../../../Neck/Head/HookRopeStart")
+
+[node name="PackVision" type="Node3D" parent="SkillNodes"]
+script = ExtResource("19_oihxx")
 
 [node name="Neck" type="Node3D" parent="."]
 process_mode = 1

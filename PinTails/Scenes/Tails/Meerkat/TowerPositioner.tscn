@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfmy2vbc12pp7"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/Meerkat/TowerPositioner.gd" id="1_wut0k"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_38vpg"]
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nyr5s"]
+transparency = 1
+albedo_color = Color(0.623529, 0.443137, 1, 0.101961)
+
+[node name="TowerPositioner" type="Node3D"]
+script = ExtResource("1_wut0k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("CylinderMesh_38vpg")
+surface_material_override/0 = SubResource("StandardMaterial3D_nyr5s")

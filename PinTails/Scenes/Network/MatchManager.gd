@@ -1,11 +1,11 @@
 class_name MatchManager
 extends Node
 
-
+const PORT = 9999
 signal on_player_selected_tail(player_name, tail_data)
-const SERVER_PORT = 8080
-const SERVER_IP = "127.0.0.1"
 @onready var lobby_scene = load("res://Scenes/Lobby/Lobby.tscn")
+
+var enet_peer = ENetMultiplayerPeer.new()
 var match_id : int
 var match_players : Dictionary # {player_name : player_role}
 var player_name : String

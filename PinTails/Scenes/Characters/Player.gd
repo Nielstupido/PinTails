@@ -254,6 +254,18 @@ func add_sanity(value):
 	sanity_component.add(value)
 
 
+func set_mesh_transparent(vision_tower_node):
+	if vision_tower_node.is_connected(Callable(self, "_set_mesh_default")) or body.get_active_material(0).no_depth_test:
+		return
+	
+	body.get_active_material(0).no_depth_test = true
+	vision_tower_node.connect("vision_stopped", Callable(self, "_set_mesh_default"))
+
+
+func _set_mesh_default() -> void:
+	body.get_active_material(0).no_depth_test = false
+
+
 func _on_death():
 	is_dead = true
 
@@ -270,7 +282,6 @@ func _on_brightness_changed(current_brightness,max_brightness):
 		print("Checking if ", (sanity_component.current_sanity/sanity_component.max_sanity), " < ", (current_brightness/max_brightness))
 		if (sanity_component.current_sanity/sanity_component.max_sanity) < (current_brightness/max_brightness):
 			sanity_component.start_recovery(2.0, (sanity_component.max_sanity/max_brightness) * current_brightness)
-			
 
 
 # Methods to pause input (for Menu or Dialogues etc)
@@ -279,6 +290,7 @@ func _on_pause_movement():
 		is_movement_paused = true
 		is_looking_aroung_paused = true
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 
 func _on_resume_movement():
 	if is_movement_paused:
@@ -649,7 +661,7 @@ func _process_wallrun() -> void:
 			
 			wallrun_dir += -normal * 0.01
 			is_wallrunning = true
-			side = get_side(collision.get_position())
+			side = _get_side(collision.get_position())
 			gravity_vec = Vector3.DOWN * -0.01
 			direction = wallrun_dir
 		else:
@@ -675,7 +687,7 @@ func _process_wallrun_rotation(delta) -> void:
 	neck.rotation_degrees = Vector3.BACK * wallrun_current_angle
 
 
-func get_side(point) -> String: 
+func _get_side(point) -> String: 
 	point = to_local(point)
 	
 	if point.x > 0:
