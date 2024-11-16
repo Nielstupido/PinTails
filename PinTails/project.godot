@@ -17,10 +17,12 @@ config/icon="res://icon.png"
 
 [autoload]
 
-MATCHMANAGER="*res://Scenes/Network/MatchManager.gd"
-GAMEMANAGER="*res://Scenes/Game/GameManager.gd"
-STRINGHELPER="*res://Scenes/Tools/StringHelper.gd"
-SKILLS="*res://Scenes/Tails/Skills.gd"
+GAMEMANAGER="*res://Scenes/Globals/GameManager.gd"
+STRINGHELPER="*res://Scenes/Globals/StringHelper.gd"
+SKILLS="*res://Scenes/Globals/Skills.gd"
+NAKAMA="*res://addons/nakama-godot-29ff7373ac01cc8da5e54f2c4a9be20f8d68beca/addons/com.heroiclabs.nakama/Nakama.gd"
+MATCHMANAGER="*res://Scenes/Globals/MatchManager.gd"
+PLAYERACCOUNT="*res://Scenes/Globals/PlayerAccount.gd"
 
 [display]
 
@@ -28,7 +30,6 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=1
 window/size/resizable=false
-window/size/borderless=true
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/aspect="keep_width"

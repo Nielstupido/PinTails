@@ -1,9 +1,9 @@
 class_name Character
 extends CharacterBody3D
 
-const Tail_max_size = 3
+const TAIL_MAX_SIZE = 3
 enum Weapons {RIFLE, PISTOL}
-const Weapons_ref = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
+const WEAPONS_REF = {Weapons.RIFLE : "Rifle", Weapons.PISTOL : "Pistol"}
 @onready var cam = $Camroot
 @onready var gun_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/gun_attachment
 @onready var neck_attachment = $Mesh/Godot_Chan_Stealth_Shooter/Godot_Chan_Stealth/Skeleton3D/neck_attachment
@@ -568,7 +568,7 @@ func _on_WeaponPickupRange_area_exited(area):
 
 func _on_TailPickupRange_area_entered(area):
 	print("tails size == " + str(tails.size()))
-	if area.owner.is_in_group("Tail") and tails.size() != Tail_max_size:
+	if area.owner.is_in_group("Tail") and tails.size() != TAIL_MAX_SIZE:
 		if pickupable_tails.has(area.owner.tail_data):
 			pickupable_tails.erase(pickupable_tails.find(area.owner.tail_data))
 		pickupable_tails.push_front(area.owner.tail_data)

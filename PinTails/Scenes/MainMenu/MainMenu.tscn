@@ -1,7 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://cbogrbbgtrq3y"]
+[gd_scene load_steps=26 format=3 uid="uid://cbogrbbgtrq3y"]
 
 [ext_resource type="FontFile" uid="uid://dkpggr315ur53" path="res://Fonts/Slowdex.ttf" id="1"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="2"]
+[ext_resource type="Script" path="res://Scenes/MainMenu/Menu.gd" id="2_8b0y7"]
+[ext_resource type="PackedScene" uid="uid://ws1ausjpll8e" path="res://Scenes/Network/Network_Connection.tscn" id="2_f3tgd"]
+[ext_resource type="Script" path="res://Scenes/MainMenu/ScreenManager.gd" id="3_ab7ay"]
+[ext_resource type="Script" path="res://Scenes/MainMenu/LoginScreen.gd" id="4_4mgtj"]
+[ext_resource type="PackedScene" uid="uid://dw0w24io2wuip" path="res://Scenes/Tools/WarningMessage.tscn" id="5_sovu5"]
 
 [sub_resource type="FontFile" id="6"]
 fallbacks = Array[Font]([ExtResource("1")])
@@ -66,6 +71,50 @@ bg_color = Color(0.121569, 0.254902, 0.447059, 1)
 [sub_resource type="StyleBoxFlat" id="17"]
 bg_color = Color(0.14902, 0.305882, 0.533333, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmhb8"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.163917, 0.13643, 0.275936, 1)
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2qu2"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.164706, 0.137255, 0.27451, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_au38l"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0.164706, 0.137255, 0.27451, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fqo8"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xl8tr"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_blend = true
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -75,23 +124,31 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2")
 
-[node name="BG" type="ColorRect" parent="."]
+[node name="ScreenManager" type="Node" parent="."]
+script = ExtResource("3_ab7ay")
+
+[node name="NetworkConnection" parent="." instance=ExtResource("2_f3tgd")]
+
+[node name="Menu" type="ColorRect" parent="."]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.0745098, 0.12549, 0.262745, 1)
+color = Color(0.78057, 0.792376, 0.774764, 1)
+script = ExtResource("2_8b0y7")
 
-[node name="GameModesHolder" type="ColorRect" parent="."]
-layout_mode = 0
+[node name="GameModesHolder" type="ColorRect" parent="Menu"]
+layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -306.0
 offset_top = 150.0
 offset_right = 306.0
-offset_bottom = 200.0
+offset_bottom = 770.0
+grow_horizontal = 2
 color = Color(0.443137, 0.945098, 0.0980392, 0.486275)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GameModesHolder"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/GameModesHolder"]
 custom_minimum_size = Vector2(240, 40)
 layout_mode = 0
 anchor_right = 1.0
@@ -102,7 +159,7 @@ offset_right = -15.0
 offset_bottom = -5.0
 alignment = 1
 
-[node name="Deathmatch" type="Button" parent="GameModesHolder/HBoxContainer"]
+[node name="Deathmatch" type="Button" parent="Menu/GameModesHolder/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -114,7 +171,7 @@ theme_override_styles/pressed = SubResource("7")
 theme_override_styles/focus = SubResource("19")
 text = "Team Deathmatch"
 
-[node name="CaptureFlag" type="Button" parent="GameModesHolder/HBoxContainer"]
+[node name="CaptureFlag" type="Button" parent="Menu/GameModesHolder/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -126,7 +183,7 @@ theme_override_styles/pressed = SubResource("7")
 theme_override_styles/focus = SubResource("19")
 text = "Capture the Flag"
 
-[node name="PlayBtn" type="Button" parent="."]
+[node name="PlayBtn" type="Button" parent="Menu"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -145,7 +202,7 @@ theme_override_styles/normal = SubResource("10")
 theme_override_styles/pressed = SubResource("12")
 text = "Play"
 
-[node name="SettingsBtn" type="Button" parent="."]
+[node name="SettingsBtn" type="Button" parent="Menu"]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -159,7 +216,7 @@ theme_override_styles/normal = SubResource("15")
 theme_override_styles/pressed = SubResource("14")
 text = "Settings"
 
-[node name="ExitBtn" type="Button" parent="."]
+[node name="ExitBtn" type="Button" parent="Menu"]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -173,6 +230,334 @@ theme_override_styles/normal = SubResource("18")
 theme_override_styles/pressed = SubResource("17")
 text = "Exit"
 
-[connection signal="pressed" from="PlayBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
-[connection signal="pressed" from="ExitBtn" to="." method="_on_ExitBtn_pressed"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Menu"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 19.0
+offset_right = 258.0
+offset_bottom = 86.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "sdfsdfds"
+
+[node name="LoginScreen" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.980392, 1, 1)
+script = ExtResource("4_4mgtj")
+
+[node name="Login" type="VBoxContainer" parent="LoginScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -200.0
+offset_right = 500.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Login" type="RichTextLabel" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 35
+theme_override_font_sizes/bold_font_size = 25
+bbcode_enabled = true
+text = "[center]ACCOUNT LOGIN[/center]"
+scroll_active = false
+language = "Eng"
+
+[node name="Email" type="HBoxContainer" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+alignment = 1
+
+[node name="EmailText" type="RichTextLabel" parent="LoginScreen/Login/Email"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]Email"
+scroll_active = false
+language = "eng"
+
+[node name="EmailInput" type="LineEdit" parent="LoginScreen/Login/Email"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_kmhb8")
+
+[node name="Spacer" type="Control" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Passw" type="HBoxContainer" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="PasswText" type="RichTextLabel" parent="LoginScreen/Login/Passw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]Password"
+scroll_active = false
+
+[node name="PasswInput" type="LineEdit" parent="LoginScreen/Login/Passw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_u2qu2")
+secret = true
+secret_character = "*"
+
+[node name="PasswToggleBtn" type="Button" parent="LoginScreen/Login/Passw/PasswInput"]
+custom_minimum_size = Vector2(60, 50)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -25.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_au38l")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_au38l")
+text = "Show"
+
+[node name="Spacer4" type="Control" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Spacer3" type="Control" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="LoginBtn" type="Button" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(200, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_1fqo8")
+text = "Log In"
+
+[node name="Spacer5" type="Control" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="OpenCreateAccBtn" type="Button" parent="LoginScreen/Login"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.529532, 0.265988, 0.592818, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_xl8tr")
+text = "Create account"
+
+[node name="Signup" type="VBoxContainer" parent="LoginScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -200.0
+offset_right = 500.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Signup" type="RichTextLabel" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 35
+theme_override_font_sizes/bold_font_size = 25
+bbcode_enabled = true
+text = "[center]CREATE ACCOUNT[/center]"
+scroll_active = false
+language = "Eng"
+
+[node name="Email" type="HBoxContainer" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+alignment = 1
+
+[node name="EmailText" type="RichTextLabel" parent="LoginScreen/Signup/Email"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]Email"
+scroll_active = false
+language = "eng"
+
+[node name="EmailInput" type="LineEdit" parent="LoginScreen/Signup/Email"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_kmhb8")
+
+[node name="Spacer" type="Control" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Passw" type="HBoxContainer" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="PasswText" type="RichTextLabel" parent="LoginScreen/Signup/Passw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]Password"
+scroll_active = false
+
+[node name="PasswInput" type="LineEdit" parent="LoginScreen/Signup/Passw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_u2qu2")
+secret = true
+secret_character = "*"
+
+[node name="PasswToggleBtn" type="Button" parent="LoginScreen/Signup/Passw/PasswInput"]
+custom_minimum_size = Vector2(60, 50)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -25.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_au38l")
+text = "Show"
+
+[node name="Spacer3" type="Control" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="ConfirmPassw" type="HBoxContainer" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="PasswText" type="RichTextLabel" parent="LoginScreen/Signup/ConfirmPassw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]Confirm Password"
+scroll_active = false
+
+[node name="PasswInput" type="LineEdit" parent="LoginScreen/Signup/ConfirmPassw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_u2qu2")
+secret = true
+secret_character = "*"
+
+[node name="PasswToggleBtn" type="Button" parent="LoginScreen/Signup/ConfirmPassw/PasswInput"]
+custom_minimum_size = Vector2(60, 50)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -25.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_au38l")
+text = "Show"
+
+[node name="ErrorMsg" type="RichTextLabel" parent="LoginScreen/Signup/ConfirmPassw/PasswInput"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 5.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/default_color = Color(0.584314, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 15
+text = "Passwords do not match"
+fit_content = true
+
+[node name="Spacer4" type="Control" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Spacer5" type="Control" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="CreateAccBtn" type="Button" parent="LoginScreen/Signup"]
+custom_minimum_size = Vector2(200, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_1fqo8")
+text = "Sign Up
+"
+
+[node name="WarningMessage" parent="." instance=ExtResource("5_sovu5")]
+layout_mode = 1
+offset_bottom = -19.0
+scale = Vector2(1, 1.01759)
+metadata/_edit_lock_ = true
+
+[connection signal="visibility_changed" from="Menu" to="Menu" method="_on_visibility_changed"]
+[connection signal="pressed" from="Menu/PlayBtn" to="Menu" method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="Menu/SettingsBtn" to="Menu" method="_on_SettingsBtn_pressed"]
+[connection signal="pressed" from="Menu/ExitBtn" to="Menu" method="_on_ExitBtn_pressed"]
+[connection signal="pressed" from="LoginScreen/Login/Passw/PasswInput/PasswToggleBtn" to="LoginScreen" method="_on_passw_toggle_btn_pressed" binds= ["Log In Pass Input"]]
+[connection signal="pressed" from="LoginScreen/Login/LoginBtn" to="LoginScreen" method="_on_login_btn_pressed"]
+[connection signal="pressed" from="LoginScreen/Login/OpenCreateAccBtn" to="LoginScreen" method="_on_open_create_acc_btn_pressed"]
+[connection signal="text_changed" from="LoginScreen/Signup/Passw/PasswInput" to="LoginScreen" method="_on_passw_input_text_changed"]
+[connection signal="pressed" from="LoginScreen/Signup/Passw/PasswInput/PasswToggleBtn" to="LoginScreen" method="_on_passw_toggle_btn_pressed" binds= ["Sign Up Pass Input"]]
+[connection signal="text_changed" from="LoginScreen/Signup/ConfirmPassw/PasswInput" to="LoginScreen" method="_on_passw_input_text_changed"]
+[connection signal="pressed" from="LoginScreen/Signup/ConfirmPassw/PasswInput/PasswToggleBtn" to="LoginScreen" method="_on_passw_toggle_btn_pressed" binds= ["Confirm Pass Input"]]
+[connection signal="pressed" from="LoginScreen/Signup/CreateAccBtn" to="LoginScreen" method="_on_create_acc_btn_pressed"]

@@ -34,7 +34,7 @@ func ammo_refill(ammo_type):
 
 # getters
 func weapon_name():
-	return player.Weapons_ref.get(player.weapons[player.current_weapon])
+	return player.WEAPONS_REF.get(player.weapons[player.current_weapon])
 
 func spread():
 	return weapon_stats[weapon_name()]["spread"]

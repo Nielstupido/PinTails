@@ -1,13 +1,14 @@
 extends Node
 
+enum Screens {
+	LOGIN,
+	MENU,
+	SETTINGS,
+	SHOP,
+	ACCOUNT
+}
 
-func _on_PlayBtn_pressed():
-	MATCHMANAGER.start_matchmaking("orya")
+@onready var network_connection = $NetworkConnection
+@onready var warning_msg = $WarningMessage
+@onready var screen_manager = $ScreenManager
 
-
-func _on_SettingsBtn_pressed():
-	pass
-
-
-func _on_ExitBtn_pressed():
-	get_tree().quit()

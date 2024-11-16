@@ -1,7 +1,7 @@
 class_name WeaponInventory
 extends Node
 
-const Tail_max_size = 3
+const TAIL_MAX_SIZE = 3
 
 @onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 @onready var rifle_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")

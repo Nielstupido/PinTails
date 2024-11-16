@@ -8,7 +8,7 @@ var vision_duration : int = 20
 func setup_tower(passed_transform) -> void:
 	self.global_transform.origin = passed_transform
 	$AnimationPlayer.play("arise")
-	await get_tree().create_timer(vision_duration).timeout
+	await get_tree().create_timer(vision_duration).timeout 
 	$AnimationPlayer.play("hide")
 
 

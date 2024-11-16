@@ -1,8 +1,8 @@
 extends Node3D
 class_name PlayerInteractionComponent
 
-const Tail_Max_Size = 3
-const Hold_Time_Thres = 15
+const TAIL_MAX_SIZE = 3
+const HOLD_TIME_THRES = 15
 signal interaction_prompt(interaction_text : String)
 signal hint_prompt(hint_icon:Texture2D, hint_text: String)
 signal set_use_prompt(use_text:String)
@@ -36,19 +36,19 @@ func _process(delta):
 	if Input.is_action_pressed("attach_tail"):
 		hold_time += (delta * 100)
 		
-		if hold_time > Hold_Time_Thres:
+		if hold_time > HOLD_TIME_THRES:
 			if !owner.tail_config_menu.visible:
 				owner.is_looking_aroung_paused = true
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 				owner.tail_config_menu.show()
 	elif Input.is_action_just_released("attach_tail"):
-		if hold_time < Hold_Time_Thres:
+		if hold_time < HOLD_TIME_THRES:
 			if pickupable_tail_obj != null:
 				if owner.tail_manager.add_tail(pickupable_tail_obj.tail_data):
 					pickupable_tail_obj.pick_up()
 					GAMEMANAGER.emit_signal("tail_picked_up", pickupable_tail_obj.tail_data)
 					
-					if owner.tail_manager.tails.size() == Tail_Max_Size:
+					if owner.tail_manager.tails.size() == TAIL_MAX_SIZE:
 						emit_signal("interaction_prompt", "")
 						pickupable_tail_obj = null
 		hold_time = 0
@@ -128,13 +128,13 @@ func get_interaction_raycast_tip(distance_offset : float) -> Vector3:
 
 
 func _on_tail_collision_area_body_entered(body):
-	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != Tail_Max_Size:
+	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != TAIL_MAX_SIZE:
 		emit_signal("interaction_prompt", body.interaction_text)
 		pickupable_tail_obj = body
 
 
 func _on_tail_collision_area_body_exited(body):
-	if body.is_in_group("Tail")and owner.tail_manager.tails.size() != Tail_Max_Size and pickupable_tail_obj != null:
+	if body.is_in_group("Tail")and owner.tail_manager.tails.size() != TAIL_MAX_SIZE and pickupable_tail_obj != null:
 		if body.tail_data == pickupable_tail_obj.tail_data:
 			emit_signal("interaction_prompt", "")
 			pickupable_tail_obj = null
