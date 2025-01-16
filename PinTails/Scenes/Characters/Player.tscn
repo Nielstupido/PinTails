@@ -1,7 +1,8 @@
-[gd_scene load_steps=81 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=84 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerInputSynchronizer.gd" id="3_x02f6"]
 [ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="4_d51ss"]
 [ext_resource type="AnimationLibrary" uid="uid://cdchpsv104er2" path="res://Scenes/Assets/Animations/player_eyes.tres" id="4_juktk"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerInteractionComponent.gd" id="4_mguki"]
@@ -47,6 +48,31 @@
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wopse"]
+properties/0/path = NodePath(".:velocity")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:transform")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:player")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("TempBodyMesh:transform")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_isbpe"]
+properties/0/path = NodePath(".:running")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:input_motion")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_47ukd"]
 transparency = 1
@@ -397,6 +423,18 @@ fall_damage = 10
 fall_damage_threshold = -5.6
 jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
+
+[node name="PlayerPropertySynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wopse")
+
+[node name="PlayerInputSynchronizer" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("head", "neck", "eyes", "camera_3D")]
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_isbpe")
+script = ExtResource("3_x02f6")
+head = NodePath("../Neck/Head")
+neck = NodePath("../Neck")
+eyes = NodePath("../Neck/Head/Eyes")
+camera_3D = NodePath("../Neck/Head/Eyes/Camera")
 
 [node name="TempBodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)

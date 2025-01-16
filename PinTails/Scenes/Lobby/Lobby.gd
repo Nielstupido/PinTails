@@ -1,6 +1,7 @@
 extends Control
 
 
+signal on_player_selected_tail(player_name, tail_data)
 @onready var main_menu_scene = load("res://Scenes/MainMenu/MainMenu.tscn")
 @onready var tail_cards_holder = $TailCardsHolder
 @onready var player_cards_holder = $Players/PlayerCardsHolder
@@ -14,7 +15,7 @@ var player_name : String
 
 func _ready():
 	match_players = MATCHMANAGER.match_players
-	player_name = MATCHMANAGER.player_name
+	player_name = PLAYERACCOUNT.username
 	$StartMatch.disabled = true
 	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
 	
@@ -38,7 +39,8 @@ func _ready():
 
 func _on_StartMatch_pressed():
 	MATCHMANAGER.match_players[player_name] = current_tail_data
-	var _error = get_tree().change_scene_to_file("res://Scenes/Game/Game.tscn")
+	#var _error = get_tree().change_scene_to_file("res://Scenes/Game/Game.tscn")
+	GAMEPLAYMANAGER.load_game_play_scene()
  
 
 func _on_LeaveLobby_pressed():

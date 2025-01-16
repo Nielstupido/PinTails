@@ -1,3 +1,4 @@
+class_name Character 
 extends CharacterBody3D
 
 signal toggle_inventory_interface()
@@ -21,6 +22,7 @@ signal player_just_landed()
 @onready var stamina_component = $StaminaComponent
 
 # Node caching
+@onready var player_input = $PlayerInputSynchronizer
 @onready var player_hud = $UI/Player_HUD
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
 @onready var weapon_inventory = $WeaponInventory
@@ -168,13 +170,38 @@ var wallrun_current_angle = 0
 var side = ""
 var is_wallrun_jumping = false
 var wall_jump_dir = Vector3.ZERO
+var _network_manager
+
+#@export_group("Player Properties")
+var player := 1
 
 
 func _ready() -> void:
+	set_multiplayer_authority(name.to_int())
+	print("player " + name + " is auth == " + str(is_multiplayer_authority()))
+	
+	# Disables camera on non-host server setups, or dedicated server builds
+	camera.current = false
+	
+	if is_multiplayer_authority():
+		camera.make_current()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		
+		# if this is actually a host mode, we need to setup network manager as it is also a server
+		if GAMEPLAYMANAGER.server_mode_selected:
+			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
+	else: 
+		set_process(false)
+		set_process_input(false)
+		_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
+	
+	player = name.to_int()
+	$PlayerInputSynchronizer.set_multiplayer_authority(name.to_int())
+	
 	#Some Setup steps
 	#CogitoSceneManager._current_player_node = self
 	randomize()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	# Pause Menu setup
 	if pause_menu:
@@ -190,9 +217,17 @@ func _ready() -> void:
 	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
 	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
 	
+	get_tree().get_root().get_node("Game").player_ready_signal.emit()
+	
+	#if is_multiplayer_authority() && (GAMEPLAYMANAGER.local_host_mode || not multiplayer.is_server()):
+		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#else: 
+		#set_process(false)
+		#set_process_input(false)
+	
 	##player tail initialization
-	tail_manager.add_tail(MATCHMANAGER.match_players.get(MATCHMANAGER.player_name))
-	GAMEMANAGER.emit_signal("tail_picked_up", MATCHMANAGER.match_players.get(MATCHMANAGER.player_name))
+	#tail_manager.add_tail(MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
+	#GAMEPLAYMANAGER.emit_signal("tail_picked_up", MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
 
 
 # Use this function to manipulate player attributes.
@@ -318,7 +353,11 @@ func _on_player_hud_resume():
 
 
 func _input(event):
-	if event is InputEventMouseMotion and !is_looking_aroung_paused:
+	#if multiplayer.is_server():
+	if is_multiplayer_authority():
+		_take_input(event)
+	
+	if event is InputEventMouseMotion and !is_looking_aroung_paused and is_multiplayer_authority():
 		if is_free_looking:
 			neck.rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
 			neck.rotation.y = clamp(neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
@@ -330,7 +369,10 @@ func _input(event):
 		else:
 			head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENS))
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-		
+
+
+
+func _take_input(event):
 	# Checking Analog stick input for mouse look
 	if event is InputEventJoypadMotion and !is_looking_aroung_paused:
 		if event.get_axis() == 2:
@@ -363,7 +405,16 @@ func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
 	return PhysicsServer3D.body_test_motion(self_rid, params(transform3d, motion), test_motion_result)	
 
 
-func _physics_process(delta):
+func _physics_process(delta): 
+	#if multiplayer.is_server():
+	if is_multiplayer_authority():
+		_apply_player_controls(delta)
+	
+	#if not multiplayer.is_server() || GAMEPLAYMANAGER.local_host_mode:
+		#animate(current_animation, delta)
+
+
+func _apply_player_controls(delta):
 	if is_movement_paused or on_wall_run:
 		return
 		

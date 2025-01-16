@@ -19,5 +19,5 @@ func _on_tail_card_pressed(selected_tail_data):
 
 
 func _on_Button_pressed():
-	MATCHMANAGER.player_selected_tail(MATCHMANAGER.player_name, self.tail_data)
+	owner.player_selected_tail(PLAYERACCOUNT.username, self.tail_data)
 	tail_cards_holder.emit_signal("on_tail_card_pressed", self.tail_data)

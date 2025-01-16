@@ -16,9 +16,9 @@ var active_skill_card = null
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
-	GAMEMANAGER.connect("tail_picked_up", Callable(self, "reset_skill"))
-	GAMEMANAGER.connect("tail_removed", Callable(self, "reset_skill"))
+	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
+	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "reset_skill"))
+	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "reset_skill"))
 	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
 	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
 	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("third_skill"))[0].keycode))

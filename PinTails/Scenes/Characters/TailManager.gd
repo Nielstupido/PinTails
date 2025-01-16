@@ -7,7 +7,7 @@ var current_active_tail_attrb : Array
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", Callable(self, "set_tail_attr"))
+	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "set_tail_attr"))
 
 
 func add_tail(passed_tail : TailData) -> bool:
@@ -23,7 +23,7 @@ func remove_tail(passed_tail : TailData) -> void:
 	var tail_instance = tail_obj.instantiate()
 	tail_instance.position = owner.player_interaction_component.get_interaction_raycast_tip(0)
 	tail_instance.tail_data = passed_tail
-	GAMEMANAGER.get_node(".").add_child(tail_instance)
+	GAMEPLAYMANAGER.get_node(".").add_child(tail_instance)
 	
 	tails.erase(passed_tail)
 	remove_tail_attr(passed_tail)

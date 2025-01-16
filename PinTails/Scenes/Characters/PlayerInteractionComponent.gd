@@ -46,7 +46,7 @@ func _process(delta):
 			if pickupable_tail_obj != null:
 				if owner.tail_manager.add_tail(pickupable_tail_obj.tail_data):
 					pickupable_tail_obj.pick_up()
-					GAMEMANAGER.emit_signal("tail_picked_up", pickupable_tail_obj.tail_data)
+					GAMEPLAYMANAGER.emit_signal("tail_picked_up", pickupable_tail_obj.tail_data)
 					
 					if owner.tail_manager.tails.size() == TAIL_MAX_SIZE:
 						emit_signal("interaction_prompt", "")

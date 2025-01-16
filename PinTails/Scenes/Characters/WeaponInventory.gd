@@ -67,7 +67,7 @@ func drop_weapon() -> void:
 	var dropped_item = scene_to_drop.instantiate()
 	dropped_item.position = owner.player_interaction_component.get_interaction_raycast_tip(0)
 	dropped_item.weapon_data = current_weapon
-	GAMEMANAGER.game_node.add_child(dropped_item)
+	GAMEPLAYMANAGER.game_node.add_child(dropped_item)
 	var item_index = weapons.rfind(current_weapon)
 	weapons.erase(current_weapon)
 	weapon_animation_player.play(current_weapon.unequip_anim)

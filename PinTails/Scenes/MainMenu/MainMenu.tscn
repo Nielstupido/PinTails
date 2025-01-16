@@ -1,9 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://cbogrbbgtrq3y"]
+[gd_scene load_steps=25 format=3 uid="uid://cbogrbbgtrq3y"]
 
 [ext_resource type="FontFile" uid="uid://dkpggr315ur53" path="res://Fonts/Slowdex.ttf" id="1"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/Menu.gd" id="2_8b0y7"]
-[ext_resource type="PackedScene" uid="uid://ws1ausjpll8e" path="res://Scenes/Network/Network_Connection.tscn" id="2_f3tgd"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/ScreenManager.gd" id="3_ab7ay"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/LoginScreen.gd" id="4_4mgtj"]
 [ext_resource type="PackedScene" uid="uid://dw0w24io2wuip" path="res://Scenes/Tools/WarningMessage.tscn" id="5_sovu5"]
@@ -126,8 +125,6 @@ script = ExtResource("2")
 
 [node name="ScreenManager" type="Node" parent="."]
 script = ExtResource("3_ab7ay")
-
-[node name="NetworkConnection" parent="." instance=ExtResource("2_f3tgd")]
 
 [node name="Menu" type="ColorRect" parent="."]
 layout_mode = 0
@@ -550,6 +547,8 @@ scale = Vector2(1, 1.01759)
 metadata/_edit_lock_ = true
 
 [connection signal="visibility_changed" from="Menu" to="Menu" method="_on_visibility_changed"]
+[connection signal="pressed" from="Menu/GameModesHolder/HBoxContainer/Deathmatch" to="Menu" method="_on_deathmatch_pressed"]
+[connection signal="pressed" from="Menu/GameModesHolder/HBoxContainer/CaptureFlag" to="Menu" method="_on_capture_flag_pressed"]
 [connection signal="pressed" from="Menu/PlayBtn" to="Menu" method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SettingsBtn" to="Menu" method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="Menu/ExitBtn" to="Menu" method="_on_ExitBtn_pressed"]

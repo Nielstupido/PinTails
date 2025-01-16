@@ -9,7 +9,7 @@ var _acqrd_tails : int = 0
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
+	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
 
 
 func add_tail(tail_data):

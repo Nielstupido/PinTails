@@ -7,7 +7,7 @@ var tails : Array
 
 
 func _ready():
-	GAMEMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
+	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
 
 
 func add_tail(tail_data):
@@ -23,7 +23,7 @@ func add_tail(tail_data):
 
 
 func remove_tail(tail_data):
-	GAMEMANAGER.emit_signal("tail_removed", tail_data)
+	GAMEPLAYMANAGER.emit_signal("tail_removed", tail_data)
 	
 	var removed_tail_key : int
 	owner.tail_manager.remove_tail(tail_data)

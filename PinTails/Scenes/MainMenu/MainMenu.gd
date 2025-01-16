@@ -8,7 +8,6 @@ enum Screens {
 	ACCOUNT
 }
 
-@onready var network_connection = $NetworkConnection
 @onready var warning_msg = $WarningMessage
 @onready var screen_manager = $ScreenManager
 

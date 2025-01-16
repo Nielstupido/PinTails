@@ -5,7 +5,9 @@ extends ColorRect
 
 
 func _on_PlayBtn_pressed():
-	MATCHMANAGER.start_matchmaking("orya")
+	MATCHMANAGER.start_matchmaking(PLAYERACCOUNT.username)
+	#GAMEPLAYMANAGER.server_mode_selected = false
+	GAMEPLAYMANAGER.server_mode_selected = true
 
 
 func _on_SettingsBtn_pressed():
@@ -17,5 +19,15 @@ func _on_ExitBtn_pressed():
 
 
 func _on_visibility_changed():
-	if self.visible and owner.network_connection.player_account:
-		player_name_node.text = str(owner.network_connection.player_account)
+	if self.visible and PLAYERACCOUNT.username:
+		player_name_node.text = str(PLAYERACCOUNT.username)
+
+
+func _on_deathmatch_pressed():
+	GAMEPLAYMANAGER.server_mode_selected = true
+	GAMEPLAYMANAGER.load_game_play_scene()
+
+
+func _on_capture_flag_pressed():
+	GAMEPLAYMANAGER.server_mode_selected = false
+	GAMEPLAYMANAGER.load_game_play_scene()

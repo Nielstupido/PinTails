@@ -1,0 +1,133 @@
+[gd_scene load_steps=21 format=3 uid="uid://cp8en37sojhym"]
+
+[ext_resource type="Script" path="res://Scenes/Game/Map/MapTest.gd" id="1_qnw2t"]
+[ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="2_abqk0"]
+[ext_resource type="Texture2D" uid="uid://jwl7fxpjedca" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="3_pynye"]
+[ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="4_g2m34"]
+[ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="5_5u0x3"]
+[ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="6_ht6ng"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" id="7_lfugu"]
+[ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://Scenes/Weapon/Pistol/Pistol.tscn" id="8_sktkb"]
+[ext_resource type="PackedScene" uid="uid://bukjp5ei5khrl" path="res://Scenes/Weapon/Rifle/Rifle.tscn" id="9_3bxji"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
+sky_top_color = Color(0.290301, 0.435623, 0.745498, 1)
+sky_horizon_color = Color(0.109896, 0.753039, 0.694309, 1)
+sky_curve = 0.160766
+
+[sub_resource type="Sky" id="Sky_8hx6b"]
+sky_material = SubResource("ProceduralSkyMaterial_wb458")
+
+[sub_resource type="Environment" id="Environment_ybty4"]
+background_mode = 2
+sky = SubResource("Sky_8hx6b")
+ambient_light_energy = 0.87
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npkha"]
+albedo_texture = ExtResource("2_abqk0")
+rim_tint = 0.33
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+billboard_keep_scale = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_v276p"]
+material = SubResource("StandardMaterial3D_npkha")
+size = Vector3(25, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hkgkl"]
+size = Vector3(25, 6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_165ux"]
+size = Vector3(1, 5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_omq27"]
+size = Vector3(1, 5, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cptm3"]
+albedo_texture = ExtResource("3_pynye")
+roughness_texture_channel = 3
+normal_scale = 16.0
+normal_texture = ExtResource("6_ht6ng")
+ao_texture = ExtResource("4_g2m34")
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("5_5u0x3")
+uv1_scale = Vector3(20, 20, 20)
+uv1_triplanar = true
+point_size = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_rmcfc"]
+material = SubResource("StandardMaterial3D_cptm3")
+uv2_padding = 0.0
+
+[sub_resource type="BoxShape3D" id="2"]
+
+[node name="MapTest" type="Node"]
+script = ExtResource("1_qnw2t")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ybty4")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.997935, 0, 0, 0, 0.997935, 0, 0, 0, 0.997935, -1.21395, 3.00355, -5.09108)
+layers = 31
+mesh = SubResource("BoxMesh_v276p")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall" groups=["Wall"]]
+transform = Transform3D(1.00207, 0, 0, 0, 1.00207, 0, 0, 0, 1.00207, 5.80498, 0.118668, 0)
+collision_layer = 31
+collision_mask = 31
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79299, -0.118423, 0)
+shape = SubResource("BoxShape3D_hkgkl")
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.84894, 9.40409, 11.0604)
+layers = 31
+mesh = SubResource("BoxMesh_165ux")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+collision_layer = 31
+collision_mask = 31
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
+shape = SubResource("BoxShape3D_omq27")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41661)
+layers = 31
+mesh = SubResource("BoxMesh_rmcfc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+collision_layer = 31
+collision_mask = 31
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1049, 0)
+light_energy = 0.0
+shadow_enabled = true
+
+[node name="TailDropPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
+
+[node name="GameMenuSettings" parent="." instance=ExtResource("7_lfugu")]
+process_mode = 3
+layer = 2
+visible = false
+
+[node name="Pistol" parent="." instance=ExtResource("8_sktkb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.476655, 0)
+
+[node name="Rifle" parent="." instance=ExtResource("9_3bxji")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)
+
+[node name="PlayerNodes" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Characters/Player.tscn")
+spawn_path = NodePath("../PlayerNodes")
+spawn_limit = 2

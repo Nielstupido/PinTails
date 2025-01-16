@@ -12,7 +12,7 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("action_primary"):
 		var tower = tower_obj.instantiate()
-		GAMEMANAGER.game_node.add_child(tower)
+		GAMEPLAYMANAGER.game_node.add_child(tower)
 		tower.setup_tower(self.global_transform.origin)
 		self.queue_free()
 
