@@ -115,11 +115,12 @@ func reset_skill(passed_skill_data) -> void:
 
 
 func execute_skill():
-	owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
+	print("skill name == " + active_skill_card.tail_data.skill_name)
+	owner.skill_nodes.get_node(active_skill_card.tail_data.skill_name).execute_skill(active_skill_card.tail_data.skill_value)
 	
 	if is_timed_trigger_enabled:
 		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
-		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
+		owner.skill_nodes.get_node(active_skill_card.tail_data.skill_name).skill_timeout()
 	
 	active_skill_card.start_cooldown()
 	reset_skill(null)
