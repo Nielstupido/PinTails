@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://hrc2o36cnx2j"]
+[gd_scene load_steps=7 format=3 uid="uid://hrc2o36cnx2j"]
 
 [ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/Item.gd" id="1_oy3ve"]
 
@@ -16,6 +16,14 @@ albedo_color = Color(0.337255, 0.188235, 0.615686, 0.392157)
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_bj2hi"]
 height = 0.8
 radius = 0.4
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lvfii"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:tail_data_bytes")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Tail" type="RigidBody3D" groups=["Tail"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000318125, -0.000611961, 0.000195682)
@@ -36,3 +44,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_xba06")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.396, 0)
 shape = SubResource("CylinderShape3D_bj2hi")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_lvfii")
+
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]

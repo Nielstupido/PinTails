@@ -290,7 +290,7 @@ func add_sanity(value):
 
 
 func set_mesh_transparent(vision_tower_node):
-	if vision_tower_node.is_connected(Callable(self, "_set_mesh_default")) or body.get_active_material(0).no_depth_test:
+	if vision_tower_node.is_connected("vision_stopped", Callable(self, "_set_mesh_default")) or body.get_active_material(0).no_depth_test:
 		return
 	
 	body.get_active_material(0).no_depth_test = true

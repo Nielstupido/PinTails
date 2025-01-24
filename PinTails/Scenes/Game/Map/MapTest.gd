@@ -37,10 +37,11 @@ func _ready():
 			tail_data_list.append(tail_data)
 	for tail_data in tail_data_list:
 		var tail_instance = tail_obj.instantiate()
-		GAMEPLAYMANAGER.get_node(".").add_child(tail_instance)
+		$WorldItems.add_child(tail_instance, true)
 		tail_instance.global_transform = tail_pos.global_transform
 		tail_instance.global_position.z = randomZ.randf_range(-6, 6)
 		tail_instance.tail_data = tail_data
+		tail_instance.tail_data_bytes = tail_data.stringify()
 ##<-------For testing-------->
 
 

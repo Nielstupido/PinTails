@@ -2,7 +2,7 @@ extends Node3D
 class_name PlayerInteractionComponent
 
 const TAIL_MAX_SIZE = 3
-const HOLD_TIME_THRES = 15
+const HOLD_TIME_THRES = 5
 signal interaction_prompt(interaction_text : String)
 signal hint_prompt(hint_icon:Texture2D, hint_text: String)
 signal set_use_prompt(use_text:String)
@@ -29,19 +29,18 @@ var is_reset : bool  = true
 var device_id : int = -1
 var obj_in_focus = null
 var pickupable_tail_obj : Object = null
-var hold_time : int = 0
+var hold_time : float = 0.0
 
 
 func _process(delta):
-	if Input.is_action_pressed("attach_tail"):
-		hold_time += (delta * 100)
-		
+	if Input.is_action_pressed("attach_tail") and owner.is_multiplayer_authority():
+		hold_time += (delta * 15)
 		if hold_time > HOLD_TIME_THRES:
 			if !owner.tail_config_menu.visible:
 				owner.is_looking_aroung_paused = true
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 				owner.tail_config_menu.show()
-	elif Input.is_action_just_released("attach_tail"):
+	elif Input.is_action_just_released("attach_tail") and owner.is_multiplayer_authority():
 		if hold_time < HOLD_TIME_THRES:
 			if pickupable_tail_obj != null:
 				if owner.tail_manager.add_tail(pickupable_tail_obj.tail_data):
@@ -75,7 +74,7 @@ func _process(delta):
 
 
 func _input(event):
-	if !owner.is_looking_aroung_paused:
+	if !owner.is_looking_aroung_paused and owner.is_multiplayer_authority():
 		if event.is_action_pressed("buy_menu"):
 			buy_weapon_menu.open_buy_menu() 
 		
@@ -128,12 +127,19 @@ func get_interaction_raycast_tip(distance_offset : float) -> Vector3:
 
 
 func _on_tail_collision_area_body_entered(body):
+	if !owner.is_multiplayer_authority():
+		return
+	
 	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != TAIL_MAX_SIZE:
+		print("Tail data == " + str(body) + " data == " + str(body.tail_data))
 		emit_signal("interaction_prompt", body.interaction_text)
 		pickupable_tail_obj = body
 
 
 func _on_tail_collision_area_body_exited(body):
+	if !owner.is_multiplayer_authority():
+		return
+	
 	if body.is_in_group("Tail")and owner.tail_manager.tails.size() != TAIL_MAX_SIZE and pickupable_tail_obj != null:
 		if body.tail_data == pickupable_tail_obj.tail_data:
 			emit_signal("interaction_prompt", "")

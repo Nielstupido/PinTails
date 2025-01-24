@@ -127,7 +127,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)
 [node name="PlayerNodes" type="Node" parent="."]
 unique_name_in_owner = true
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="WorldItems" type="Node" parent="."]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Characters/Player.tscn")
 spawn_path = NodePath("../PlayerNodes")
 spawn_limit = 2
+
+[node name="Item Spawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn")
+spawn_path = NodePath("../WorldItems")
+spawn_limit = 20
