@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://upn8qwao30xy"]
+[gd_scene load_steps=15 format=3 uid="uid://upn8qwao30xy"]
 
 [ext_resource type="Script" path="res://Scenes/Tails/Meerkat/Tower.gd" id="1_qjnvj"]
 [ext_resource type="Texture2D" uid="uid://bofllpjnrwr2d" path="res://addons/kenney_prototype_textures/green/texture_09.png" id="2_2ng51"]
@@ -85,6 +85,11 @@ shader_parameter/uv_offset = null
 [sub_resource type="SphereShape3D" id="SphereShape3D_c0m12"]
 radius = 20.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0lf18"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Tower" type="Node3D"]
 script = ExtResource("1_qjnvj")
 
@@ -116,6 +121,9 @@ surface_material_override/0 = SubResource("ShaderMaterial_yykl8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VisionArea"]
 shape = SubResource("SphereShape3D_c0m12")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_0lf18")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]

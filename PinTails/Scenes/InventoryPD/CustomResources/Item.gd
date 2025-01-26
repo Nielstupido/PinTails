@@ -15,7 +15,16 @@ func _ready():
 func pick_up():
 	if weapon_data != null:
 		weapon_data.picked_up()
-	queue_free()
+	
+	if is_multiplayer_authority():
+		queue_free()
+	rpc("remove_obj")
+
+
+@rpc("any_peer")
+func remove_obj():
+	if is_multiplayer_authority():
+		queue_free()
 
 
 func _on_multiplayer_synchronizer_synchronized():

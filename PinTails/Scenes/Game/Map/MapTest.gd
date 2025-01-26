@@ -13,6 +13,7 @@ var tail_data_list : Array
 
 
 func _ready():    
+	multiplayer.server_relay = true
 	GAMEPLAYMANAGER.map_node = self
 	print("Map ready")
 	
@@ -21,9 +22,8 @@ func _ready():
 	
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(del_player)
-	
 	#if GAMEPLAYMANAGER.local_host_mode && not OS.has_feature("dedicated_server"):
-	if GAMEPLAYMANAGER.server_mode_selected:
+	if GAMEPLAYMANAGER.server_mode_selected && not OS.has_feature("dedicated_server"):
 		add_player(1)
 	
 ##<-------For testing-------->
