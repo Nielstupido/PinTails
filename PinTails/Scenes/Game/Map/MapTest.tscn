@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=20 format=3 uid="uid://cp8en37sojhym"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Map/MapTest.gd" id="1_qnw2t"]
 [ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="2_abqk0"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="4_g2m34"]
 [ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="5_5u0x3"]
 [ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="6_ht6ng"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/GameSettings/GameMenuSettings.tscn" id="7_lfugu"]
 [ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://Scenes/Weapon/Pistol/Pistol.tscn" id="8_sktkb"]
 [ext_resource type="PackedScene" uid="uid://bukjp5ei5khrl" path="res://Scenes/Weapon/Rifle/Rifle.tscn" id="9_3bxji"]
 
@@ -112,11 +111,6 @@ shadow_enabled = true
 
 [node name="TailDropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
-
-[node name="GameMenuSettings" parent="." instance=ExtResource("7_lfugu")]
-process_mode = 3
-layer = 2
-visible = false
 
 [node name="Pistol" parent="." instance=ExtResource("8_sktkb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.476655, 0)

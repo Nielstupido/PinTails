@@ -5,10 +5,6 @@ extends CanvasLayer
 @export var rifle_data : WeaponData
 
 
-func _ready():
-	pass
-
-
 func open_buy_menu():
 	self.show()
 	owner.is_looking_aroung_paused = true

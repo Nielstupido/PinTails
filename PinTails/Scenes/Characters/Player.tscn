@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=85 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -48,6 +48,7 @@
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
+[ext_resource type="PackedScene" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wopse"]
 properties/0/path = NodePath(".:transform")
@@ -441,10 +442,12 @@ default_position = Vector3(0.329, -0.264, -0.535)
 sound_primary_use = ExtResource("11_45f3g")
 
 [node name="WeaponInventory" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 script = ExtResource("4_yum5u")
 projectile_prefab = ExtResource("11_ydo45")
 projectile_velocity = 200.0
@@ -544,8 +547,10 @@ collision_mask = 8
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -3)
 
 [node name="InviScreenEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("21_uodof")]
+mouse_filter = 2
 
 [node name="ImpactMotionBlur" parent="Neck/Head/Eyes/Camera" instance=ExtResource("22_tujae")]
+mouse_filter = 2
 
 [node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 
@@ -694,6 +699,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Player_HUD" type="CanvasLayer" parent="UI" node_paths=PackedStringArray("player")]
 script = ExtResource("21_r8tdw")
@@ -707,6 +713,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="TextureRect" type="TextureRect" parent="UI/Player_HUD/DamageOverlay"]
 material = SubResource("CanvasItemMaterial_1f12m")
@@ -728,7 +735,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 
 [node name="TextureRect" type="TextureRect" parent="UI/Player_HUD/Crosshair"]
 layout_mode = 1
@@ -757,7 +764,7 @@ offset_top = 50.0
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Player_HUD/ButtonPrompt"]
 layout_mode = 1
@@ -798,7 +805,7 @@ label_settings = SubResource("LabelSettings_qgnac")
 [node name="HintPrompt" type="Control" parent="UI/Player_HUD"]
 layout_mode = 3
 anchors_preset = 0
-mouse_filter = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Player_HUD/HintPrompt"]
 layout_mode = 0
@@ -837,6 +844,7 @@ offset_top = -10.0
 offset_right = 104.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Player_HUD/PlayerAttributes"]
 layout_mode = 2
@@ -914,6 +922,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Panel" type="Panel" parent="UI/Player_HUD/DeathScreen"]
 layout_mode = 1
@@ -965,6 +974,7 @@ offset_top = 626.0
 offset_right = 80.0
 offset_bottom = 640.0
 scale = Vector2(4.76602, 4.76602)
+mouse_filter = 1
 
 [node name="Mag" type="Control" parent="UI/PlayerTails"]
 layout_mode = 3
@@ -972,7 +982,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
-mouse_filter = 2
+mouse_filter = 1
 
 [node name="ColorRect" type="ColorRect" parent="UI/PlayerTails/Mag"]
 layout_mode = 0
@@ -1018,6 +1028,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerTails/PlayerSkills"]
 layout_mode = 0
@@ -1048,6 +1059,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("29_mjx67")
 
 [node name="ColorRect" type="ColorRect" parent="UI/PlayerTails/TailConfigMenu"]
@@ -1163,6 +1175,9 @@ text = "Unpin"
 
 [node name="Shop" parent="UI" instance=ExtResource("31_lvldf")]
 process_mode = 3
+
+[node name="GameMenuSettings" parent="UI" instance=ExtResource("50_yye2e")]
+visible = false
 
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)

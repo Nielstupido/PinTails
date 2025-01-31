@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource path="res://Scenes/UI/radial_menu_item.gd" type="Script" id=1]
-[ext_resource path="res://AssetsUI/radial_menu.png" type="Texture2D" id=2]
-[ext_resource path="res://AssetsUI/radial_menu_hover.png" type="Texture2D" id=3]
-[ext_resource path="res://Scenes/UI/radial_menu_click_mask.bmp" type="BitMap" id=4]
+[ext_resource type="Script" path="res://Scenes/InGameUI/radial_menu_item.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://chri1siai642s" path="res://AssetsUI/radial_menu.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dmxwoioa6lvdi" path="res://AssetsUI/radial_menu_hover.png" id="3"]
+[ext_resource type="BitMap" uid="uid://dg8wlthwpo2sn" path="res://Scenes/InGameUI/radial_menu_click_mask.bmp" id="4"]
 
 [node name="0" type="Control"]
 modulate = Color( 0, 0.215686, 0.592157, 1 )

@@ -5,9 +5,6 @@ signal toggle_inventory_interface()
 signal player_state_loaded()
 signal player_just_landed()
 
-## Reference to Pause menu node
-@export var pause_menu : NodePath
-
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.
 @export var fall_damage : int
 ## Fall velocity at which fall damage is triggered. This is negative y-Axis. -5 is a good starting point but might be a bit too sensitive.
@@ -24,6 +21,7 @@ signal player_just_landed()
 # Node caching
 @onready var player_input = $PlayerInputSynchronizer
 @onready var player_hud = $UI/Player_HUD
+@onready var player_tails = $UI/PlayerTails
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
 @onready var weapon_inventory = $WeaponInventory
 @onready var tail_manager = $TailManager
@@ -192,8 +190,10 @@ func _ready() -> void:
 			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
 	else: 
 		set_process(false)
-		set_process_input(false)
+		#set_process_input(false)
 		_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
+		player_hud.hide()
+		player_tails.hide()
 	
 	player = name.to_int()
 	$PlayerInputSynchronizer.set_multiplayer_authority(name.to_int())
@@ -203,14 +203,6 @@ func _ready() -> void:
 	randomize()
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# Pause Menu setup
-	if pause_menu:
-		var pause_menu_node = get_node(pause_menu)
-		pause_menu_node.resume.connect(_on_pause_menu_resume) # Hookup resume signal from Pause Menu
-		pause_menu_node.close_pause_menu() # Making sure pause menu is closed on player scene load
-	else:
-		print("Player has no reference to pause menu.")
-		
 	initial_carryable_height = carryable_position.position.y #DEPRECATED
 	
 	player_hud.setup_player_hud()
@@ -319,15 +311,16 @@ func _on_brightness_changed(current_brightness,max_brightness):
 			sanity_component.start_recovery(2.0, (sanity_component.max_sanity/max_brightness) * current_brightness)
 
 
-# Methods to pause input (for Menu or Dialogues etc)
-func _on_pause_movement():
+# Method to pause input (for Menu or Dialogues etc)
+func on_pause_movement():
 	if !is_movement_paused:
 		is_movement_paused = true
 		is_looking_aroung_paused = true
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
-func _on_resume_movement():
+# Method to unpause/continue input (for Menu or Dialogues etc)
+func on_resume_movement():
 	if is_movement_paused:
 		is_movement_paused = false
 		is_looking_aroung_paused = false
@@ -339,17 +332,6 @@ func _on_resume_movement():
 	#var err = config.load(OptionsConstants.config_file_name)
 	#if err == 0:
 		#INVERT_Y_AXIS = config.get_value(OptionsConstants.section_name, OptionsConstants.invert_vertical_axis_key, true)
-
-
-# Signal from Pause Menu
-func _on_pause_menu_resume():
-	#_reload_options()
-	_on_resume_movement()
-
-
-# Signal from Inventory
-func _on_player_hud_resume():
-	_on_resume_movement()
 
 
 func _input(event):
@@ -371,7 +353,6 @@ func _input(event):
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 
-
 func _take_input(event):
 	# Checking Analog stick input for mouse look
 	if event is InputEventJoypadMotion and !is_looking_aroung_paused:
@@ -379,12 +360,6 @@ func _take_input(event):
 			joystick_v_event = event
 		if event.get_axis() == 3:
 			joystick_h_event = event
-	
-	# Opens Pause Menu if Menu button is proessed.
-	if event.is_action_pressed("menu"):
-		if !is_movement_paused and !is_dead:
-			_on_pause_movement()
-			get_node(pause_menu).open_pause_menu()
 
 
 func _process(delta): 

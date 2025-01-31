@@ -36,4 +36,4 @@ func _on_multiplayer_synchronizer_synchronized():
 			tail_data = TailData.new()
 			tail_data.set_string_to_data(json.data)
 		else:
-			print("<<<<< NGI >>>>>")
+			print("<<<<< TAIL DATA PARSE ERR >>>>>")

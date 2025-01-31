@@ -13,8 +13,8 @@ func _input(event):
 	if event.is_action_pressed("action_primary"):
 		var tower = tower_obj.instantiate()
 		print("root == " + str(get_tree().root.get_node("Game/Map/MapTest/WorldItems")))
-		get_tree().root.get_node("Game/Map/MapTest/WorldItems").add_child(tower)
-		tower.setup_tower(self.global_transform.origin)
+		get_tree().root.get_node("Game/Map/MapTest/WorldItems").add_child(tower, true)
+		tower.global_transform = self.global_transform
 		self.queue_free()
 
 

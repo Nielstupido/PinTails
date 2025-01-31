@@ -32,6 +32,6 @@ func clear_tail_card():
  
 
 func _on_remove_tail():
-	if self.tail_data:
+	if self.tail_data and is_multiplayer_authority():
 		owner.tail_config_menu.remove_tail(self.tail_data)
 #<---------- IN-GAME ---------->

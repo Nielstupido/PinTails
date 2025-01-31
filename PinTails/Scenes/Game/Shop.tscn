@@ -42,6 +42,7 @@ rifle_data = ExtResource("3_wb1vu")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 color = Color(0, 0, 0, 0.647059)
 
 [node name="CloseBuyMenuBtn" type="Button" parent="."]
@@ -171,6 +172,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[connection signal="mouse_entered" from="Bg" to="." method="open_buy_menu"]
 [connection signal="pressed" from="CloseBuyMenuBtn" to="." method="_on_CloseBuyMenuBtn_pressed"]
+[connection signal="mouse_entered" from="GridContainer" to="." method="open_buy_menu"]
 [connection signal="pressed" from="GridContainer/PistolBuyBtn" to="." method="_on_PistolBuyBtn_pressed"]
 [connection signal="pressed" from="GridContainer/RifleBuyBtn" to="." method="_on_RifleBuyBtn_pressed"]
