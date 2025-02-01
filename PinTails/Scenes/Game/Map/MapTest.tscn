@@ -109,9 +109,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1049, 0)
 light_energy = 0.0
 shadow_enabled = true
 
-[node name="TailDropPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15513, 0)
-
 [node name="Pistol" parent="." instance=ExtResource("8_sktkb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.476655, 0)
 

@@ -17,12 +17,10 @@ func pick_up():
 	if weapon_data != null:
 		weapon_data.picked_up()
 	
-	if is_multiplayer_authority():
-		queue_free()
 	rpc("remove_obj")
 
 
-@rpc("any_peer", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func remove_obj():
 	if is_multiplayer_authority():
 		queue_free()

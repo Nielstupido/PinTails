@@ -5,7 +5,7 @@ extends Node
 
 signal weapon_picked_up(weapon_id)
 signal tail_picked_up(tail_data)
-signal tail_removed()
+signal tail_removed(tail_data, removed_tail_key)
 
 const GAME_SCENE = "res://Scenes/Game/Game.tscn"
 const MAIN_MENU_SCENE = "res://Scenes/MainMenu/MainMenu.tscn"

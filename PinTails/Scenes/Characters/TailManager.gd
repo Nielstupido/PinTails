@@ -8,6 +8,7 @@ var current_active_tail_attrb : Array
 
 func _ready():
 	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "set_tail_attr"))
+	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "remove_tail"))
 
 
 func add_tail(passed_tail : TailData) -> bool:
@@ -19,7 +20,10 @@ func add_tail(passed_tail : TailData) -> bool:
 	return false
 
 
-func remove_tail(passed_tail : TailData) -> void:
+func remove_tail(passed_tail : TailData, removed_tail_key) -> void:
+	if !is_multiplayer_authority():
+		return
+	
 	get_tree().root.get_node("Game/Map/MapTest").rpc("spawn_tail", owner.player_interaction_component.get_interaction_raycast_tip(0), passed_tail.stringify())
 	tails.erase(passed_tail)
 	remove_tail_attr(passed_tail)

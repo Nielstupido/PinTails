@@ -17,7 +17,8 @@ var active_skill_card = null
 
 func _ready():
 	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
-	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "reset_skill"))
+	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "reset_skill_dup"))
+	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "remove_skill"))
 	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "reset_skill"))
 	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
 	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
@@ -25,20 +26,21 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action_pressed("first_skill"):
-		if skill_card1.can_use_skill():
-			use_skill(skill_card1)
-	
-	if event.is_action_pressed("second_skill"):
-		if skill_card2.can_use_skill():
-			use_skill(skill_card2)
-	
-	if event.is_action_pressed("third_skill"):
-		if skill_card3.can_use_skill():
-			use_skill(skill_card3)
+	if is_multiplayer_authority():
+		if event.is_action_pressed("first_skill"):
+			if skill_card1.can_use_skill():
+				use_skill(skill_card1)
+		
+		if event.is_action_pressed("second_skill"):
+			if skill_card2.can_use_skill():
+				use_skill(skill_card2)
+		
+		if event.is_action_pressed("third_skill"):
+			if skill_card3.can_use_skill():
+				use_skill(skill_card3)
 
 
-func remove_skill(skill_index) -> void:
+func remove_skill(tail_data, skill_index) -> void:
 	var skill_status
 	_acqrd_skills -= 1
 	
@@ -91,10 +93,14 @@ func use_skill(skill_card : Node) -> void:
 			is_wating_double_trigger = true
 
 
-func reset_skill(passed_skill_data) -> void:
+func reset_skill(tail_data, skill_index) -> void:
 	is_waiting_shot_trigger = false
 	is_timed_trigger_enabled = false
 	active_skill_card = null
+
+
+func reset_skill_dup(tail_data) -> void:
+	reset_skill(tail_data, null)
 
 
 ##Filler - might needed later on
@@ -123,4 +129,4 @@ func execute_skill():
 		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
 	
 	active_skill_card.start_cooldown()
-	reset_skill(null)
+	reset_skill(null, null)

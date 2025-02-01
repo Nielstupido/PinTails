@@ -131,7 +131,6 @@ func _on_tail_collision_area_body_entered(body):
 		return
 	
 	if body.is_in_group("Tail") and owner.tail_manager.tails.size() != TAIL_MAX_SIZE:
-		print("Tail data == " + str(body) + " data == " + str(body.tail_data))
 		emit_signal("interaction_prompt", body.interaction_text)
 		pickupable_tail_obj = body
 
