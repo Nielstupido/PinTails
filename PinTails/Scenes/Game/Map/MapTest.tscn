@@ -131,4 +131,4 @@ spawn_limit = 2
 [node name="Item Spawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn")
 spawn_path = NodePath("../WorldItems")
-spawn_limit = 20
+spawn_limit = 100

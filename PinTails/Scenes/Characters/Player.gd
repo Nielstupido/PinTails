@@ -196,7 +196,6 @@ func _ready() -> void:
 		player_tails.hide()
 	
 	player = name.to_int()
-	$PlayerInputSynchronizer.set_multiplayer_authority(name.to_int())
 	
 	#Some Setup steps
 	#CogitoSceneManager._current_player_node = self

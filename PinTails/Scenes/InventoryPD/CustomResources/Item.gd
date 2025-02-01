@@ -10,6 +10,7 @@ var tail_data : TailData
 
 func _ready():
 	interaction_text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events(action_keyword))[0].keycode)) + " to pick up"
+	_on_multiplayer_synchronizer_synchronized()
 
 
 func pick_up():
@@ -21,7 +22,7 @@ func pick_up():
 	rpc("remove_obj")
 
 
-@rpc("any_peer")
+@rpc("any_peer", "reliable")
 func remove_obj():
 	if is_multiplayer_authority():
 		queue_free()

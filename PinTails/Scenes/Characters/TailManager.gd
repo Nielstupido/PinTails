@@ -20,11 +20,7 @@ func add_tail(passed_tail : TailData) -> bool:
 
 
 func remove_tail(passed_tail : TailData) -> void:
-	var tail_instance = tail_obj.instantiate()
-	tail_instance.position = owner.player_interaction_component.get_interaction_raycast_tip(0)
-	tail_instance.tail_data = passed_tail
-	GAMEPLAYMANAGER.get_node(".").add_child(tail_instance)
-	
+	get_tree().root.get_node("Game/Map/MapTest").rpc("spawn_tail", owner.player_interaction_component.get_interaction_raycast_tip(0), passed_tail.stringify())
 	tails.erase(passed_tail)
 	remove_tail_attr(passed_tail)
 

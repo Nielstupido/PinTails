@@ -36,13 +36,19 @@ func _ready():
 			var tail_data =  ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]).get_tail_data()
 			tail_data_list.append(tail_data)
 	for tail_data in tail_data_list:
-		var tail_instance = tail_obj.instantiate()
-		$WorldItems.add_child(tail_instance, true)
-		tail_instance.global_transform = tail_pos.global_transform
-		tail_instance.global_position.z = randomZ.randf_range(-6, 6)
-		tail_instance.tail_data = tail_data
-		tail_instance.tail_data_bytes = tail_data.stringify()
+		var tail_pos : Vector3
+		tail_pos.z = randomZ.randf_range(-6, 6)
+		spawn_tail(tail_pos, tail_data.stringify())
 ##<-------For testing-------->
+
+
+@rpc("any_peer", "call_local", "reliable")
+func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
+	if multiplayer.is_server():
+		var tail_instance = tail_obj.instantiate()
+		tail_instance.position = spawn_pos
+		tail_instance.tail_data_bytes = tail_data_bytes
+		$WorldItems.add_child(tail_instance, true)
 
 
 func add_player(id: int):
