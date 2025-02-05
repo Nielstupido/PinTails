@@ -41,7 +41,6 @@ func _on_client_pressed():
 
 
 func start_game():
-	print("this is server == " + str(multiplayer.is_server()))
 	if multiplayer.is_server():
 		change_map.call_deferred(load(GAMEPLAYMANAGER.selected_map))
 

@@ -174,10 +174,12 @@ var _network_manager
 var player := 1
 
 
-func _ready() -> void:
+func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 	print("player " + name + " is auth == " + str(is_multiplayer_authority()))
-	
+
+
+func _ready() -> void:
 	# Disables camera on non-host server setups, or dedicated server builds
 	camera.current = false
 	

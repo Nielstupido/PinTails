@@ -5,7 +5,7 @@ extends RigidBody3D
 @export var action_keyword : String
 var interaction_text : String 
 var tail_data_bytes : String
-var tail_data : TailData
+var tail_data : TailData = null
 
 
 func _ready():
@@ -17,13 +17,7 @@ func pick_up():
 	if weapon_data != null:
 		weapon_data.picked_up()
 	
-	rpc("remove_obj")
-
-
-@rpc("any_peer", "call_local", "reliable")
-func remove_obj():
-	if is_multiplayer_authority():
-		queue_free()
+	get_tree().root.get_node("Game/Map/MapTest").rpc("remove_obj", self.get_path())
 
 
 func _on_multiplayer_synchronizer_synchronized():

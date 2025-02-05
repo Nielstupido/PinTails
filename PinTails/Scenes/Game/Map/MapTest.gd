@@ -37,6 +37,7 @@ func _ready():
 	for tail_data in tail_data_list:
 		var tail_pos = Vector3.ZERO
 		tail_pos.z = randomZ.randf_range(-6, 6)
+		print("<<<< TAIL : " + str(tail_data) + " >>>>>w")
 		spawn_tail(tail_pos, tail_data.stringify())
 ##<-------For testing-------->
 
@@ -48,6 +49,16 @@ func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 		tail_instance.position = spawn_pos
 		tail_instance.tail_data_bytes = tail_data_bytes
 		$WorldItems.add_child(tail_instance, true)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func remove_obj(node_path : String):
+	if !multiplayer.is_server():
+		return
+	
+	var item = get_node(node_path)
+	if item:
+		item.queue_free()
 
 
 func add_player(id: int):
