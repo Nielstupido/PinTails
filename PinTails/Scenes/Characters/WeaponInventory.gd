@@ -64,10 +64,13 @@ func drop_weapon() -> void:
 	
 	var scene_to_drop = load(current_weapon.drop_scene)
 	#Audio.play_sound(slot_data.inventory_item.sound_drop)
-	var dropped_item = scene_to_drop.instantiate()
-	dropped_item.position = owner.player_interaction_component.get_interaction_raycast_tip(0)
-	dropped_item.weapon_data = current_weapon
-	GAMEPLAYMANAGER.game_node.add_child(dropped_item)
+	#dropped_item.weapon_data = current_weapon
+	
+	get_tree().root.get_node("Game/Map/MapTest").rpc("spawn_weapon", 
+			owner.player_interaction_component.get_interaction_raycast_tip(0), 
+			current_weapon.weapon_type,
+			current_weapon.stringify())
+	
 	var item_index = weapons.rfind(current_weapon)
 	weapons.erase(current_weapon)
 	weapon_animation_player.play(current_weapon.unequip_anim)

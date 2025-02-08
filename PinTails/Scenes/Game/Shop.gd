@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 
+@onready var weapon_inventory = $"../../WeaponInventory"
 @export var pistol_data : WeaponData
 @export var rifle_data : WeaponData
 
@@ -20,8 +21,8 @@ func _on_CloseBuyMenuBtn_pressed():
 
 
 func _on_PistolBuyBtn_pressed():
-	owner.weapon_inventory.add_weapon(pistol_data)
+	weapon_inventory.add_weapon(pistol_data)
 
 
 func _on_RifleBuyBtn_pressed():
-	owner.weapon_inventory.add_weapon(rifle_data)
+	weapon_inventory.add_weapon(rifle_data)

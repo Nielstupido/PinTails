@@ -5,6 +5,7 @@ class_name WeaponData
 
 ## Name of Item as it appears in game.
 @export var name : String = ""
+@export var weapon_type : WEAPONS.Weapon_Types
 ## Description of Item as it'll appear in the HUD / Inventory menu
 @export_multiline var descpription : String = ""
 ## Icon of Item for HUD / Inventory
@@ -50,6 +51,52 @@ var is_current_weapon : bool
 var was_picked_up = false
 
 
+func set_string_to_data(data_dict : Dictionary) -> void:
+	self.name = data_dict["name"]
+	self.weapon_type = data_dict["weapon_type"]
+	self.power = data_dict["power"]
+	self.primary_use_prompt = data_dict["primary_use_prompt"]
+	self.secondary_use_prompt = data_dict["secondary_use_prompt"]
+	self.weapon_data_text = data_dict["weapon_data_text"]
+	self.mag_size = data_dict["mag_size"]
+	self.starting_total_ammo = data_dict["starting_total_ammo"]
+	self.weapon_range = data_dict["weapon_range"]
+	self.weapon_damage = data_dict["weapon_damage"]
+	self.equip_anim = data_dict["equip_anim"]
+	self.unequip_anim = data_dict["unequip_anim"]
+	self.reload_anim = data_dict["reload_anim"]
+	self.use_anim = data_dict["use_anim"]
+	self.current_total_ammo = data_dict["current_total_ammo"]
+	self.current_mag_ammo = data_dict["current_mag_ammo"]
+	self.player_interaction_component = data_dict["player_interaction_component"]
+	self.is_current_weapon = data_dict["is_current_weapon"]
+	self.was_picked_up = data_dict["was_picked_up"]
+
+
+func stringify() -> String:
+	return JSON.stringify({
+		"name" : self.name,
+		"weapon_type" : self.weapon_type,
+		"power" : self.power,
+		"primary_use_prompt" : self.primary_use_prompt,
+		"secondary_use_prompt" : self.secondary_use_prompt,
+		"weapon_data_text" : self.weapon_data_text,
+		"mag_size" : self.mag_size,
+		"starting_total_ammo" : self.starting_total_ammo,
+		"weapon_range" : self.weapon_range,
+		"weapon_damage" : self.weapon_damage,
+		"equip_anim" : self.equip_anim,
+		"unequip_anim" : self.unequip_anim,
+		"reload_anim" : self.reload_anim,
+		"use_anim" : self.use_anim,
+		"current_total_ammo" : self.current_total_ammo,
+		"current_mag_ammo" : self.current_mag_ammo,
+		"player_interaction_component" : self.player_interaction_component,
+		"is_current_weapon" : self.is_current_weapon,
+		"was_picked_up" : self.was_picked_up
+		})
+
+
 func picked_up():
 	if !was_picked_up:
 		current_mag_ammo = mag_size
@@ -57,7 +104,6 @@ func picked_up():
 		was_picked_up = true
 
 
-# Functions for WIELDABLES 
 func take_out():
 	print("Taking out ", name)
 	player_interaction_component.change_wieldable_to(self)

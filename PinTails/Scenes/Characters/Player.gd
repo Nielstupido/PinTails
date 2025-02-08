@@ -23,7 +23,6 @@ signal player_just_landed()
 @onready var player_hud = $UI/Player_HUD
 @onready var player_tails = $UI/PlayerTails
 @onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
-@onready var weapon_inventory = $WeaponInventory
 @onready var tail_manager = $TailManager
 @onready var skill_manager = $SkillManager
 @onready var skill_nodes = $SkillNodes

@@ -3,6 +3,8 @@ extends Node
 
 
 @onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
+@onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
+@onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 const SPAWN_RANDOM := 5.0
 
 #<-------For testing-------->
@@ -34,11 +36,16 @@ func _ready():
 		if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]):
 			var tail_data =  ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]).get_tail_data()
 			tail_data_list.append(tail_data)
+	
 	for tail_data in tail_data_list:
 		var tail_pos = Vector3.ZERO
 		tail_pos.z = randomZ.randf_range(-6, 6)
-		print("<<<< TAIL : " + str(tail_data) + " >>>>>w")
 		spawn_tail(tail_pos, tail_data.stringify())
+	
+	var equipment_pos = Vector3.ZERO
+	equipment_pos.x += 5.0
+	equipment_pos.z = randomZ.randf_range(-6, 6)
+	spawn_weapon(equipment_pos, WEAPONS.Weapon_Types.RIFLE, "")
 ##<-------For testing-------->
 
 
@@ -47,8 +54,27 @@ func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 	if multiplayer.is_server():
 		var tail_instance = tail_obj.instantiate()
 		tail_instance.position = spawn_pos
-		tail_instance.tail_data_bytes = tail_data_bytes
+		tail_instance.item_data_bytes = tail_data_bytes
 		$WorldItems.add_child(tail_instance, true)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func spawn_weapon(spawn_pos : Vector3, weapon_type : WEAPONS.Weapon_Types, weapon_data_bytes : String) -> void:
+	if multiplayer.is_server():
+		var weapon_instance
+		
+		match(weapon_type):
+			WEAPONS.Weapon_Types.PISTOL:
+				weapon_instance = pistol_obj.instantiate()
+			WEAPONS.Weapon_Types.RIFLE:
+				weapon_instance = rifle_obj.instantiate()
+		
+		if weapon_data_bytes == "":
+			weapon_data_bytes = weapon_instance.weapon_data.stringify()
+		
+		weapon_instance.item_data_bytes = weapon_data_bytes
+		weapon_instance.position = spawn_pos
+		$WorldItems.add_child(weapon_instance, true)
 
 
 @rpc("any_peer", "call_local", "reliable")

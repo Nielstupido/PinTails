@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=18 format=3 uid="uid://cp8en37sojhym"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Map/MapTest.gd" id="1_qnw2t"]
 [ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="2_abqk0"]
@@ -6,8 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="4_g2m34"]
 [ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="5_5u0x3"]
 [ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="6_ht6ng"]
-[ext_resource type="PackedScene" uid="uid://o0xgl5obc551" path="res://Scenes/Weapon/Pistol/Pistol.tscn" id="8_sktkb"]
-[ext_resource type="PackedScene" uid="uid://bukjp5ei5khrl" path="res://Scenes/Weapon/Rifle/Rifle.tscn" id="9_3bxji"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
 sky_top_color = Color(0.290301, 0.435623, 0.745498, 1)
@@ -109,12 +107,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1049, 0)
 light_energy = 0.0
 shadow_enabled = true
 
-[node name="Pistol" parent="." instance=ExtResource("8_sktkb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.476655, 0)
-
-[node name="Rifle" parent="." instance=ExtResource("9_3bxji")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33178, 0.709162, -1.01945)
-
 [node name="PlayerNodes" type="Node" parent="."]
 unique_name_in_owner = true
 
@@ -126,6 +118,6 @@ spawn_path = NodePath("../PlayerNodes")
 spawn_limit = 2
 
 [node name="Item Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn")
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn")
 spawn_path = NodePath("../WorldItems")
 spawn_limit = 100

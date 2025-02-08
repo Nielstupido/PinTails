@@ -19,10 +19,10 @@ config/icon="res://icon.png"
 
 STRINGHELPER="*res://Scenes/Globals/StringHelper.gd"
 SKILLS="*res://Scenes/Globals/Skills.gd"
-NAKAMA="*res://addons/nakama-godot-29ff7373ac01cc8da5e54f2c4a9be20f8d68beca/addons/com.heroiclabs.nakama/Nakama.gd"
 MATCHMANAGER="*res://Scenes/Globals/MatchManager.gd"
 PLAYERACCOUNT="*res://Scenes/Globals/PlayerAccount.gd"
 GAMEPLAYMANAGER="*res://Scenes/Globals/GameplayManager.gd"
+WEAPONS="*res://Scenes/Globals/Weapons.gd"
 
 [display]
 

@@ -12,6 +12,7 @@ signal updated_wieldable_data(wieldable_icon:Texture2D, wieldable_text: String)
 @export var carryable_position : Node3D
 
 @onready var buy_weapon_menu = $"../UI/Shop"
+@onready var weapon_inventory = $"../WeaponInventory"
 
 ## The Field Of View change when aiming down sight. In degrees.
 @export var ads_fov = 65
@@ -79,11 +80,11 @@ func _input(event):
 			buy_weapon_menu.open_buy_menu() 
 		
 		if event.is_action_pressed("drop_weapon"):
-			owner.weapon_inventory.drop_weapon()
+			weapon_inventory.drop_weapon()
 		
 		if event.is_action_pressed("pick_up"):
 			if obj_in_focus != null and obj_in_focus.has_method("pick_up"):
-				if owner.weapon_inventory.add_weapon(obj_in_focus.weapon_data):
+				if weapon_inventory.add_weapon(obj_in_focus.weapon_data):
 					obj_in_focus.pick_up()
 		
 		# Wieldable primary Action Input
@@ -92,29 +93,29 @@ func _input(event):
 				if owner.skill_manager.is_waiting_shot_trigger:
 					owner.skill_manager.execute_skill()
 				elif is_wielding and !owner.skill_manager.is_timed_trigger_enabled:
-					owner.weapon_inventory.action_primary()
+					weapon_inventory.action_primary()
 			
 			if !owner.skill_manager.is_timed_trigger_enabled:
 				if is_wielding and Input.is_action_just_pressed("action_secondary"):
-					owner.weapon_inventory.action_secondary(false)
+					weapon_inventory.action_secondary(false)
 				if is_wielding and Input.is_action_just_released("action_secondary"):
-					owner.weapon_inventory.action_secondary(true)
+					weapon_inventory.action_secondary(true)
 			
 			if is_wielding and event.is_action_pressed("reload"):
 				if owner.interaction_raycast.is_colliding() and owner.interaction_raycast.get_collider().has_method("interact"):
 					return
 				else:
-					owner.weapon_inventory.attempt_reload()
+					weapon_inventory.attempt_reload()
 		
 		# Weapon switching using middle mouse dial
 		if event.is_action_pressed("next_weapon"):
-			owner.weapon_inventory.switch_weapon("Next")
+			weapon_inventory.switch_weapon("Next")
 		
 		if event.is_action_pressed("prev_weapon"):
-			owner.weapon_inventory.switch_weapon("Prev")
+			weapon_inventory.switch_weapon("Prev")
 		
 		if event.is_action_pressed("holster"):
-			owner.weapon_inventory.holster() 
+			weapon_inventory.holster() 
 
 
 ## Helper function to always get raycast destination point

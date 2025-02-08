@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="WeaponData" load_steps=5 format=3 uid="uid://b0iw131oy32gt"]
 
-[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/WeaponData.gd" id="1_bgdb1"]
+[ext_resource type="Script" path="res://Scenes/Weapon/WeaponData.gd" id="1_bgdb1"]
 [ext_resource type="AudioStream" uid="uid://1w0db1u6lv7t" path="res://Scenes/Assets/Audio/Kenney/UiAudio/rollover6.ogg" id="2_bdkrm"]
 [ext_resource type="AudioStream" uid="uid://npav2p2tk10i" path="res://Scenes/Assets/Audio/Kenney/handleSmallLeather.ogg" id="3_g6yrj"]
 [ext_resource type="AudioStream" uid="uid://qk5yb80h7lbb" path="res://Audio/Rifle_fire.wav" id="4_vflkq"]
@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("1_bgdb1")
 name = "Rifle"
+weapon_type = 0
 descpription = ""
 power = 0
 drop_scene = "res://Scenes/Weapon/Rifle/Rifle.tscn"

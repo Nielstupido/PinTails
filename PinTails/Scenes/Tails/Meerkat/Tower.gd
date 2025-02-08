@@ -8,7 +8,7 @@ var vision_duration : int = 20
 func _ready():
 	$AnimationPlayer.play("arise")
 	await get_tree().create_timer(vision_duration).timeout 
-	$AnimationPlayer.play("hide")
+	$AnimationPlayer.play("hide") 
 
 
 func _on_animation_player_animation_finished(anim_name):

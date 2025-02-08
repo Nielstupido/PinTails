@@ -2,6 +2,10 @@
 class_name GameplayManager
 extends Node
 
+enum Weapons {
+	RIFLE,
+	PISTOL
+}
 
 signal weapon_picked_up(weapon_id)
 signal tail_picked_up(tail_data)
