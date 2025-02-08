@@ -24,7 +24,10 @@ func remove_tail(passed_tail : TailData, removed_tail_key) -> void:
 	if !is_multiplayer_authority():
 		return
 	
-	get_tree().root.get_node("Game/Map/MapTest").rpc("spawn_tail", owner.player_interaction_component.get_interaction_raycast_tip(0), passed_tail.stringify())
+	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("spawn_tail", 
+			owner.player_interaction_component.get_interaction_raycast_tip(0), 
+			passed_tail.stringify())
+	
 	tails.erase(passed_tail)
 	remove_tail_attr(passed_tail)
 

@@ -66,7 +66,7 @@ func drop_weapon() -> void:
 	#Audio.play_sound(slot_data.inventory_item.sound_drop)
 	#dropped_item.weapon_data = current_weapon
 	
-	get_tree().root.get_node("Game/Map/MapTest").rpc("spawn_weapon", 
+	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("spawn_weapon", 
 			owner.player_interaction_component.get_interaction_raycast_tip(0), 
 			current_weapon.weapon_type,
 			current_weapon.stringify())

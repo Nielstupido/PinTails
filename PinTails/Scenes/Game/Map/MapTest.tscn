@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=19 format=3 uid="uid://cp8en37sojhym"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Map/MapTest.gd" id="1_qnw2t"]
 [ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="2_abqk0"]
+[ext_resource type="PackedScene" uid="uid://dicv1xbv4quvs" path="res://Scenes/Game/Spawner.tscn" id="2_tyjbe"]
 [ext_resource type="Texture2D" uid="uid://jwl7fxpjedca" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="3_pynye"]
 [ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="4_g2m34"]
 [ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="5_5u0x3"]
@@ -61,6 +62,8 @@ uv2_padding = 0.0
 [node name="MapTest" type="Node"]
 script = ExtResource("1_qnw2t")
 
+[node name="Spawner" parent="." instance=ExtResource("2_tyjbe")]
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ybty4")
 
@@ -118,6 +121,6 @@ spawn_path = NodePath("../PlayerNodes")
 spawn_limit = 2
 
 [node name="Item Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn")
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn")
 spawn_path = NodePath("../WorldItems")
 spawn_limit = 100

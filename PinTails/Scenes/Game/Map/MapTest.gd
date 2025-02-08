@@ -2,10 +2,8 @@ class_name MapTest
 extends Node
 
 
-@onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
-@onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
-@onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 const SPAWN_RANDOM := 5.0
+@onready var spawner = $Spawner
 
 #<-------For testing-------->
 var tail_res_folder = "res://Scenes/Tails/"
@@ -21,11 +19,11 @@ func _ready():
 	if not multiplayer.is_server():
 		return 
 	
-	multiplayer.peer_connected.connect(add_player)
-	multiplayer.peer_disconnected.connect(del_player)
+	multiplayer.peer_connected.connect(spawner.add_player)
+	multiplayer.peer_disconnected.connect(spawner.del_player)
 	#if GAMEPLAYMANAGER.local_host_mode && not OS.has_feature("dedicated_server"):
 	if GAMEPLAYMANAGER.server_mode_selected && not OS.has_feature("dedicated_server"):
-		add_player(1)
+		spawner.add_player(1)
 	
 ##<-------For testing-------->
 	var randomZ = RandomNumberGenerator.new()
@@ -40,74 +38,17 @@ func _ready():
 	for tail_data in tail_data_list:
 		var tail_pos = Vector3.ZERO
 		tail_pos.z = randomZ.randf_range(-6, 6)
-		spawn_tail(tail_pos, tail_data.stringify())
+		spawner.spawn_tail(tail_pos, tail_data.stringify())
 	
 	var equipment_pos = Vector3.ZERO
 	equipment_pos.x += 5.0
 	equipment_pos.z = randomZ.randf_range(-6, 6)
-	spawn_weapon(equipment_pos, WEAPONS.Weapon_Types.RIFLE, "")
+	spawner.spawn_weapon(equipment_pos, WEAPONS.Weapon_Types.RIFLE, "")
 ##<-------For testing-------->
 
 
-@rpc("any_peer", "call_local", "reliable")
-func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
-	if multiplayer.is_server():
-		var tail_instance = tail_obj.instantiate()
-		tail_instance.position = spawn_pos
-		tail_instance.item_data_bytes = tail_data_bytes
-		$WorldItems.add_child(tail_instance, true)
-
-
-@rpc("any_peer", "call_local", "reliable")
-func spawn_weapon(spawn_pos : Vector3, weapon_type : WEAPONS.Weapon_Types, weapon_data_bytes : String) -> void:
-	if multiplayer.is_server():
-		var weapon_instance
-		
-		match(weapon_type):
-			WEAPONS.Weapon_Types.PISTOL:
-				weapon_instance = pistol_obj.instantiate()
-			WEAPONS.Weapon_Types.RIFLE:
-				weapon_instance = rifle_obj.instantiate()
-		
-		if weapon_data_bytes == "":
-			weapon_data_bytes = weapon_instance.weapon_data.stringify()
-		
-		weapon_instance.item_data_bytes = weapon_data_bytes
-		weapon_instance.position = spawn_pos
-		$WorldItems.add_child(weapon_instance, true)
-
-
-@rpc("any_peer", "call_local", "reliable")
-func remove_obj(node_path : String):
-	if !multiplayer.is_server():
-		return
-	
-	var item = get_node(node_path)
-	if item:
-		item.queue_free()
-
-
-func add_player(id: int):
-	print("Add player: " + str(id))
-	var character = preload("res://Scenes/Characters/Player.tscn").instantiate()
-	
-	var rng = RandomNumberGenerator.new()
-	var random_x = rng.randf_range(10.0, 15.0)
-	var random_z = rng.randf_range(10.0, 20.0)
-	character.position = Vector3(random_x, 10, random_z)
-	 
-	character.name = str(id)
-	$PlayerNodes.add_child(character, true)
-
-
-func del_player(id: int):
-	if not $PlayerNodes.has_node(str(id)):
-		return
-	$PlayerNodes.get_node(str(id)).queue_free()
-
-
 func _exit_tree():
-	if multiplayer.peer_connected.is_connected(add_player):
-		multiplayer.peer_connected.disconnect(add_player)
-	if multiplayer.peer_disconnected.is_connected(del_player):
-		multiplayer.peer_disconnected.disconnect(del_player)
+	if multiplayer.peer_connected.is_connected(spawner.add_player):
+		multiplayer.peer_connected.disconnect(spawner.add_player)
+	if multiplayer.peer_disconnected.is_connected(spawner.del_player):
+		multiplayer.peer_disconnected.disconnect(spawner.del_player)
