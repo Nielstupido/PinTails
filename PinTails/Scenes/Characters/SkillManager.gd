@@ -127,6 +127,11 @@ func execute_skill():
 	if is_timed_trigger_enabled:
 		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
 		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
-	
+		on_skill_duration_finished()
+	else:
+		on_skill_duration_finished()
+
+
+func on_skill_duration_finished():
 	active_skill_card.start_cooldown()
 	reset_skill(null, null)

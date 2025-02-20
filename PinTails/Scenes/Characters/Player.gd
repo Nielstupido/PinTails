@@ -8,7 +8,7 @@ signal player_just_landed()
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.
 @export var fall_damage : int
 ## Fall velocity at which fall damage is triggered. This is negative y-Axis. -5 is a good starting point but might be a bit too sensitive.
-@export var fall_damage_threshold : float = -5
+@export var fall_damage_threshold : float = -12
 
 ## Flag if Stamina component isused (as this effects movement)
 @export var is_using_stamina : bool = true 
@@ -171,6 +171,8 @@ var _network_manager
 
 #@export_group("Player Properties")
 var player := 1
+var _is_player_invisible = false
+@export var is_player_invisible : bool = false 
 
 
 func _enter_tree():
@@ -413,6 +415,8 @@ func _apply_player_controls(delta):
 	_process_stair_stepping(delta)
 	
 	velocity += gravity_vec
+	if name == "1":
+		print(str(velocity))
 	
 	if is_falling:
 		snap = Vector3.ZERO 
@@ -425,12 +429,7 @@ func _apply_player_controls(delta):
 	# FOOTSTEP SOUNDS SYSTEM = CHECK IF ON GROUND AND MOVING
 	_process_footstep_sound()
 	
-	if is_on_floor() and is_pouncing:
-		is_pouncing = false
-		player_just_landed.emit()
-		impact_motion_blur.toggle_motion_blur(true)
-		await get_tree().create_timer(0.5).timeout
-		impact_motion_blur.toggle_motion_blur(false)
+	_process_pounce()
 	
 	is_jumping = false
 
@@ -578,7 +577,7 @@ func _process_gravity(delta) -> void:
 		snap = Vector3.DOWN
 		gravity_vec = Vector3.DOWN * gravity * delta
 		
-		if is_pouncing:
+		if is_pouncing: ##POUNCE SKILL
 			gravity_vec = gravity_vec * (Vector3.DOWN * -3.0) 
 		
 		wallrun_delay = clamp(wallrun_delay - delta, 0, wallrun_delay_default)
@@ -611,7 +610,7 @@ func _process_jump(delta) -> void:
 		#snap = Vector3.DOWN
 		#velocity.y -= gravity * delta
 		pass
-	elif sliding_timer.is_stopped() and input_dir != Vector2.ZERO:
+	elif last_velocity.y == 0.0 and input_dir != Vector2.ZERO:
 		wiggle_vector.y = sin(wiggle_index)
 		wiggle_vector.x = sin(wiggle_index / 2) + 0.5
 		eyes.position.y = lerp(
@@ -628,7 +627,7 @@ func _process_jump(delta) -> void:
 		snap = -get_floor_normal()
 		eyes.position.y = lerp(eyes.position.y, 0.0, delta * LERP_SPEED)
 		eyes.position.x = lerp(eyes.position.x, 0.0, delta * LERP_SPEED)
-		if last_velocity.y <= -7.5:
+		if last_velocity.y <= -12.5:
 			head.position.y = lerp(head.position.y, CROUCHING_DEPTH, delta * LERP_SPEED)
 			standing_collision_shape.disabled = false
 			crouching_collision_shape.disabled = true
@@ -638,7 +637,8 @@ func _process_jump(delta) -> void:
 		
 		# Taking fall damage
 		if fall_damage > 0 and last_velocity.y <= fall_damage_threshold:
-			health_component.subtract(fall_damage)
+			#health_component.subtract(fall_damage)
+			pass
 	
 	if (Input.is_action_pressed("jump") or is_jumping) and !is_movement_paused and is_on_floor():
 		snap = Vector3.ZERO
@@ -654,7 +654,7 @@ func _process_jump(delta) -> void:
 		movement_motion_blur.toggle_motion_blur(true)
 		animationPlayer.play("jump")
 		#Audio.play_sound(jump_sound)
-		if !sliding_timer.is_stopped():
+		if !sliding_timer.is_stopped() and velocity == Vector3.ZERO:
 			velocity.y = JUMP_VELOCITY * 1.5 
 			sliding_timer.stop()
 		else:
@@ -863,6 +863,7 @@ func _process_stair_stepping(delta) -> void:
 		head.position.y = lerp(head.position.y, 0.0, delta * step_height_camera_lerp)
 
 
+##<<<< DASH SKILL >>>>
 func _process_dash(delta) -> void:
 	if is_dashing:
 		if input_dir == Vector2.ZERO:
@@ -878,6 +879,18 @@ func _process_dash(delta) -> void:
 			is_dashing = false
 	else:
 		temp = 0
+##<<<< DASH SKILL >>>>
+
+
+##<<<< POUNCE SKILL >>>>
+func _process_pounce() -> void:
+	if is_on_floor() and is_pouncing:
+		is_pouncing = false
+		player_just_landed.emit()
+		impact_motion_blur.toggle_motion_blur(false)
+		await get_tree().create_timer(0.5).timeout
+		impact_motion_blur.toggle_motion_blur(false)
+##<<<< POUNCE SKILL >>>>
 
 
 func _process_footstep_sound() -> void:
@@ -897,3 +910,27 @@ func _on_sliding_timer_timeout() -> void:
 
 func _on_animation_player_animation_finished(anim_name):
 	stand_after_roll = anim_name == 'roll' and !is_crouching
+
+
+func _on_player_property_synchronizer_synchronized():
+	if is_player_invisible == _is_player_invisible: 
+		return #no changes on player's visibility
+	
+	if is_player_invisible:
+		var tween = get_tree().create_tween();
+		tween.tween_method(_set_player_alpha, 1.0, 0.0, 1.5)
+	else:
+		var tween = get_tree().create_tween();
+		tween.tween_method(_set_player_alpha, 0.0, 1.0, 1.5)
+		body.set_layer_mask_value(1, true)
+	
+	_is_player_invisible = is_player_invisible
+
+
+func _set_player_alpha(value : float):
+	var player_material = body.mesh.material.get_albedo()
+	body.mesh.material.set_albedo(Color(player_material.r, player_material.g, player_material.b, value))
+	
+	if player_material.a < 0.1 and is_player_invisible:
+		body.set_layer_mask_value(1, false)
+		body.set_layer_mask_value(20, true)

@@ -23,4 +23,4 @@ func do_damage():
 	
 	$DamageArea.show() 
 	await get_tree().create_timer(0.3).timeout
-	$DamageArea.hide() 
+	$DamageArea.hide()

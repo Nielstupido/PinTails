@@ -172,8 +172,8 @@ func _on_player_sanity_changed(new_sanity, max_sanity):
 	sanity_bar.value = new_sanity
 	sanity_bar.max_value = max_sanity
 	sanity_bar_label.text = str(int(sanity_bar.value), "/", int(sanity_bar.max_value))
-	
-	
+
+
 # Updating player brightness bar
 func _on_player_brightness_changed(new_brightness, max_brightness):
 	brightness_bar.value = new_brightness
