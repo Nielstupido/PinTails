@@ -37,6 +37,7 @@ signal player_just_landed()
 @onready var movement_motion_blur = $Neck/Head/Eyes/Camera/MovementMotionBlur
 @onready var impact_motion_blur = $Neck/Head/Eyes/Camera/ImpactMotionBlur
 @onready var invi_screen_effect = $Neck/Head/Eyes/Camera/InviScreenEffect
+@onready var player_effects_manager = $PlayerEffectsManager
 
 @onready var interaction_raycast: RayCast3D = $Neck/Head/Eyes/Camera/InteractionRaycast
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
@@ -415,8 +416,6 @@ func _apply_player_controls(delta):
 	_process_stair_stepping(delta)
 	
 	velocity += gravity_vec
-	if name == "1":
-		print(str(velocity))
 	
 	if is_falling:
 		snap = Vector3.ZERO 
@@ -634,6 +633,8 @@ func _process_jump(delta) -> void:
 			animationPlayer.play("roll")
 		elif last_velocity.y <= -5.0:
 			animationPlayer.play("landing")
+			if is_multiplayer_authority():
+				player_effects_manager.rpc("play_effect", player_effects_manager.Effects.IMPACT_DUST, name.to_int())
 		
 		# Taking fall damage
 		if fall_damage > 0 and last_velocity.y <= fall_damage_threshold:

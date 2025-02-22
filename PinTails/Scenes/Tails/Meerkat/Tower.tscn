@@ -140,13 +140,14 @@ properties/0/spawn = true
 properties/0/replication_mode = 1
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qjwan"]
-emission_shape_scale = Vector3(1, 2, 1)
 angle_min = 10.0
 angle_max = 720.0
-direction = Vector3(0, 2, 0)
-spread = 180.0
-initial_velocity_min = 2.0
-initial_velocity_max = 3.0
+direction = Vector3(0, 1, 0)
+spread = 18.409
+initial_velocity_min = 3.0
+initial_velocity_max = 4.0
+linear_accel_min = 1.0
+linear_accel_max = 3.0
 scale_min = 0.1
 scale_max = 0.4
 collision_mode = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=111 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="9_66enf"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
 [ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonStab.gd" id="9_y08ai"]
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerEffectsManager.gd" id="10_32xkx"]
 [ext_resource type="Script" path="res://Scenes/Tails/Cheetah/Dash.gd" id="10_sjl30"]
 [ext_resource type="Script" path="res://Scenes/Tails/Gecko/WallRun.gd" id="11_2qdi1"]
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
@@ -29,7 +30,10 @@
 [ext_resource type="Script" path="res://Scenes/Tails/Panther/Pounce.gd" id="15_v0mrh"]
 [ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Punch.gd" id="16_cvlqi"]
 [ext_resource type="Script" path="res://Scenes/Tails/Monkey/GrappleHook.gd" id="17_6s1br"]
+[ext_resource type="Shader" uid="uid://wxqpc8w54qwu" path="res://Scenes/Tails/Panther/ImpactEffectShader.tres" id="17_cstbm"]
 [ext_resource type="Script" path="res://addons/grappling_hook_3d/src/hook_controller.gd" id="17_q8wh5"]
+[ext_resource type="ArrayMesh" uid="uid://boxi58hn1qlyo" path="res://3dModels/PounceImpactCylinder.obj" id="18_ts1pm"]
+[ext_resource type="Texture2D" uid="uid://djqy637nrv7xg" path="res://Textures/2dTextures/T_Aurax12.jpg" id="18_xktvl"]
 [ext_resource type="Script" path="res://Scenes/Tails/Meerkat/PackVision.gd" id="19_oihxx"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://addons/motion_blur/MovementMotionBlur.tscn" id="20_f5bfb"]
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
@@ -86,6 +90,78 @@ albedo_color = Color(0.672199, 0.265541, 0.141287, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_51qed"]
 material = SubResource("StandardMaterial3D_5tq2b")
 height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yaacn"]
+albedo_color = Color(0.789766, 0.930382, 7.70092e-07, 1)
+emission_enabled = true
+emission = Color(0.796121, 0.898679, 2.69532e-06, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="Curve" id="Curve_pf4kt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.550725, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_rh2uu"]
+curve = SubResource("Curve_pf4kt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sd2c1"]
+particle_flag_align_y = true
+spread = 180.0
+initial_velocity_min = 8.0
+initial_velocity_max = 10.0
+scale_min = 0.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_rh2uu")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1wq6p"]
+top_radius = 0.1
+bottom_radius = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aerd4"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Curve" id="Curve_xflbp"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.604555, 0.728957), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_e8i6a"]
+curve = SubResource("Curve_xflbp")
+
+[sub_resource type="Curve" id="Curve_ibbkw"]
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 0.9861), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bj0mt"]
+curve = SubResource("Curve_ibbkw")
+
+[sub_resource type="Curve" id="Curve_2pm1g"]
+_data = [Vector2(0, 0.0212355), 0.0, 0.0, 0, 0, Vector2(0.182195, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_x7rk5"]
+curve = SubResource("Curve_2pm1g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3qbc6"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 4, 0)
+scale_min = 0.8
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_x7rk5")
+color = Color(0.305009, 0.29649, 0.264203, 0.945098)
+alpha_curve = SubResource("CurveTexture_e8i6a")
+emission_curve = SubResource("CurveTexture_bj0mt")
+
+[sub_resource type="SphereMesh" id="SphereMesh_dsd84"]
+height = 0.9
+radial_segments = 5
+rings = 2
 
 [sub_resource type="Animation" id="Animation_wif3r"]
 length = 0.001
@@ -268,6 +344,45 @@ material = SubResource("StandardMaterial3D_1g34x")
 top_radius = 5.0
 bottom_radius = 5.0
 height = 3.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0nlmn"]
+render_priority = 0
+shader = ExtResource("17_cstbm")
+shader_parameter/Speed = Vector2(2, 5)
+shader_parameter/ImpactTextureNoise = ExtResource("18_xktvl")
+
+[sub_resource type="Curve" id="Curve_88qyy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.395062, 1), -1.59018, -1.59018, 0, 0, Vector2(0.990741, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_q8edu"]
+texture_mode = 1
+curve = SubResource("Curve_88qyy")
+
+[sub_resource type="Curve" id="Curve_dbxfn"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_06crw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.365854, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_tgmn1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_pk2j1"]
+curve_x = SubResource("Curve_dbxfn")
+curve_y = SubResource("Curve_06crw")
+curve_z = SubResource("Curve_tgmn1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sj1f5"]
+gravity = Vector3(0, 0, 0)
+scale_min = 4.0
+scale_max = 4.0
+scale_curve = SubResource("CurveXYZTexture_pk2j1")
+color = Color(9, 1, 0.25, 1)
+alpha_curve = SubResource("CurveTexture_q8edu")
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
 _data = PackedByteArray(2, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0, 2, 0, 0, 0, 115, 66, 19, 0, 77, 0, 72, 115, 204, 0, 0, 0, 209, 226, 4, 0, 0, 1, 0, 0, 1, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 8, 0, 2, 0, 2, 0, 169, 0, 0, 0, 64, 0, 0, 0, 56, 181, 0, 0, 0, 1, 1, 4, 0, 4, 0, 1, 0, 1, 0, 233, 0, 0, 0, 16, 0, 0, 0, 200, 214, 0, 0, 0, 2, 1, 2, 0, 2, 0, 1, 0, 1, 0, 249, 0, 0, 0, 16, 0, 0, 0, 172, 110, 0, 0, 0, 3, 1, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1, 0, 0, 16, 0, 0, 0, 6, 136, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 8, 93, 129, 224, 4, 29, 157, 85, 72, 68, 68, 68, 55, 222, 22, 247, 8, 108, 145, 99, 148, 156, 158, 85, 0, 0, 0, 0, 26, 15, 141, 171, 176, 20, 161, 81, 28, 158, 158, 94, 0, 0, 0, 0, 0, 0, 243, 230, 80, 193, 136, 65, 222, 222, 95, 223, 0, 0, 127, 119, 127, 119, 127, 119, 119, 247, 182, 86, 59, 182, 181, 2, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -467,6 +582,32 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("8_xkga3")
 
+[node name="PlayerEffectsManager" type="Node3D" parent="."]
+script = ExtResource("10_32xkx")
+
+[node name="SparkEffect" type="GPUParticles3D" parent="PlayerEffectsManager"]
+material_override = SubResource("StandardMaterial3D_yaacn")
+emitting = false
+amount = 24
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_sd2c1")
+draw_pass_1 = SubResource("CylinderMesh_1wq6p")
+
+[node name="DustEffect" type="GPUParticles3D" parent="PlayerEffectsManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.517326, 0)
+material_override = SubResource("StandardMaterial3D_aerd4")
+emitting = false
+amount = 20
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_3qbc6")
+draw_pass_1 = SubResource("SphereMesh_dsd84")
+
 [node name="SkillNodes" type="Node3D" parent="."]
 
 [node name="SkillAnimationsPlayer" type="AnimationPlayer" parent="SkillNodes"]
@@ -506,6 +647,20 @@ shape = SubResource("CylinderShape3D_yvve3")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SkillNodes/Pounce/DamageArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_0tlx8")
+
+[node name="ImpactEffect" type="GPUParticles3D" parent="SkillNodes/Pounce"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.828852, 0)
+material_override = SubResource("ShaderMaterial_0nlmn")
+cast_shadow = 0
+emitting = false
+amount = 1
+lifetime = 0.5
+one_shot = true
+speed_scale = 2.3
+explosiveness = 1.0
+fixed_fps = 75
+process_material = SubResource("ParticleProcessMaterial_sj1f5")
+draw_pass_1 = ExtResource("18_ts1pm")
 
 [node name="Punch" type="Node3D" parent="SkillNodes"]
 script = ExtResource("16_cvlqi")
