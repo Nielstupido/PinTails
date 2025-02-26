@@ -10,12 +10,13 @@ extends Control
 
 var _acqrd_skills : int = 0
 var is_waiting_shot_trigger = false
-var is_wating_double_trigger = false
+var is_waiting_double_trigger = false
 var is_timed_trigger_enabled = false
 var active_skill_card = null
 
 
 func _ready():
+	owner.connect("player_dash_stopped", Callable(self, "on_skill_duration_finished"))
 	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
 	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "reset_skill_dup"))
 	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "remove_skill"))
@@ -38,6 +39,11 @@ func _input(event):
 		if event.is_action_pressed("third_skill"):
 			if skill_card3.can_use_skill():
 				use_skill(skill_card3)
+		
+		if Input.is_action_just_pressed("action_primary"):
+			if is_waiting_shot_trigger || is_waiting_double_trigger:
+				is_waiting_shot_trigger = false
+				execute_skill()
 
 
 func remove_skill(tail_data, skill_index) -> void:
@@ -74,7 +80,7 @@ func use_skill(skill_card : Node) -> void:
 	if is_timed_trigger_enabled:
 		return
 	
-	if is_wating_double_trigger and active_skill_card != null:
+	if is_waiting_double_trigger and active_skill_card != null:
 		execute_skill()
 	 
 	active_skill_card = skill_card
@@ -90,7 +96,11 @@ func use_skill(skill_card : Node) -> void:
 		SKILLS.Skill_Types.TOGGLE_TRIGGER:
 			execute_skill()
 		SKILLS.Skill_Types.DOUBLE_TRIGGER: 
-			is_wating_double_trigger = true
+			execute_skill()
+			is_waiting_double_trigger = true
+		SKILLS.Skill_Types.WAIT_SHOT_TRIGGER:
+			is_waiting_shot_trigger = true
+			execute_skill()
 
 
 func reset_skill(tail_data, skill_index) -> void:
@@ -121,17 +131,19 @@ func reset_skill_dup(tail_data) -> void:
 
 
 func execute_skill():
-	print("skill name == " + active_skill_card.tail_data.skill_name)
 	owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
 	
 	if is_timed_trigger_enabled:
 		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
 		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
 		on_skill_duration_finished()
-	else:
+	elif !is_waiting_shot_trigger:
 		on_skill_duration_finished()
 
 
 func on_skill_duration_finished():
+	if active_skill_card == null:
+		return
+	
 	active_skill_card.start_cooldown()
 	reset_skill(null, null)

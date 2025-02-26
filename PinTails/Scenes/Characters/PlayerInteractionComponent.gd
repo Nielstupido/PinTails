@@ -88,11 +88,9 @@ func _input(event):
 					obj_in_focus.pick_up()
 		
 		# Wieldable primary Action Input
-		if !get_parent().is_movement_paused:
+		if !owner.is_movement_paused:
 			if Input.is_action_just_pressed("action_primary"):
-				if owner.skill_manager.is_waiting_shot_trigger:
-					owner.skill_manager.execute_skill()
-				elif is_wielding and !owner.skill_manager.is_timed_trigger_enabled:
+				if is_wielding and !owner.skill_manager.is_timed_trigger_enabled:
 					weapon_inventory.action_primary()
 			
 			if !owner.skill_manager.is_timed_trigger_enabled:

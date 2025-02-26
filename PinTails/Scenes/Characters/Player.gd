@@ -4,6 +4,7 @@ extends CharacterBody3D
 signal toggle_inventory_interface()
 signal player_state_loaded()
 signal player_just_landed()
+signal player_dash_stopped()
 
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.
 @export var fall_damage : int
@@ -178,7 +179,6 @@ var _is_player_invisible = false
 
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
-	print("player " + name + " is auth == " + str(is_multiplayer_authority()))
 
 
 func _ready() -> void:
@@ -223,6 +223,7 @@ func _ready() -> void:
 	##player tail initialization
 	#tail_manager.add_tail(MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
 	#GAMEPLAYMANAGER.emit_signal("tail_picked_up", MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
+	player_dash_stopped.connect(Callable(self, "_stop_dash"))
 
 
 # Use this function to manipulate player attributes.
@@ -634,7 +635,9 @@ func _process_jump(delta) -> void:
 		elif last_velocity.y <= -5.0:
 			animationPlayer.play("landing")
 			if is_multiplayer_authority():
-				player_effects_manager.rpc("play_effect", player_effects_manager.Effects.IMPACT_DUST, name.to_int())
+				player_effects_manager.rpc("play_effect", 
+						player_effects_manager.Effects.IMPACT_DUST, 
+						name.to_int())
 		
 		# Taking fall damage
 		if fall_damage > 0 and last_velocity.y <= fall_damage_threshold:
@@ -671,7 +674,6 @@ func _process_jump(delta) -> void:
 
 
 ##<<<< WALLRUNNING SKILL >>>>
-
 func _process_wallrun() -> void:
 	if can_wallrun and wallrun_skill_node.is_skill_enabled:
 		if is_on_wall() and Input.is_action_pressed("forward") and Input.is_action_pressed("sprint"):
@@ -723,7 +725,6 @@ func _get_side(point) -> String:
 		return "LEFT"
 	else:
 		return "CENTER"
-
 ##<<<< WALLRUNNING SKILL >>>>
 
 
@@ -867,6 +868,11 @@ func _process_stair_stepping(delta) -> void:
 ##<<<< DASH SKILL >>>>
 func _process_dash(delta) -> void:
 	if is_dashing:
+		if is_multiplayer_authority():
+			player_effects_manager.rpc("play_effect", 
+					player_effects_manager.Effects.SMALL_IMPACT_DUST, 
+					name.to_int())
+		
 		if input_dir == Vector2.ZERO:
 			idle_dash_rate = Vector3(WALKING_SPEED * dash_rate.x, 1.0, WALKING_SPEED * dash_rate.z)
 			velocity = lerp(velocity, (-camera.global_transform.basis.z.normalized() * idle_dash_rate), dash_lerp_speed)
@@ -876,10 +882,21 @@ func _process_dash(delta) -> void:
 		temp += 1
 		
 		if temp >= (dash_length):
-			temp = 0
-			is_dashing = false
+			_stop_dash()
 	else:
 		temp = 0
+
+
+func _stop_dash() -> void:
+	if is_multiplayer_authority():
+		player_effects_manager.rpc("stop_effect", 
+				player_effects_manager.Effects.SMALL_IMPACT_DUST, 
+				name.to_int())
+	temp = 0
+	
+	if is_dashing:
+		player_dash_stopped.emit()
+		is_dashing = false
 ##<<<< DASH SKILL >>>>
 
 

@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var player_effects_manager = $"../../PlayerEffectsManager"
 var pounce_damage : int
 
 
@@ -17,7 +18,9 @@ func execute_skill(damage : int) -> void:
   
 
 func do_damage():
-	rpc("pounce_impact_effect", owner.name.to_int())
+	player_effects_manager.rpc("stop_effect", 
+			player_effects_manager.Effects.POUNCE_IMPACT, 
+			owner.name.to_int())
 	
 	for body in $DamageArea.get_overlapping_bodies():
 		if owner != body and body.is_in_group("Player"):
@@ -26,9 +29,3 @@ func do_damage():
 	$DamageArea.show() 
 	await get_tree().create_timer(0.3).timeout
 	$DamageArea.hide()
-
-
-@rpc("any_peer", "call_local", "reliable")
-func pounce_impact_effect(player_id : int):
-	if player_id == owner.name.to_int():
-		$ImpactEffect.emitting = true
