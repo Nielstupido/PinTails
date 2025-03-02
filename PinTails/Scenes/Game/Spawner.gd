@@ -9,11 +9,13 @@ extends Node
 
 
 @rpc("any_peer", "call_local", "reliable")
-func spawn_object(spawn_pos : Vector3, path : String) -> void:
+func spawn_object(spawn_pos : Vector3, path : String, var_name : String, var_value) -> void:
 	if multiplayer.is_server():
 		var object = load(path) as PackedScene
 		var obj_instance = object.instantiate()
+		obj_instance.set(var_name, var_value)
 		obj_instance.position = spawn_pos
+		obj_instance.rotation = Vector3.ZERO
 		world_items.add_child(obj_instance, true)
 
 

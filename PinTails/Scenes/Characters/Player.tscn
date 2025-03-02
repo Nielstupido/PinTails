@@ -1,4 +1,4 @@
-[gd_scene load_steps=132 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=138 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -15,7 +15,6 @@
 [ext_resource type="Script" path="res://Scenes/Characters/SkillManager.gd" id="8_xkga3"]
 [ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="9_66enf"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
-[ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonStab.gd" id="9_y08ai"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerEffectsManager.gd" id="10_32xkx"]
 [ext_resource type="Script" path="res://Scenes/Tails/Cheetah/Dash.gd" id="10_sjl30"]
 [ext_resource type="Script" path="res://Scenes/Tails/Gecko/WallRun.gd" id="11_2qdi1"]
@@ -27,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
 [ext_resource type="Script" path="res://Scenes/Tails/Chameleon/Conceal.gd" id="13_qaocy"]
 [ext_resource type="Script" path="res://Scenes/Tails/Rhino/GroundSlamEffect.gd" id="14_wnnth"]
+[ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonSpit.gd" id="15_sqodf"]
 [ext_resource type="Script" path="res://Scenes/Tails/Panther/Pounce.gd" id="15_v0mrh"]
 [ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Punch.gd" id="16_cvlqi"]
 [ext_resource type="Script" path="res://Scenes/Tails/Monkey/GrappleHook.gd" id="17_6s1br"]
@@ -41,7 +41,6 @@
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
 [ext_resource type="PackedScene" uid="uid://pnvlneu52i53" path="res://Scenes/Tails/Chameleon/InviScreenEffect.tscn" id="21_uodof"]
 [ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="22_72wj0"]
-[ext_resource type="PackedScene" uid="uid://dddalir30107a" path="res://Scenes/Characters/ImpactMotionBlur.tscn" id="22_tujae"]
 [ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="23_cawh8"]
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
 [ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="24_jy0ck"]
@@ -51,7 +50,10 @@
 [ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
 [ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="27_bqavb"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
+[ext_resource type="Shader" path="res://Scenes/Characters/FastMotionLines.gdshader" id="30_epre4"]
+[ext_resource type="Script" path="res://Scenes/Characters/ScreenEffects.gd" id="30_ndda8"]
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
+[ext_resource type="Shader" path="res://Scenes/Characters/ImpactMotionBlur.gdshader" id="31_7w6ck"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
 [ext_resource type="PackedScene" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 
@@ -361,6 +363,11 @@ top_radius = 0.1
 bottom_radius = 0.0
 height = 0.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3lmp7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_w6eol"]
+size = Vector3(3, 1, 4)
+
 [sub_resource type="Animation" id="Animation_wif3r"]
 length = 0.001
 tracks/0/type = "value"
@@ -542,6 +549,19 @@ material = SubResource("StandardMaterial3D_1g34x")
 top_radius = 5.0
 bottom_radius = 5.0
 height = 3.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rnsqq"]
+shader = ExtResource("30_epre4")
+shader_parameter/speedScale = 12.0
+shader_parameter/clipPosition = 0.3
+shader_parameter/is_active = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_euw8u"]
+shader = ExtResource("31_7w6ck")
+shader_parameter/is_active = false
+shader_parameter/blur_center = Vector2(0.5, 0.5)
+shader_parameter/blur_power = 0.1
+shader_parameter/sampling_count = 5
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_r6lnb"]
 _data = PackedByteArray(2, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0, 2, 0, 0, 0, 115, 66, 19, 0, 77, 0, 72, 115, 204, 0, 0, 0, 209, 226, 4, 0, 0, 1, 0, 0, 1, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 8, 0, 2, 0, 2, 0, 169, 0, 0, 0, 64, 0, 0, 0, 56, 181, 0, 0, 0, 1, 1, 4, 0, 4, 0, 1, 0, 1, 0, 233, 0, 0, 0, 16, 0, 0, 0, 200, 214, 0, 0, 0, 2, 1, 2, 0, 2, 0, 1, 0, 1, 0, 249, 0, 0, 0, 16, 0, 0, 0, 172, 110, 0, 0, 0, 3, 1, 1, 0, 1, 0, 1, 0, 1, 0, 9, 1, 0, 0, 16, 0, 0, 0, 6, 136, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 183, 185, 185, 185, 25, 93, 107, 1, 0, 0, 0, 0, 0, 0, 0, 0, 8, 93, 129, 224, 4, 29, 157, 85, 72, 68, 68, 68, 55, 222, 22, 247, 8, 108, 145, 99, 148, 156, 158, 85, 0, 0, 0, 0, 26, 15, 141, 171, 176, 20, 161, 81, 28, 158, 158, 94, 0, 0, 0, 0, 0, 0, 243, 230, 80, 193, 136, 65, 222, 222, 95, 223, 0, 0, 127, 119, 127, 119, 127, 119, 119, 247, 182, 86, 59, 182, 181, 2, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -846,6 +866,12 @@ visibility_aabb = AABB(-5.9103, -7.73713, -6.3945, 12.4993, 13.2196, 13.0549)
 process_material = SubResource("ParticleProcessMaterial_u8rwm")
 draw_pass_1 = SubResource("CylinderMesh_4sij5")
 
+[node name="EffectPositioner" type="MeshInstance3D" parent="PlayerEffectsManager/GroundSlamEffect"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -2.8)
+visible = false
+material_override = SubResource("ShaderMaterial_3lmp7")
+mesh = SubResource("BoxMesh_w6eol")
+
 [node name="SkillNodes" type="Node3D" parent="."]
 
 [node name="SkillAnimationsPlayer" type="AnimationPlayer" parent="SkillNodes"]
@@ -853,8 +879,11 @@ libraries = {
 "": SubResource("AnimationLibrary_o6fi3")
 }
 
-[node name="PoisonStab" type="Node3D" parent="SkillNodes"]
-script = ExtResource("9_y08ai")
+[node name="PoisonSpit" type="Node3D" parent="SkillNodes"]
+script = ExtResource("15_sqodf")
+
+[node name="ProjectileStartingPoint" type="Marker3D" parent="SkillNodes/PoisonSpit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.1)
 
 [node name="Dash" type="Node3D" parent="SkillNodes"]
 script = ExtResource("10_sjl30")
@@ -932,8 +961,32 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 
 [node name="InviScreenEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("21_uodof")]
 mouse_filter = 2
 
-[node name="ImpactMotionBlur" parent="Neck/Head/Eyes/Camera" instance=ExtResource("22_tujae")]
-mouse_filter = 2
+[node name="ScreenEffects" type="Control" parent="Neck/Head/Eyes/Camera"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("30_ndda8")
+
+[node name="FastMotionLines" type="ColorRect" parent="Neck/Head/Eyes/Camera/ScreenEffects"]
+material = SubResource("ShaderMaterial_rnsqq")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ImpactMotionBlur" type="ColorRect" parent="Neck/Head/Eyes/Camera/ScreenEffects"]
+material = SubResource("ShaderMaterial_euw8u")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="WeaponAttachments" type="Node3D" parent="Neck/Head"]
 
@@ -1005,7 +1058,7 @@ metadata/_edit_group_ = true
 
 [node name="TailStinger" type="MeshInstance3D" parent="Neck/Head/SkillComponentNodes/PoisonStabDamageArea"]
 mesh = SubResource("CapsuleMesh_i1sqj")
-skeleton = NodePath("../../../../../SkillNodes/PoisonStab")
+skeleton = NodePath("../../../../../SkillNodes/PoisonSpit")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Head/SkillComponentNodes/PoisonStabDamageArea"]
 shape = SubResource("CapsuleShape3D_3olrp")

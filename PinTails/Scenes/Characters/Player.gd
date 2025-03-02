@@ -9,7 +9,7 @@ signal player_dash_stopped()
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.
 @export var fall_damage : int
 ## Fall velocity at which fall damage is triggered. This is negative y-Axis. -5 is a good starting point but might be a bit too sensitive.
-@export var fall_damage_threshold : float = -12
+@export var fall_damage_threshold : float = -15
 
 ## Flag if Stamina component isused (as this effects movement)
 @export var is_using_stamina : bool = true 
@@ -36,9 +36,9 @@ signal player_dash_stopped()
 @onready var animationPlayer: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
 @onready var wallrun_skill_node = $SkillNodes/WallRun
 @onready var movement_motion_blur = $Neck/Head/Eyes/Camera/MovementMotionBlur
-@onready var impact_motion_blur = $Neck/Head/Eyes/Camera/ImpactMotionBlur
 @onready var invi_screen_effect = $Neck/Head/Eyes/Camera/InviScreenEffect
 @onready var player_effects_manager = $PlayerEffectsManager
+@onready var screen_effects = $Neck/Head/Eyes/Camera/ScreenEffects
 
 @onready var interaction_raycast: RayCast3D = $Neck/Head/Eyes/Camera/InteractionRaycast
 @onready var standing_collision_shape: CollisionShape3D = $StandingCollisionShape
@@ -223,7 +223,7 @@ func _ready() -> void:
 	##player tail initialization
 	#tail_manager.add_tail(MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
 	#GAMEPLAYMANAGER.emit_signal("tail_picked_up", MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
-	player_dash_stopped.connect(Callable(self, "_stop_dash"))
+	connect("player_dash_stopped", Callable(self, "_stop_dash"))
 
 
 # Use this function to manipulate player attributes.
@@ -402,8 +402,10 @@ func _apply_player_controls(delta):
 		return
 	
 	is_falling = false 
+	
 	# Getting input direction
-	input_dir = Input.get_vector("left", "right", "forward", "back")
+	if !is_dashing:
+		input_dir = Input.get_vector("left", "right", "forward", "back")
 	
 	# LERP the up/down rotation of whatever you're carrying.
 	carryable_position.rotation.z = lerp_angle(carryable_position.rotation.z, head.rotation.x, 5 * delta)
@@ -627,6 +629,7 @@ func _process_jump(delta) -> void:
 		snap = -get_floor_normal()
 		eyes.position.y = lerp(eyes.position.y, 0.0, delta * LERP_SPEED)
 		eyes.position.x = lerp(eyes.position.x, 0.0, delta * LERP_SPEED)
+		
 		if last_velocity.y <= -12.5:
 			head.position.y = lerp(head.position.y, CROUCHING_DEPTH, delta * LERP_SPEED)
 			standing_collision_shape.disabled = false
@@ -638,6 +641,8 @@ func _process_jump(delta) -> void:
 				player_effects_manager.rpc("play_effect", 
 						player_effects_manager.Effects.IMPACT_DUST, 
 						name.to_int())
+		
+		screen_effects.toggle_motion_lines(false)
 		
 		# Taking fall damage
 		if fall_damage > 0 and last_velocity.y <= fall_damage_threshold:
@@ -756,6 +761,11 @@ func _process_velocity(delta) -> void:
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 	
 	last_velocity = velocity
+	
+	if (velocity.y >= 5.0):
+		screen_effects.toggle_motion_lines(true)
+	else:
+		screen_effects.toggle_motion_lines(false)
 
 
 func _process_stair_stepping(delta) -> void:
@@ -868,10 +878,9 @@ func _process_stair_stepping(delta) -> void:
 ##<<<< DASH SKILL >>>>
 func _process_dash(delta) -> void:
 	if is_dashing:
-		if is_multiplayer_authority():
-			player_effects_manager.rpc("play_effect", 
-					player_effects_manager.Effects.SMALL_IMPACT_DUST, 
-					name.to_int())
+		player_effects_manager.rpc("play_effect", 
+				player_effects_manager.Effects.SMALL_IMPACT_DUST, 
+				name.to_int())
 		
 		if input_dir == Vector2.ZERO:
 			idle_dash_rate = Vector3(WALKING_SPEED * dash_rate.x, 1.0, WALKING_SPEED * dash_rate.z)
@@ -888,15 +897,15 @@ func _process_dash(delta) -> void:
 
 
 func _stop_dash() -> void:
-	if is_multiplayer_authority():
-		player_effects_manager.rpc("stop_effect", 
-				player_effects_manager.Effects.SMALL_IMPACT_DUST, 
-				name.to_int())
 	temp = 0
 	
 	if is_dashing:
-		player_dash_stopped.emit()
+		player_effects_manager.rpc("stop_effect",
+				player_effects_manager.Effects.SMALL_IMPACT_DUST,
+				name.to_int())
+		
 		is_dashing = false
+		player_dash_stopped.emit()
 ##<<<< DASH SKILL >>>>
 
 
@@ -905,9 +914,9 @@ func _process_pounce() -> void:
 	if is_on_floor() and is_pouncing:
 		is_pouncing = false
 		player_just_landed.emit()
-		impact_motion_blur.toggle_motion_blur(false)
+		screen_effects.toggle_motion_blur(true)
 		await get_tree().create_timer(0.5).timeout
-		impact_motion_blur.toggle_motion_blur(false)
+		screen_effects.toggle_motion_blur(false)
 ##<<<< POUNCE SKILL >>>>
 
 

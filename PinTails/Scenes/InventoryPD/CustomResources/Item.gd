@@ -17,7 +17,7 @@ func pick_up():
 	if weapon_data != null:
 		weapon_data.picked_up()
 	
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj", self.get_path())
+	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path())
 
 
 func _on_multiplayer_synchronizer_synchronized():

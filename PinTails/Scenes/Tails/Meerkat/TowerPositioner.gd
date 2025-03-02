@@ -1,8 +1,8 @@
 extends Node3D
 
 
-@onready var tower_scene_path = "res://Scenes/Tails/Meerkat/Tower.tscn"
 @onready var raycast = get_parent()
+var tower_scene_path = "res://Scenes/Tails/Meerkat/Tower.tscn"
 
 
 func _ready():
@@ -11,7 +11,12 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("action_primary"):
-		get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("spawn_object", self.global_position, tower_scene_path)
+		get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
+				"spawn_object", 
+				self.global_position, 
+				tower_scene_path,
+				null,
+				null)
 		self.queue_free()
 
 

@@ -1,0 +1,129 @@
+[gd_scene load_steps=21 format=3 uid="uid://igbo1aqbpu53"]
+
+[ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonSpill.gd" id="1_6keaj"]
+[ext_resource type="Shader" uid="uid://23ni01n4wrnc" path="res://Scenes/Tails/Scorpion/PoisonSpill.tres" id="2_hi4d8"]
+[ext_resource type="ArrayMesh" uid="uid://djwsifnj5h4wv" path="res://3dModels/PoisonSpill.obj" id="2_ycv0l"]
+[ext_resource type="ArrayMesh" uid="uid://iaeyamyj3sqj" path="res://3dModels/PoisonSpillSmall.obj" id="4_20nyl"]
+[ext_resource type="Shader" uid="uid://cvbxq76lmgk5k" path="res://Scenes/Tails/Scorpion/PoisonProjectile.tres" id="4_85rh0"]
+[ext_resource type="ArrayMesh" uid="uid://3wwavgvpk7cq" path="res://3dModels/3dBall.obj" id="5_oxhkk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b3aoo"]
+radius = 0.42
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xcs0w"]
+size = Vector3(3, 0.2, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0oukb"]
+render_priority = 0
+shader = ExtResource("2_hi4d8")
+
+[sub_resource type="Curve" id="Curve_v1w7u"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.194553, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ptall"]
+curve = SubResource("Curve_v1w7u")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c60bm"]
+particle_flag_align_y = true
+direction = Vector3(0, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.5
+scale_max = 2.5
+scale_curve = SubResource("CurveTexture_ptall")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3c58n"]
+cull_mode = 1
+
+[sub_resource type="Curve" id="Curve_adnp8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.11284, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hlvqs"]
+curve = SubResource("Curve_adnp8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vwx1w"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+flatness = 1.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, -5, 0)
+scale_min = 0.05
+scale_max = 0.15
+scale_curve = SubResource("CurveTexture_hlvqs")
+collision_mode = 1
+collision_friction = 0.01
+collision_bounce = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_88dvs"]
+render_priority = 0
+shader = ExtResource("4_85rh0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wguxf"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a1hif"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fcyvh"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="PoisonSpill" type="RigidBody3D"]
+mass = 1.5
+continuous_cd = true
+max_contacts_reported = 5
+contact_monitor = true
+constant_force = Vector3(0, -9.8, 0)
+script = ExtResource("1_6keaj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_b3aoo")
+
+[node name="DamageArea" type="Area3D" parent="."]
+transform = Transform3D(1.00097, 0, 0, 0, 1.00097, 0, 0, 0, 1.00097, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 5.96046e-08)
+shape = SubResource("BoxShape3D_xcs0w")
+
+[node name="PoisonSpill" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+material_override = SubResource("ShaderMaterial_0oukb")
+emitting = false
+amount = 1
+lifetime = 4.0
+one_shot = true
+preprocess = 0.1
+speed_scale = 2.0
+explosiveness = 0.96
+fixed_fps = 60
+visibility_aabb = AABB(-2.0651, -3.1251, -2.0651, 4.13019, 5.1902, 4.13019)
+process_material = SubResource("ParticleProcessMaterial_c60bm")
+draw_pass_1 = ExtResource("2_ycv0l")
+
+[node name="PoisonSpillSmall" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_3c58n")
+emitting = false
+amount = 20
+lifetime = 5.0
+explosiveness = 0.92
+process_material = SubResource("ParticleProcessMaterial_vwx1w")
+draw_pass_1 = ExtResource("4_20nyl")
+
+[node name="PoisonProjectile" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_88dvs")
+cast_shadow = 0
+mesh = ExtResource("5_oxhkk")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_wguxf")
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_a1hif")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fcyvh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
