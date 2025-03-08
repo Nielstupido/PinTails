@@ -286,6 +286,8 @@ func add_sanity(value):
 
 
 func set_mesh_transparent(vision_tower_node):
+	return 
+	
 	if vision_tower_node.is_connected("vision_stopped", Callable(self, "_set_mesh_default")) or body.get_active_material(0).no_depth_test:
 		return
 	
@@ -878,6 +880,7 @@ func _process_stair_stepping(delta) -> void:
 ##<<<< DASH SKILL >>>>
 func _process_dash(delta) -> void:
 	if is_dashing:
+		screen_effects.toggle_motion_lines(true)
 		player_effects_manager.rpc("play_effect", 
 				player_effects_manager.Effects.SMALL_IMPACT_DUST, 
 				name.to_int())
@@ -897,6 +900,7 @@ func _process_dash(delta) -> void:
 
 
 func _stop_dash() -> void:
+	screen_effects.toggle_motion_lines(false)
 	temp = 0
 	
 	if is_dashing:

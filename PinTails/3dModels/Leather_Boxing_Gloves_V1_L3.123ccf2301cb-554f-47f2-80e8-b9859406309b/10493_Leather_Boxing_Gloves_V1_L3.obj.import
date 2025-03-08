@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://boi2mmudsc7i1"
+path="res://.godot/imported/10493_Leather_Boxing_Gloves_V1_L3.obj-596b2d46223622a025a90b62ec8ecab9.mesh"
+
+[deps]
+
+files=["res://.godot/imported/10493_Leather_Boxing_Gloves_V1_L3.obj-596b2d46223622a025a90b62ec8ecab9.mesh"]
+
+source_file="res://3dModels/Leather_Boxing_Gloves_V1_L3.123ccf2301cb-554f-47f2-80e8-b9859406309b/10493_Leather_Boxing_Gloves_V1_L3.obj"
+dest_files=["res://.godot/imported/10493_Leather_Boxing_Gloves_V1_L3.obj-596b2d46223622a025a90b62ec8ecab9.mesh", "res://.godot/imported/10493_Leather_Boxing_Gloves_V1_L3.obj-596b2d46223622a025a90b62ec8ecab9.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

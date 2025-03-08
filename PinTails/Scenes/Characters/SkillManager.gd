@@ -12,6 +12,8 @@ var _acqrd_skills : int = 0
 var is_waiting_shot_trigger = false
 var is_waiting_double_trigger = false
 var is_timed_trigger_enabled = false
+var is_multiple_trigger_enabled = false
+var trigger_remaining = 0
 var active_skill_card = null
 
 
@@ -77,16 +79,26 @@ func add_skill(passed_tail_data) -> void:
 
 
 func use_skill(skill_card : Node) -> void:
+	if is_multiple_trigger_enabled and trigger_remaining != 0:
+		trigger_remaining -= 1
+		execute_skill()
+		return
+	
 	if is_timed_trigger_enabled:
 		return
 	
 	if is_waiting_double_trigger and active_skill_card != null:
 		execute_skill()
+		return
 	 
 	active_skill_card = skill_card
 	
 	match(active_skill_card.tail_data.skill_type):
 		SKILLS.Skill_Types.SINGLE_TRIGGER:
+			execute_skill()
+		SKILLS.Skill_Types.MULTIPLE_TRIGGER:
+			is_multiple_trigger_enabled = true
+			trigger_remaining = active_skill_card.tail_data.skill_value - 1
 			execute_skill()
 		SKILLS.Skill_Types.SHOT_TRIGGER:
 			is_waiting_shot_trigger = true
@@ -137,12 +149,12 @@ func execute_skill():
 		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
 		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
 		on_skill_duration_finished()
-	elif !is_waiting_shot_trigger:
+	elif !is_waiting_shot_trigger and trigger_remaining == 0:
 		on_skill_duration_finished()
 
 
 func on_skill_duration_finished():
-	if active_skill_card == null:
+	if active_skill_card == null or trigger_remaining != 0:
 		return
 	
 	active_skill_card.start_cooldown()

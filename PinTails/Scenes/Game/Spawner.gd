@@ -6,20 +6,29 @@ extends Node
 @onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 @onready var world_items = $"../WorldItems"
 @onready var player_nodes = $"../PlayerNodes"
+@onready var obj_spawner = $"../DynamicSpawner"
 
 
 @rpc("any_peer", "call_local", "reliable")
-func spawn_object(spawn_pos : Vector3, path : String, var_name : String, var_value) -> void:
+func spawn_object(node_caller, obj_path : String, var_name : String, var_value) -> void:
+	if node_caller is NodePath:
+		obj_spawner.spawn_path = node_caller
+	
 	if multiplayer.is_server():
-		var object = load(path) as PackedScene
+		var object = load(obj_path) as PackedScene
 		var obj_instance = object.instantiate()
+		
+		if node_caller is NodePath:
+			get_node(node_caller).add_child(obj_instance, true)
+		else:
+			world_items.add_child(obj_instance, true)
+			obj_instance.global_transform = node_caller
+		
 		obj_instance.set(var_name, var_value)
-		obj_instance.position = spawn_pos
-		obj_instance.rotation = Vector3.ZERO
-		world_items.add_child(obj_instance, true)
 
 
-@rpc("any_peer", "call_local", "reliable")
+
+@rpc("any_peer", "call_local", "reliable") 
 func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 	if multiplayer.is_server():
 		var tail_instance = tail_obj.instantiate()
@@ -44,6 +53,7 @@ func spawn_weapon(spawn_pos : Vector3, weapon_type : WEAPONS.Weapon_Types, weapo
 		
 		weapon_instance.item_data_bytes = weapon_data_bytes
 		weapon_instance.position = spawn_pos
+		print("pistol " + str(weapon_instance))
 		world_items.add_child(weapon_instance, true)
 
 

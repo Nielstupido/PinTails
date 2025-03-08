@@ -124,7 +124,10 @@ _spawnable_scenes = PackedStringArray("res://Scenes/Characters/Player.tscn")
 spawn_path = NodePath("../PlayerNodes")
 spawn_limit = 2
 
-[node name="Item Spawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Tails/Scorpion/PoisonSpill.tscn")
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Tail.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Tails/Scorpion/PoisonSpill.tscn", "res://Scenes/Tails/MantisShrimp/Fist.tscn")
 spawn_path = NodePath("../WorldItems")
 spawn_limit = 100
+
+[node name="DynamicSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Scorpion/PoisonSpill.tscn", "res://Scenes/Tails/MantisShrimp/Fist.tscn")

@@ -13,9 +13,9 @@ func _input(event):
 	if event.is_action_pressed("action_primary"):
 		get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 				"spawn_object", 
-				self.global_position, 
+				global_transform, 
 				tower_scene_path,
-				null,
+				"",
 				null)
 		self.queue_free()
 

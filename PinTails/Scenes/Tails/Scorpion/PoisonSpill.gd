@@ -1,13 +1,11 @@
 extends RigidBody3D
 
 
-@export var camera_collision : Vector3
-var projectile_velocity = 20.0
-
-
-func _ready():
-	var Direction = (camera_collision - get_global_transform().origin).normalized()
-	set_linear_velocity(Direction * projectile_velocity)
+var projectile_velocity = 20
+var camera_collision : Vector3 :
+	set(value):
+		var direction = (value - get_parent().get_global_transform().origin).normalized()
+		set_linear_velocity(direction * projectile_velocity)
 
 
 func _on_body_entered(body):

@@ -1,36 +1,38 @@
 extends Node3D
 
 
-@onready var skill_animation_player : AnimationPlayer = $"../SkillAnimationsPlayer"
-@onready var damage_area_node : Area3D = $"../../Neck/Head/SkillComponentNodes/PunchDamageArea"
-var punch_damage : int
-var is_skill_enabled = false
+@onready var spawn_point = $"../../Neck/Head/SkillAttachments/PunchStart"
+var fist_obj_path = "res://Scenes/Tails/MantisShrimp/Fist.tscn"
+var stun_range : int
 
 
-func _ready() -> void:
-	damage_area_node.connect("body_entered", Callable(self, "_on_enemy_hit"))
-
-
-func _on_enemy_hit(body) -> void:
-	if body.is_in_group("Player") and body != owner:
-		#body.take_damage(punch_damage)
+func _on_wall_hit(body) -> void:
+	if body.is_in_group("Wall") or body.is_in_group("Floor"):
 		print(" HIT!! --> " + str(body))
 
 
-func _input(event) -> void:
-	if event.is_action_pressed("action_primary") and is_multiplayer_authority() and is_skill_enabled:
-		if skill_animation_player.is_playing():
-			return
-		
-		skill_animation_player.play("punch")
-		await skill_animation_player.animation_finished
-		skill_animation_player.stop()
+func execute_skill(range : int) -> void:
+	stun_range = range
+	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
+			"spawn_object", 
+			spawn_point.get_path(),
+			fist_obj_path,
+			"camera_collision",
+			get_camera_collision())
 
 
-func execute_skill(damage : int) -> void:
-	punch_damage = damage
-	is_skill_enabled = true
-
-
-func skill_timeout() -> void:
-	is_skill_enabled = false
+func get_camera_collision() -> Vector3:
+	var viewport = get_viewport().get_size()
+	var camera = get_viewport().get_camera_3d()
+	
+	var Ray_Origin = camera.project_ray_origin(viewport/2)
+	var Ray_End = Ray_Origin + camera.project_ray_normal(viewport/2) * 15
+	
+	var New_Intersection = PhysicsRayQueryParameters3D.create(Ray_Origin,Ray_End)
+	var Intersection = owner.player_interaction_component.get_world_3d().direct_space_state.intersect_ray(New_Intersection)
+	
+	if not Intersection.is_empty():
+		var Col_Point = Intersection.position
+		return Col_Point
+	else:
+		return Ray_End 

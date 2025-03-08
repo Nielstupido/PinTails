@@ -1,0 +1,12 @@
+# Blender 3.6.4 MTL File: '3dEffectModels.blend'
+# www.blender.org
+
+newmtl Leather_Boxing_Gloves_V1_Diffuse
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd Leather_Boxing_Gloves_V1_L3.123ccf2301cb-554f-47f2-80e8-b9859406309b/10493_Leather_Boxing_Gloves_V1_Diffuse.jpg

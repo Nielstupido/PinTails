@@ -5,9 +5,9 @@
 [sub_resource type="SphereShape3D" id="1"]
 radius = 0.05
 
-[sub_resource type="SphereMesh" id="2"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vil1p"]
 radius = 0.05
-height = 0.1
+height = 0.2
 
 [node name="Bullet" type="Area3D"]
 collision_layer = 2
@@ -19,6 +19,7 @@ script = ExtResource("1")
 shape = SubResource("1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("2")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_vil1p")
 
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]

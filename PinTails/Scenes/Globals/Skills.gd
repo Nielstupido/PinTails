@@ -7,12 +7,14 @@ enum Skill_Effects {
 	DAMAGE,
 	ARMOR,
 	DASH,
-	STICK
+	STICK,
+	STUN
 }
 
 enum Skill_Types {
 	DEFAULT,
 	SINGLE_TRIGGER, ##skills that activates main effect/action after pressing "skill hotkey"
+	MULTIPLE_TRIGGER, ##skills that activates main effect/action after pressing "skill hotkey" for a number of times
 	SHOT_TRIGGER, ##skills that activates when "skill hotkey" is pressed and followed by pressing "left-mouse button" main effect/action
 	TIMED_SHOT_TRIGGER, ##skills that activates when "skill hotkey" is pressed and followed by pressing "left-mouse button" within a duration to trigger main effect/action
 	TOGGLE_TRIGGER, ##skills that needs to be toggled for the effect/action

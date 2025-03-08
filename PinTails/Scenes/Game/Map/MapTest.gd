@@ -30,7 +30,7 @@ func _ready():
 	var dir = DirAccess.open(tail_res_folder)
 	
 	for tail_class in Tail.Classes.keys():
-		if tail_class == "Scorpion" || tail_class == "Monkey":
+		if tail_class == "Mantis_Shrimp" || tail_class == "Scorpion" || tail_class == "Meerkat":
 			tail_class = STRINGHELPER.filter_string(tail_class, true, "_")
 			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]):
 				var tail_data =  ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]).get_tail_data()
@@ -42,9 +42,8 @@ func _ready():
 		spawner.spawn_tail(tail_pos, tail_data.stringify())
 	
 	var equipment_pos = Vector3.ZERO
-	equipment_pos.x += 5.0
-	equipment_pos.z = randomZ.randf_range(-6, 6)
-	spawner.spawn_weapon(equipment_pos, WEAPONS.Weapon_Types.RIFLE, "")
+	equipment_pos.y += 5.0
+	spawner.spawn_weapon(equipment_pos, WEAPONS.Weapon_Types.PISTOL, "")
 ##<-------For testing-------->
 
 

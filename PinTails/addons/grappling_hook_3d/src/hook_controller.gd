@@ -12,7 +12,7 @@ extends Node
 ## Input Map action name that triggers hook's retraction
 @export var retract_action_name: String
 @export_group("Optional Settings")
-@export var pull_speed: float = 1.0
+@export var pull_speed: float = 50.0
 ## A 3D node that serves as the beginning on the rope model
 @export var hook_source: Node3D
 @export_group("Advanced Settings") 
@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 		_handle_hook(delta)
 
 
-## Attaches a Marker3D to the body that is in the way of the 7dc6wesx 3raycast.
+## Attaches a Marker3D to the body that is in the way of the 3d raycast.
 ## Enables the hook, emits proper signals.
 func _launch_hook() -> void:
 	if is_hook_launched:
@@ -83,7 +83,7 @@ func _handle_hook(delta: float) -> void:
 	# Hook pull math
 	var pull_vector = (hook_target_node.global_position - player_body.global_position).normalized()
 	
-	player_body.velocity += pull_vector * pull_speed * delta * 60
+	player_body.velocity += pull_vector * pull_speed * delta
 	
 	# Hook model handling
 	var source_position: Vector3

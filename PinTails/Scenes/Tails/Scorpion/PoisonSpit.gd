@@ -1,8 +1,7 @@
 extends Node3D
 
 @onready var skill_animation_player = $"../SkillAnimationsPlayer"
-@onready var damage_area_node : Area3D = $"../../Neck/Head/SkillComponentNodes/PoisonStabDamageArea"
-@onready var spawn_point = $ProjectileStartingPoint
+@onready var spawn_point = $"../../Neck/Head/SkillAttachments/ProjectileStartingPoint"
 var projectile_obj_path = "res://Scenes/Tails/Scorpion/PoisonSpill.tscn"
 var is_skill_triggered = false
 var stab_damage : int
@@ -25,7 +24,7 @@ func execute_skill(damage : int) -> void:
 	
 	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 			"spawn_object", 
-			spawn_point.global_position, 
+			spawn_point.global_transform,
 			projectile_obj_path,
 			"camera_collision",
 			get_camera_collision())

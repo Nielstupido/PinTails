@@ -152,12 +152,12 @@ func action_primary() -> void:
 			weapon_animation_player.play(current_weapon.use_anim)
 			current_weapon.on_shoot()
 	
-	var Direction = (get_camera_collision() - bullet_point.get_global_transform().origin).normalized()
+	var direction = (get_camera_collision() - bullet_point.get_global_transform().origin).normalized()
 	
-	var Projectile = projectile_prefab.instantiate()
-	bullet_point.add_child(Projectile)
-	Projectile.damage_amount = current_weapon.weapon_damage
-	Projectile.set_linear_velocity(Direction * projectile_velocity)
+	var projectile = projectile_prefab.instantiate()
+	bullet_point.add_child(projectile)
+	projectile.damage_amount = current_weapon.weapon_damage
+	projectile.set_linear_velocity(direction * projectile_velocity)
 	#Audio.play_sound_3d(sound_primary_use).global_position = self.global_position
 	print("Pistol.gd: action_primary called. Self: ", self)
  
