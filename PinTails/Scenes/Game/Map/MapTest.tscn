@@ -87,7 +87,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.84894, 9.40409, 11.0604)
 layers = 31
 mesh = SubResource("BoxMesh_165ux")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Box" groups=["Wall"]]
 collision_layer = 31
 collision_mask = 31
 
@@ -99,7 +99,7 @@ transform = Transform3D(35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41
 layers = 31
 mesh = SubResource("BoxMesh_rmcfc")
 
-[node name="Ground" type="StaticBody3D" parent="Ground"]
+[node name="Ground" type="StaticBody3D" parent="Ground" groups=["Ground"]]
 collision_layer = 31
 collision_mask = 31
 

@@ -85,7 +85,7 @@ vertex_color_use_as_albedo = true
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.480211, 0.603255), 0.0, 0.0, 0, 0, Vector2(0.804749, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_0oef5"]
+[sub_resource type="CurveTexture" id="CurveTexture_hcvsg"]
 curve = SubResource("Curve_irkpi")
 
 [sub_resource type="Curve" id="Curve_ivk60"]
@@ -93,14 +93,14 @@ max_value = 2.0
 _data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 0.9861), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_3tlng"]
+[sub_resource type="CurveTexture" id="CurveTexture_lig2f"]
 curve = SubResource("Curve_ivk60")
 
 [sub_resource type="Curve" id="Curve_4lk2f"]
 _data = [Vector2(0, 0.0212355), 0.0, 0.0, 0, 0, Vector2(0.203166, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.338759), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_qcdd3"]
+[sub_resource type="CurveTexture" id="CurveTexture_mii7h"]
 curve = SubResource("Curve_4lk2f")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dq6cq"]
@@ -113,10 +113,10 @@ initial_velocity_max = 2.0
 gravity = Vector3(0, 3, 0)
 scale_min = 0.8
 scale_max = 1.5
-scale_curve = SubResource("CurveTexture_qcdd3")
+scale_curve = SubResource("CurveTexture_mii7h")
 color = Color(0.305009, 0.29649, 0.264203, 0.945098)
-alpha_curve = SubResource("CurveTexture_0oef5")
-emission_curve = SubResource("CurveTexture_3tlng")
+alpha_curve = SubResource("CurveTexture_hcvsg")
+emission_curve = SubResource("CurveTexture_lig2f")
 
 [sub_resource type="SphereMesh" id="SphereMesh_xylla"]
 height = 0.9

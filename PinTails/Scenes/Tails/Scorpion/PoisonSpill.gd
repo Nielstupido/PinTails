@@ -9,6 +9,7 @@ var camera_collision : Vector3 :
 
 
 func _on_body_entered(body):
-	if body.name == "Ground" and $PoisonProjectile.visible:
+	if body.is_in_group("Ground") and $PoisonProjectile.visible:
+		$PoisonBubbleEffect.emitting = false
 		$PoisonProjectile.visible = false
-		$PoisonSpill.emitting = true
+		$EffectsPlayer.play("poison_spill")

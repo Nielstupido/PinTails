@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cu4r7pa1h5euo"]
+[gd_scene load_steps=35 format=3 uid="uid://cu4r7pa1h5euo"]
 
 [ext_resource type="ArrayMesh" uid="uid://c738tclcrgyjq" path="res://3dModels/BoxingGloves.obj" id="1_3bdbl"]
 [ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Fist.gd" id="1_fikpk"]
+[ext_resource type="Shader" uid="uid://idufj4xm0qdo" path="res://Scenes/Tails/MantisShrimp/StunRangeEffect.tres" id="3_hwtre"]
+[ext_resource type="Shader" uid="uid://d038l06jroqft" path="res://Scenes/GlobalShaderEffects/SmokeClouds.tres" id="3_qo4tb"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_byrlr"]
 radius = 0.4
@@ -11,6 +13,244 @@ height = 1.5
 properties/0/path = NodePath(".:transform")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+
+[sub_resource type="Animation" id="Animation_m68jt"]
+resource_name = "stun_effect"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SparkEffect:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SparkEffect2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GroundSlamDustEffect:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RangeEffect:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_pt041"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SparkEffect:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SparkEffect2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GroundSlamDustEffect:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RangeEffect:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_36di2"]
+_data = {
+"RESET": SubResource("Animation_pt041"),
+"stun_effect": SubResource("Animation_m68jt")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l7pvs"]
+radius = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1ppg"]
+albedo_color = Color(0.789766, 0.930382, 7.70092e-07, 1)
+emission_enabled = true
+emission = Color(0.796121, 0.898679, 2.69532e-06, 1)
+emission_energy_multiplier = 12.0
+
+[sub_resource type="Curve" id="Curve_h84xt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0836364, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fgp25"]
+curve = SubResource("Curve_h84xt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_utsbx"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 5.5
+direction = Vector3(0, 1, 0)
+spread = 75.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, -3, 0)
+scale_min = 0.1
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_fgp25")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oclte"]
+top_radius = 0.05
+bottom_radius = 0.0
+height = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e47qn"]
+albedo_color = Color(0.789766, 0.930382, 7.70092e-07, 1)
+emission_enabled = true
+emission = Color(0.235294, 0.282353, 0.937255, 1)
+emission_energy_multiplier = 12.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fvkn6"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 5.5
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, -1, 0)
+scale_min = 0.1
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_fgp25")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hyxqn"]
+top_radius = 0.0
+bottom_radius = 0.05
+height = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cquc6"]
+render_priority = 0
+shader = ExtResource("3_qo4tb")
+
+[sub_resource type="Curve" id="Curve_mwlm8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.370909, 0.496274), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0oef5"]
+curve = SubResource("Curve_mwlm8")
+
+[sub_resource type="Curve" id="Curve_vycbn"]
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 0.9861), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3tlng"]
+curve = SubResource("Curve_vycbn")
+
+[sub_resource type="Curve" id="Curve_ihaiw"]
+_data = [Vector2(0, 0.0212355), 0.0, 0.0, 0, 0, Vector2(0.203166, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qcdd3"]
+curve = SubResource("Curve_ihaiw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sr0fx"]
+emission_shape = 1
+emission_sphere_radius = 6.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, 5, 0)
+scale_min = 0.2
+scale_max = 1.3
+scale_curve = SubResource("CurveTexture_qcdd3")
+color = Color(0.259892, 0.25295, 0.221727, 1)
+alpha_curve = SubResource("CurveTexture_0oef5")
+emission_curve = SubResource("CurveTexture_3tlng")
+
+[sub_resource type="SphereMesh" id="SphereMesh_vvyi5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_63s4r"]
+render_priority = 0
+shader = ExtResource("3_hwtre")
+
+[sub_resource type="Curve" id="Curve_3yxup"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.266667, 1), 0.0, 0.0, 0, 0, Vector2(0.603175, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_b5fkh"]
+curve = SubResource("Curve_3yxup")
+
+[sub_resource type="Curve" id="Curve_sudkj"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.258182, 1), 0.0, 0.0, 0, 0, Vector2(0.701818, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_2o6v2"]
+curve = SubResource("Curve_sudkj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l181v"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_2o6v2")
+color = Color(1, 0.278431, 1, 1)
+alpha_curve = SubResource("CurveTexture_b5fkh")
+
+[sub_resource type="SphereMesh" id="SphereMesh_mpbc8"]
+radius = 5.0
+height = 10.0
 
 [node name="Fist" type="RigidBody3D"]
 top_level = true
@@ -22,14 +262,74 @@ contact_monitor = true
 script = ExtResource("1_fikpk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.1, 0, 0.6)
 mesh = ExtResource("1_3bdbl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.6)
 shape = SubResource("CapsuleShape3D_byrlr")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_3vr61")
 
+[node name="StunEffectPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_36di2")
+}
+
+[node name="StunArea" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StunArea"]
+shape = SubResource("SphereShape3D_l7pvs")
+
+[node name="SparkEffect" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_h1ppg")
+emitting = false
+amount = 80
+one_shot = true
+explosiveness = 0.98
+fixed_fps = 60
+visibility_aabb = AABB(-5.9103, -7.73713, -6.3945, 12.4993, 13.2196, 13.0549)
+process_material = SubResource("ParticleProcessMaterial_utsbx")
+draw_pass_1 = SubResource("CylinderMesh_oclte")
+
+[node name="SparkEffect2" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_e47qn")
+emitting = false
+amount = 100
+one_shot = true
+preprocess = 0.1
+explosiveness = 0.98
+fixed_fps = 60
+visibility_aabb = AABB(-5.9103, -7.73713, -6.3945, 12.4993, 13.2196, 13.0549)
+process_material = SubResource("ParticleProcessMaterial_fvkn6")
+draw_pass_1 = SubResource("CylinderMesh_hyxqn")
+
+[node name="GroundSlamDustEffect" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_cquc6")
+emitting = false
+amount = 80
+lifetime = 1.5
+one_shot = true
+preprocess = 0.1
+explosiveness = 0.95
+fixed_fps = 60
+visibility_aabb = AABB(-2.98166, -1.88465, -3.6475, 6.27084, 6.33933, 6.87742)
+process_material = SubResource("ParticleProcessMaterial_sr0fx")
+draw_pass_1 = SubResource("SphereMesh_vvyi5")
+
+[node name="RangeEffect" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_63s4r")
+cast_shadow = 0
+emitting = false
+amount = 1
+lifetime = 1.5
+one_shot = true
+preprocess = 0.1
+explosiveness = 0.86
+process_material = SubResource("ParticleProcessMaterial_l181v")
+draw_pass_1 = SubResource("SphereMesh_mpbc8")
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="StunEffectPlayer" to="." method="_on_stun_effect_player_animation_finished"]

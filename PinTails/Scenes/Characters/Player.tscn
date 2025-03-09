@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=132 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -21,7 +21,6 @@
 [ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
 [ext_resource type="PackedScene" uid="uid://b37xr3nyh6aog" path="res://Scenes/Components/StaminaComponent.tscn" id="11_cbmdm"]
 [ext_resource type="PackedScene" uid="uid://c4p6cl0xvfdar" path="res://Scenes/Components/HealthComponent.tscn" id="11_ms07f"]
-[ext_resource type="PackedScene" uid="uid://c1umit2vtv22v" path="res://Scenes/PrefabScenes/WeaponProjectile.tscn" id="11_ydo45"]
 [ext_resource type="Script" path="res://Scenes/Tails/Rhino/HornCharge.gd" id="12_d8ssq"]
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
 [ext_resource type="Script" path="res://Scenes/Tails/Chameleon/Conceal.gd" id="13_qaocy"]
@@ -300,7 +299,7 @@ vertex_color_use_as_albedo = true
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.480211, 0.603255), 0.0, 0.0, 0, 0, Vector2(0.804749, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_0oef5"]
+[sub_resource type="CurveTexture" id="CurveTexture_i4wj6"]
 curve = SubResource("Curve_irkpi")
 
 [sub_resource type="Curve" id="Curve_ivk60"]
@@ -308,14 +307,14 @@ max_value = 2.0
 _data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 0.9861), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_3tlng"]
+[sub_resource type="CurveTexture" id="CurveTexture_n06o2"]
 curve = SubResource("Curve_ivk60")
 
 [sub_resource type="Curve" id="Curve_4lk2f"]
 _data = [Vector2(0, 0.0212355), 0.0, 0.0, 0, 0, Vector2(0.203166, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.338759), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_qcdd3"]
+[sub_resource type="CurveTexture" id="CurveTexture_pfeq4"]
 curve = SubResource("Curve_4lk2f")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dq6cq"]
@@ -328,10 +327,10 @@ initial_velocity_max = 2.0
 gravity = Vector3(0, 3, 0)
 scale_min = 0.8
 scale_max = 1.5
-scale_curve = SubResource("CurveTexture_qcdd3")
+scale_curve = SubResource("CurveTexture_pfeq4")
 color = Color(0.305009, 0.29649, 0.264203, 0.945098)
-alpha_curve = SubResource("CurveTexture_0oef5")
-emission_curve = SubResource("CurveTexture_3tlng")
+alpha_curve = SubResource("CurveTexture_i4wj6")
+emission_curve = SubResource("CurveTexture_n06o2")
 
 [sub_resource type="SphereMesh" id="SphereMesh_xylla"]
 height = 0.9
@@ -348,10 +347,10 @@ emission_energy_multiplier = 12.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.550725, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_fgp25"]
+[sub_resource type="CurveTexture" id="CurveTexture_caark"]
 curve = SubResource("Curve_phm5v")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u8rwm"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4ewy6"]
 particle_flag_align_y = true
 emission_shape = 3
 emission_box_extents = Vector3(1, 0, 2)
@@ -362,7 +361,7 @@ initial_velocity_max = 3.0
 gravity = Vector3(0, -3, 0)
 scale_min = 0.1
 scale_max = 0.5
-scale_curve = SubResource("CurveTexture_fgp25")
+scale_curve = SubResource("CurveTexture_caark")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4sij5"]
 top_radius = 0.1
@@ -588,7 +587,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 1
 script = ExtResource("4_yum5u")
-projectile_prefab = ExtResource("11_ydo45")
 projectile_velocity = 2.0
 
 [node name="TailManager" type="Control" parent="."]
@@ -701,11 +699,10 @@ material_override = SubResource("StandardMaterial3D_qb2gr")
 emitting = false
 amount = 80
 lifetime = 0.5
-one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
 visibility_aabb = AABB(-5.9103, -7.73713, -6.3945, 12.4993, 13.2196, 13.0549)
-process_material = SubResource("ParticleProcessMaterial_u8rwm")
+process_material = SubResource("ParticleProcessMaterial_4ewy6")
 draw_pass_1 = SubResource("CylinderMesh_4sij5")
 
 [node name="EffectPositioner" type="MeshInstance3D" parent="PlayerEffectsManager/GroundSlamEffect"]

@@ -7,12 +7,11 @@ const TAIL_MAX_SIZE = 3
 @onready var rifle_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 
 @export_group("Weapon Settings")
-## Path to the projectile prefab scene
-@export var projectile_prefab : PackedScene
 ## Speed the projectile spawns with
 @export var projectile_velocity : float
 ## Node the projectile spawns at
-@onready var bullet_point = $"../Neck/Head/WeaponAttachments/Pistol/BulletPoint"
+@onready var projectile_point = $"../Neck/Head/WeaponAttachments/Pistol/BulletPoint"
+var weapon_projectile_path = "res://Scenes/Weapon/WeaponProjectile.tscn"
 
 ## Animation player for weapons
 @onready var weapon_animation_player = $"../Neck/Head/WeaponAttachments/WeaponAnimationPlayer"
@@ -152,14 +151,21 @@ func action_primary() -> void:
 			weapon_animation_player.play(current_weapon.use_anim)
 			current_weapon.on_shoot()
 	
-	var direction = (get_camera_collision() - bullet_point.get_global_transform().origin).normalized()
-	
-	var projectile = projectile_prefab.instantiate()
-	bullet_point.add_child(projectile)
-	projectile.damage_amount = current_weapon.weapon_damage
-	projectile.set_linear_velocity(direction * projectile_velocity)
-	#Audio.play_sound_3d(sound_primary_use).global_position = self.global_position
-	print("Pistol.gd: action_primary called. Self: ", self)
+	#get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
+		#"spawn_object", 
+		#projectile_point.get_path(),
+		#weapon_projectile_path,
+		#"camera_collision",
+		#get_camera_collision())
+		#
+	#var direction = (get_camera_collision() - bullet_point.get_global_transform().origin).normalized()
+	#
+	#var projectile = projectile_prefab.instantiate()
+	#bullet_point.add_child(projectile)
+	#projectile.damage_amount = current_weapon.weapon_damage
+	#projectile.set_linear_velocity(direction * projectile_velocity)
+	##Audio.play_sound_3d(sound_primary_use).global_position = self.global_position
+	#print("Pistol.gd: action_primary called. Self: ", self)
  
 
 # Secondary function/action of the weapon

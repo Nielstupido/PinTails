@@ -24,7 +24,7 @@ func execute_skill(damage : int) -> void:
 	
 	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 			"spawn_object", 
-			spawn_point.global_transform,
+			spawn_point.get_path(),
 			projectile_obj_path,
 			"camera_collision",
 			get_camera_collision())

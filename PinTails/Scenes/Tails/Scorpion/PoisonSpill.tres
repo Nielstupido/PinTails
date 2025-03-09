@@ -7,4 +7,6 @@ render_mode blend_mix, depth_draw_opaque, cull_front, diffuse_lambert, specular_
 
 
 "
+graph_offset = Vector2(-729.563, -194.304)
 modes/cull = 1
+nodes/vertex/0/position = Vector2(780, 20)

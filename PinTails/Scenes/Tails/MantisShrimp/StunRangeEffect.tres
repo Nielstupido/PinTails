@@ -1,0 +1,45 @@
+[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://idufj4xm0qdo"]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_j5ghw"]
+constant = Color(0.382, 0.491, 0.1, 0.313)
+
+[sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_cs8ua"]
+default_input_values = [2, false, 3, 3.0]
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_schlick_ggx, unshaded, shadows_disabled, ambient_light_disabled, vertex_lighting, fog_disabled;
+
+
+
+
+void fragment() {
+// ColorConstant:10
+	vec4 n_out10p0 = vec4(0.382000, 0.491000, 0.100000, 0.313000);
+
+
+// Fresnel:2
+	float n_in2p3 = 3.00000;
+	float n_out2p0 = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), n_in2p3);
+
+
+// Output:0
+	ALBEDO = vec3(n_out10p0.xyz);
+	ALPHA = n_out2p0;
+
+
+}
+"
+modes/cull = 2
+flags/unshaded = true
+flags/shadows_disabled = true
+flags/ambient_light_disabled = true
+flags/vertex_lighting = true
+flags/fog_disabled = true
+nodes/vertex/0/position = Vector2(560, 180)
+nodes/fragment/0/position = Vector2(140, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeFresnel_cs8ua")
+nodes/fragment/2/position = Vector2(-220, 260)
+nodes/fragment/10/node = SubResource("VisualShaderNodeColorConstant_j5ghw")
+nodes/fragment/10/position = Vector2(-100, 160)
+nodes/fragment/connections = PackedInt32Array(10, 0, 0, 0, 2, 0, 0, 1)
