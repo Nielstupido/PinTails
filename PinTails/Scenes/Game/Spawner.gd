@@ -10,7 +10,7 @@ extends Node
 
 
 @rpc("any_peer", "call_local", "reliable")
-func spawn_object(node_caller, obj_path : String, var_name : String, var_value) -> void:
+func spawn_object(node_caller, obj_path : String, var_list : Dictionary) -> void:
 	if node_caller is NodePath:
 		obj_spawner.spawn_path = node_caller
 	
@@ -24,8 +24,9 @@ func spawn_object(node_caller, obj_path : String, var_name : String, var_value) 
 			world_items.add_child(obj_instance, true)
 			obj_instance.global_transform = node_caller
 		
-		obj_instance.set(var_name, var_value)
-
+		if var_list:
+			for var_name in var_list.keys():
+				obj_instance.set(var_name, var_list.get(var_name))
 
 
 @rpc("any_peer", "call_local", "reliable") 

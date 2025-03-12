@@ -22,12 +22,13 @@ func execute_skill(damage : int) -> void:
 	stab_damage = damage
 	is_skill_triggered = true
 	
+	var var_dict = {"camera_collision" : get_camera_collision()}
+	
 	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 			"spawn_object", 
 			spawn_point.get_path(),
 			projectile_obj_path,
-			"camera_collision",
-			get_camera_collision())
+			var_dict)
 
 
 func skill_timeout() -> void:

@@ -13,12 +13,12 @@ func _on_wall_hit(body) -> void:
 
 func execute_skill(range : int) -> void:
 	stun_range = range
+	var var_dict = {"camera_collision" : get_camera_collision()}
 	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 			"spawn_object", 
 			spawn_point.get_path(),
 			fist_obj_path,
-			"camera_collision",
-			get_camera_collision())
+			var_dict)
 
 
 func get_camera_collision() -> Vector3:

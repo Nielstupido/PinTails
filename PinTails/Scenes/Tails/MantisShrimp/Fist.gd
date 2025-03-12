@@ -11,12 +11,11 @@ var camera_collision : Vector3 :
 		set_linear_velocity(direction * projectile_velocity)
 
 
-func _on_body_entered(body):
+func _on_body_entered(body): 
 	if body.is_in_group("Ground") or body.is_in_group("Wall"):
 		self.freeze = true
 		$MeshInstance3D.hide()
 		$StunEffectPlayer.play("stun_effect")
-
 
 
 func _on_stun_effect_player_animation_finished(anim_name):

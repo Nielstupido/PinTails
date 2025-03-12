@@ -8,12 +8,13 @@
 
 [resource]
 script = ExtResource("2_xg5g1")
-name = "Pistol"
+weapon_name = "Pistol"
 weapon_type = 1
 descpription = "There's a reason it looks like a toy. Shoots foam bullets."
 icon = ExtResource("1_x0815")
 power = 0
 drop_scene = "res://Scenes/Weapon/Pistol/Pistol.tscn"
+drop_scene_path = "res://Scenes/Weapon/Pistol/Pistol.tscn"
 sound_use = ExtResource("5_ilurx")
 sound_pickup = ExtResource("4_f102p")
 sound_drop = ExtResource("3_23bba")

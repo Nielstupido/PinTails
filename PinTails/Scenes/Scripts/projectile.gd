@@ -1,4 +1,4 @@
-extends Node
+extends RigidBody3D
 
 # Lifespan is being set by the Lifespan timer.
 #@onready var lifespan = $Lifespan
@@ -10,6 +10,15 @@ var damage_amount : int = 0
 @export var is_pickup : bool = false
 #@export var slot_data : InventorySlotPD
 @export var interaction_text : String = "Pick up"
+
+var projectile_velocity = 20
+var camera_collision : Vector3 :
+	set(value):
+		if value == Vector3.ZERO:
+			return
+		
+		var direction = (value - get_parent().get_global_transform().origin).normalized()
+		set_linear_velocity(direction * projectile_velocity)
 
 
 #func _ready():

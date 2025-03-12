@@ -1,10 +1,9 @@
-@tool
 extends Resource
 class_name WeaponData
 
 
 ## Name of Item as it appears in game.
-@export var name : String = ""
+@export var weapon_name : String = ""
 @export var weapon_type : WEAPONS.Weapon_Types
 ## Description of Item as it'll appear in the HUD / Inventory menu
 @export_multiline var descpription : String = ""
@@ -13,6 +12,7 @@ class_name WeaponData
 @export_range(1, 200) var power : int
 ## Path to Scene that will be spawned when item is removed from inventory to be dropped into the world.
 @export_file("*.tscn") var drop_scene
+@export var drop_scene_path : String
 ## Icon that is displayed with the hint that pops up when used. If left blank, the default hint icon is shown.
 @export var hint_icon_on_use : Texture2D
 
@@ -52,9 +52,13 @@ var was_picked_up = false
 
 
 func set_string_to_data(data_dict : Dictionary) -> void:
-	self.name = data_dict["name"]
+	if data_dict.weapon_name == "":
+		return
+	
+	self.weapon_name = data_dict["weapon_name"]
 	self.weapon_type = data_dict["weapon_type"]
 	self.power = data_dict["power"]
+	self.drop_scene_path = data_dict["drop_scene_path"]
 	self.primary_use_prompt = data_dict["primary_use_prompt"]
 	self.secondary_use_prompt = data_dict["secondary_use_prompt"]
 	self.weapon_data_text = data_dict["weapon_data_text"]
@@ -75,9 +79,10 @@ func set_string_to_data(data_dict : Dictionary) -> void:
 
 func stringify() -> String:
 	return JSON.stringify({
-		"name" : self.name,
+		"weapon_name" : self.weapon_name,
 		"weapon_type" : self.weapon_type,
 		"power" : self.power,
+		"drop_scene_path" : self.drop_scene_path,
 		"primary_use_prompt" : self.primary_use_prompt,
 		"secondary_use_prompt" : self.secondary_use_prompt,
 		"weapon_data_text" : self.weapon_data_text,
@@ -105,7 +110,7 @@ func picked_up():
 
 
 func take_out():
-	print("Taking out ", name)
+	print("Taking out ", weapon_name)
 	player_interaction_component.change_wieldable_to(self)
 #	var scene_to_wield = load(drop_scene)
 #	wielded_item = scene_to_wield.instantiate()
@@ -115,7 +120,7 @@ func take_out():
 
 
 func put_away():
-	print("Putting away ", name)
+	print("Putting away ", weapon_name)
 	player_interaction_component.change_wieldable_to(null)
 	is_current_weapon = false
 #	if wielded_item != null:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://o0xgl5obc551"]
+[gd_scene load_steps=10 format=3 uid="uid://o0xgl5obc551"]
 
 [ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/Item.gd" id="1_5hydm"]
 [ext_resource type="Resource" uid="uid://lc5uq2e6ldah" path="res://Scenes/Weapon/Pistol/Pistol.tres" id="2_a3qmc"]
@@ -52,6 +52,14 @@ size = Vector3(0.439306, 0.0828058, 0.0807639)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5prt8"]
 size = Vector3(0.0942247, 0.2, 0.0599624)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_56k4e"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:item_data_bytes")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Pistol" type="RigidBody3D" groups=["Weapon"]]
 collision_layer = 8
 collision_mask = 8
@@ -74,3 +82,6 @@ shape = SubResource("BoxShape3D_5prt8")
 
 [node name="Bullet_Point" type="Node3D" parent="."]
 transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.277335, 0.0601448, 0.00182778)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_56k4e")

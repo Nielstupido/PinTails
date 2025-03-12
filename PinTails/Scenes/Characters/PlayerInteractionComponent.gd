@@ -79,7 +79,7 @@ func _input(event):
 		if event.is_action_pressed("buy_menu"):
 			buy_weapon_menu.open_buy_menu() 
 		
-		if event.is_action_pressed("drop_weapon"):
+		if event.is_action_pressed("drop_weapon"): 
 			weapon_inventory.drop_weapon()
 		
 		if event.is_action_pressed("pick_up"):

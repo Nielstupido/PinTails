@@ -7,18 +7,19 @@
 
 [resource]
 script = ExtResource("1_bgdb1")
-name = "Rifle"
+weapon_name = "Rifle"
 weapon_type = 0
 descpription = ""
 power = 0
 drop_scene = "res://Scenes/Weapon/Rifle/Rifle.tscn"
+drop_scene_path = "res://Scenes/Weapon/Rifle/Rifle.tscn"
 sound_use = ExtResource("4_vflkq")
 sound_pickup = ExtResource("3_g6yrj")
 sound_drop = ExtResource("2_bdkrm")
 primary_use_prompt = "Shoot"
 secondary_use_prompt = "Aim"
 mag_size = 45.0
-starting_total_ammo = 0.0
+starting_total_ammo = 100.0
 weapon_range = 20.0
 weapon_damage = 40.0
 equip_anim = "Rifle_equip"
