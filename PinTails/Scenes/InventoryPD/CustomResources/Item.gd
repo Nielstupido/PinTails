@@ -3,14 +3,36 @@ extends RigidBody3D
 
 @export var weapon_data : WeaponData = null
 @export var action_keyword : String
-var interaction_text : String 
 var item_data_bytes : String
+var interaction_text : String 
 var tail_data : TailData = null
+var is_dropped : bool = false
+var projectile_velocity = 3
 
- 
+var starting_point_transform = null : ##Transform3D
+	set(value):
+		starting_point_transform = value
+		_assign_velocity()
+
+var camera_collision = null : ##Vector3
+	set(value):
+		camera_collision = value
+		_assign_velocity()
+
+
+func _assign_velocity():
+	if camera_collision == Vector3.ZERO and !is_dropped:
+		return
+	
+	if starting_point_transform == null or camera_collision == null:
+		return
+	
+	var direction = (camera_collision - starting_point_transform.origin).normalized()
+	set_linear_velocity(direction * projectile_velocity)
+
+
 func _ready():
 	interaction_text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events(action_keyword))[0].keycode)) + " to pick up"
-	_on_multiplayer_synchronizer_synchronized()
 
 
 func pick_up():

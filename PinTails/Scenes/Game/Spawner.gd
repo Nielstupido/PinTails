@@ -33,13 +33,16 @@ func spawn_object(node_caller, obj_path : String, var_list : Dictionary) -> void
 func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 	if multiplayer.is_server():
 		var tail_instance = tail_obj.instantiate()
+		world_items.add_child(tail_instance, true)
 		tail_instance.position = spawn_pos
 		tail_instance.item_data_bytes = tail_data_bytes
-		world_items.add_child(tail_instance, true)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func spawn_weapon(spawn_pos : Vector3, weapon_type : WEAPONS.Weapon_Types, weapon_data_bytes : String) -> void:
+func spawn_weapon(node_caller, weapon_type : WEAPONS.Weapon_Types, weapon_data_bytes : String, var_list : Dictionary) -> void:
+	if node_caller is NodePath:
+		obj_spawner.spawn_path = node_caller
+	
 	if multiplayer.is_server():
 		var weapon_instance
 		
@@ -52,10 +55,17 @@ func spawn_weapon(spawn_pos : Vector3, weapon_type : WEAPONS.Weapon_Types, weapo
 		if weapon_data_bytes == "":
 			weapon_data_bytes = weapon_instance.weapon_data.stringify()
 		
+		if node_caller is NodePath:
+			get_node(node_caller).add_child(weapon_instance, true)
+		else:
+			world_items.add_child(weapon_instance, true)
+			weapon_instance.global_transform = node_caller
+		
 		weapon_instance.item_data_bytes = weapon_data_bytes
-		weapon_instance.position = spawn_pos
-		print("pistol " + str(weapon_instance))
-		world_items.add_child(weapon_instance, true)
+	
+		if var_list:
+			for var_name in var_list.keys():
+				weapon_instance.set(var_name, var_list.get(var_name))
 
 
 @rpc("any_peer", "call_local", "reliable")

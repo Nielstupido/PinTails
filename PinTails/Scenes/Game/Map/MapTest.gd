@@ -41,9 +41,9 @@ func _ready():
 		tail_pos.z = randomZ.randf_range(-6, 6)
 		spawner.spawn_tail(tail_pos, tail_data.stringify())
 	
-	var equipment_pos = Vector3.ZERO
-	equipment_pos.y += 5.0
-	spawner.spawn_weapon(equipment_pos, WEAPONS.Weapon_Types.PISTOL, "")
+	var equipment_transform = Transform3D(Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO)
+	equipment_transform.origin.y += 5.0
+	spawner.spawn_weapon(equipment_transform, WEAPONS.Weapon_Types.PISTOL, "", {})
 ##<-------For testing-------->
 
 

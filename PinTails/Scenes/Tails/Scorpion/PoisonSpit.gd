@@ -22,7 +22,7 @@ func execute_skill(damage : int) -> void:
 	stab_damage = damage
 	is_skill_triggered = true
 	
-	var var_dict = {"camera_collision" : get_camera_collision()}
+	var var_dict = {"camera_collision" : owner.player_interaction_component.get_camera_collision(15)}
 	
 	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 			"spawn_object", 
@@ -33,20 +33,3 @@ func execute_skill(damage : int) -> void:
 
 func skill_timeout() -> void:
 	is_skill_triggered = false
-
-
-func get_camera_collision() -> Vector3:
-	var viewport = get_viewport().get_size()
-	var camera = get_viewport().get_camera_3d()
-	
-	var Ray_Origin = camera.project_ray_origin(viewport/2)
-	var Ray_End = Ray_Origin + camera.project_ray_normal(viewport/2) * 15
-	
-	var New_Intersection = PhysicsRayQueryParameters3D.create(Ray_Origin,Ray_End)
-	var Intersection = owner.player_interaction_component.get_world_3d().direct_space_state.intersect_ray(New_Intersection)
-	
-	if not Intersection.is_empty():
-		var Col_Point = Intersection.position
-		return Col_Point
-	else:
-		return Ray_End 

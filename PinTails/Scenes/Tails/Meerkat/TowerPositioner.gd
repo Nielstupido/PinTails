@@ -15,8 +15,8 @@ func _input(event):
 				"spawn_object", 
 				global_transform, 
 				tower_scene_path,
-				"",
-				null)
+				{})
+		
 		self.queue_free()
 
 

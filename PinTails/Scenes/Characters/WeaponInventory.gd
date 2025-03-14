@@ -66,11 +66,16 @@ func drop_weapon() -> void:
 	#Audio.play_sound(slot_data.inventory_item.sound_drop)
 	#dropped_item.weapon_data = current_weapon_data
 	
+	var var_dict = {"camera_collision" : owner.player_interaction_component.get_camera_collision(15),
+			"starting_point_transform" : current_weapon_node.global_transform}
+	
 	rpc("_rpc_drop", owner.name)
 	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("spawn_weapon",
-			owner.player_interaction_component.get_interaction_raycast_tip(0),
+			current_weapon_node.global_transform,
 			current_weapon_data.weapon_type,
-			current_weapon_data.stringify())
+			current_weapon_data.stringify(),
+			var_dict
+			)
 	
 	var item_index = weapons.bsearch(current_weapon_data)
 	weapons.remove_at(item_index)

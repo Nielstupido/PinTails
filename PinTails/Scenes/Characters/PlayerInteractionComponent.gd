@@ -142,3 +142,20 @@ func _on_tail_collision_area_body_exited(body):
 		if body.tail_data == pickupable_tail_obj.tail_data:
 			emit_signal("interaction_prompt", "")
 			pickupable_tail_obj = null
+
+
+func get_camera_collision(ray_length : int) -> Vector3:
+	var viewport = get_viewport().get_size()
+	var camera = get_viewport().get_camera_3d()
+	
+	var Ray_Origin = camera.project_ray_origin(viewport/2)
+	var Ray_End = Ray_Origin + camera.project_ray_normal(viewport/2) * ray_length
+	
+	var New_Intersection = PhysicsRayQueryParameters3D.create(Ray_Origin,Ray_End)
+	var Intersection = owner.player_interaction_component.get_world_3d().direct_space_state.intersect_ray(New_Intersection)
+	
+	if not Intersection.is_empty():
+		var Col_Point = Intersection.position
+		return Col_Point
+	else:
+		return Ray_End 

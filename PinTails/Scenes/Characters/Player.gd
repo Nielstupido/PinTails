@@ -23,7 +23,7 @@ signal player_dash_stopped()
 @onready var player_input = $PlayerInputSynchronizer
 @onready var player_hud = $UI/Player_HUD
 @onready var player_tails = $UI/PlayerTails
-@onready var player_interaction_component: PlayerInteractionComponent = $PlayerInteractionComponent
+@onready var player_interaction_component = $PlayerInteractionComponent
 @onready var tail_manager = $TailManager
 @onready var skill_manager = $SkillManager
 @onready var skill_nodes = $SkillNodes

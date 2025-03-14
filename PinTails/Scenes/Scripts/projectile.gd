@@ -1,5 +1,6 @@
 extends RigidBody3D
 
+
 # Lifespan is being set by the Lifespan timer.
 #@onready var lifespan = $Lifespan
 # Damage is being set by the wieldable.
@@ -37,7 +38,7 @@ func _on_body_entered(body):
 			queue_free()
 	if destroy_on_impact:
 		queue_free()
-		
+
 
 #func interact(body):
 	#if is_pickup:
