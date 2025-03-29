@@ -1,6 +1,6 @@
 [gd_scene load_steps=35 format=3 uid="uid://cu4r7pa1h5euo"]
 
-[ext_resource type="ArrayMesh" uid="uid://c738tclcrgyjq" path="res://3dModels/BoxingGloves.obj" id="1_3bdbl"]
+[ext_resource type="ArrayMesh" uid="uid://c738tclcrgyjq" path="res://3dModels/SkillObjects/BoxingGloves.obj" id="1_3bdbl"]
 [ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Fist.gd" id="1_fikpk"]
 [ext_resource type="Shader" uid="uid://idufj4xm0qdo" path="res://Scenes/Tails/MantisShrimp/StunRangeEffect.tres" id="3_hwtre"]
 [ext_resource type="Shader" uid="uid://d038l06jroqft" path="res://Scenes/GlobalShaderEffects/SmokeClouds.tres" id="3_qo4tb"]

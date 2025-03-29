@@ -19,10 +19,10 @@ var active_skill_card = null
 
 func _ready():
 	owner.connect("player_dash_stopped", Callable(self, "on_skill_duration_finished"))
-	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_skill"))
-	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "reset_skill_dup"))
-	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "remove_skill"))
-	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "reset_skill"))
+	GameplayManager.connect("tail_picked_up", Callable(self, "add_skill"))
+	GameplayManager.connect("tail_picked_up", Callable(self, "reset_skill_dup"))
+	GameplayManager.connect("tail_removed", Callable(self, "remove_skill"))
+	GameplayManager.connect("tail_removed", Callable(self, "reset_skill"))
 	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
 	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
 	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("third_skill"))[0].keycode))
@@ -94,23 +94,23 @@ func use_skill(skill_card : Node) -> void:
 	active_skill_card = skill_card
 	
 	match(active_skill_card.tail_data.skill_type):
-		SKILLS.Skill_Types.SINGLE_TRIGGER:
+		Skills.Skill_Types.SINGLE_TRIGGER:
 			execute_skill()
-		SKILLS.Skill_Types.MULTIPLE_TRIGGER:
+		Skills.Skill_Types.MULTIPLE_TRIGGER:
 			is_multiple_trigger_enabled = true
 			trigger_remaining = active_skill_card.tail_data.skill_value - 1
 			execute_skill()
-		SKILLS.Skill_Types.SHOT_TRIGGER:
+		Skills.Skill_Types.SHOT_TRIGGER:
 			is_waiting_shot_trigger = true
-		SKILLS.Skill_Types.TIMED_SHOT_TRIGGER:
+		Skills.Skill_Types.TIMED_SHOT_TRIGGER:
 			is_timed_trigger_enabled = true
 			execute_skill()
-		SKILLS.Skill_Types.TOGGLE_TRIGGER:
+		Skills.Skill_Types.TOGGLE_TRIGGER:
 			execute_skill()
-		SKILLS.Skill_Types.DOUBLE_TRIGGER: 
+		Skills.Skill_Types.DOUBLE_TRIGGER: 
 			execute_skill()
 			is_waiting_double_trigger = true
-		SKILLS.Skill_Types.WAIT_SHOT_TRIGGER:
+		Skills.Skill_Types.WAIT_SHOT_TRIGGER:
 			is_waiting_shot_trigger = true
 			execute_skill()
 
@@ -128,26 +128,26 @@ func reset_skill_dup(tail_data) -> void:
 ##Filler - might needed later on
 #func prepare_skill():
 	#match(owner.tail_manager.get_skill_effect(active_skill_card.tail_data.skill_name)):
-		#SKILLS.Skill_Effects.DAMAGE:
+		#Skills.Skill_Effects.DAMAGE:
 			#execute_skill()
 			#print("damage skill")
-		#SKILLS.Skill_Effects.ARMOR:
+		#Skills.Skill_Effects.ARMOR:
 			#execute_skill()
 			#print("armor skil")s
-		#SKILLS.Skill_Effects.DASH:
+		#Skills.Skill_Effects.DASH:
 			#execute_skill() 
 			#print("dash skill")
-		#SKILLS.Skill_Effects.STICK: 
+		#Skills.Skill_Effects.STICK: 
 			#execute_skill()
 			#print("stick skill")
 
 
 func execute_skill():
-	owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
+	owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
 	
 	if is_timed_trigger_enabled:
 		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
-		owner.skill_nodes.get_node(STRINGHELPER.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
+		owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
 		on_skill_duration_finished()
 	elif !is_waiting_shot_trigger and trigger_remaining == 0:
 		on_skill_duration_finished()

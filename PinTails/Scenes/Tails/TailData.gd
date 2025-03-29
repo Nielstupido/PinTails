@@ -13,8 +13,8 @@ var adtnl_melee_dmg : int = 0
 
 var skill_name : String
 var skill_animation : String
-var skill_effect : SKILLS.Skill_Effects
-var skill_type : SKILLS.Skill_Types
+var skill_effect : Skills.Skill_Effects
+var skill_type : Skills.Skill_Types
 var skill_value : int = 0
 var skill_duration : int = 0
 var skill_cd : int = 0
@@ -30,8 +30,8 @@ func set_data(
 	new_adtnl_melee_dmg = 0,
 	new_skill_name = "",
 	new_skill_animation = "",
-	new_skill_effect= GAMEPLAYMANAGER.Skill_Effects.DEFAULT,
-	new_skill_type = GAMEPLAYMANAGER.Skill_Types.DEFAULT,
+	new_skill_effect= GameplayManager.Skill_Effects.DEFAULT,
+	new_skill_type = GameplayManager.Skill_Types.DEFAULT,
 	new_skill_value = 0,
 	new_skill_duration = 0,
 	new_skill_cd = 0,

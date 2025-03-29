@@ -11,12 +11,12 @@ var client_peer: ENetMultiplayerPeer
 
 
 func _ready():
-	if OS.has_feature("dedicated_server") || GAMEPLAYMANAGER.server_mode_selected:
+	if OS.has_feature("dedicated_server") || GameplayManager.server_mode_selected:
 		_on_host_pressed()
 		close_client_after_quit_signal.connect(_close_client_after_quit)	
 		
 		# We still need this callback in case the host client quits
-		if GAMEPLAYMANAGER.local_host_mode:
+		if GameplayManager.local_host_mode:
 			multiplayer.server_disconnected.connect(_on_server_disconnected) # only emitted on clients
 	
 	else:
@@ -42,7 +42,7 @@ func _on_client_pressed():
 
 func start_game():
 	if multiplayer.is_server():
-		change_map.call_deferred(load(GAMEPLAYMANAGER.selected_map))
+		change_map.call_deferred(load(GameplayManager.selected_map))
 
 
 func change_map(scene: PackedScene):
@@ -68,7 +68,7 @@ func _close_client_after_quit(peer_id):
 # or disconnects, it is also hit
 func _on_server_disconnected():
 	# client side move to game over state
-	GAMEPLAYMANAGER.load_game_over_scene()
+	GameplayManager.load_game_over_scene()
  
 
 func _exit_tree():

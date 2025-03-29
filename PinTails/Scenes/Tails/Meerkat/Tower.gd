@@ -7,25 +7,30 @@ var debris_albedo
 
 
 func _ready():
-	$AnimationPlayer.play("arise")
-	$RockParticleSystem.emitting = true
+	debris_albedo = $RockParticleSystem.material_override.get_albedo()
+	$RockParticleSystem.material_override.set_albedo(Color(debris_albedo.r, debris_albedo.g, debris_albedo.b, 1.0))
+	$AnimationPlayer.play("rise")
+	$RockParticleSystem.restart()
 	await get_tree().create_timer(vision_duration).timeout 
 	$AnimationPlayer.play("hide") 
 	$AnimationPlayerDebris.play("hide_debris") 
-	debris_albedo = $RockParticleSystem.draw_pass_1.material.get_albedo()
-	var tween = get_tree().create_tween();
-	tween.tween_method(_set_debris_alpha, 1.0, 0.0, 0.5)
+	get_tree().create_tween().tween_method(_set_debris_alpha, 1.0, 0.0, 0.5)
 
 
 func _set_debris_alpha(value : float):
-	$RockParticleSystem.draw_pass_1.material.set_albedo(Color(debris_albedo.r, debris_albedo.g, debris_albedo.b, value))
+	$RockParticleSystem.material_override.set_albedo(Color(debris_albedo.r, debris_albedo.g, debris_albedo.b, value))
 
 
 func _on_animation_player_animation_finished(anim_name):
-	$RockParticleSystem.emitting = false
+	if anim_name == "rise":
+		$RockParticleSystem.emitting = false
+	
 	if anim_name == "hide":
+		$RockParticleSystem.restart()
+		$AnimationPlayerDebris.play("RESET")
+		$AnimationPlayer.play("RESET")
 		_set_enemy_mesh_default()
-		queue_free()
+		get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
 
 
 func _on_vision_area_body_entered(body):

@@ -27,15 +27,15 @@ var _network_manager
 func _ready():
 	return 
 	# Disables camera on non-host server setups, or dedicated server builds
-	if not GAMEPLAYMANAGER.local_host_mode && multiplayer.is_server() || OS.has_feature("dedicated_server"):
+	if not GameplayManager.local_host_mode && multiplayer.is_server() || OS.has_feature("dedicated_server"):
 		camera_3D.current = false
 	
-	if is_multiplayer_authority() && (GAMEPLAYMANAGER.local_host_mode || not multiplayer.is_server()):
+	if is_multiplayer_authority() && (GameplayManager.local_host_mode || not multiplayer.is_server()):
 		camera_3D.make_current()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		
 		# if this is actually a host mode, we need to setup network manager as it is also a server
-		if GAMEPLAYMANAGER.local_host_mode:
+		if GameplayManager.local_host_mode:
 			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
 	else: 
 		set_process(false)

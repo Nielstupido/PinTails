@@ -151,7 +151,7 @@ func _on_player_damage_taken():
 
 # Function called when player dies.
 func _on_player_death():
-	player._on_pause_movement()
+	player.on_pause_movement()
 	$DeathScreen.show()
 	$DeathScreen/Panel/BoxContainer/VBoxContainer/RestartButton.grab_focus()
 

@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 
-var projectile_velocity = 20
+var projectile_velocity = 50
 var camera_collision : Vector3 :
 	set(value):
 		if value == Vector3.ZERO:
@@ -18,5 +18,5 @@ func _on_body_entered(body):
 		$StunEffectPlayer.play("stun_effect")
 
 
-func _on_stun_effect_player_animation_finished(anim_name):
-	self.queue_free()
+func _on_stun_effect_player_animation_finished(_anim_name):
+	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())

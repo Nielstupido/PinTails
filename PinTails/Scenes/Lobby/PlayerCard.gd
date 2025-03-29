@@ -19,4 +19,4 @@ func setup_player(player_name):
 
 
 func set_tail(tail_class):
-	self.tail_class_text.text = STRINGHELPER.filter_string(Tail.Classes.find_key(tail_class))
+	self.tail_class_text.text = StringHelper.filter_string(Tail.Classes.find_key(tail_class))

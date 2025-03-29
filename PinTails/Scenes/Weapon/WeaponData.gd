@@ -4,7 +4,7 @@ class_name WeaponData
 
 ## Name of Item as it appears in game.
 @export var weapon_name : String = ""
-@export var weapon_type : WEAPONS.Weapon_Types
+@export var weapon_type : Weapons.Weapon_Types
 ## Description of Item as it'll appear in the HUD / Inventory menu
 @export_multiline var descpription : String = ""
 ## Icon of Item for HUD / Inventory

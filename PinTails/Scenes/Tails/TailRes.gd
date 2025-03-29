@@ -16,8 +16,8 @@ var _tail_data : TailData
 @export_group("Tail Active Attributes")
 @export var _skill_name : String = ""
 @export var _skill_animation : String = ""
-@export var _skill_effect : SKILLS.Skill_Effects
-@export var _skill_type :  SKILLS.Skill_Types
+@export var _skill_effect : Skills.Skill_Effects
+@export var _skill_type :  Skills.Skill_Types
 @export var _skill_value : int = 0
 @export var _skill_duration : int = 0
 @export var _skill_cd : int = 0

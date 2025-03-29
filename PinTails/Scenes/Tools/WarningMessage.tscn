@@ -21,20 +21,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(1920, 1080)
 mouse_filter = 2
 script = ExtResource("1_bi28v")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -220.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 70.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -62.0
 grow_horizontal = 0
+grow_vertical = 0
 theme_override_colors/default_color = Color(0.780373, 0.876547, 0.245537, 1)
 theme_override_font_sizes/normal_font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_dov2o")

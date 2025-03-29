@@ -97,7 +97,7 @@ emission_energy_multiplier = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.550725, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_rh2uu"]
+[sub_resource type="CurveTexture" id="CurveTexture_l2w1k"]
 curve = SubResource("Curve_pf4kt")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sd2c1"]
@@ -107,7 +107,7 @@ initial_velocity_min = 8.0
 initial_velocity_max = 10.0
 scale_min = 0.5
 scale_max = 1.5
-scale_curve = SubResource("CurveTexture_rh2uu")
+scale_curve = SubResource("CurveTexture_l2w1k")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_1wq6p"]
 top_radius = 0.1
@@ -927,8 +927,6 @@ volume_db = -38.0
 one_shot = true
 
 [node name="HealthComponent" parent="." instance=ExtResource("11_ms07f")]
-max_health = 100.0
-start_health = 80.0
 no_sanity_damage = 1.0
 
 [node name="StaminaComponent" parent="." instance=ExtResource("11_cbmdm")]

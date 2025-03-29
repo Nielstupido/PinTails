@@ -190,7 +190,7 @@ func _ready() -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		
 		# if this is actually a host mode, we need to setup network manager as it is also a server
-		if GAMEPLAYMANAGER.server_mode_selected:
+		if GameplayManager.server_mode_selected:
 			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
 	else: 
 		set_process(false)
@@ -214,15 +214,15 @@ func _ready() -> void:
 	
 	get_tree().get_root().get_node("Game").player_ready_signal.emit()
 	
-	#if is_multiplayer_authority() && (GAMEPLAYMANAGER.local_host_mode || not multiplayer.is_server()):
+	#if is_multiplayer_authority() && (GameplayManager.local_host_mode || not multiplayer.is_server()):
 		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	#else: 
 		#set_process(false)
 		#set_process_input(false)
 	
 	##player tail initialization
-	#tail_manager.add_tail(MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
-	#GAMEPLAYMANAGER.emit_signal("tail_picked_up", MATCHMANAGER.match_players.get(PLAYERACCOUNT.username))
+	#tail_manager.add_tail(MatchManager.match_players.get(PlayerAccount.username))
+	#GameplayManager.emit_signal("tail_picked_up", MatchManager.match_players.get(PlayerAccount.username))
 	connect("player_dash_stopped", Callable(self, "_stop_dash"))
 
 
@@ -299,7 +299,7 @@ func _set_mesh_default() -> void:
 	body.get_active_material(0).no_depth_test = false
 
 
-func _on_death():
+func _on_death(): 
 	is_dead = true
 
 
@@ -391,7 +391,7 @@ func _physics_process(delta):
 	if is_multiplayer_authority():
 		_apply_player_controls(delta)
 	
-	#if not multiplayer.is_server() || GAMEPLAYMANAGER.local_host_mode:
+	#if not multiplayer.is_server() || GameplayManager.local_host_mode:
 		#animate(current_animation, delta)
 
 

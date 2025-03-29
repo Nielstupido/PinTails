@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://djwsifnj5h4wv"
+path="res://.godot/imported/PoisonSpill.obj-6d0c20e2605ec0577bc96f2d07653976.mesh"
+
+[deps]
+
+files=["res://.godot/imported/PoisonSpill.obj-6d0c20e2605ec0577bc96f2d07653976.mesh"]
+
+source_file="res://3dModels/SkillObjects/PoisonSpill.obj"
+dest_files=["res://.godot/imported/PoisonSpill.obj-6d0c20e2605ec0577bc96f2d07653976.mesh", "res://.godot/imported/PoisonSpill.obj-6d0c20e2605ec0577bc96f2d07653976.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dkg6hofvdltdu"
+path="res://.godot/imported/menu background.obj-ffd37d2261bc05c44f84091a2b5bad5d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/menu background.obj-ffd37d2261bc05c44f84091a2b5bad5d.mesh"]
+
+source_file="res://3dModels/Environment Models/menu background.obj"
+dest_files=["res://.godot/imported/menu background.obj-ffd37d2261bc05c44f84091a2b5bad5d.mesh", "res://.godot/imported/menu background.obj-ffd37d2261bc05c44f84091a2b5bad5d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

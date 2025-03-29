@@ -3,6 +3,10 @@ extends Node
 
 
 enum Weapon_Types {
+	PISTOL,
+	SHOTGUN,
+	SMG,
 	RIFLE,
-	PISTOL
+	SNIPER,
+	HEAVY_GUN,
 }

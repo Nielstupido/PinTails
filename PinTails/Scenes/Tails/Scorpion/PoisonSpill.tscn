@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonSpill.gd" id="1_6keaj"]
 [ext_resource type="Shader" uid="uid://23ni01n4wrnc" path="res://Scenes/Tails/Scorpion/PoisonSpill.tres" id="2_hi4d8"]
-[ext_resource type="ArrayMesh" uid="uid://djwsifnj5h4wv" path="res://3dModels/PoisonSpill.obj" id="2_ycv0l"]
+[ext_resource type="ArrayMesh" uid="uid://djwsifnj5h4wv" path="res://3dModels/SkillObjects/PoisonSpill.obj" id="2_ycv0l"]
 [ext_resource type="Shader" uid="uid://cvbxq76lmgk5k" path="res://Scenes/Tails/Scorpion/PoisonProjectile.tres" id="4_85rh0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_88dvs"]
@@ -78,10 +78,10 @@ tracks/0/path = NodePath("PoisonSpill:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true, false]
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m3vr6"]
@@ -117,6 +117,9 @@ scale_min = 1.5
 scale_max = 1.5
 scale_curve = SubResource("CurveTexture_ap2up")
 alpha_curve = SubResource("CurveTexture_7l606")
+collision_mode = 1
+collision_friction = 1.0
+collision_bounce = 1.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fcyvh"]
 properties/0/path = NodePath(".:transform")
@@ -147,6 +150,7 @@ transparency = 0.9
 amount = 30
 lifetime = 0.5
 fixed_fps = 60
+visibility_aabb = AABB(-1.54282, -1.54308, -1.59399, 3.16672, 3.47952, 3.31454)
 trail_lifetime = 1.0
 process_material = SubResource("ParticleProcessMaterial_ai2n5")
 draw_pass_1 = SubResource("SphereMesh_iisqn")
@@ -170,10 +174,9 @@ emitting = false
 amount = 1
 lifetime = 4.0
 one_shot = true
-preprocess = 0.1
 explosiveness = 0.9
 fixed_fps = 60
-visibility_aabb = AABB(-2.0651, -3.1251, -2.0651, 4.13019, 5.1902, 4.13019)
+visibility_aabb = AABB(-40, 0, -40, 80, 50, 80)
 process_material = SubResource("ParticleProcessMaterial_iuanx")
 draw_pass_1 = ExtResource("2_ycv0l")
 
@@ -181,3 +184,4 @@ draw_pass_1 = ExtResource("2_ycv0l")
 replication_config = SubResource("SceneReplicationConfig_fcyvh")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="EffectsPlayer" to="." method="_on_effects_player_animation_finished"]

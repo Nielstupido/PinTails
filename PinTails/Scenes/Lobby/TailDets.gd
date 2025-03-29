@@ -13,5 +13,5 @@ func _on_tail_card_pressed(tail_data):
 	if !self.is_visible_in_tree(): 
 		self.show()
 	current_tail_data = tail_data
-	$Title.text = STRINGHELPER.filter_string(Tail.Classes.find_key(current_tail_data.tail_class))
+	$Title.text = StringHelper.filter_string(Tail.Classes.find_key(current_tail_data.tail_class))
 	$Atrribs.text = current_tail_data.attrb_str

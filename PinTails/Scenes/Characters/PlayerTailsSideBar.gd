@@ -9,11 +9,11 @@ var _acqrd_tails : int = 0
 
 
 func _ready():
-	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
+	GameplayManager.connect("tail_picked_up", Callable(self, "add_tail"))
 
 
 func add_tail(tail_data):
-	box_container.get_child(_acqrd_tails).get_child(0).text = STRINGHELPER.filter_string(Tail.Classes.find_key(tail_data.tail_class))
+	box_container.get_child(_acqrd_tails).get_child(0).text = StringHelper.filter_string(Tail.Classes.find_key(tail_data.tail_class))
 	_acqrd_tails += 1
 
 

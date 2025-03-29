@@ -1,0 +1,220 @@
+[gd_scene load_steps=31 format=3 uid="uid://drh7jqc6y41bx"]
+
+[ext_resource type="PackedScene" uid="uid://cribhhvg03u8g" path="res://addons/terrain_3d/assets/models/CrystalC.tscn" id="1_lqu0x"]
+[ext_resource type="Texture2D" uid="uid://cdvlhh1tc5jdv" path="res://addons/terrain_3d/assets/textures/grass_with_rocks_01_1k/grass_with_rocks_01_color_1k.png" id="1_mjjtb"]
+[ext_resource type="Texture2D" uid="uid://dmmf7b8qaw0xu" path="res://addons/terrain_3d/assets/textures/grass_with_rocks_01_1k/grass_with_rocks_01_normal_dx_1k.png" id="2_hcfni"]
+[ext_resource type="Texture2D" uid="uid://dyjvrvjigscf8" path="res://addons/terrain_3d/assets/textures/grass_02_1k/grass_02_base_1k.png" id="3_4nb63"]
+[ext_resource type="Texture2D" uid="uid://cxc3dvmwjwatf" path="res://addons/terrain_3d/assets/textures/grass_02_1k/grass_02_normal_dx_1k.png" id="4_c116u"]
+[ext_resource type="Texture2D" uid="uid://b0nejxvbek5u2" path="res://addons/terrain_3d/assets/textures/cliff_rocks_01_1k/cliff_rocks_01_color_1k.png" id="5_3qmir"]
+[ext_resource type="Texture2D" uid="uid://nguc0ewncvyj" path="res://addons/terrain_3d/assets/textures/cliff_rocks_01_1k/cliff_rocks_01_normal_dx_1k.png" id="6_07i7q"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cadli"]
+sky_top_color = Color(0.290301, 0.435623, 0.745498, 1)
+sky_horizon_color = Color(0.109896, 0.753039, 0.694309, 1)
+sky_curve = 0.160766
+
+[sub_resource type="Sky" id="Sky_8hx6b"]
+sky_material = SubResource("ProceduralSkyMaterial_cadli")
+
+[sub_resource type="Environment" id="Environment_u5gyr"]
+background_mode = 2
+background_energy_multiplier = 0.1
+sky = SubResource("Sky_8hx6b")
+ambient_light_source = 2
+ambient_light_color = Color(0.603647, 0.678603, 0.845336, 1)
+ambient_light_energy = 0.1
+glow_enabled = true
+fog_enabled = true
+fog_light_energy = 0.2
+fog_density = 0.005
+fog_sky_affect = 0.216
+volumetric_fog_anisotropy = 0.72
+adjustment_enabled = true
+adjustment_brightness = 0.89
+adjustment_contrast = 1.11
+adjustment_saturation = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1kvai"]
+albedo_color = Color(0.806958, 0.800873, 0, 1)
+emission_enabled = true
+emission = Color(0.697763, 0.629683, 3.85046e-07, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="Curve" id="Curve_k6noo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.309249, 0.669118), 0.0, 0.0, 0, 0, Vector2(0.710983, 0.448529), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_3jatn"]
+curve = SubResource("Curve_k6noo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3lwxd"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 1, 0)
+scale_min = 0.02
+scale_max = 0.03
+scale_curve = SubResource("CurveTexture_3jatn")
+turbulence_noise_speed = Vector3(0, 1, 0)
+turbulence_influence_min = 0.05
+
+[sub_resource type="SphereMesh" id="SphereMesh_2xlk7"]
+radial_segments = 4
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2sex"]
+albedo_color = Color(0.371071, 0.441993, 0, 1)
+emission_enabled = true
+emission = Color(0.809533, 0.775157, 0.00967621, 1)
+emission_energy_multiplier = 20.0
+
+[sub_resource type="Curve" id="Curve_bpv45"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0836364, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fgp25"]
+curve = SubResource("Curve_bpv45")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7anll"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 0.9
+direction = Vector3(0, 1, 0)
+spread = 75.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.08
+scale_max = 0.13
+scale_curve = SubResource("CurveTexture_fgp25")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qcaw3"]
+top_radius = 0.05
+bottom_radius = 0.0
+height = 0.4
+
+[sub_resource type="Gradient" id="Gradient_f1yq8"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wljgw"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8qaa8"]
+seamless = true
+color_ramp = SubResource("Gradient_f1yq8")
+noise = SubResource("FastNoiseLite_wljgw")
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_h068k"]
+_shader_parameters = {
+"blend_sharpness": 0.87,
+"height_blending": true,
+"macro_variation1": Color(1, 1, 1, 1),
+"macro_variation2": Color(1, 1, 1, 1),
+"noise1_angle": 0.0,
+"noise1_offset": Vector2(0.5, 0.5),
+"noise1_scale": 0.04,
+"noise2_scale": 0.076,
+"noise3_scale": 0.225,
+"noise_texture": SubResource("NoiseTexture2D_8qaa8"),
+"vertex_normals_distance": 128.0
+}
+world_background = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wb43h"]
+albedo_color = Color(0.273004, 0.143555, 0.939004, 1)
+metallic = 0.06
+roughness = 0.27
+emission_enabled = true
+emission = Color(0.274149, 0.215052, 0.801052, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_fi417"]
+name = "CrystalC"
+density = 0.0146393
+scene_file = ExtResource("1_lqu0x")
+material_override = SubResource("StandardMaterial3D_wb43h")
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_fgwd6"]
+name = "grass_with_rocks_01_color_1k"
+albedo_texture = ExtResource("1_mjjtb")
+normal_texture = ExtResource("2_hcfni")
+uv_scale = 0.4
+detiling = 0.1
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_6egxj"]
+name = "grass_02_base_1k"
+id = 1
+albedo_texture = ExtResource("3_4nb63")
+normal_texture = ExtResource("4_c116u")
+uv_scale = 0.4
+detiling = 0.1
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_i43wm"]
+name = "cliff_rocks_01_color_1k"
+id = 2
+albedo_texture = ExtResource("5_3qmir")
+normal_texture = ExtResource("6_07i7q")
+uv_scale = 0.4
+detiling = 0.1
+
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_tnpe4"]
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_fi417")])
+texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_fgwd6"), SubResource("Terrain3DTextureAsset_6egxj"), SubResource("Terrain3DTextureAsset_i43wm")])
+
+[node name="Background" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_u5gyr")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.996384, 0.00140947, 0.084956, -0.0204139, 0.974547, 0.22325, -0.082479, -0.224177, 0.971052, -7.705, 9.798, 36.817)
+current = true
+fov = 55.0
+
+[node name="FireParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.319, 7.292, 33.3545)
+material_override = SubResource("StandardMaterial3D_1kvai")
+amount = 80
+explosiveness = 0.5
+process_material = SubResource("ParticleProcessMaterial_3lwxd")
+draw_pass_1 = SubResource("SphereMesh_2xlk7")
+
+[node name="SparkEffect" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.319, 7.292, 33.3483)
+material_override = SubResource("StandardMaterial3D_c2sex")
+amount = 60
+explosiveness = 0.94
+randomness = 0.98
+fixed_fps = 60
+visibility_aabb = AABB(-5.9103, -7.73713, -6.3945, 12.4993, 13.2196, 13.0549)
+process_material = SubResource("ParticleProcessMaterial_7anll")
+draw_pass_1 = SubResource("CylinderMesh_qcaw3")
+
+[node name="Terrain3D" type="Terrain3D" parent="."]
+data_directory = "res://addons/terrain_3d/assets/models"
+material = SubResource("Terrain3DMaterial_h068k")
+assets = SubResource("Terrain3DAssets_tnpe4")
+top_level = true
+metadata/_edit_lock_ = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 31.23, 0)
+light_color = Color(0.22444, 0.48608, 0.629008, 1)
+light_energy = 2.0
+light_volumetric_fog_energy = 2.0
+directional_shadow_mode = 0
+directional_shadow_fade_start = 0.584
+directional_shadow_max_distance = 234.9
+directional_shadow_pancake_size = 110.5

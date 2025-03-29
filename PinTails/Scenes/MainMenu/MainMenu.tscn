@@ -1,74 +1,190 @@
-[gd_scene load_steps=25 format=3 uid="uid://cbogrbbgtrq3y"]
+[gd_scene load_steps=60 format=3 uid="uid://cbogrbbgtrq3y"]
 
-[ext_resource type="FontFile" uid="uid://dkpggr315ur53" path="res://Fonts/Slowdex.ttf" id="1"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="2"]
-[ext_resource type="Script" path="res://Scenes/MainMenu/Menu.gd" id="2_8b0y7"]
-[ext_resource type="Script" path="res://Scenes/MainMenu/ScreenManager.gd" id="3_ab7ay"]
+[ext_resource type="PackedScene" uid="uid://drh7jqc6y41bx" path="res://Scenes/MainMenu/Background.tscn" id="2_h3u6l"]
+[ext_resource type="Script" path="res://Scenes/MainMenu/NodeAnimator.gd" id="3_ab7ay"]
 [ext_resource type="Script" path="res://Scenes/MainMenu/LoginScreen.gd" id="4_4mgtj"]
+[ext_resource type="Script" path="res://Scenes/MainMenu/Shop/ShopManager.gd" id="5_qhahd"]
 [ext_resource type="PackedScene" uid="uid://dw0w24io2wuip" path="res://Scenes/Tools/WarningMessage.tscn" id="5_sovu5"]
+[ext_resource type="Texture2D" uid="uid://wt6rniksqah2" path="res://AssetsUI/exit.png" id="6_7wl7i"]
+[ext_resource type="Texture2D" uid="uid://cet035yiaoinq" path="res://AssetsUI/MainMenu/Buttons/setting.png" id="6_jxokt"]
 
-[sub_resource type="FontFile" id="6"]
-fallbacks = Array[Font]([ExtResource("1")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ic5mt"]
+
+[sub_resource type="Gradient" id="Gradient_jme06"]
+colors = PackedColorArray(0.0745098, 0, 0.207843, 0.286275, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tuwjw"]
+gradient = SubResource("Gradient_jme06")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmw1u"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.537255, 0.607843, 0.686275, 0)
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.356863)
+shadow_offset = Vector2(0.065, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrbju"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hnvmk"]
+size = Vector2(35, 35)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c7crb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_18tih"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Gradient" id="Gradient_olye0"]
+offsets = PackedFloat32Array(0, 0.482143, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.313726, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sfgna"]
+gradient = SubResource("Gradient_olye0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q15yl"]
+texture = SubResource("GradientTexture2D_sfgna")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1sgn"]
+bg_color = Color(1, 1, 1, 0.580392)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(1, 1, 1, 0.580392)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_detail = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bcksv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fwigd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8fn4w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5lur"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tok35"]
+bg_color = Color(0.537255, 0.607843, 0.686275, 0)
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.356863)
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
 
 [sub_resource type="StyleBoxFlat" id="9"]
-bg_color = Color(0.258824, 0.278431, 0.411765, 1)
+bg_color = Color(0.611765, 0.635294, 0.788235, 0)
+
+[sub_resource type="Gradient" id="Gradient_d8t0w"]
+offsets = PackedFloat32Array(0, 0.515152, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 0.14902, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fh3xf"]
+gradient = SubResource("Gradient_d8t0w")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jhx42"]
+texture = SubResource("GradientTexture1D_fh3xf")
 
 [sub_resource type="StyleBoxFlat" id="7"]
 bg_color = Color(0.686275, 0.694118, 0.505882, 1)
 
 [sub_resource type="StyleBoxFlat" id="19"]
-bg_color = Color(0.945098, 0.705882, 0.733333, 1)
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.899258, 0.899258, 0.899258, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
 
-[sub_resource type="FontFile" id="11"]
-fallbacks = Array[Font]([ExtResource("1")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ijw0a"]
 
-[sub_resource type="StyleBoxFlat" id="10"]
-bg_color = Color(0.121569, 0.254902, 0.447059, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ok051"]
+content_margin_left = 200.0
+content_margin_top = 150.0
+content_margin_right = 200.0
+content_margin_bottom = 150.0
+bg_color = Color(1, 1, 1, 0.117647)
 
-[sub_resource type="StyleBoxFlat" id="12"]
-bg_color = Color(0.14902, 0.305882, 0.533333, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ypglk"]
+content_margin_top = 20.0
+content_margin_bottom = 20.0
 
-[sub_resource type="FontFile" id="13"]
-fallbacks = Array[Font]([ExtResource("1")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ra00p"]
 
-[sub_resource type="StyleBoxFlat" id="15"]
-bg_color = Color(0.121569, 0.254902, 0.447059, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1w0n"]
+content_margin_left = 150.0
+content_margin_top = 30.0
+content_margin_right = 150.0
+content_margin_bottom = 30.0
+bg_color = Color(0.305882, 0.305882, 0.305882, 0.6)
+border_color = Color(0.305882, 0.305882, 0.305882, 0)
+border_blend = true
+corner_detail = 10
 
-[sub_resource type="StyleBoxFlat" id="14"]
-bg_color = Color(0.14902, 0.305882, 0.533333, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hgdlu"]
 
-[sub_resource type="FontFile" id="16"]
-fallbacks = Array[Font]([ExtResource("1")])
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71ila"]
 
-[sub_resource type="StyleBoxFlat" id="18"]
-bg_color = Color(0.121569, 0.254902, 0.447059, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xu2mu"]
 
-[sub_resource type="StyleBoxFlat" id="17"]
-bg_color = Color(0.14902, 0.305882, 0.533333, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b7slm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6gi75"]
+
+[sub_resource type="Gradient" id="Gradient_ty67p"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_p5wu5"]
+gradient = SubResource("Gradient_ty67p")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7mrr"]
+content_margin_left = 300.0
+content_margin_top = 100.0
+content_margin_right = 300.0
+content_margin_bottom = 100.0
+bg_color = Color(0, 0, 0, 0.333333)
+
+[sub_resource type="Gradient" id="Gradient_o7p0n"]
+colors = PackedColorArray(0.0117647, 0, 0.0745098, 0.890196, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ag88e"]
+gradient = SubResource("Gradient_o7p0n")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0bh02"]
+texture = SubResource("GradientTexture2D_ag88e")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5gy2"]
+content_margin_top = 20.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.756863)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4vis"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 20.0
+bg_color = Color(0.0745098, 0.0705882, 0.0941176, 0.541176)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ryov4"]
+content_margin_top = 8.0
+content_margin_right = 8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htpdb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gxt7i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oqmx5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x8365"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmhb8"]
 content_margin_left = 10.0
@@ -115,6 +231,8 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 border_blend = true
 
 [node name="MainMenu" type="Control"]
+z_as_relative = false
+y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,118 +241,735 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2")
 
-[node name="ScreenManager" type="Node" parent="."]
+[node name="Background" parent="." instance=ExtResource("2_h3u6l")]
+
+[node name="NodeAnimator" type="Node" parent="."]
 script = ExtResource("3_ab7ay")
 
-[node name="Menu" type="ColorRect" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0.78057, 0.792376, 0.774764, 1)
-script = ExtResource("2_8b0y7")
-
-[node name="GameModesHolder" type="ColorRect" parent="Menu"]
+[node name="PanelContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -306.0
-offset_top = 150.0
-offset_right = 306.0
-offset_bottom = 770.0
-grow_horizontal = 2
-color = Color(0.443137, 0.945098, 0.0980392, 0.486275)
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Menu/GameModesHolder"]
-custom_minimum_size = Vector2(240, 40)
-layout_mode = 0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 5.0
-offset_right = -15.0
-offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Deathmatch" type="Button" parent="Menu/GameModesHolder/HBoxContainer"]
+[node name="MenuNav" type="PanelContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ic5mt")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MenuNav"]
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="PanelContainer/MenuNav/MarginContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_tuwjw")
+expand_mode = 2
+
+[node name="Container" type="VBoxContainer" parent="PanelContainer/MenuNav/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MenuTabButtons" type="PanelContainer" parent="PanelContainer/MenuNav/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_rmw1u")
+
+[node name="Container" type="HBoxContainer" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons"]
+layout_mode = 2
+alignment = 1
+
+[node name="LogoBtn" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/icon_max_width = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrbju")
+icon = SubResource("PlaceholderTexture2D_hnvmk")
+
+[node name="TabButtonsHolder" type="HBoxContainer" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_c7crb")
+
+[node name="Home" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
+text = "Home
+"
+
+[node name="Shop" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
+text = "Shop"
+
+[node name="Play" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_w1sgn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w1sgn")
+text = "Play"
+
+[node name="Hero" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
+text = "Hero"
+
+[node name="Collection" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
+text = "Collection
+"
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 50
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bcksv")
+
+[node name="SettingsBtn" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container"]
+modulate = Color(1, 1, 1, 0.737255)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/icon_normal_color = Color(0.658824, 0.733333, 0.870588, 0.843137)
+theme_override_colors/icon_pressed_color = Color(0.607843, 0.584314, 0.760784, 0.239216)
+theme_override_colors/icon_hover_color = Color(0.658824, 0.733333, 0.870588, 0.843137)
+theme_override_constants/icon_max_width = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fwigd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_8fn4w")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_q5lur")
+icon = ExtResource("6_jxokt")
+
+[node name="GameModesHolder" type="PanelContainer" parent="PanelContainer/MenuNav/MarginContainer/Container"]
+visible = false
+custom_minimum_size = Vector2(800, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_tok35")
+
+[node name="GameModes" type="HBoxContainer" parent="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Deathmatch" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.992157, 0.941176, 0.941176, 1)
-theme_override_colors/font_focus_color = Color(0.0745098, 0.12549, 0.262745, 1)
-theme_override_fonts/font = SubResource("6")
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("9")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jhx42")
 theme_override_styles/pressed = SubResource("7")
 theme_override_styles/focus = SubResource("19")
 text = "Host Game"
 
-[node name="CaptureFlag" type="Button" parent="Menu/GameModesHolder/HBoxContainer"]
+[node name="CaptureFlag" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.992157, 0.941176, 0.941176, 1)
-theme_override_colors/font_focus_color = Color(0.0745098, 0.12549, 0.262745, 1)
-theme_override_fonts/font = SubResource("6")
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("9")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jhx42")
 theme_override_styles/pressed = SubResource("7")
 theme_override_styles/focus = SubResource("19")
 text = "Join Game"
 
-[node name="PlayBtn" type="Button" parent="Menu"]
+[node name="ZoneDomination" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.992157, 0.941176, 0.941176, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("9")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jhx42")
+theme_override_styles/pressed = SubResource("7")
+theme_override_styles/focus = SubResource("19")
+text = "Zone Domination
+"
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 15.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ijw0a")
+
+[node name="Menu" type="PanelContainer" parent="PanelContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ok051")
+
+[node name="Shop" type="PanelContainer" parent="PanelContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 15.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ok051")
+script = ExtResource("5_qhahd")
+
+[node name="MainPanel" type="VBoxContainer" parent="PanelContainer/PanelContainer/Shop"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="FeaturedItem" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.5
+text = "Main Featured"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PanelContainer/Shop/MainPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="AllItems" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "All Items"
+
+[node name="SubFeatured1" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Subfeatured 1"
+
+[node name="SubFeatured2" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Subfeatured 2"
+
+[node name="SubFeatured3" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Subfeatured 3"
+
+[node name="Catalog" type="HBoxContainer" parent="PanelContainer/PanelContainer/Shop"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Categories" type="MarginContainer" parent="PanelContainer/PanelContainer/Shop/Catalog"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 50
+
+[node name="Categories" type="VBoxContainer" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Back" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ypglk")
+text = "Back
+"
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ra00p")
+
+[node name="Bundle" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Bundle
+"
+
+[node name="Pistol" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Pistol
+"
+
+[node name="Shotgun" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Shotgun
+"
+
+[node name="SMG" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "SMG"
+
+[node name="Rifle" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Rifle"
+
+[node name="Sniper" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "Sniper"
+
+[node name="HeavyGun" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 3
+text = "HeavyGun"
+
+[node name="Items" type="GridContainer" parent="PanelContainer/PanelContainer/Shop/Catalog"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 5
+
+[node name="Item1" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item2" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item3" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item4" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item5" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item6" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item7" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item8" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item9" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item10" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item11" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item12" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item13" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item14" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item15" type="Button" parent="PanelContainer/PanelContainer/Shop/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemPreview" type="PanelContainer" parent="PanelContainer/PanelContainer/Shop"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w1w0n")
+
+[node name="PreviewHolder" type="VBoxContainer" parent="PanelContainer/PanelContainer/Shop/ItemPreview"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="ClosePreviewBtn" type="Button" parent="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/icon_max_width = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hgdlu")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_71ila")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xu2mu")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_b7slm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6gi75")
+icon = ExtResource("6_7wl7i")
+
+[node name="ItemImage" type="TextureRect" parent="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+texture = SubResource("GradientTexture1D_p5wu5")
+
+[node name="PurchaseBtn" type="Button" parent="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 18
+text = "$200.00
+Purchase"
+
+[node name="Collection" type="PanelContainer" parent="PanelContainer/PanelContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 15.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ok051")
+
+[node name="Catalog" type="VBoxContainer" parent="PanelContainer/PanelContainer/Collection"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Categories" type="MarginContainer" parent="PanelContainer/PanelContainer/Collection/Catalog"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 50
+
+[node name="Categories" type="HBoxContainer" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Back" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ypglk")
+text = "Back
+"
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ra00p")
+
+[node name="Bundle" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Bundle
+"
+
+[node name="Pistol" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Pistol
+"
+
+[node name="Shotgun" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Shotgun
+"
+
+[node name="SMG" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "SMG"
+
+[node name="Rifle" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Rifle"
+
+[node name="Sniper" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Sniper"
+
+[node name="HeavyGun" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "HeavyGun"
+
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ra00p")
+
+[node name="Items" type="GridContainer" parent="PanelContainer/PanelContainer/Collection/Catalog"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 5
+
+[node name="Item1" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item2" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item3" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item4" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item5" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item6" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item7" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item8" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item9" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item10" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item11" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item12" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item13" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item14" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Item15" type="Button" parent="PanelContainer/PanelContainer/Collection/Catalog/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemPreview" type="PanelContainer" parent="PanelContainer/PanelContainer/Collection"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w1w0n")
+
+[node name="PreviewHolder" type="VBoxContainer" parent="PanelContainer/PanelContainer/Collection/ItemPreview"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="ClosePreviewBtn" type="Button" parent="PanelContainer/PanelContainer/Collection/ItemPreview/PreviewHolder"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/icon_max_width = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hgdlu")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_71ila")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xu2mu")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_b7slm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6gi75")
+icon = ExtResource("6_7wl7i")
+
+[node name="ItemImage" type="TextureRect" parent="PanelContainer/PanelContainer/Collection/ItemPreview/PreviewHolder"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+texture = SubResource("GradientTexture1D_p5wu5")
+
+[node name="PurchaseBtn" type="Button" parent="PanelContainer/PanelContainer/Collection/ItemPreview/PreviewHolder"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 18
+text = "$200.00
+Purchase"
+
+[node name="Settings" type="PanelContainer" parent="."]
+visible = false
+show_behind_parent = true
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -130.0
-offset_top = -190.0
-offset_right = 130.0
-offset_bottom = -92.0004
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.945098, 0.705882, 0.733333, 1)
-theme_override_fonts/font = SubResource("11")
-theme_override_styles/normal = SubResource("10")
-theme_override_styles/pressed = SubResource("12")
-text = "Play"
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g7mrr")
 
-[node name="SettingsBtn" type="Button" parent="Menu"]
-layout_mode = 0
-anchor_left = 1.0
+[node name="MainPanel" type="PanelContainer" parent="Settings"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_0bh02")
+
+[node name="PanelHolder" type="PanelContainer" parent="Settings/MainPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p5gy2")
+
+[node name="TabContainer" type="TabContainer" parent="Settings/MainPanel/PanelHolder"]
+layout_mode = 2
+theme_override_constants/side_margin = 50
+theme_override_font_sizes/font_size = 14
+theme_override_styles/panel = SubResource("StyleBoxFlat_y4vis")
+current_tab = 1
+all_tabs_in_front = true
+
+[node name="VideoSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/VideoSettings"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -320.0
-offset_top = 25.0
-offset_right = -190.0
-offset_bottom = 85.0
-theme_override_colors/font_color = Color(0.945098, 0.705882, 0.733333, 1)
-theme_override_fonts/font = SubResource("13")
-theme_override_styles/normal = SubResource("15")
-theme_override_styles/pressed = SubResource("14")
-text = "Settings"
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="ExitBtn" type="Button" parent="Menu"]
-layout_mode = 0
-anchor_left = 1.0
+[node name="AudioSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
+layout_mode = 2
+tab_close_display_policy = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -160.0
-offset_top = 25.0
-offset_right = -30.0
-offset_bottom = 85.0
-theme_override_colors/font_color = Color(0.945098, 0.705882, 0.733333, 1)
-theme_override_fonts/font = SubResource("16")
-theme_override_styles/normal = SubResource("18")
-theme_override_styles/pressed = SubResource("17")
-text = "Exit"
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Menu"]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 19.0
-offset_right = 258.0
-offset_bottom = 86.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-text = "sdfsdfds"
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+
+[node name="ColorRect3" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+
+[node name="ColorRect4" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+
+[node name="ColorRect5" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+
+[node name="CloseSettingsBtn" type="Button" parent="Settings/MainPanel"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/icon_max_width = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ryov4")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_htpdb")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_gxt7i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_oqmx5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x8365")
+icon = ExtResource("6_7wl7i")
 
 [node name="LoginScreen" type="ColorRect" parent="."]
 visible = false
@@ -247,6 +982,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 0.980392, 1, 1)
 script = ExtResource("4_4mgtj")
+metadata/_edit_lock_ = true
 
 [node name="Login" type="VBoxContainer" parent="LoginScreen"]
 layout_mode = 1
@@ -541,17 +1277,36 @@ text = "Sign Up
 "
 
 [node name="WarningMessage" parent="." instance=ExtResource("5_sovu5")]
+visible = false
 layout_mode = 1
-offset_bottom = -19.0
-scale = Vector2(1, 1.01759)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
 metadata/_edit_lock_ = true
 
-[connection signal="visibility_changed" from="Menu" to="Menu" method="_on_visibility_changed"]
-[connection signal="pressed" from="Menu/GameModesHolder/HBoxContainer/Deathmatch" to="Menu" method="_on_deathmatch_pressed"]
-[connection signal="pressed" from="Menu/GameModesHolder/HBoxContainer/CaptureFlag" to="Menu" method="_on_capture_flag_pressed"]
-[connection signal="pressed" from="Menu/PlayBtn" to="Menu" method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="Menu/SettingsBtn" to="Menu" method="_on_SettingsBtn_pressed"]
-[connection signal="pressed" from="Menu/ExitBtn" to="Menu" method="_on_ExitBtn_pressed"]
+[connection signal="visibility_changed" from="PanelContainer/MenuNav" to="PanelContainer/MenuNav" method="_on_visibility_changed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/LogoBtn" to="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons" method="_on_SettingsBtn_pressed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Home" to="." method="_change_screen" binds= [0, false]]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Shop" to="." method="_change_screen" binds= [3, true]]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/SettingsBtn" to="." method="_toggle_node" binds= [2, true, true, false]]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/Deathmatch" to="PanelContainer/MenuNav" method="_on_deathmatch_pressed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/CaptureFlag" to="PanelContainer/MenuNav" method="_on_capture_flag_pressed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/ZoneDomination" to="PanelContainer/MenuNav" method="_on_zone_domination_pressed"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer/AllItems" to="PanelContainer/PanelContainer/Shop" method="open_item_catalog"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories/Back" to="PanelContainer/PanelContainer/Shop" method="close_shop_panel"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories/Back" to="." method="_change_screen" binds= [0, false]]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder/ClosePreviewBtn" to="PanelContainer/PanelContainer/Shop" method="toggle_preview_item" binds= [false]]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder/PurchaseBtn" to="PanelContainer/PanelContainer/Shop" method="on_item_purchased"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories/Back" to="." method="_change_screen"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories/Back" to="PanelContainer/PanelContainer/Collection" method="close_shop_panel"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Collection/ItemPreview/PreviewHolder/PurchaseBtn" to="PanelContainer/PanelContainer/Collection" method="on_item_purchased"]
+[connection signal="pressed" from="Settings/MainPanel/CloseSettingsBtn" to="." method="_toggle_node" binds= [2, true, false, false]]
 [connection signal="pressed" from="LoginScreen/Login/Passw/PasswInput/PasswToggleBtn" to="LoginScreen" method="_on_passw_toggle_btn_pressed" binds= ["Log In Pass Input"]]
 [connection signal="pressed" from="LoginScreen/Login/LoginBtn" to="LoginScreen" method="_on_login_btn_pressed"]
 [connection signal="pressed" from="LoginScreen/Login/OpenCreateAccBtn" to="LoginScreen" method="_on_open_create_acc_btn_pressed"]

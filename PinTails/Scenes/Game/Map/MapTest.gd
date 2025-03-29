@@ -13,7 +13,7 @@ var tail_data_list : Array
 
 func _ready():    
 	multiplayer.server_relay = true
-	GAMEPLAYMANAGER.map_node = self
+	GameplayManager.map_node = self
 	print("Map ready")
 	
 	if not multiplayer.is_server():
@@ -21,8 +21,8 @@ func _ready():
 	
 	multiplayer.peer_connected.connect(spawner.add_player)
 	multiplayer.peer_disconnected.connect(spawner.del_player)
-	#if GAMEPLAYMANAGER.local_host_mode && not OS.has_feature("dedicated_server"):
-	if GAMEPLAYMANAGER.server_mode_selected && not OS.has_feature("dedicated_server"):
+	#if GameplayManager.local_host_mode && not OS.has_feature("dedicated_server"):
+	if GameplayManager.server_mode_selected && not OS.has_feature("dedicated_server"):
 		spawner.add_player(1)
 	
 ##<-------For testing-------->
@@ -31,7 +31,7 @@ func _ready():
 	
 	for tail_class in Tail.Classes.keys():
 		if tail_class == "Mantis_Shrimp" || tail_class == "Scorpion" || tail_class == "Meerkat":
-			tail_class = STRINGHELPER.filter_string(tail_class, true, "_")
+			tail_class = StringHelper.filter_string(tail_class, true, "_")
 			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]):
 				var tail_data =  ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]).get_tail_data()
 				tail_data_list.append(tail_data)
@@ -43,7 +43,7 @@ func _ready():
 	
 	var equipment_transform = Transform3D(Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO)
 	equipment_transform.origin.y += 5.0
-	spawner.spawn_weapon(equipment_transform, WEAPONS.Weapon_Types.PISTOL, "", {})
+	spawner.spawn_weapon(equipment_transform, Weapons.Weapon_Types.PISTOL, "", {})
 ##<-------For testing-------->
 
 

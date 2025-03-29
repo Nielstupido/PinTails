@@ -8,7 +8,7 @@ func prepare_tail_card(passed_tail_data):
 	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
 	if passed_tail_data != null:
 		self.tail_data = passed_tail_data
-		$Title.text = STRINGHELPER.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
+		$Title.text = StringHelper.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
 
 
 func _on_tail_card_pressed(selected_tail_data):
@@ -19,5 +19,5 @@ func _on_tail_card_pressed(selected_tail_data):
 
 
 func _on_Button_pressed():
-	owner.player_selected_tail(PLAYERACCOUNT.username, self.tail_data)
+	owner.player_selected_tail(PlayerAccount.username, self.tail_data)
 	tail_cards_holder.emit_signal("on_tail_card_pressed", self.tail_data)

@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Tails/Meerkat/Tower.gd" id="1_qjnvj"]
 [ext_resource type="Texture2D" uid="uid://bofllpjnrwr2d" path="res://addons/kenney_prototype_textures/green/texture_09.png" id="2_2ng51"]
 [ext_resource type="Shader" path="res://Scenes/Tails/Meerkat/VisionArea.gdshader" id="3_mk6ey"]
+[ext_resource type="ArrayMesh" uid="uid://cbjsqre76ik0" path="res://3dModels/SkillObjects/Stones/Stone2/stone.obj" id="4_jqimk"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ad3kp"]
 height = 3.0
@@ -28,34 +29,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, -0.1, 0)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("RockParticleSystem:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.570634, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_g8c0m"]
-resource_name = "arise"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("StaticBody3D:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, -1.6, 0), Vector3(0, 1.3, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_j5mnr"]
 resource_name = "hide"
@@ -73,11 +46,27 @@ tracks/0/keys = {
 "values": [Vector3(0, 1.3, 0), Vector3(0, -1.6, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_g8c0m"]
+resource_name = "rise"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaticBody3D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.6, 0), Vector3(0, 1.3, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y0tjd"]
 _data = {
 "RESET": SubResource("Animation_hrfkl"),
-"arise": SubResource("Animation_g8c0m"),
-"hide": SubResource("Animation_j5mnr")
+"hide": SubResource("Animation_j5mnr"),
+"rise": SubResource("Animation_g8c0m")
 }
 
 [sub_resource type="Animation" id="Animation_ch62w"]
@@ -117,6 +106,25 @@ _data = {
 "hide_debris": SubResource("Animation_ljbrf")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cu4ap"]
+transparency = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qjwan"]
+emission_shape_offset = Vector3(0.5, 0, 0)
+direction = Vector3(0, 2, 0)
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+linear_accel_min = 1.0
+linear_accel_max = 2.0
+attractor_interaction_enabled = false
+scale_min = 0.1
+scale_max = 0.4
+collision_mode = 1
+collision_friction = 0.2
+collision_bounce = 0.1
+collision_use_scale = true
+
 [sub_resource type="SphereMesh" id="SphereMesh_lkfly"]
 radius = 20.0
 height = 40.0
@@ -138,33 +146,6 @@ radius = 20.0
 properties/0/path = NodePath(".:transform")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qjwan"]
-angle_min = 10.0
-angle_max = 720.0
-direction = Vector3(0, 1, 0)
-spread = 18.409
-initial_velocity_min = 3.0
-initial_velocity_max = 4.0
-linear_accel_min = 1.0
-linear_accel_max = 3.0
-scale_min = 0.1
-scale_max = 0.4
-collision_mode = 1
-collision_friction = 0.2
-collision_bounce = 0.1
-collision_use_scale = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_loy36"]
-transparency = 1
-billboard_mode = 3
-billboard_keep_scale = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="PrismMesh" id="PrismMesh_tvmbe"]
-material = SubResource("StandardMaterial3D_loy36")
 
 [node name="Tower" type="Node3D"]
 script = ExtResource("1_qjnvj")
@@ -192,6 +173,21 @@ libraries = {
 "": SubResource("AnimationLibrary_hch5l")
 }
 
+[node name="RockParticleSystem" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570634, 0)
+material_override = SubResource("StandardMaterial3D_cu4ap")
+emitting = false
+amount = 250
+lifetime = 7.5
+explosiveness = 0.19
+fixed_fps = 60
+fract_delta = false
+collision_base_size = 0.2
+visibility_aabb = AABB(-39.4942, -515.329, -42.736, 88.1445, 516.478, 83.5471)
+trail_lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_qjwan")
+draw_pass_1 = ExtResource("4_jqimk")
+
 [node name="VisionArea" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 2
@@ -205,19 +201,6 @@ shape = SubResource("SphereShape3D_c0m12")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0lf18")
-
-[node name="RockParticleSystem" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.570634, 0)
-emitting = false
-amount = 400
-sub_emitter = NodePath(".")
-lifetime = 8.0
-fract_delta = false
-collision_base_size = 0.2
-visibility_aabb = AABB(-39.4942, -515.329, -42.736, 88.1445, 516.478, 83.5471)
-trail_lifetime = 10.0
-process_material = SubResource("ParticleProcessMaterial_qjwan")
-draw_pass_1 = SubResource("PrismMesh_tvmbe")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="VisionArea" to="." method="_on_vision_area_body_entered"]

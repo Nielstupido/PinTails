@@ -7,7 +7,7 @@ var tails : Array
 
 
 func _ready():
-	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "add_tail"))
+	GameplayManager.connect("tail_picked_up", Callable(self, "add_tail"))
 
 
 func add_tail(tail_data):
@@ -26,7 +26,7 @@ func remove_tail(tail_data):
 	var removed_tail_key : int
 	removed_tail_key = tails.find(tail_data)
 	tails.erase(tail_data)
-	GAMEPLAYMANAGER.emit_signal("tail_removed", tail_data, removed_tail_key)
+	GameplayManager.emit_signal("tail_removed", tail_data, removed_tail_key)
 	
 	if tails.size() == 0:
 		tail_card1.clear_tail_card()

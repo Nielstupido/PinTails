@@ -7,7 +7,7 @@ var id : int
 
 
 func _ready():
-	GAMEPLAYMANAGER.connect("weapon_picked_up", Callable(self, "_weapon_picked_up"))
+	GameplayManager.connect("weapon_picked_up", Callable(self, "_weapon_picked_up"))
 	
 	if self.owner:
 		if self.owner.is_in_group("Player"):

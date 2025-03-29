@@ -17,18 +17,20 @@ config/icon="res://icon.png"
 
 [autoload]
 
-STRINGHELPER="*res://Scenes/Globals/StringHelper.gd"
-SKILLS="*res://Scenes/Globals/Skills.gd"
-MATCHMANAGER="*res://Scenes/Globals/MatchManager.gd"
-PLAYERACCOUNT="*res://Scenes/Globals/PlayerAccount.gd"
-GAMEPLAYMANAGER="*res://Scenes/Globals/GameplayManager.gd"
-WEAPONS="*res://Scenes/Globals/Weapons.gd"
+StringHelper="*res://Scenes/Globals/StringHelper.gd"
+Skills="*res://Scenes/Globals/Skills.gd"
+PlayerAccount="*res://Scenes/Globals/PlayerAccount.gd"
+Weapons="*res://Scenes/Globals/Weapons.gd"
+Settings="*res://Scenes/Globals/Settings.gd"
+SettingsConfig="*res://Scenes/Globals/SettingsConfig.gd"
+GameplayManager="*res://Scenes/Globals/GameplayManager.gd"
+MatchManager="*res://Scenes/Globals/MatchManager.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=1
+window/size/mode=3
 window/size/resizable=false
 window/size/window_width_override=1280
 window/size/window_height_override=720
@@ -37,10 +39,11 @@ window/size/fullscreen=true
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/grappling_hook_3d/plugin.cfg", "res://addons/terrain_3d/plugin.cfg")
 
 [gui]
 
+theme/default_font_multichannel_signed_distance_field=true
 common/drop_mouse_on_gui_input_disabled=true
 
 [input]

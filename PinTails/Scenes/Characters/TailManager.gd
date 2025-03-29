@@ -7,8 +7,8 @@ var current_active_tail_attrb : Array
 
 
 func _ready():
-	GAMEPLAYMANAGER.connect("tail_picked_up", Callable(self, "set_tail_attr"))
-	GAMEPLAYMANAGER.connect("tail_removed", Callable(self, "remove_tail"))
+	GameplayManager.connect("tail_picked_up", Callable(self, "set_tail_attr"))
+	GameplayManager.connect("tail_removed", Callable(self, "remove_tail"))
 
 
 func add_tail(passed_tail : TailData) -> bool:

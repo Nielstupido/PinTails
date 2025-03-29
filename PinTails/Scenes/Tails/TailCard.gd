@@ -18,7 +18,7 @@ func _ready():
 func prepare_tail_card(passed_tail_data):
 	if passed_tail_data != null:
 		self.tail_data = passed_tail_data
-		self.title_node.text = STRINGHELPER.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
+		self.title_node.text = StringHelper.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
 		self.attrb_node.text = self.tail_data.attrb_str
 		self.blank_card.hide()
 

@@ -39,7 +39,7 @@ func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 
 
 @rpc("any_peer", "call_local", "reliable")
-func spawn_weapon(node_caller, weapon_type : WEAPONS.Weapon_Types, weapon_data_bytes : String, var_list : Dictionary) -> void:
+func spawn_weapon(node_caller, weapon_type : Weapons.Weapon_Types, weapon_data_bytes : String, var_list : Dictionary) -> void:
 	if node_caller is NodePath:
 		obj_spawner.spawn_path = node_caller
 	
@@ -47,9 +47,9 @@ func spawn_weapon(node_caller, weapon_type : WEAPONS.Weapon_Types, weapon_data_b
 		var weapon_instance
 		
 		match(weapon_type):
-			WEAPONS.Weapon_Types.PISTOL:
+			Weapons.Weapon_Types.PISTOL:
 				weapon_instance = pistol_obj.instantiate()
-			WEAPONS.Weapon_Types.RIFLE:
+			Weapons.Weapon_Types.RIFLE:
 				weapon_instance = rifle_obj.instantiate()
 		
 		if weapon_data_bytes == "":
@@ -69,13 +69,9 @@ func spawn_weapon(node_caller, weapon_type : WEAPONS.Weapon_Types, weapon_data_b
 
 
 @rpc("any_peer", "call_local", "reliable")
-func remove_obj(node_path : String):
-	if !multiplayer.is_server():
-		return
-	
-	var item = get_node(node_path)
-	if item:
-		item.queue_free()
+func remove_obj(node_path : String, is_caller_authority : bool):
+	if multiplayer.is_server() and has_node(node_path):
+		get_node(node_path).queue_free()
 
 
 func add_player(id: int):

@@ -6,13 +6,13 @@ extends RigidBody3D
 # Damage is being set by the wieldable.
 var damage_amount : int = 0
 ## Determine what happens if the projectile hits something. Keep this false for stuff like Arrows. True for stuff like bullets or rockets.
-@export var destroy_on_impact : bool = false
+@export var destroy_on_impact : bool = true
 ## Determine if the player can pick this projectile up again.
 @export var is_pickup : bool = false
 #@export var slot_data : InventorySlotPD
 @export var interaction_text : String = "Pick up"
 
-var projectile_velocity = 20
+var projectile_velocity = 50
 var camera_collision : Vector3 :
 	set(value):
 		if value == Vector3.ZERO:
@@ -27,17 +27,30 @@ var camera_collision : Vector3 :
 
 
 func on_timeout():
-	queue_free()
+	_destroy()
 
 
 func _on_body_entered(body):
-	if body is HitboxComponent:
+	if body.is_in_group("Player"):
 		print(self, " _on_body_entered: ", body)
-		body.damage(damage_amount)
+		body.take_damage(damage_amount)
 		if destroy_on_impact:
-			queue_free()
+			_destroy()
+	
 	if destroy_on_impact:
+		_destroy()
+
+
+func _destroy():
+	if is_multiplayer_authority():
+		$MultiplayerSynchronizer.public_visibility = false
+	
+	$Lifespan.stop()
+	
+	if multiplayer.is_server():
 		queue_free()
+	
+	#get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
 
 
 #func interact(body):
