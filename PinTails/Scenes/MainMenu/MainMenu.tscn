@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://cbogrbbgtrq3y"]
+[gd_scene load_steps=61 format=3 uid="uid://d4bfn0hafryld"]
 
 [ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://drh7jqc6y41bx" path="res://Scenes/MainMenu/Background.tscn" id="2_h3u6l"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dw0w24io2wuip" path="res://Scenes/Tools/WarningMessage.tscn" id="5_sovu5"]
 [ext_resource type="Texture2D" uid="uid://wt6rniksqah2" path="res://AssetsUI/exit.png" id="6_7wl7i"]
 [ext_resource type="Texture2D" uid="uid://cet035yiaoinq" path="res://AssetsUI/MainMenu/Buttons/setting.png" id="6_jxokt"]
+[ext_resource type="PackedScene" uid="uid://cg11p8ed1tp4g" path="res://Scenes/Settings/SettingsList.tscn" id="7_gywn3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ic5mt"]
 
@@ -436,6 +437,7 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ok051")
 
 [node name="Shop" type="PanelContainer" parent="PanelContainer/PanelContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 15.0
@@ -933,30 +935,8 @@ grow_vertical = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-
-[node name="ColorRect" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(500, 200)
-layout_mode = 2
-
-[node name="ColorRect2" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(500, 200)
-layout_mode = 2
-
-[node name="ColorRect3" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(500, 200)
-layout_mode = 2
-
-[node name="ColorRect4" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(500, 200)
-layout_mode = 2
-
-[node name="ColorRect5" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(500, 200)
+[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="CloseSettingsBtn" type="Button" parent="Settings/MainPanel"]

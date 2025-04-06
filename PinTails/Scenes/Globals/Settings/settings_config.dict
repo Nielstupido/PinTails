@@ -1,0 +1,12 @@
+{
+"brightness": "float(true)",
+"effects_volume": "float(42)",
+"fullscreen": "bool(true)",
+"gui_scale": "float(1)",
+"is_ads_hold": "bool(true)",
+"is_crouch_hold": "bool(true)",
+"master_volume": "float(43)",
+"mouse_sensitivity": "float(0.1)",
+"music_volume": "float(42)",
+"voice_volume": "float(42)"
+}

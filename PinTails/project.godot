@@ -22,9 +22,13 @@ Skills="*res://Scenes/Globals/Skills.gd"
 PlayerAccount="*res://Scenes/Globals/PlayerAccount.gd"
 Weapons="*res://Scenes/Globals/Weapons.gd"
 Settings="*res://Scenes/Globals/Settings.gd"
-SettingsConfig="*res://Scenes/Globals/SettingsConfig.gd"
 GameplayManager="*res://Scenes/Globals/GameplayManager.gd"
 MatchManager="*res://Scenes/Globals/MatchManager.gd"
+GameSettings="*res://Scenes/Globals/Settings/GameSettings.gd"
+AudioSettings="*res://Scenes/Globals/Settings/AudioSettings.gd"
+InputSettings="*res://Scenes/Globals/Settings/InputSettings.gd"
+VideoSettings="*res://Scenes/Globals/Settings/VideoSettings.gd"
+SettingsConfig="*res://Scenes/Globals/SettingsConfig.gd"
 
 [display]
 

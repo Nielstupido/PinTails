@@ -24,7 +24,7 @@ func _ready():
 	#if GameplayManager.local_host_mode && not OS.has_feature("dedicated_server"):
 	if GameplayManager.server_mode_selected && not OS.has_feature("dedicated_server"):
 		spawner.add_player(1)
-	
+	 
 ##<-------For testing-------->
 	var randomZ = RandomNumberGenerator.new()
 	var dir = DirAccess.open(tail_res_folder)

@@ -71,7 +71,7 @@ func set_setting(setting_name : String, value) -> bool:
 	match type:
 		SettingType.FLOAT, SettingType.INT:
 			if (value is float and type == SettingType.FLOAT) or (\
-				value is int and type == SettingType.INT):
+					value is int and type == SettingType.INT):
 				var min_value = get_setting_min_value(setting_name)
 				var max_value = get_setting_max_value(setting_name)
 
@@ -309,11 +309,12 @@ func is_setting_bool(setting_name : String) -> bool:
 func add_enum_setting(setting_name : String, variants : PackedStringArray, default : int) -> bool:
 	if _settings.has(setting_name) or default > variants.size() - 1 or default < 0:
 		return false
+	
 	_settings[setting_name] = {
 		_FIELD_TYPE : SettingType.ENUM,
 		_FIELD_VARIANTS : variants,
 		_FIELD_DEFAULT : default,
-		_FIELD_VALUE : default
+		_FIELD_VALUE : default,
 	}
 	emit_signal("setting_added", setting_name)
 	emit_signal("settings_list_changed")

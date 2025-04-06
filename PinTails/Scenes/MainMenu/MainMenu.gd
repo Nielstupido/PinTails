@@ -13,7 +13,7 @@ enum Screens {
 var _current_screen : Screens
 var _current_screen_has_bg : bool
 
-var screen_nodes = {
+var screen_nodes = { 
 	Screens.MAIN : "PanelContainer/PanelContainer/Menu",
 	Screens.LOGIN : "Settings",
 	Screens.SETTINGS : "Settings/MainPanel",
@@ -23,8 +23,9 @@ var screen_nodes = {
 
 
 func _ready():
-	_current_screen = Screens.MAIN
+	_current_screen = Screens.MAIN 
 	_current_screen_has_bg = false
+	%SettingsList.call_deferred("attach_settings", true)
 
 
 func _on_PlayBtn_pressed():
@@ -42,7 +43,7 @@ func _on_visibility_changed():
 		pass
 
 
-func _on_deathmatch_pressed():
+func _on_deathmatch_pressed(): 
 	GameplayManager.server_mode_selected = true
 	GameplayManager.load_game_play_scene()
 

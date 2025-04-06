@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://dj0gk5nwbvhs8"]
+
+[ext_resource type="Script" path="res://Scenes/Settings/SettingsGroup.gd" id="1_7s2sg"]
+
+[node name="SettingsGroup" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7s2sg")
+
+[node name="GroupName" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.521141, 0.521141, 0.521141, 1)
+theme_override_font_sizes/font_size = 17
+
+[node name="ListOffset" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 5
+
+[node name="SettingsList" type="VBoxContainer" parent="ListOffset"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 25
