@@ -8,7 +8,6 @@ var temp_setting_name : String = ""
 # Override this function
 func _get_value():
 	return str(%Value.text)
-	pass
 
 
 # Override this function
@@ -17,22 +16,20 @@ func _set_value(value):
 	if value == null:
 		return
 	
-	for event in value:
-		var temp_event = event
-		match event:
-			"Mouse Button 1":
-				temp_event = "Mouse Left Button"
-			"Mouse Button 2":
-				temp_event = "Mouse Right Button"
-			"Mouse Button 3":
-				temp_event = "Mouse Middle Button"
-			"Mouse Button 4":
-				temp_event = "Mouse Wheel Up"
-			"Mouse Button 5":
-				temp_event = "Mouse Wheel Down"
-		%Value.text += temp_event
-		if value.find(event) != (value.size() - 1):
-			%Value.text += ", "
+	match value:
+		"Ctrl":
+			value = "Control"
+		"Mouse Button 1":
+			value = "Mouse Left Button"
+		"Mouse Button 2":
+			value = "Mouse Right Button"
+		"Mouse Button 3":
+			value = "Mouse Middle Button"
+		"Mouse Button 4":
+			value = "Mouse Wheel Up"
+		"Mouse Button 5":
+			value = "Mouse Wheel Down"
+	%Value.text = value
 
 
 # Override this function
@@ -40,7 +37,6 @@ func _on_value_edited():
 	var new_value = get_value()
 	if new_value != Settings.get_setting(_setting_name):
 		Settings.set_setting(_setting_name, new_value)
-	pass
 
 
 # Override this function
@@ -49,29 +45,22 @@ func _on_setting_attached():
 	temp_setting_name = _setting_name
 	
 	if "movement|" in temp_setting_name:
-		temp_setting_name.erase(0, 9)
+		temp_setting_name = temp_setting_name.erase(0, 9)
 		
 	elif "player|" in temp_setting_name:
-		temp_setting_name.erase(0, 7)
+		temp_setting_name = temp_setting_name.erase(0, 7)
 		
 	elif "playerhand|" in temp_setting_name:
-		temp_setting_name.erase(0, 11)
-		
-	elif "misc|" in temp_setting_name:
-		temp_setting_name.erase(0, 5)
+		temp_setting_name = temp_setting_name.erase(0, 11)
 		
 	elif "itm|" in temp_setting_name:
-		temp_setting_name.erase(0, 4)
+		temp_setting_name = temp_setting_name.erase(0, 4)
 		
 	elif "ablty|" in temp_setting_name:
-		temp_setting_name.erase(0, 6)
+		temp_setting_name = temp_setting_name.erase(0, 6)
 		
-	elif "com|" in temp_setting_name:
-		temp_setting_name.erase(0, 4)
-	
 	temp_setting_name = temp_setting_name.replace("_", " ")
 	%Name.text = temp_setting_name[0].to_upper() + temp_setting_name.substr(1,-1)
-	pass
 
 
 func _on_Value_value_changed(value):
@@ -96,7 +85,7 @@ func _input(event):
 				print("Joypad Motion " + str(event.get_axis()))
 			elif event is InputEventKey:
 				if event.physical_keycode:
-					if event.physical_scancode == 16777217:
+					if event.physical_keycode == 16777217:
 						return
 				else:
 					if event.keycode == 16777217:

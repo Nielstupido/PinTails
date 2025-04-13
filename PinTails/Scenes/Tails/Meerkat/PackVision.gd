@@ -5,7 +5,7 @@ extends Node3D
 
 
 func _input(event):
-	if event.is_action_pressed("action_primary"):
+	if event.is_action_pressed("playerhand|action_primary"):
 		pass
 
 

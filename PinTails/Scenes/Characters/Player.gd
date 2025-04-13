@@ -439,8 +439,8 @@ func _apply_player_controls(delta):
 
 
 func _process_on_ladder(_delta):
-	var input_dir = Input.get_vector("left", "right", "forward", "back")
-	var jump = Input.is_action_pressed("jump")
+	var input_dir = Input.get_vector("movement|left", "movement|right", "movement|forward", "movement|back")
+	var jump = Input.is_action_pressed("player|jump")
 	
 	# Processing analog stick mouselook
 	if joystick_h_event:
@@ -492,7 +492,7 @@ func _process_movement(delta) -> void:
 		crouching_collision_shape.disabled = false
 		stand_after_roll = false
 	
-	if Input.is_action_pressed("crouch") and !is_movement_paused or crouch_raycast.is_colliding():
+	if Input.is_action_pressed("player|crouch") and !is_movement_paused or crouch_raycast.is_colliding():
 		if is_on_floor():
 			current_speed = lerp(current_speed, CROUCHING_SPEED, delta * LERP_SPEED)
 		head.position.y = lerp(head.position.y, CROUCHING_DEPTH, delta * LERP_SPEED)
@@ -504,7 +504,7 @@ func _process_movement(delta) -> void:
 		if is_sprinting and input_dir != Vector2.ZERO and is_on_floor():
 			sliding_timer.start()
 			slide_vector = input_dir
-		elif !Input.is_action_pressed("sprint"):
+		elif !Input.is_action_pressed("player|sprint"):
 			sliding_timer.stop()
 		is_walking = false
 		is_sprinting = false
@@ -516,8 +516,8 @@ func _process_movement(delta) -> void:
 		crouching_collision_shape.disabled = true
 		sliding_timer.stop()
 		# Prevent sprinting if player is out of stamina.
-		if Input.is_action_pressed("sprint") and is_using_stamina and stamina_component.current_stamina > 0:
-			if !Input.is_action_pressed("jump") and !is_jumping:
+		if Input.is_action_pressed("player|sprint") and is_using_stamina and stamina_component.current_stamina > 0:
+			if !Input.is_action_pressed("player|jump") and !is_jumping:
 				bunny_hop_speed = SPRINTING_SPEED
 			current_speed = lerp(current_speed, bunny_hop_speed, delta * LERP_SPEED)
 			wiggle_current_intensity = WIGGLE_ON_SPRINTING_INTENSITY
@@ -526,8 +526,8 @@ func _process_movement(delta) -> void:
 			is_sprinting = true
 			is_crouching = false
 			movement_motion_blur.toggle_motion_blur(true)
-		elif Input.is_action_pressed("sprint") and !is_using_stamina:	
-			if !Input.is_action_pressed("jump") and !is_jumping:
+		elif Input.is_action_pressed("player|sprint") and !is_using_stamina:	
+			if !Input.is_action_pressed("player|jump") and !is_jumping:
 				bunny_hop_speed = SPRINTING_SPEED
 			current_speed = lerp(current_speed, bunny_hop_speed, delta * LERP_SPEED)
 			wiggle_current_intensity = WIGGLE_ON_SPRINTING_INTENSITY
@@ -590,7 +590,7 @@ func _process_gravity(delta) -> void:
 			can_wallrun = true
 	
 	## Wallrunning jump
-	if Input.is_action_pressed("jump") and is_wallrunning:
+	if Input.is_action_pressed("player|jump") and is_wallrunning:
 		can_wallrun = false
 		is_wallrunning = false
 		velocity = Vector3.ZERO
@@ -651,7 +651,7 @@ func _process_jump(delta) -> void:
 			#health_component.subtract(fall_damage)
 			pass
 	
-	if (Input.is_action_pressed("jump") or is_jumping) and !is_movement_paused and is_on_floor():
+	if (Input.is_action_pressed("player|jump") or is_jumping) and !is_movement_paused and is_on_floor():
 		snap = Vector3.ZERO
 		is_falling = true
 		
@@ -683,7 +683,7 @@ func _process_jump(delta) -> void:
 ##<<<< WALLRUNNING SKILL >>>>
 func _process_wallrun() -> void:
 	if can_wallrun and wallrun_skill_node.is_skill_enabled:
-		if is_on_wall() and Input.is_action_pressed("forward") and Input.is_action_pressed("sprint"):
+		if is_on_wall() and Input.is_action_pressed("movement|forward") and Input.is_action_pressed("player|sprint"):
 			var collision = get_slide_collision(0)
 			var normal = collision.get_normal()
 			

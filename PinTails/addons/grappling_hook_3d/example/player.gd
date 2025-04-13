@@ -19,7 +19,7 @@ const HOOK_NOT_AVAILIBLE_TEXTURE = preload("res://addons/grappling_hook_3d/examp
 
 func _physics_process(delta: float) -> void:
 	# Horizontal movement
-	var movement_direction: Vector2 = Input.get_vector("left", "right", "backward", "forward")
+	var movement_direction: Vector2 = Input.get_vector("movement|left", "movement|right", "movement|backward", "movement|forward")
 	var movement_vector: Vector3 = (transform.basis * Vector3(movement_direction.x, 0, -movement_direction.y)).normalized()
 	
 	velocity += movement_vector * movement_speed * delta * 60
@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity
 	
-	elif Input.is_action_pressed("jump"):
+	elif Input.is_action_pressed("player|jump"):
 		velocity.y = jump_force
 	
 	move_and_slide()

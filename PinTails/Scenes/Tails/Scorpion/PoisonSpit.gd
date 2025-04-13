@@ -8,7 +8,7 @@ var stab_damage : int
 
 
 func _input(event) -> void:
-	if event.is_action_pressed("action_primary") and is_skill_triggered:
+	if event.is_action_pressed("playerhand|action_primary") and is_skill_triggered:
 		skill_animation_player.play("poison_stab")
 
 

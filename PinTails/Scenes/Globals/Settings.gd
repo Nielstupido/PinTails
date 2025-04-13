@@ -103,7 +103,7 @@ func set_setting(setting_name : String, value) -> bool:
 		SettingType.STRING:
 			if value is InputEvent:
 				var old_value = _settings[setting_name][_FIELD_VALUE]
-#				_settings[setting_name][_FIELD_VALUE] = value
+				_settings[setting_name][_FIELD_VALUE] = value
 				emit_signal("setting_changed", setting_name, old_value, value)
 			elif value == "all":
 				emit_signal("setting_changed", setting_name, null, value)
@@ -155,7 +155,7 @@ func set_setting_group(setting_name : String, group_name : String):
 
 
 # Takes a setting out of its group
-func clear_setting_group(setting_name : String):
+func  _group(setting_name : String):
 	var setting_data = _settings.get(setting_name)
 	if not setting_data:
 		return
@@ -331,7 +331,7 @@ func is_setting_enum(setting_name : String) -> bool:
 	return get_setting_type(setting_name) == SettingType.ENUM
 
 
-func add_string_setting(setting_name : String, default : PackedStringArray) -> bool:
+func add_string_setting(setting_name : String, default) -> bool:
 	if _settings.has(setting_name):
 		return false
 	_settings[setting_name] = {
@@ -341,6 +341,7 @@ func add_string_setting(setting_name : String, default : PackedStringArray) -> b
 	}
 	emit_signal("setting_added", setting_name)
 	emit_signal("settings_list_changed")
+	print(setting_name + " == " + str(get_setting(setting_name)))
 	return true
 
 

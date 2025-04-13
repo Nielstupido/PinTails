@@ -10,7 +10,7 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action_pressed("action_primary"):
+	if event.is_action_pressed("playerhand|action_primary"):
 		get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
 				"spawn_object", 
 				global_transform, 

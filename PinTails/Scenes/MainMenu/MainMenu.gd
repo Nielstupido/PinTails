@@ -5,11 +5,13 @@ enum Screens {
 	LOGIN,
 	SETTINGS,
 	SHOP,
-	ACCOUNT
+	ACCOUNT,
+	COLLECTIONS,
 }
 
 @onready var warning_msg = $WarningMessage
 @onready var node_animator = $NodeAnimator
+@onready var game_modes_holder = $PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder
 var _current_screen : Screens
 var _current_screen_has_bg : bool
 
@@ -17,18 +19,18 @@ var screen_nodes = {
 	Screens.MAIN : "PanelContainer/PanelContainer/Menu",
 	Screens.LOGIN : "Settings",
 	Screens.SETTINGS : "Settings/MainPanel",
-	Screens.SHOP : "PanelContainer/PanelContainer/Shop/MainPanel",
-	Screens.ACCOUNT : "Settings",
+	Screens.SHOP : "PanelContainer/PanelContainer/Shop",
+	Screens.ACCOUNT : "Settings",		
+	Screens.COLLECTIONS : "PanelContainer/PanelContainer/Collection",
 }
 
 
 func _ready():
 	_current_screen = Screens.MAIN 
 	_current_screen_has_bg = false
-	%SettingsList.call_deferred("attach_settings", true)
 
 
-func _on_PlayBtn_pressed():
+func _on_PlayBtn_pressed(): 
 	MatchManager.start_matchmaking(PlayerAccount.username)
 	#GameplayManager.server_mode_selected = false
 	GameplayManager.server_mode_selected = true
@@ -74,3 +76,10 @@ func _toggle_node(target_node : Screens, has_target_node_bg : bool, do_open : bo
 	else:
 		node_animator.close_node(get_node(screen_nodes[target_node]), 
 			on_transition, get_node(screen_nodes[target_node]).get_parent() if has_target_node_bg else null)
+
+
+func _on_play_pressed():
+	if _current_screen == Screens.MAIN:
+		pass
+	else:
+		_change_screen(Screens.MAIN,false)

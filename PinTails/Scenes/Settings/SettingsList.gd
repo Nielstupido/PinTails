@@ -1,7 +1,15 @@
 extends MarginContainer
 
 
+enum Settings_Category {
+	AUDIO_SETTINGS,
+	VIDEO_SETTINGS,
+	GAME_SETTINGS,
+	INPUT_SETTINGS,
+}
+
 #export var default_group_name = "Game Settings"
+@export var sett_category : Settings_Category
 
 const SetDefaultKeyBtn = preload("res://Scenes/Settings/SetDefaultKeys.tscn")
 const BlankRowScene = preload("res://Scenes/Settings/BlankRowScene.tscn")
@@ -25,6 +33,10 @@ var index : int = 0
 var counter : int = 0
 
 
+func _ready():
+	attach_settings(false)
+
+
 func attach_settings(be_sorted : bool):
 	clear_ui()
 	generate_ui()
@@ -45,7 +57,20 @@ func generate_ui():
 	
 	for _s in Settings.get_settings_list():
 		var setting_name = _s as String
-		add_setting(setting_name)
+		
+		match(sett_category):
+			Settings_Category.AUDIO_SETTINGS:
+				if "Audio" in Settings.get_setting_group(setting_name):
+					add_setting(setting_name)
+			Settings_Category.VIDEO_SETTINGS:
+				if "Video" in Settings.get_setting_group(setting_name):
+					add_setting(setting_name)
+			Settings_Category.GAME_SETTINGS:
+				if "Game" in Settings.get_setting_group(setting_name):
+					add_setting(setting_name)
+			Settings_Category.INPUT_SETTINGS:
+				if "Input Key" in Settings.get_setting_group(setting_name):
+					add_setting(setting_name)
 
 
 func sort_setting_groups():
@@ -110,8 +135,8 @@ func add_setting(setting_name : String):
 	if group_name == "Input Key Settings" and is_first_key_settings:
 		is_first_key_settings = false
 		settings_group.add_editor(SetDefaultKeyBtn.instantiate())
-		settings_group.get_node("ListOffset/SettingsList/Container/Button").connect("pressed", 
-				Callable(get_parent().owner.get_node("ResetPanel"), "toggle_panel"))
+		settings_group.get_node("ListOffset/SettingsList/SetDefaultKeys/Button").connect("pressed", 
+				Callable($ResetPanel, "toggle_panel"))
 	
 	var setting_editor = SettingsEditors[Settings.get_setting_type(setting_name)].instantiate() as SettingsNode
 	settings_group.add_editor(setting_editor)

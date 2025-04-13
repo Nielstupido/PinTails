@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://d4bfn0hafryld"]
+[gd_scene load_steps=61 format=3 uid="uid://cd5cfte8iuih5"]
 
 [ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://drh7jqc6y41bx" path="res://Scenes/MainMenu/Background.tscn" id="2_h3u6l"]
@@ -10,14 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cet035yiaoinq" path="res://AssetsUI/MainMenu/Buttons/setting.png" id="6_jxokt"]
 [ext_resource type="PackedScene" uid="uid://cg11p8ed1tp4g" path="res://Scenes/Settings/SettingsList.tscn" id="7_gywn3"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ic5mt"]
-
-[sub_resource type="Gradient" id="Gradient_jme06"]
-colors = PackedColorArray(0.0745098, 0, 0.207843, 0.286275, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_tuwjw"]
-gradient = SubResource("Gradient_jme06")
-fill_to = Vector2(0, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hxkxa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmw1u"]
 content_margin_left = 20.0
@@ -101,18 +94,27 @@ corner_radius_top_right = 1
 corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ijw0a"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucmka"]
+bg_color = Color(1, 1, 1, 0.117647)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y63xc"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ok051"]
 content_margin_left = 200.0
-content_margin_top = 150.0
+content_margin_top = 120.0
 content_margin_right = 200.0
-content_margin_bottom = 150.0
-bg_color = Color(1, 1, 1, 0.117647)
+content_margin_bottom = 120.0
+bg_color = Color(1, 1, 1, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ypglk"]
 content_margin_top = 20.0
 content_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uyf56"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ra00p"]
 
@@ -146,10 +148,11 @@ content_margin_left = 300.0
 content_margin_top = 100.0
 content_margin_right = 300.0
 content_margin_bottom = 100.0
-bg_color = Color(0, 0, 0, 0.333333)
+bg_color = Color(0, 0, 0, 0.811765)
 
 [sub_resource type="Gradient" id="Gradient_o7p0n"]
-colors = PackedColorArray(0.0117647, 0, 0.0745098, 0.890196, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0, 0.983471)
+colors = PackedColorArray(0.0117647, 0, 0.0745098, 0.886275, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ag88e"]
 gradient = SubResource("Gradient_o7p0n")
@@ -257,18 +260,18 @@ grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="MenuNav" type="PanelContainer" parent="PanelContainer"]
+[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ic5mt")
+size_flags_stretch_ratio = 0.3
+color = Color(1, 1, 1, 0.117647)
+
+[node name="MenuNav" type="PanelContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hxkxa")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MenuNav"]
 layout_mode = 2
-
-[node name="Background" type="TextureRect" parent="PanelContainer/MenuNav/MarginContainer"]
-layout_mode = 2
-texture = SubResource("GradientTexture2D_tuwjw")
-expand_mode = 2
 
 [node name="Container" type="VBoxContainer" parent="PanelContainer/MenuNav/MarginContainer"]
 layout_mode = 2
@@ -276,9 +279,8 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="MenuTabButtons" type="PanelContainer" parent="PanelContainer/MenuNav/MarginContainer/Container"]
-custom_minimum_size = Vector2(0, 65)
+custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_rmw1u")
 
 [node name="Container" type="HBoxContainer" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons"]
@@ -307,7 +309,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_c7crb")
 [node name="Home" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
 text = "Home
@@ -316,7 +318,7 @@ text = "Home
 [node name="Shop" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
 text = "Shop"
@@ -329,7 +331,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_w1sgn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w1sgn")
 text = "Play"
@@ -337,7 +339,7 @@ text = "Play"
 [node name="Hero" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
 text = "Hero"
@@ -345,7 +347,7 @@ text = "Hero"
 [node name="Collection" type="Button" parent="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_18tih")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q15yl")
 text = "Collection
@@ -377,7 +379,6 @@ visible = false
 custom_minimum_size = Vector2(800, 35)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_tok35")
 
 [node name="GameModes" type="HBoxContainer" parent="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder"]
@@ -391,7 +392,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.992157, 0.941176, 0.941176, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("9")
 theme_override_styles/hover = SubResource("StyleBoxTexture_jhx42")
 theme_override_styles/pressed = SubResource("7")
@@ -404,7 +405,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.992157, 0.941176, 0.941176, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("9")
 theme_override_styles/hover = SubResource("StyleBoxTexture_jhx42")
 theme_override_styles/pressed = SubResource("7")
@@ -417,7 +418,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.992157, 0.941176, 0.941176, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("9")
 theme_override_styles/hover = SubResource("StyleBoxTexture_jhx42")
 theme_override_styles/pressed = SubResource("7")
@@ -429,12 +430,15 @@ text = "Zone Domination
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 15.0
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ijw0a")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ucmka")
 
 [node name="Menu" type="PanelContainer" parent="PanelContainer/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_ok051")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y63xc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PanelContainer/Menu"]
+layout_mode = 2
 
 [node name="Shop" type="PanelContainer" parent="PanelContainer/PanelContainer"]
 visible = false
@@ -448,10 +452,28 @@ script = ExtResource("5_qhahd")
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/PanelContainer/Shop/MainPanel"]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+
+[node name="Back" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_ypglk")
+text = "Back
+"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 8.0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_uyf56")
+
 [node name="FeaturedItem" type="Button" parent="PanelContainer/PanelContainer/Shop/MainPanel"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.5
+size_flags_stretch_ratio = 6.0
 text = "Main Featured"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PanelContainer/Shop/MainPanel"]
@@ -906,22 +928,47 @@ layout_mode = 2
 theme_override_constants/side_margin = 50
 theme_override_font_sizes/font_size = 14
 theme_override_styles/panel = SubResource("StyleBoxFlat_y4vis")
-current_tab = 1
 all_tabs_in_front = true
 
-[node name="VideoSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
-visible = false
+[node name="GameSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
 layout_mode = 2
+tab_close_display_policy = 2
 
-[node name="ColorRect" type="ColorRect" parent="Settings/MainPanel/PanelHolder/TabContainer/VideoSettings"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/GameSettings"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/GameSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
+layout_mode = 2
+sett_category = 2
+
+[node name="VideoSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
+visible = false
+layout_mode = 2
+tab_close_display_policy = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/VideoSettings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/VideoSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
+layout_mode = 2
+sett_category = 1
 
 [node name="AudioSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
+visible = false
 layout_mode = 2
 tab_close_display_policy = 2
 
@@ -936,8 +983,26 @@ horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
 [node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
-unique_name_in_owner = true
 layout_mode = 2
+
+[node name="InputSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
+visible = false
+layout_mode = 2
+tab_close_display_policy = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/InputSettings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/InputSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
+layout_mode = 2
+sett_category = 3
 
 [node name="CloseSettingsBtn" type="Button" parent="Settings/MainPanel"]
 layout_mode = 2
@@ -1273,18 +1338,20 @@ metadata/_edit_lock_ = true
 [connection signal="visibility_changed" from="PanelContainer/MenuNav" to="PanelContainer/MenuNav" method="_on_visibility_changed"]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/LogoBtn" to="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons" method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Home" to="." method="_change_screen" binds= [0, false]]
-[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Shop" to="." method="_change_screen" binds= [3, true]]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Shop" to="." method="_change_screen" binds= [3, false]]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Collection" to="." method="_change_screen" binds= [5, false]]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/SettingsBtn" to="." method="_toggle_node" binds= [2, true, true, false]]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/Deathmatch" to="PanelContainer/MenuNav" method="_on_deathmatch_pressed"]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/CaptureFlag" to="PanelContainer/MenuNav" method="_on_capture_flag_pressed"]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/ZoneDomination" to="PanelContainer/MenuNav" method="_on_zone_domination_pressed"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer2/Back" to="." method="_change_screen" binds= [0, false]]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer/AllItems" to="PanelContainer/PanelContainer/Shop" method="open_item_catalog"]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories/Back" to="PanelContainer/PanelContainer/Shop" method="close_shop_panel"]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/Catalog/Categories/Categories/Back" to="." method="_change_screen" binds= [0, false]]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder/ClosePreviewBtn" to="PanelContainer/PanelContainer/Shop" method="toggle_preview_item" binds= [false]]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder/PurchaseBtn" to="PanelContainer/PanelContainer/Shop" method="on_item_purchased"]
-[connection signal="pressed" from="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories/Back" to="." method="_change_screen"]
-[connection signal="pressed" from="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories/Back" to="PanelContainer/PanelContainer/Collection" method="close_shop_panel"]
+[connection signal="pressed" from="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories/Back" to="." method="_change_screen" binds= [0, false]]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Collection/ItemPreview/PreviewHolder/PurchaseBtn" to="PanelContainer/PanelContainer/Collection" method="on_item_purchased"]
 [connection signal="pressed" from="Settings/MainPanel/CloseSettingsBtn" to="." method="_toggle_node" binds= [2, true, false, false]]
 [connection signal="pressed" from="LoginScreen/Login/Passw/PasswInput/PasswToggleBtn" to="LoginScreen" method="_on_passw_toggle_btn_pressed" binds= ["Log In Pass Input"]]

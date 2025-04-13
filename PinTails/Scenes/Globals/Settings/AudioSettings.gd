@@ -92,6 +92,9 @@ func get_volume(idx : int) -> float:
 
 
 func on_setting_changed(setting_name, old_value, new_value):
+	if not new_value is float:
+		return
+	
 	if old_value == new_value:
 		return
 	

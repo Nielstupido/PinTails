@@ -57,12 +57,12 @@ func _ready():
 			#unpause_game()
 	#
 	#if not paused:
-		#input_motion = Input.get_vector("left", "right", "forward", "backward")
+		#input_motion = Input.get_vector("movement|left", "movement|right", "movement|forward", "movement|backward")
 		#
-		#if Input.is_action_just_pressed("jump"):
+		#if Input.is_action_just_pressed("player|jump"):
 			#jump.rpc()
 			#
-		#running = input_motion.length() > 0 && Input.is_action_pressed("sprint")
+		#running = input_motion.length() > 0 && Input.is_action_pressed("player|sprint")
 
 
 func _input(event):

@@ -34,14 +34,14 @@ var hold_time : float = 0.0
 
 
 func _process(delta):
-	if Input.is_action_pressed("attach_tail") and owner.is_multiplayer_authority():
+	if Input.is_action_pressed("player|attach_tail") and owner.is_multiplayer_authority():
 		hold_time += (delta * 15)
 		if hold_time > HOLD_TIME_THRES:
 			if !owner.tail_config_menu.visible:
 				owner.is_looking_aroung_paused = true
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 				owner.tail_config_menu.show()
-	elif Input.is_action_just_released("attach_tail") and owner.is_multiplayer_authority():
+	elif Input.is_action_just_released("player|attach_tail") and owner.is_multiplayer_authority():
 		if hold_time < HOLD_TIME_THRES:
 			if pickupable_tail_obj != null:
 				if owner.tail_manager.add_tail(pickupable_tail_obj.tail_data):
@@ -76,10 +76,10 @@ func _process(delta):
 
 func _input(event):
 	if !owner.is_looking_aroung_paused and owner.is_multiplayer_authority():
-		if event.is_action_pressed("buy_menu"):
+		if event.is_action_pressed("player|buy_menu"):
 			buy_weapon_menu.open_buy_menu() 
 		
-		if event.is_action_pressed("drop_weapon"): 
+		if event.is_action_pressed("player|drop_weapon"): 
 			weapon_inventory.drop_weapon()
 		
 		if event.is_action_pressed("pick_up"):
@@ -89,30 +89,30 @@ func _input(event):
 		
 		# Wieldable primary Action Input
 		if !owner.is_movement_paused:
-			if Input.is_action_just_pressed("action_primary"):
+			if Input.is_action_just_pressed("playerhand|action_primary"):
 				if is_wielding and !owner.skill_manager.is_timed_trigger_enabled:
 					weapon_inventory.action_primary()
 			
 			if !owner.skill_manager.is_timed_trigger_enabled:
-				if is_wielding and Input.is_action_just_pressed("action_secondary"):
+				if is_wielding and Input.is_action_just_pressed("playerhand|action_secondary"):
 					weapon_inventory.action_secondary(false)
-				if is_wielding and Input.is_action_just_released("action_secondary"):
+				if is_wielding and Input.is_action_just_released("playerhand|action_secondary"):
 					weapon_inventory.action_secondary(true)
 			
-			if is_wielding and event.is_action_pressed("reload"):
+			if is_wielding and event.is_action_pressed("player|reload"):
 				if owner.interaction_raycast.is_colliding() and owner.interaction_raycast.get_collider().has_method("interact"):
 					return
 				else:
 					weapon_inventory.attempt_reload()
 		
 		# Weapon switching using middle mouse dial
-		if event.is_action_pressed("next_weapon"):
+		if event.is_action_pressed("itm|next_weapon"):
 			weapon_inventory.switch_weapon("Next")
 		
-		if event.is_action_pressed("prev_weapon"):
+		if event.is_action_pressed("itm|prev_weapon"):
 			weapon_inventory.switch_weapon("Prev")
 		
-		if event.is_action_pressed("holster"):
+		if event.is_action_pressed("player|holster"):
 			weapon_inventory.holster() 
 
 

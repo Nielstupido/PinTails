@@ -69,11 +69,11 @@ func get_gui_scale() -> float:
 
 
 func on_setting_changed(setting_name, old_value, new_value):
-	if old_value == new_value:
-		return
-	
 	match setting_name:
 		SETTING_FULLSCREEN:
+			if old_value == new_value:
+				return
+			
 			if new_value:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 			else:
@@ -82,12 +82,18 @@ func on_setting_changed(setting_name, old_value, new_value):
 			emit_signal("fullscreen_changed", new_value)
 			SettingsConfig.save_settings()
 		SETTING_BRIGHTNESS:
+			if old_value == new_value:
+				return
+			
 			if is_instance_valid(GameplayManager.game):   # If the game is loaded, change immediately
 				GameplayManager.game.set_brightness() 
 			brightness = new_value
 			emit_signal("brightness_changed", new_value)   # TODO: make this signal
 			SettingsConfig.save_settings()
 		SETTING_GUI_SCALE:
+			if old_value == new_value:
+				return
+			
 			gui_scale = new_value
 			emit_signal("gui_scale_changed", new_value)
 			SettingsConfig.save_settings()

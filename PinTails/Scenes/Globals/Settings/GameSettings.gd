@@ -43,6 +43,8 @@ func get_ads_hold() -> bool:
 
 
 func on_setting_changed(setting_name, old_value, new_value):
+	if not new_value is bool:
+		return
 	
 	if old_value == new_value:
 		return

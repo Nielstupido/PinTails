@@ -30,19 +30,19 @@ func _ready():
 
 func _input(event):
 	if is_multiplayer_authority():
-		if event.is_action_pressed("first_skill"):
+		if event.is_action_pressed("ablty|first_skill"):
 			if skill_card1.can_use_skill():
 				use_skill(skill_card1)
 		
-		if event.is_action_pressed("second_skill"):
+		if event.is_action_pressed("ablty|second_skill"):
 			if skill_card2.can_use_skill():
 				use_skill(skill_card2)
 		
-		if event.is_action_pressed("third_skill"):
+		if event.is_action_pressed("ablty|third_skill"):
 			if skill_card3.can_use_skill():
 				use_skill(skill_card3)
 		
-		if Input.is_action_just_pressed("action_primary"):
+		if Input.is_action_just_pressed("playerhand|action_primary"):
 			if is_waiting_shot_trigger || is_waiting_double_trigger:
 				is_waiting_shot_trigger = false
 				execute_skill()
