@@ -9,7 +9,7 @@ func toggle_panel():
 
 
 func _on_yes_pressed():
-	Settings.set_setting(KeybindingManager.keys_default.keys()[3], "all")
+	Settings.set_setting(InputKeySettings.actions[0], "all")
 	toggle_panel() 
 
 

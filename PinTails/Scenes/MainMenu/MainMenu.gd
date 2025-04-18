@@ -20,7 +20,7 @@ var screen_nodes = {
 	Screens.LOGIN : "Settings",
 	Screens.SETTINGS : "Settings/MainPanel",
 	Screens.SHOP : "PanelContainer/PanelContainer/Shop",
-	Screens.ACCOUNT : "Settings",		
+	Screens.ACCOUNT : "Settings",
 	Screens.COLLECTIONS : "PanelContainer/PanelContainer/Collection",
 }
 

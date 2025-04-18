@@ -341,7 +341,6 @@ func add_string_setting(setting_name : String, default) -> bool:
 	}
 	emit_signal("setting_added", setting_name)
 	emit_signal("settings_list_changed")
-	print(setting_name + " == " + str(get_setting(setting_name)))
 	return true
 
 

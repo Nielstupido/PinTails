@@ -5,7 +5,7 @@ const GROUP_NAME : String = "Input Key Settings"
 
 var setting_key_inputs : String = ""
 var is_waiting_input : bool = false
-var events 
+var event
 var actions : PackedStringArray = []
 var actions_copy : PackedStringArray
 var flag : int = 1
@@ -60,13 +60,13 @@ func _ready():
 							set_keys(x)
 						elif "player|roll" in actions_copy[x] and counter == 4:
 							set_keys(x)
-						elif "player|attach_tail" in actions_copy[x] and counter == 4:
+						elif "player|attach_tail" in actions_copy[x] and counter == 5:
 							set_keys(x)
-						elif "player|shoulder_change" in actions_copy[x] and counter == 4:
+						elif "player|shoulder_change" in actions_copy[x] and counter == 6:
 							set_keys(x)
-						elif "player|radial_menu" in actions_copy[x] and counter == 4:
+						elif "player|radial_menu" in actions_copy[x] and counter == 7:
 							set_keys(x)
-						elif "player|holster " in actions_copy[x] and counter == 4:
+						elif "player|holster" in actions_copy[x] and counter == 8:
 							set_keys(x)
 					3:
 						if "playerhand|action_primary" in actions_copy[x] and counter == 0:
@@ -82,13 +82,13 @@ func _ready():
 							set_keys(x)
 						elif "itm|prev_weapon" in actions_copy[x] and counter == 1:
 							set_keys(x)
+					#5:
+						#if str(counter + 1) in actions_copy[x] and counter < 10:
+							#if (counter + 1) == 1 and ( "11" in actions_copy[x] or "10" in actions_copy[x]):
+								#pass
+							#else:
+								#set_keys(x)
 					5:
-						if str(counter + 1) in actions_copy[x] and counter < 10:
-							if (counter + 1) == 1 and ( "11" in actions_copy[x] or "10" in actions_copy[x]):
-								pass
-							else:
-								set_keys(x)
-					6:
 						if "ablty|skill_trigger_primary" in actions_copy[x] and counter == 0:
 							set_keys(x)
 						elif "ablty|skill_trigger_secondary" in actions_copy[x] and counter == 1:
@@ -97,7 +97,7 @@ func _ready():
 							set_keys(x)
 						elif "ablty|second_skill" in actions_copy[x] and counter == 3:
 							set_keys(x)
-						elif "ablty|third_skill" in actions_copy[x] and counter == 3:
+						elif "ablty|third_skill" in actions_copy[x] and counter == 4:
 							set_keys(x)
 					_:
 						actions_copy.remove_at(actions_copy.find(actions_copy[x]))
@@ -119,43 +119,38 @@ func _ready():
 				1:
 					counter_max = 4
 				2:
-					counter_max = 5
+					counter_max = 9
 				3:
-					counter_max = 6
+					counter_max = 4
 				4:
-					counter_max = 3
+					counter_max = 2
 				5:
-					counter_max = 10
-				6:
-					counter_max = 3
-				7:
-					counter_max = 3
-				8:
-					counter_max = 6
-		
+					counter_max = 5
 		if actions_copy.size() < 1 or safe_counter > 100:
 			is_done = true
-		
-	Settings.connect("setting_changed", Callable(self, "on_setting_changed"))
+	
+	Settings.connect("setting_changed", Callable(self, "on_setting_changed")) 
 
 
 func set_keys(x):
-	var event = InputMap.action_get_events(actions_copy[x])[0]
-	if event is InputEventMouseButton:
-		events = "Mouse Button " + str(event.button_index)
-	elif event is InputEventJoypadButton:
-		events = "Joypad Button " + str(event.button_index)
-	elif event is InputEventJoypadMotion:
-		pass
-	else:
-		if event.physical_keycode:
-			events = str(OS.get_keycode_string(event.physical_keycode))
+	if InputMap.action_get_events(actions_copy[x]):
+		var raw_event = InputMap.action_get_events(actions_copy[x])[0]
+		if raw_event is InputEventMouseButton:
+			event = "Mouse Button " + str(raw_event.button_index)
+		elif raw_event is InputEventJoypadButton:
+			event = "Joypad Button " + str(raw_event.button_index)
+		elif raw_event is InputEventJoypadMotion:
+			pass
 		else:
-			events = str(OS.get_keycode_string(event.keycode))
+			if raw_event.physical_keycode:
+				event = str(OS.get_keycode_string(raw_event.physical_keycode))
+			else:
+				event = str(OS.get_keycode_string(raw_event.keycode))
+	else:
+		event = null
 	
 	actions.append(actions_copy[x])
-	print(actions_copy[x] + " == " + str(events))
-	Settings.add_string_setting(actions_copy[x], events)
+	Settings.add_string_setting(actions_copy[x], event)
 	Settings.set_setting_group(actions_copy[x], GROUP_NAME)
 	actions_copy.remove_at(actions_copy.find(actions_copy[x]))
 	key_removed = true
@@ -185,28 +180,31 @@ func set_event(setting_name, old_value, new_value):
 			InputMap.action_erase_event(setting_name, events_setting[0])
 		InputMap.action_add_event(setting_name, new_value)
 	
-	KeybindingManager.save_keys()
-	
+	KeybindingManager.save_keys(false)
 	save_keys(setting_name, old_value)
 
 
 func save_keys(setting_name : String, old_value):
-	var event = InputMap.action_get_events(setting_name)[0]
-	if event is InputEventMouseButton:
-		events = "Mouse Button " + str(event.button_index)
-	elif event is InputEventJoypadButton:
-		events = "Joypad Button " + str(event.button_index)
-	else:
-		if event.physical_keycode:
-			events = str(OS.get_keycode_string(event.physical_keycode))
+	if InputMap.action_get_events(setting_name):
+		var raw_event = InputMap.action_get_events(setting_name)[0]
+		
+		if raw_event is InputEventMouseButton:
+			event = "Mouse Button " + str(raw_event.button_index)
+		elif raw_event is InputEventJoypadButton:
+			event = "Joypad Button " + str(raw_event.button_index)
 		else:
-			events = str(OS.get_keycode_string(event.keycode))
+			if raw_event.physical_keycode:
+				event = str(OS.get_keycode_string(raw_event.physical_keycode))
+			else:
+				event = str(OS.get_keycode_string(raw_event.keycode))
+	else:
+		event = null
 	
 	if old_value == null:
 		old_value = Settings.get_setting(setting_name)
 	
 	#Settings.set_setting(setting_name, events)
-	Settings.emit_signal("keys_saved", setting_name, old_value, events)
+	Settings.emit_signal("keys_saved", setting_name, old_value, event)
 
 
 func on_setting_changed (setting_name, old_value, new_value):
@@ -221,13 +219,15 @@ func reset_actions():
 		InputMap.action_erase_events(action)
 		 
 		var has_invalid : bool = false
-		var events_arr = Array()
+		var events_arr = Array()  
 		for event_str in KeybindingManager.keys_default[action]:
 			var event = KeybindingManager.str_to_event(event_str)
+			
 			if event:
 				events_arr.push_back(event)
 			else:
 				has_invalid = true
+		
 		if not has_invalid:
 			InputMap.action_erase_events(action)
 		for event in events_arr:
@@ -235,4 +235,4 @@ func reset_actions():
 		
 		save_keys(action, null)
 	
-	KeybindingManager.save_keys()
+	KeybindingManager.save_keys(false)

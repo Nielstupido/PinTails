@@ -77,8 +77,6 @@ func _input(event):
 			
 			if event is InputEventMouseButton:
 				print("Mouse Button " + str(event.get_button_index()))
-				if event.get_button_index() == 2:
-						return
 			elif event is InputEventJoypadButton:
 				print("Joypad Button " + str(event.get_button_index()))
 			elif event is InputEventJoypadMotion:
@@ -90,7 +88,6 @@ func _input(event):
 				else:
 					if event.keycode == 16777217:
 						return
-				print(str(OS.get_keycode_string(event.physical_keycode)))
 			
 			get_parent().get_parent().get_parent().get_parent().owner.get_node("ChangeKeyPanel").hide()
 			is_waiting_input = false

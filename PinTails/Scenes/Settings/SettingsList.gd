@@ -153,7 +153,7 @@ func add_group(group_name : String) -> bool:
 		add_blank_row()
 	
 	var new_group = GroupScene.instantiate()
-	$SettingsList.add_child(new_group)
+	$SettingsList.add_child(new_group) 
 	group_nodes[group_name] = new_group
 	new_group.group_name = str(group_name) + "\n"
 	return true

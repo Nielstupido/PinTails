@@ -52,8 +52,8 @@ func load_keys():
 			printerr("corrupted data!")
 	else:
 		#NoFile, so lets save the default keys now
-		save_keys()
-		save_default_keys()
+		save_keys(false)
+		call_deferred("save_default_keys", true)
 	
 	var raw = FileAccess.open(file_name_default, FileAccess.READ)
 	var file_str = raw.get_as_text()
@@ -63,7 +63,6 @@ func load_keys():
 		keys_default = data
 	else:
 		printerr("corrupted data!")
-	pass
 
 
 func setup_keys(key_dict : Dictionary):
@@ -127,17 +126,12 @@ func str_to_event(string : String) -> InputEvent:
 	return null
 
 
-func save_keys():
+func save_keys(is_default : bool):
+	var file_n = file_name
+	if is_default:
+		file_n = file_name_default
 	var key_dict = gen_dict_from_input_map()
-	var raw = FileAccess.open(file_name, FileAccess.WRITE)
-	raw.store_string(var_to_str(key_dict))
-	raw.close()
-	print("saved keys")
-
-
-func save_default_keys():
-	var key_dict = gen_dict_from_input_map()
-	var raw = FileAccess.open(file_name_default, FileAccess.WRITE)
+	var raw = FileAccess.open(file_n, FileAccess.WRITE)
 	raw.store_string(var_to_str(key_dict))
 	raw.close()
 	print("saved keys")

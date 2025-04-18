@@ -1002,6 +1002,8 @@ vertical_scroll_mode = 2
 
 [node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/InputSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
 layout_mode = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 25
 sett_category = 3
 
 [node name="CloseSettingsBtn" type="Button" parent="Settings/MainPanel"]
