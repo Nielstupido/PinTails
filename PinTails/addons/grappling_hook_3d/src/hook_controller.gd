@@ -29,11 +29,11 @@ signal hook_detached()
 
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed(launch_action_name) and get_parent().is_skill_triggered:
+	if Input.is_action_just_pressed("playerhand|" + launch_action_name) and get_parent().is_skill_triggered:
 		hook_launched.emit()
 		_launch_hook()
 	
-	if Input.is_action_just_pressed(retract_action_name):
+	if Input.is_action_just_pressed("playerhand|" + retract_action_name):
 		_retract_hook()
 	
 	if is_hook_launched:

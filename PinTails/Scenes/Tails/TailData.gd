@@ -85,4 +85,4 @@ func stringify() -> String:
 		"skill_value" : self.skill_value,
 		"skill_duration" : self.skill_duration,
 		"skill_cd" : self.skill_cd
-		})
+	})

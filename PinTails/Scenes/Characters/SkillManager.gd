@@ -23,9 +23,9 @@ func _ready():
 	GameplayManager.connect("tail_picked_up", Callable(self, "reset_skill_dup"))
 	GameplayManager.connect("tail_removed", Callable(self, "remove_skill"))
 	GameplayManager.connect("tail_removed", Callable(self, "reset_skill"))
-	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("first_skill"))[0].keycode))
-	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("second_skill"))[0].keycode))
-	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("third_skill"))[0].keycode))
+	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|first_skill"))[0].keycode))
+	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|second_skill"))[0].keycode))
+	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|third_skill"))[0].keycode))
 
 
 func _input(event):

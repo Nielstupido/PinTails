@@ -2,7 +2,7 @@ class_name TailManager
 extends Node
 
 @onready var tails = []
-@onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
+@onready var tail_obj = preload("res://Scenes/Tails/TailObj.tscn")
 var current_active_tail_attrb : Array
 
 
@@ -33,7 +33,7 @@ func remove_tail(passed_tail : TailData, removed_tail_key) -> void:
 
 
 #adds/sets the attributes of the newly pinned tail to player 
-func set_tail_attr(passed_tail_data : TailData) -> void:
+func set_tail_attr(passed_tail_data : TailData) -> void: 
 	current_active_tail_attrb.append(passed_tail_data.skill_name)
 	owner.adtnl_movement_speed = passed_tail_data.adtnl_movement_speed
 	owner.adtnl_armor = passed_tail_data.adtnl_armor

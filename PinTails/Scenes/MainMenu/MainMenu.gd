@@ -17,10 +17,10 @@ var _current_screen_has_bg : bool
 
 var screen_nodes = { 
 	Screens.MAIN : "PanelContainer/PanelContainer/Menu",
-	Screens.LOGIN : "Settings",
-	Screens.SETTINGS : "Settings/MainPanel",
+	Screens.LOGIN : "SettingsUI",
+	Screens.SETTINGS : "SettingsUI/MainPanel",
 	Screens.SHOP : "PanelContainer/PanelContainer/Shop",
-	Screens.ACCOUNT : "Settings",
+	Screens.ACCOUNT : "SettingsUI",
 	Screens.COLLECTIONS : "PanelContainer/PanelContainer/Collection",
 }
 
@@ -28,6 +28,7 @@ var screen_nodes = {
 func _ready():
 	_current_screen = Screens.MAIN 
 	_current_screen_has_bg = false
+	$SettingsUI/MainPanel/CloseSettingsBtn.connect("pressed", Callable(self, "_close_settings"))
 
 
 func _on_PlayBtn_pressed(): 
@@ -83,3 +84,7 @@ func _on_play_pressed():
 		pass
 	else:
 		_change_screen(Screens.MAIN,false)
+
+
+func _close_settings():
+	_toggle_node(Screens.SETTINGS, true, false, false)

@@ -1,7 +1,7 @@
 extends Node
 
 
-@onready var tail_obj = preload("res://Scenes/Tails/Tail.tscn")
+@onready var tail_obj = preload("res://Scenes/Tails/TailObj.tscn")
 @onready var rifle_obj = preload("res://Scenes/Weapon/Rifle/Rifle.tscn")
 @onready var pistol_obj = preload("res://Scenes/Weapon/Pistol/Pistol.tscn")
 @onready var world_items = $"../WorldItems"
@@ -38,7 +38,7 @@ func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 		tail_instance.item_data_bytes = tail_data_bytes
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable") 
 func spawn_weapon(node_caller, weapon_type : Weapons.Weapon_Types, weapon_data_bytes : String, var_list : Dictionary) -> void:
 	if node_caller is NodePath:
 		obj_spawner.spawn_path = node_caller
@@ -77,12 +77,10 @@ func remove_obj(node_path : String, is_caller_authority : bool):
 func add_player(id: int):
 	print("Add player: " + str(id))
 	var character = preload("res://Scenes/Characters/Player.tscn").instantiate()
-	
 	var rng = RandomNumberGenerator.new()
 	var random_x = rng.randf_range(10.0, 15.0)
 	var random_z = rng.randf_range(10.0, 20.0)
 	character.position = Vector3(random_x, 10, random_z)
-	 
 	character.name = str(id)
 	player_nodes.add_child(character, true)
 

@@ -49,7 +49,7 @@ func change_map(scene: PackedScene):
 	var map = $"../Map"
 	for c in map.get_children():
 		map.remove_child(c)
-		c.queue_free()
+		c.queue_free() 
 	
 	map.add_child(scene.instantiate())
 

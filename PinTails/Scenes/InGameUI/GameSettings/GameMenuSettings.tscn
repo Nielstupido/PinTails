@@ -1,37 +1,19 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://c47g8f3mkdcrr"]
 
 [ext_resource type="Script" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://d38akepp0at6k" path="res://Scenes/Settings/SettingsUI.tscn" id="2_2bpij"]
 
 [node name="GameMenuSettings" type="CanvasLayer"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="Control" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="SettingsUI" parent="." instance=ExtResource("2_2bpij")]
+visible = true
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -331.0
-offset_top = -192.5
-offset_right = 331.0
-offset_bottom = 192.5
-color = Color( 0, 0, 0, 0.423529 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Button" type="Button" parent="Control/ColorRect"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -88.0
-offset_top = -44.0
-offset_right = 83.0
-offset_bottom = 16.0
+[node name="Button" type="Button" parent="SettingsUI"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 text = "Exit"
 
-[connection signal="pressed" from="Control/ColorRect/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="SettingsUI/Button" to="." method="_on_Button_pressed"]

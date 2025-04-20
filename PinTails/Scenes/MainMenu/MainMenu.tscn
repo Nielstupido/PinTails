@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://cd5cfte8iuih5"]
+[gd_scene load_steps=50 format=3 uid="uid://cd5cfte8iuih5"]
 
 [ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://drh7jqc6y41bx" path="res://Scenes/MainMenu/Background.tscn" id="2_h3u6l"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dw0w24io2wuip" path="res://Scenes/Tools/WarningMessage.tscn" id="5_sovu5"]
 [ext_resource type="Texture2D" uid="uid://wt6rniksqah2" path="res://AssetsUI/exit.png" id="6_7wl7i"]
 [ext_resource type="Texture2D" uid="uid://cet035yiaoinq" path="res://AssetsUI/MainMenu/Buttons/setting.png" id="6_jxokt"]
-[ext_resource type="PackedScene" uid="uid://cg11p8ed1tp4g" path="res://Scenes/Settings/SettingsList.tscn" id="7_gywn3"]
+[ext_resource type="PackedScene" uid="uid://d38akepp0at6k" path="res://Scenes/Settings/SettingsUI.tscn" id="7_8v2su"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hxkxa"]
 
@@ -142,53 +142,6 @@ corner_detail = 10
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_p5wu5"]
 gradient = SubResource("Gradient_ty67p")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7mrr"]
-content_margin_left = 300.0
-content_margin_top = 100.0
-content_margin_right = 300.0
-content_margin_bottom = 100.0
-bg_color = Color(0, 0, 0, 0.811765)
-
-[sub_resource type="Gradient" id="Gradient_o7p0n"]
-offsets = PackedFloat32Array(0, 0.983471)
-colors = PackedColorArray(0.0117647, 0, 0.0745098, 0.886275, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ag88e"]
-gradient = SubResource("Gradient_o7p0n")
-fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0bh02"]
-texture = SubResource("GradientTexture2D_ag88e")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5gy2"]
-content_margin_top = 20.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.756863)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4vis"]
-content_margin_left = 30.0
-content_margin_top = 10.0
-content_margin_right = 30.0
-content_margin_bottom = 20.0
-bg_color = Color(0.0745098, 0.0705882, 0.0941176, 0.541176)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ryov4"]
-content_margin_top = 8.0
-content_margin_right = 8.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htpdb"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gxt7i"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oqmx5"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x8365"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmhb8"]
 content_margin_left = 10.0
@@ -375,7 +328,6 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_q5lur")
 icon = ExtResource("6_jxokt")
 
 [node name="GameModesHolder" type="PanelContainer" parent="PanelContainer/MenuNav/MarginContainer/Container"]
-visible = false
 custom_minimum_size = Vector2(800, 35)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -904,119 +856,8 @@ theme_override_font_sizes/font_size = 18
 text = "$200.00
 Purchase"
 
-[node name="Settings" type="PanelContainer" parent="."]
-visible = false
-show_behind_parent = true
+[node name="SettingsUI" parent="." instance=ExtResource("7_8v2su")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_g7mrr")
-
-[node name="MainPanel" type="PanelContainer" parent="Settings"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_0bh02")
-
-[node name="PanelHolder" type="PanelContainer" parent="Settings/MainPanel"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_p5gy2")
-
-[node name="TabContainer" type="TabContainer" parent="Settings/MainPanel/PanelHolder"]
-layout_mode = 2
-theme_override_constants/side_margin = 50
-theme_override_font_sizes/font_size = 14
-theme_override_styles/panel = SubResource("StyleBoxFlat_y4vis")
-all_tabs_in_front = true
-
-[node name="GameSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
-layout_mode = 2
-tab_close_display_policy = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/GameSettings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/GameSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
-layout_mode = 2
-sett_category = 2
-
-[node name="VideoSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
-visible = false
-layout_mode = 2
-tab_close_display_policy = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/VideoSettings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/VideoSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
-layout_mode = 2
-sett_category = 1
-
-[node name="AudioSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
-visible = false
-layout_mode = 2
-tab_close_display_policy = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/AudioSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
-layout_mode = 2
-
-[node name="InputSettings" type="TabBar" parent="Settings/MainPanel/PanelHolder/TabContainer"]
-visible = false
-layout_mode = 2
-tab_close_display_policy = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Settings/MainPanel/PanelHolder/TabContainer/InputSettings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="SettingsList" parent="Settings/MainPanel/PanelHolder/TabContainer/InputSettings/ScrollContainer" instance=ExtResource("7_gywn3")]
-layout_mode = 2
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_bottom = 25
-sett_category = 3
-
-[node name="CloseSettingsBtn" type="Button" parent="Settings/MainPanel"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_constants/icon_max_width = 35
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ryov4")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_htpdb")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_gxt7i")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_oqmx5")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_x8365")
-icon = ExtResource("6_7wl7i")
 
 [node name="LoginScreen" type="ColorRect" parent="."]
 visible = false
@@ -1344,8 +1185,8 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/TabButtonsHolder/Collection" to="." method="_change_screen" binds= [5, false]]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/MenuTabButtons/Container/SettingsBtn" to="." method="_toggle_node" binds= [2, true, true, false]]
-[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/Deathmatch" to="PanelContainer/MenuNav" method="_on_deathmatch_pressed"]
-[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/CaptureFlag" to="PanelContainer/MenuNav" method="_on_capture_flag_pressed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/Deathmatch" to="." method="_on_deathmatch_pressed"]
+[connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/CaptureFlag" to="." method="_on_capture_flag_pressed"]
 [connection signal="pressed" from="PanelContainer/MenuNav/MarginContainer/Container/GameModesHolder/GameModes/ZoneDomination" to="PanelContainer/MenuNav" method="_on_zone_domination_pressed"]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer2/Back" to="." method="_change_screen" binds= [0, false]]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/MainPanel/HBoxContainer/AllItems" to="PanelContainer/PanelContainer/Shop" method="open_item_catalog"]
@@ -1355,7 +1196,6 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="PanelContainer/PanelContainer/Shop/ItemPreview/PreviewHolder/PurchaseBtn" to="PanelContainer/PanelContainer/Shop" method="on_item_purchased"]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Collection/Catalog/Categories/Categories/Back" to="." method="_change_screen" binds= [0, false]]
 [connection signal="pressed" from="PanelContainer/PanelContainer/Collection/ItemPreview/PreviewHolder/PurchaseBtn" to="PanelContainer/PanelContainer/Collection" method="on_item_purchased"]
-[connection signal="pressed" from="Settings/MainPanel/CloseSettingsBtn" to="." method="_toggle_node" binds= [2, true, false, false]]
 [connection signal="pressed" from="LoginScreen/Login/Passw/PasswInput/PasswToggleBtn" to="LoginScreen" method="_on_passw_toggle_btn_pressed" binds= ["Log In Pass Input"]]
 [connection signal="pressed" from="LoginScreen/Login/LoginBtn" to="LoginScreen" method="_on_login_btn_pressed"]
 [connection signal="pressed" from="LoginScreen/Login/OpenCreateAccBtn" to="LoginScreen" method="_on_open_create_acc_btn_pressed"]

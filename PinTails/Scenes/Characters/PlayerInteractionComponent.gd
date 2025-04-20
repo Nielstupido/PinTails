@@ -82,7 +82,7 @@ func _input(event):
 		if event.is_action_pressed("player|drop_weapon"): 
 			weapon_inventory.drop_weapon()
 		
-		if event.is_action_pressed("pick_up"):
+		if event.is_action_pressed("player|pick_up"):
 			if obj_in_focus != null and obj_in_focus.has_method("pick_up"):
 				if weapon_inventory.add_weapon(obj_in_focus.weapon_data):
 					obj_in_focus.pick_up()

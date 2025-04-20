@@ -17,4 +17,4 @@ func get_group_name():
 
 
 func add_editor(value : Node): 
-	%SettingsList.add_child(value)
+	%SettingsList.add_child(value) 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://hrc2o36cnx2j"]
 
-[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/Item.gd" id="1_oy3ve"]
+[ext_resource type="Script" path="res://Scenes/InventoryPD/CustomResources/Item.gd" id="1_56yu8"]
 
 [sub_resource type="BoxMesh" id="2"]
 
@@ -26,11 +26,11 @@ properties/1/path = NodePath(".:item_data_bytes")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Tail" type="RigidBody3D" groups=["Tail"]]
+[node name="TailObj" type="RigidBody3D" groups=["Tail"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000318125, -0.000611961, 0.000195682)
 collision_layer = 4
 collision_mask = 4
-script = ExtResource("1_oy3ve")
+script = ExtResource("1_56yu8")
 action_keyword = "attach_tail"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

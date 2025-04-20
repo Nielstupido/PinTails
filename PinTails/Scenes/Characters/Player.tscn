@@ -54,7 +54,7 @@
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="Shader" path="res://Scenes/Characters/ImpactMotionBlur.gdshader" id="31_7w6ck"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
-[ext_resource type="PackedScene" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
+[ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wopse"]
 properties/0/path = NodePath(".:transform")

@@ -3,11 +3,15 @@ extends RigidBody3D
 
 @export var weapon_data : WeaponData = null
 @export var action_keyword : String
-var item_data_bytes : String
 var interaction_text : String 
 var tail_data : TailData = null
 var is_dropped : bool = false
 var projectile_velocity = 3
+var item_data_bytes : String = "" :
+	set(value):
+		item_data_bytes = value
+		if item_data_bytes != "":
+			sync_data()
 
 var starting_point_transform = null : ##Transform3D
 	set(value):
@@ -17,7 +21,7 @@ var starting_point_transform = null : ##Transform3D
 var camera_collision : Vector3 = Vector3.ZERO :
 	set(value):
 		camera_collision = value
-		_assign_velocity()
+		_assign_velocity() 
 
 
 func _assign_velocity():
@@ -27,9 +31,9 @@ func _assign_velocity():
 	var direction = (camera_collision - starting_point_transform.origin).normalized()
 	set_linear_velocity(direction * projectile_velocity)
 
-
+ 
 func _ready():
-	interaction_text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events(action_keyword))[0].keycode)) + " to pick up"
+	interaction_text = "Press " + str(OS.get_keycode_string((InputMap.action_get_events("player|" + action_keyword))[0].keycode)) + " to pick up"
 
 
 func pick_up():
@@ -43,14 +47,10 @@ func sync_data():
 		
 		if err == OK:
 			if "tail" in json.data.keys()[json.data.size() - 1]:
-				tail_data = TailData.new()
+				tail_data = TailData.new() 
 				tail_data.set_string_to_data(json.data)
 			else:
 				weapon_data = WeaponData.new()
-				weapon_data.set_string_to_data(json.data)
+				weapon_data.set_string_to_data(json.data) 
 		else:
-			print("<<<<< TAIL DATA PARSE ERR >>>>>")
-
-
-func _on_multiplayer_synchronizer_synchronized():
-	sync_data()
+			printerr("<<<<< TAIL DATA PARSE ERR >>>>>")

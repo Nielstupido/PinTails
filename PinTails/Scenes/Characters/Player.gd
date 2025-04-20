@@ -407,7 +407,7 @@ func _apply_player_controls(delta):
 	
 	# Getting input direction
 	if !is_dashing:
-		input_dir = Input.get_vector("left", "right", "forward", "back")
+		input_dir = Input.get_vector("movement|left", "movement|right", "movement|forward", "movement|backward")
 	
 	# LERP the up/down rotation of whatever you're carrying.
 	carryable_position.rotation.z = lerp_angle(carryable_position.rotation.z, head.rotation.x, 5 * delta)
