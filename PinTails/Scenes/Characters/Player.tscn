@@ -1,4 +1,4 @@
-[gd_scene load_steps=132 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=133 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
@@ -55,6 +55,14 @@
 [ext_resource type="Shader" path="res://Scenes/Characters/ImpactMotionBlur.gdshader" id="31_7w6ck"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
 [ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4fg2d"]
+properties/0/path = NodePath("TempBodyMesh:mesh:material:albedo_color")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:transform")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_isbpe"]
 properties/0/path = NodePath(".:running")
@@ -542,6 +550,9 @@ fall_damage_threshold = -5.6
 jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
 
+[node name="PlayerPropertySynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_4fg2d")
+
 [node name="PlayerInputSynchronizer" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("head", "neck", "eyes", "camera_3D")]
 root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_isbpe")
@@ -769,6 +780,7 @@ libraries = {
 [node name="Camera" type="Camera3D" parent="Neck/Head/Eyes"]
 process_mode = 1
 cull_mask = 524287
+current = true
 
 [node name="InteractionRaycast" type="RayCast3D" parent="Neck/Head/Eyes/Camera"]
 target_position = Vector3(0, 0, -2.5)
