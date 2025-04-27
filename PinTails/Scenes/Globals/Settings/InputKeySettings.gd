@@ -129,7 +129,7 @@ func _ready():
 		if actions_copy.size() < 1 or safe_counter > 100:
 			is_done = true
 	
-	Settings.connect("setting_changed", Callable(self, "on_setting_changed")) 
+	Settings.setting_changed.connect(on_setting_changed) 
 
 
 func set_keys(x):

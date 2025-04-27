@@ -44,7 +44,7 @@ func _ready():
 	Settings.add_float_setting(SETTING_GUI_SCALE, GUI_SCALE_MIN, GUI_SCALE_MAX, GUI_SCALE_STEP, GUI_SCALE_DEFAULT)
 	Settings.set_setting_group(SETTING_GUI_SCALE, GROUP_NAME)
 	
-	Settings.connect("setting_changed", Callable(self, "on_setting_changed"))
+	Settings.setting_changed.connect(on_setting_changed)
 
 
 func set_fullscreen_enabled(value : bool):

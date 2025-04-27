@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp8en37sojhym"]
+
+[ext_resource type="Script" path="res://Scenes/Game/Map/BaseMap.gd" id="1_87jqd"]
+[ext_resource type="Script" path="res://Scenes/Game/GameplayHandler.gd" id="2_hoe06"]
+[ext_resource type="PackedScene" uid="uid://dicv1xbv4quvs" path="res://Scenes/Game/Spawner.tscn" id="2_opho5"]
+[ext_resource type="PackedScene" uid="uid://gfblikdt6ba8" path="res://Scenes/Game/Map/Map1.tscn" id="3_phcek"]
+
+[node name="BaseMap" type="Node"]
+script = ExtResource("1_87jqd")
+
+[node name="GameplayHandler" type="Node" parent="."]
+script = ExtResource("2_hoe06")
+
+[node name="Spawner" parent="." instance=ExtResource("2_opho5")]
+
+[node name="PlayerNodes" type="Node3D" parent="."]
+
+[node name="WorldItems" type="Node3D" parent="."]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Characters/Player.tscn")
+spawn_path = NodePath("../PlayerNodes")
+spawn_limit = 2
+
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/TailObj.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Tails/Scorpion/PoisonSpill.tscn", "res://Scenes/Tails/MantisShrimp/Fist.tscn", "res://Scenes/Weapon/WeaponProjectile.tscn")
+spawn_path = NodePath("../WorldItems")
+spawn_limit = 100
+
+[node name="DynamicSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Scorpion/PoisonSpill.tscn", "res://Scenes/Tails/MantisShrimp/Fist.tscn", "res://Scenes/Weapon/WeaponProjectile.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn")
+
+[node name="Map1" parent="." instance=ExtResource("3_phcek")]

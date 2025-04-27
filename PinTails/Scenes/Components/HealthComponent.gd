@@ -5,7 +5,7 @@ signal health_changed(current_value, max_value)
 signal damage_taken()
 signal death()
 
-@export var max_health : float = 5
+@export var max_health : float = 100
 @export var start_health : float
 @export var no_sanity_damage : float
 var current_health : float
@@ -24,7 +24,7 @@ func _ready():
 func add(amount):
 	current_health += amount
 	
-	if current_health > max_health:
+	if current_health > max_health: 
 		current_health = max_health
 	emit_signal("health_changed", current_health, max_health)
 

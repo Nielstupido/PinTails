@@ -5,7 +5,7 @@ var tail_data : TailData
 
 
 func prepare_tail_card(passed_tail_data):
-	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
+	tail_cards_holder.on_tail_card_pressed.connect(_on_tail_card_pressed)
 	if passed_tail_data != null:
 		self.tail_data = passed_tail_data
 		$Title.text = StringHelper.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))

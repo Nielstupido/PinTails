@@ -25,7 +25,7 @@ func _ready():
 	Settings.set_setting_group(SETTING_ADS, GROUP_NAME)
 	Settings.add_bool_setting(SETTING_CROUCH, CROUCH_DEFAULT)
 	Settings.set_setting_group(SETTING_CROUCH, GROUP_NAME)
-	Settings.connect("setting_changed", Callable(self, "on_setting_changed"))
+	Settings.setting_changed.connect(on_setting_changed)
 
 
 func set_crouch_hold(value : bool):

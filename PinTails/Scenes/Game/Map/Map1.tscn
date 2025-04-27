@@ -1,12 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=17 format=3 uid="uid://gfblikdt6ba8"]
 
-[ext_resource type="Script" path="res://Scenes/Game/Map/MapTest.gd" id="1_qnw2t"]
-[ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="2_abqk0"]
-[ext_resource type="PackedScene" uid="uid://dicv1xbv4quvs" path="res://Scenes/Game/Spawner.tscn" id="2_tyjbe"]
-[ext_resource type="Texture2D" uid="uid://jwl7fxpjedca" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="3_pynye"]
-[ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="4_g2m34"]
-[ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="5_5u0x3"]
-[ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="6_ht6ng"]
+[ext_resource type="Texture2D" uid="uid://nfvj86vdnepo" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="1_634th"]
+[ext_resource type="Texture2D" uid="uid://jwl7fxpjedca" path="res://addons/kenney_prototype_textures/dark/texture_07.png" id="2_s740r"]
+[ext_resource type="Texture2D" uid="uid://kqps0prjsfak" path="res://Textures/Grass/Grass004_1K-JPG_AmbientOcclusion.jpg" id="3_kdgvb"]
+[ext_resource type="Texture2D" uid="uid://blwuvmbbi34yf" path="res://Textures/Grass/Grass004_1K-JPG_Displacement.jpg" id="4_oftrk"]
+[ext_resource type="Texture2D" uid="uid://dr7gt1xdxbnuk" path="res://Textures/Grass/Grass004_1K-JPG_NormalGL.jpg" id="5_t8t27"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wb458"]
 sky_top_color = Color(0.290301, 0.435623, 0.745498, 1)
@@ -23,7 +21,7 @@ ambient_light_energy = 0.87
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npkha"]
-albedo_texture = ExtResource("2_abqk0")
+albedo_texture = ExtResource("1_634th")
 rim_tint = 0.33
 uv1_scale = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
@@ -43,13 +41,13 @@ size = Vector3(1, 5, 2)
 size = Vector3(1, 5, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cptm3"]
-albedo_texture = ExtResource("3_pynye")
+albedo_texture = ExtResource("2_s740r")
 roughness_texture_channel = 3
 normal_scale = 16.0
-normal_texture = ExtResource("6_ht6ng")
-ao_texture = ExtResource("4_g2m34")
+normal_texture = ExtResource("5_t8t27")
+ao_texture = ExtResource("3_kdgvb")
 heightmap_scale = 1.0
-heightmap_texture = ExtResource("5_5u0x3")
+heightmap_texture = ExtResource("4_oftrk")
 uv1_scale = Vector3(20, 20, 20)
 uv1_triplanar = true
 point_size = 0.1
@@ -60,10 +58,7 @@ uv2_padding = 0.0
 
 [sub_resource type="BoxShape3D" id="2"]
 
-[node name="MapTest" type="Node"]
-script = ExtResource("1_qnw2t")
-
-[node name="Spawner" parent="." instance=ExtResource("2_tyjbe")]
+[node name="Map1" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ybty4")
@@ -72,6 +67,7 @@ environment = SubResource("Environment_ybty4")
 transform = Transform3D(0.997935, 0, 0, 0, 0.997935, 0, 0, 0, 0.997935, -1.21395, 3.00355, -5.09108)
 layers = 31
 mesh = SubResource("BoxMesh_v276p")
+skeleton = NodePath("../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Wall" groups=["Wall"]]
 transform = Transform3D(1.00207, 0, 0, 0, 1.00207, 0, 0, 0, 1.00207, 5.80498, 0.118668, 0)
@@ -86,6 +82,7 @@ shape = SubResource("BoxShape3D_hkgkl")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.84894, 9.40409, 11.0604)
 layers = 31
 mesh = SubResource("BoxMesh_165ux")
+skeleton = NodePath("../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Box" groups=["Wall"]]
 collision_layer = 31
@@ -98,6 +95,7 @@ shape = SubResource("BoxShape3D_omq27")
 transform = Transform3D(35.7351, 0, 0, 0, 0.200699, 0, 0, 0, 30.3086, 0, 0, 3.41661)
 layers = 31
 mesh = SubResource("BoxMesh_rmcfc")
+skeleton = NodePath("../..")
 
 [node name="Ground" type="StaticBody3D" parent="Ground" groups=["Ground"]]
 collision_layer = 31
@@ -113,21 +111,3 @@ size = Vector3(1, 1, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1049, 0)
 light_energy = 0.0
 shadow_enabled = true
-
-[node name="PlayerNodes" type="Node3D" parent="."]
-unique_name_in_owner = true
-
-[node name="WorldItems" type="Node3D" parent="."]
-
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Characters/Player.tscn")
-spawn_path = NodePath("../PlayerNodes")
-spawn_limit = 2
-
-[node name="ItemSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Tails/TailObj.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Tails/Meerkat/Tower.tscn", "res://Scenes/Tails/Scorpion/PoisonSpill.tscn", "res://Scenes/Tails/MantisShrimp/Fist.tscn", "res://Scenes/Weapon/WeaponProjectile.tscn")
-spawn_path = NodePath("../WorldItems")
-spawn_limit = 100
-
-[node name="DynamicSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Tails/Scorpion/PoisonSpill.tscn", "res://Scenes/Tails/MantisShrimp/Fist.tscn", "res://Scenes/Weapon/WeaponProjectile.tscn", "res://Scenes/Weapon/Rifle/Rifle.tscn", "res://Scenes/Weapon/Pistol/Pistol.tscn")

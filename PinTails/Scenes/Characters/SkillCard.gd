@@ -7,7 +7,7 @@ var skill_cooldown : int
 
 
 func _ready():
-	$Timer.connect("timeout", Callable(self, "_on_cooldown_finished"))
+	$Timer.timeout.connect(_on_cooldown_finished)
 	self.clear_skill_card()
 
 

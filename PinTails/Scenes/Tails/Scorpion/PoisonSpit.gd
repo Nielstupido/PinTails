@@ -24,7 +24,7 @@ func execute_skill(damage : int) -> void:
 	
 	var var_dict = {"camera_collision" : owner.player_interaction_component.get_camera_collision(15)}
 	
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
+	get_tree().root.get_node("Game").get_map_node().spawner.rpc(
 			"spawn_object", 
 			spawn_point.get_path(),
 			projectile_obj_path,

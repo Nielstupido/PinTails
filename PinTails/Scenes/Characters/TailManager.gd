@@ -7,8 +7,8 @@ var current_active_tail_attrb : Array
 
 
 func _ready():
-	GameplayManager.connect("tail_picked_up", Callable(self, "set_tail_attr"))
-	GameplayManager.connect("tail_removed", Callable(self, "remove_tail"))
+	GameplayManager.tail_picked_up.connect(_set_tail_attr)
+	GameplayManager.tail_removed.connect(remove_tail)
 
 
 func add_tail(passed_tail : TailData) -> bool:
@@ -24,7 +24,7 @@ func remove_tail(passed_tail : TailData, removed_tail_key) -> void:
 	if !is_multiplayer_authority():
 		return
 	
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("spawn_tail", 
+	get_tree().root.get_node("Game").get_map_node().spawner.rpc("spawn_tail", 
 			owner.player_interaction_component.get_interaction_raycast_tip(0), 
 			passed_tail.stringify())
 	
@@ -33,7 +33,7 @@ func remove_tail(passed_tail : TailData, removed_tail_key) -> void:
 
 
 #adds/sets the attributes of the newly pinned tail to player 
-func set_tail_attr(passed_tail_data : TailData) -> void: 
+func _set_tail_attr(passed_tail_data : TailData) -> void: 
 	current_active_tail_attrb.append(passed_tail_data.skill_name)
 	owner.adtnl_movement_speed = passed_tail_data.adtnl_movement_speed
 	owner.adtnl_armor = passed_tail_data.adtnl_armor

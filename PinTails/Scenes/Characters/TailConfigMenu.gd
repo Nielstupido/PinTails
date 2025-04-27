@@ -7,7 +7,7 @@ var tails : Array
 
 
 func _ready():
-	GameplayManager.connect("tail_picked_up", Callable(self, "add_tail"))
+	GameplayManager.tail_picked_up.connect(add_tail)
 
 
 func add_tail(tail_data):

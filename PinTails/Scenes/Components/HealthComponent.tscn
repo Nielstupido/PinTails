@@ -4,5 +4,4 @@
 
 [node name="HealthComponent" type="Node"]
 script = ExtResource("1_pflpc")
-max_health = 100.0
 start_health = 100.0

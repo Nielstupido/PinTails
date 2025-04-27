@@ -70,7 +70,7 @@ func drop_weapon() -> void:
 			"starting_point_transform" : current_weapon_node.global_transform}
 	
 	rpc("_rpc_drop", owner.name)
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("spawn_weapon",
+	get_tree().root.get_node("Game").get_map_node().spawner.rpc("spawn_weapon",
 			current_weapon_node.global_transform,
 			current_weapon_data.weapon_type,
 			current_weapon_data.stringify(),
@@ -185,7 +185,7 @@ func action_primary() -> void:
 		"camera_collision" : get_camera_collision(),
 		"damage_amount" : current_weapon_data.weapon_damage}
 	
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
+	get_tree().root.get_node("Game").get_map_node().spawner.rpc(
 		"spawn_object", 
 		projectile_point.get_path(),
 		weapon_projectile_path,

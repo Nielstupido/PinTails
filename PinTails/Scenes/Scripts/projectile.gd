@@ -50,7 +50,7 @@ func _destroy():
 	if multiplayer.is_server():
 		queue_free()
 	
-	#get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
+	#get_tree().root.get_node("Game").get_map_node().spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
 
 
 #func interact(body):

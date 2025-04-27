@@ -1,6 +1,10 @@
 extends CanvasLayer
 
 
+func _ready():
+	$SettingsUI/MainPanel/CloseSettingsBtn.pressed.connect(_close_settings)
+
+
 func _input(event):
 	if event.is_action_pressed("menu") and !owner.is_dead:
 		if self.visible:
@@ -13,3 +17,7 @@ func _input(event):
 
 func _on_Button_pressed():
 	get_tree().quit()
+
+
+func _close_settings():
+	self.hide()

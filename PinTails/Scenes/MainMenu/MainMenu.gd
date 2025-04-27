@@ -28,7 +28,7 @@ var screen_nodes = {
 func _ready():
 	_current_screen = Screens.MAIN 
 	_current_screen_has_bg = false
-	$SettingsUI/MainPanel/CloseSettingsBtn.connect("pressed", Callable(self, "_close_settings"))
+	$SettingsUI/MainPanel/CloseSettingsBtn.pressed.connect(_close_settings)
 
 
 func _on_PlayBtn_pressed(): 

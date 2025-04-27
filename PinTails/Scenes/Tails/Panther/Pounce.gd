@@ -5,7 +5,7 @@ var pounce_damage : int
 
 
 func _ready() -> void:
-	owner.connect("player_just_landed", Callable(self, "do_damage"))
+	owner.player_just_landed.connect(do_damage)
 
 
 func execute_skill(damage : int) -> void:

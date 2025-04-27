@@ -1,9 +1,10 @@
-class_name MapTest
+class_name BaseMap
 extends Node
 
 
 const SPAWN_RANDOM := 5.0
 @onready var spawner = $Spawner
+@onready var gameplay_handler = $GameplayHandler
 
 #<-------For testing-------->
 var tail_res_folder = "res://Scenes/Tails/"
@@ -30,7 +31,7 @@ func _ready():
 	var dir = DirAccess.open(tail_res_folder)
 	
 	for tail_class in Tail.Classes.keys():
-		if tail_class == "Mantis_Shrimp" || tail_class == "Scorpion" || tail_class == "Meerkat":
+		if tail_class == "Mantis_Shrimp" || tail_class == "Scorpion" || tail_class == "Chameleon":
 			tail_class = StringHelper.filter_string(tail_class, true, "_")
 			if dir.file_exists(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]):
 				var tail_data =  ResourceLoader.load(tail_res_folder + "%s/%s.tres" % [tail_class, tail_class]).get_tail_data()

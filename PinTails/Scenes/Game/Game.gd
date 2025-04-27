@@ -12,3 +12,7 @@ func _ready():
 # Perform any player ready cleanup here
 func _player_ready():
 	$UI.hide()
+
+
+func get_map_node():
+	return $Map.get_child(0) as Node

@@ -46,7 +46,7 @@ func _ready():
 	Settings.set_setting_group(SETTING_EFFECTS_VOLUME, GROUP_NAME)
 	Settings.add_float_setting(SETTING_VOICE_VOLUME, MIN_VALUE, MAX_VALUE, STEP_VALUE, get_volume(bus_voice))
 	Settings.set_setting_group(SETTING_VOICE_VOLUME, GROUP_NAME)
-	Settings.connect("setting_changed", Callable(self, "on_setting_changed"))
+	Settings.setting_changed.connect(on_setting_changed)
 
 
 func set_master_volume(value : float):

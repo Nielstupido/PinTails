@@ -56,26 +56,6 @@
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
 [ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wopse"]
-properties/0/path = NodePath(".:transform")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:player")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath("TempBodyMesh:transform")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath(".:is_player_invisible")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-properties/4/path = NodePath("Neck/Head:rotation")
-properties/4/spawn = true
-properties/4/replication_mode = 1
-properties/5/path = NodePath("Neck/Head:position")
-properties/5/spawn = true
-properties/5/replication_mode = 1
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_isbpe"]
 properties/0/path = NodePath(".:running")
 properties/0/spawn = true
@@ -84,7 +64,12 @@ properties/1/path = NodePath(".:input_motion")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8tmr"]
+transparency = 1
+albedo_color = Color(0.595473, 0.336305, 0.167067, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_51qed"]
+material = SubResource("StandardMaterial3D_a8tmr")
 height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yaacn"]
@@ -557,9 +542,6 @@ fall_damage_threshold = -5.6
 jump_sound = ExtResource("3_1sodd")
 STEP_MAX_SLOPE_DEGREE = 1.0
 
-[node name="PlayerPropertySynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_wopse")
-
 [node name="PlayerInputSynchronizer" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("head", "neck", "eyes", "camera_3D")]
 root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_isbpe")
@@ -571,6 +553,7 @@ camera_3D = NodePath("../Neck/Head/Eyes/Camera")
 
 [node name="TempBodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+layers = 524289
 mesh = SubResource("CapsuleMesh_51qed")
 
 [node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("carryable_position")]
@@ -1422,12 +1405,10 @@ text = "Unpin"
 process_mode = 3
 
 [node name="GameMenuSettings" parent="UI" instance=ExtResource("50_yye2e")]
-visible = false
 
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)
 
-[connection signal="synchronized" from="PlayerPropertySynchronizer" to="." method="_on_player_property_synchronizer_synchronized"]
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_entered"]
 [connection signal="body_exited" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_exited"]

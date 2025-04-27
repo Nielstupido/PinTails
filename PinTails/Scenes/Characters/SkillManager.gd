@@ -18,11 +18,11 @@ var active_skill_card = null
 
 
 func _ready():
-	owner.connect("player_dash_stopped", Callable(self, "on_skill_duration_finished"))
-	GameplayManager.connect("tail_picked_up", Callable(self, "add_skill"))
-	GameplayManager.connect("tail_picked_up", Callable(self, "reset_skill_dup"))
-	GameplayManager.connect("tail_removed", Callable(self, "remove_skill"))
-	GameplayManager.connect("tail_removed", Callable(self, "reset_skill"))
+	owner.player_dash_stopped.connect(on_skill_duration_finished)
+	GameplayManager.tail_picked_up.connect(add_skill)
+	GameplayManager.tail_picked_up.connect(reset_skill_dup)
+	GameplayManager.tail_removed.connect(remove_skill)
+	GameplayManager.tail_removed.connect(reset_skill)
 	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|first_skill"))[0].keycode))
 	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|second_skill"))[0].keycode))
 	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|third_skill"))[0].keycode))
@@ -143,14 +143,15 @@ func reset_skill_dup(tail_data) -> void:
 
 
 func execute_skill():
-	owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
-	
-	if is_timed_trigger_enabled:
-		await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
-		owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
-		on_skill_duration_finished()
-	elif !is_waiting_shot_trigger and trigger_remaining == 0:
-		on_skill_duration_finished()
+	if is_multiplayer_authority():
+		owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
+		
+		if is_timed_trigger_enabled:
+			await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
+			owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
+			on_skill_duration_finished()
+		elif !is_waiting_shot_trigger and trigger_remaining == 0:
+			on_skill_duration_finished()
 
 
 func on_skill_duration_finished():

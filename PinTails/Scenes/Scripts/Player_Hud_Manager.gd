@@ -125,7 +125,7 @@ func _on_set_hint_prompt(passed_hint_icon, passed_hint_text):
 		
 	# Starts the timer that sets how long the hint is going to be displayed.
 	hint_timer.start()
-	
+
 
 # Resetting the hint display when hint timer runs out.
 func _on_hint_timer_timeout():
@@ -146,7 +146,7 @@ func _on_player_damage_taken():
 	if hurt_tween:
 		hurt_tween.kill()
 	hurt_tween = create_tween()
-	hurt_tween.tween_property(damage_overlay,"modulate", Color.TRANSPARENT, .3)
+	hurt_tween.tween_property(damage_overlay,"modulate", Color.TRANSPARENT, 0.5)
 
 
 # Function called when player dies.

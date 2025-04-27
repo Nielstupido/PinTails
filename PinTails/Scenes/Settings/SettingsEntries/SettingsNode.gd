@@ -40,9 +40,9 @@ func attach_setting(setting_name : String):
 		printerr("settings controller at ", Settings.get_path(), " has setting ", setting_name, "\n",\
 		"But the type doesn't match: real = ", Settings.get_setting_type(setting_name), " expected :", _setting_type)
 	_setting_name = setting_name
-	Settings.connect("setting_changed", Callable(self, "on_setting_changed"))
-	Settings.connect("setting_removed", Callable(self, "on_setting_removed"))
-	Settings.connect("keys_saved", Callable(self, "on_setting_changed"))
+	Settings.setting_changed.connect(on_setting_changed)
+	Settings.setting_removed.connect(on_setting_removed)
+	Settings.keys_saved.connect(on_setting_changed)
 	_on_setting_attached()
 	set_value(Settings.get_setting(setting_name))
 

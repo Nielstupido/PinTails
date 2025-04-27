@@ -17,7 +17,7 @@ func _ready():
 	match_players = MatchManager.match_players
 	player_name = PlayerAccount.username
 	$StartMatch.disabled = true
-	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
+	tail_cards_holder.on_tail_card_pressed.connect(_on_tail_card_pressed)
 	
 	var dir = DirAccess.open(tail_res_folder)
 	if dir:

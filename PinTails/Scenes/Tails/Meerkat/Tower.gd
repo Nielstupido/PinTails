@@ -14,11 +14,7 @@ func _ready():
 	await get_tree().create_timer(vision_duration).timeout 
 	$AnimationPlayer.play("hide") 
 	$AnimationPlayerDebris.play("hide_debris") 
-	get_tree().create_tween().tween_method(_set_debris_alpha, 1.0, 0.0, 0.5)
-
-
-func _set_debris_alpha(value : float):
-	$RockParticleSystem.material_override.set_albedo(Color(debris_albedo.r, debris_albedo.g, debris_albedo.b, value))
+	create_tween().tween_property($RockParticleSystem,"material_override:albedo_color:a", 0.0, 0.5)
 
 
 func _on_animation_player_animation_finished(anim_name):
@@ -30,7 +26,7 @@ func _on_animation_player_animation_finished(anim_name):
 		$AnimationPlayerDebris.play("RESET")
 		$AnimationPlayer.play("RESET")
 		_set_enemy_mesh_default()
-		get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
+		get_tree().root.get_node("Game").get_map_node().spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
 
 
 func _on_vision_area_body_entered(body):

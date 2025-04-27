@@ -14,7 +14,7 @@ func _on_wall_hit(body) -> void:
 func execute_skill(range : int) -> void:
 	stun_range = range
 	var var_dict = {"camera_collision" : owner.player_interaction_component.get_camera_collision(15)}
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc(
+	get_tree().root.get_node("Game").get_map_node().spawner.rpc(
 			"spawn_object", 
 			spawn_point.get_path(),
 			fist_obj_path,

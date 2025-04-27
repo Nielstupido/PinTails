@@ -223,7 +223,7 @@ func _ready() -> void:
 	##player tail initialization
 	#tail_manager.add_tail(MatchManager.match_players.get(PlayerAccount.username))
 	#GameplayManager.emit_signal("tail_picked_up", MatchManager.match_players.get(PlayerAccount.username))
-	connect("player_dash_stopped", Callable(self, "_stop_dash"))
+	player_dash_stopped.connect(_stop_dash)
 
 
 # Use this function to manipulate player attributes.
@@ -288,11 +288,11 @@ func add_sanity(value):
 func set_mesh_transparent(vision_tower_node):
 	return 
 	
-	if vision_tower_node.is_connected("vision_stopped", Callable(self, "_set_mesh_default")) or body.get_active_material(0).no_depth_test:
+	if vision_tower_node.vision_stopped.is_connected(_set_mesh_default) or body.get_active_material(0).no_depth_test:
 		return
 	
 	body.get_active_material(0).no_depth_test = true
-	vision_tower_node.connect("vision_stopped", Callable(self, "_set_mesh_default"))
+	vision_tower_node.vision_stopped.connect(_set_mesh_default)
 
 
 func _set_mesh_default() -> void:
@@ -944,14 +944,16 @@ func _on_animation_player_animation_finished(anim_name):
 
 
 func _on_player_property_synchronizer_synchronized():
+	return
+	
 	if is_player_invisible == _is_player_invisible: 
 		return #no changes on player's visibility
 	
+	var tween = get_tree().create_tween();
+	
 	if is_player_invisible:
-		var tween = get_tree().create_tween();
 		tween.tween_method(_set_player_alpha, 1.0, 0.0, 1.5)
 	else:
-		var tween = get_tree().create_tween();
 		tween.tween_method(_set_player_alpha, 0.0, 1.0, 1.5)
 		body.set_layer_mask_value(1, true)
 	

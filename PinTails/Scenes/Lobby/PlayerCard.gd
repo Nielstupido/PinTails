@@ -6,7 +6,7 @@ extends Control
 
 
 func _ready():
-	owner.connect("on_player_selected_tail", Callable(self, "_on_player_selected_tail"))
+	owner.on_player_selected_tail.connect(_on_player_selected_tail)
 
 
 func _on_player_selected_tail(player_name, tail_data):

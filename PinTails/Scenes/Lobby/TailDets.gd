@@ -5,7 +5,7 @@ var current_tail_data : TailData
 
 
 func _ready():
-	tail_cards_holder.connect("on_tail_card_pressed", Callable(self, "_on_tail_card_pressed"))
+	tail_cards_holder.on_tail_card_pressed.connect(_on_tail_card_pressed)
 	self.hide()
 
 

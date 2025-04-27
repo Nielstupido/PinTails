@@ -278,6 +278,8 @@ libraries = {
 }
 
 [node name="StunArea" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StunArea"]
@@ -333,3 +335,4 @@ draw_pass_1 = SubResource("SphereMesh_mpbc8")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="StunEffectPlayer" to="." method="_on_stun_effect_player_animation_finished"]
+[connection signal="body_entered" from="StunArea" to="." method="_on_stun_area_body_entered"]

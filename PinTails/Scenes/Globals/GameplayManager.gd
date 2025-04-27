@@ -12,18 +12,14 @@ const MAIN_MENU_SCENE = "res://Scenes/MainMenu/MainMenu.tscn"
 
 # NOTE: Manually set this to true before running, if you want one of the debug clients to also run 
 # on the server instance (host).
-@export var local_host_mode: bool = true
-@export var server_mode_selected: bool = true
-@export var selected_map: String = "res://Scenes/Game/Map/MapTest.tscn" # This could be something that the player selects
+var local_host_mode: bool = true
+var server_mode_selected: bool = true
+var selected_map: String = "res://Scenes/Game/Map/BaseMap.tscn" # This could be something that the player selects
 
 var map_node : Node
 var _gun_id
 var _tail_id
 var tail_res : Resource
-
-
-func _ready():
-	pass
 
 
 func load_game_play_scene():

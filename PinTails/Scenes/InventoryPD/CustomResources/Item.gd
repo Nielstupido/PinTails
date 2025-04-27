@@ -7,7 +7,7 @@ var interaction_text : String
 var tail_data : TailData = null
 var is_dropped : bool = false
 var projectile_velocity = 3
-var item_data_bytes : String = "" :
+var item_data_bytes : String = "":
 	set(value):
 		item_data_bytes = value
 		if item_data_bytes != "":
@@ -21,7 +21,7 @@ var starting_point_transform = null : ##Transform3D
 var camera_collision : Vector3 = Vector3.ZERO :
 	set(value):
 		camera_collision = value
-		_assign_velocity() 
+		_assign_velocity()
 
 
 func _assign_velocity():
@@ -37,7 +37,7 @@ func _ready():
 
 
 func pick_up():
-	get_tree().root.get_node("Game/Map/MapTest").spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
+	get_tree().root.get_node("Game").get_map_node().spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
 
 
 func sync_data():
