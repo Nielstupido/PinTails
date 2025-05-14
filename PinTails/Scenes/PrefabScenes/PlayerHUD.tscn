@@ -1,12 +1,12 @@
 [gd_scene load_steps=18 format=3 uid="uid://0c32kepv0ahx"]
 
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="1_ly0f7"]
-[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="2_d4a31"]
-[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="3_bvane"]
-[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="4_vsyhi"]
-[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="5_3ai1h"]
+[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Assets/Graphics/HintIcons/Hint_Exclamation.png" id="2_d4a31"]
+[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Assets/Textures/CameraDamageVignette.png" id="3_bvane"]
+[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Assets/Graphics/Crosshair.png" id="4_vsyhi"]
+[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="5_3ai1h"]
 [ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="6_dud2n"]
-[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="7_s3sqr"]
+[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Assets/Graphics/ProgressBar_FiveUnits.png" id="7_s3sqr"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1f12m"]
 blend_mode = 1

@@ -1,4 +1,5 @@
-extends Node3D
+extends TailSkill
+
 
 @onready var player_effects_manager = $"../../PlayerEffectsManager"
 var pounce_damage : int
@@ -8,7 +9,8 @@ func _ready() -> void:
 	owner.player_just_landed.connect(do_damage)
 
 
-func execute_skill(damage : int) -> void:
+#Override this function
+func _execute_skill(damage : int) -> void:
 	if !owner.is_on_floor():
 		return
 	

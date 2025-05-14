@@ -24,7 +24,7 @@ var camera_collision : Vector3 = Vector3.ZERO :
 		_assign_velocity()
 
 
-func _assign_velocity():
+func _assign_velocity(): 
 	if camera_collision == Vector3.ZERO or !is_dropped or starting_point_transform == null:
 		return
 	

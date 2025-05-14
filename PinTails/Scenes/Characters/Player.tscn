@@ -1,24 +1,17 @@
 [gd_scene load_steps=133 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
-[ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Scenes/Assets/Audio/Kenney/cloth2.ogg" id="3_1sodd"]
+[ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Assets/Audio/Kenney/cloth2.ogg" id="2_5miix"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerInputSynchronizer.gd" id="3_x02f6"]
-[ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="4_d51ss"]
-[ext_resource type="AnimationLibrary" uid="uid://cdchpsv104er2" path="res://Scenes/Assets/Animations/player_eyes.tres" id="4_juktk"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerInteractionComponent.gd" id="4_mguki"]
 [ext_resource type="Script" path="res://Scenes/Characters/WeaponInventory.gd" id="4_yum5u"]
-[ext_resource type="AudioStream" uid="uid://crj07wq4oocwi" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep01.ogg" id="5_6htai"]
-[ext_resource type="AudioStream" uid="uid://dewyukd562k37" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep02.ogg" id="6_nrttm"]
-[ext_resource type="AnimationLibrary" uid="uid://cbfutvkb1x3kr" path="res://Scenes/Assets/Animations/anim_wieldable_pistol.es.tres" id="6_nt2qd"]
-[ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="7_swbyy"]
-[ext_resource type="AudioStream" uid="uid://b4mt1tuxo2144" path="res://Scenes/Assets/Audio/Kenney/Footsteps/footstep04.ogg" id="8_2tp8b"]
+[ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Assets/Audio/Kenney/error_004.ogg" id="5_ikht5"]
 [ext_resource type="Script" path="res://Scenes/Characters/SkillManager.gd" id="8_xkga3"]
 [ext_resource type="PackedScene" uid="uid://26mds5ewe7ky" path="res://Scenes/Weapon/scifi_gun1.glb" id="9_66enf"]
 [ext_resource type="PackedScene" uid="uid://bkbudpcayf2jc" path="res://Scenes/Components/BrightnessComponent.tscn" id="9_x4tef"]
 [ext_resource type="Script" path="res://Scenes/Characters/PlayerEffectsManager.gd" id="10_32xkx"]
 [ext_resource type="Script" path="res://Scenes/Tails/Cheetah/Dash.gd" id="10_sjl30"]
 [ext_resource type="Script" path="res://Scenes/Tails/Gecko/WallRun.gd" id="11_2qdi1"]
-[ext_resource type="AudioStream" uid="uid://clsajk36s7luk" path="res://Scenes/Assets/Audio/Kenney/error_004.ogg" id="11_45f3g"]
 [ext_resource type="PackedScene" uid="uid://b37xr3nyh6aog" path="res://Scenes/Components/StaminaComponent.tscn" id="11_cbmdm"]
 [ext_resource type="PackedScene" uid="uid://c4p6cl0xvfdar" path="res://Scenes/Components/HealthComponent.tscn" id="11_ms07f"]
 [ext_resource type="Script" path="res://Scenes/Tails/Rhino/HornCharge.gd" id="12_d8ssq"]
@@ -39,28 +32,35 @@
 [ext_resource type="Script" path="res://Scenes/Scripts/Player_Hud_Manager.gd" id="21_r8tdw"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailManager.gd" id="21_u8uix"]
 [ext_resource type="PackedScene" uid="uid://pnvlneu52i53" path="res://Scenes/Tails/Chameleon/InviScreenEffect.tscn" id="21_uodof"]
-[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Scenes/Assets/Graphics/HintIcons/Hint_Exclamation.png" id="22_72wj0"]
-[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Scenes/Assets/Textures/CameraDamageVignette.png" id="23_cawh8"]
 [ext_resource type="FontFile" uid="uid://cxie1gj74pnb8" path="res://Fonts/DSEG7ClassicMini-Bold.ttf" id="24_ckrm3"]
-[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Scenes/Assets/Graphics/Crosshair.png" id="24_jy0ck"]
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
-[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Scenes/Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="25_odgrj"]
+[ext_resource type="AnimationLibrary" uid="uid://cdchpsv104er2" path="res://Assets/Animations/player_eyes.tres" id="25_4tcjr"]
 [ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="26_qgdrd"]
 [ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
-[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Scenes/Assets/Graphics/ProgressBar_FiveUnits.png" id="27_bqavb"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
 [ext_resource type="Shader" path="res://Scenes/Characters/FastMotionLines.gdshader" id="30_epre4"]
 [ext_resource type="Script" path="res://Scenes/Characters/ScreenEffects.gd" id="30_ndda8"]
 [ext_resource type="PackedScene" uid="uid://cciejet4u8sim" path="res://Scenes/Tails/TailCard.tscn" id="30_xj7v5"]
 [ext_resource type="Shader" path="res://Scenes/Characters/ImpactMotionBlur.gdshader" id="31_7w6ck"]
 [ext_resource type="PackedScene" uid="uid://biw1l5wvijj0v" path="res://Scenes/Game/Shop.tscn" id="31_lvldf"]
+[ext_resource type="AnimationLibrary" uid="uid://cbfutvkb1x3kr" path="res://Assets/Animations/anim_wieldable_pistol.es.tres" id="32_3ggig"]
+[ext_resource type="AudioStream" uid="uid://up2hfhgq1qx6" path="res://Assets/Audio/Kenney/Footsteps/footstep00.ogg" id="33_6flgv"]
+[ext_resource type="AudioStream" uid="uid://crj07wq4oocwi" path="res://Assets/Audio/Kenney/Footsteps/footstep01.ogg" id="34_340st"]
+[ext_resource type="AudioStream" uid="uid://dewyukd562k37" path="res://Assets/Audio/Kenney/Footsteps/footstep02.ogg" id="35_cs6cr"]
+[ext_resource type="AudioStream" uid="uid://c5kfw4o57foju" path="res://Assets/Audio/Kenney/Footsteps/footstep03.ogg" id="36_d7olg"]
+[ext_resource type="AudioStream" uid="uid://b4mt1tuxo2144" path="res://Assets/Audio/Kenney/Footsteps/footstep04.ogg" id="37_467jy"]
+[ext_resource type="Texture2D" uid="uid://dgvti6embqgw3" path="res://Assets/Graphics/HintIcons/Hint_Exclamation.png" id="43_r47di"]
+[ext_resource type="Texture2D" uid="uid://b45endup5sujv" path="res://Assets/Textures/CameraDamageVignette.png" id="44_y726a"]
+[ext_resource type="Texture2D" uid="uid://cqlqo6ga2f71s" path="res://Assets/Graphics/Crosshair.png" id="45_py4aa"]
+[ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="46_6pgel"]
+[ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Assets/Graphics/ProgressBar_FiveUnits.png" id="48_n2b8e"]
 [ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4fg2d"]
-properties/0/path = NodePath("TempBodyMesh:mesh:material:albedo_color")
+properties/0/path = NodePath(".:transform")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:transform")
+properties/1/path = NodePath("TempBodyMesh:transparency")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
@@ -72,12 +72,11 @@ properties/1/path = NodePath(".:input_motion")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8tmr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3ld8"]
 transparency = 1
-albedo_color = Color(0.595473, 0.336305, 0.167067, 1)
+albedo_color = Color(1, 0.266667, 0.301961, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_51qed"]
-material = SubResource("StandardMaterial3D_a8tmr")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_02fea"]
 height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yaacn"]
@@ -473,15 +472,15 @@ radius = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_af0lu"]
 streams_count = 5
-stream_0/stream = ExtResource("4_d51ss")
+stream_0/stream = ExtResource("33_6flgv")
 stream_0/weight = 1.0
-stream_1/stream = ExtResource("5_6htai")
+stream_1/stream = ExtResource("34_340st")
 stream_1/weight = 1.0
-stream_2/stream = ExtResource("6_nrttm")
+stream_2/stream = ExtResource("35_cs6cr")
 stream_2/weight = 1.0
-stream_3/stream = ExtResource("7_swbyy")
+stream_3/stream = ExtResource("36_d7olg")
 stream_3/weight = 1.0
-stream_4/stream = ExtResource("8_2tp8b")
+stream_4/stream = ExtResource("37_467jy")
 stream_4/weight = 1.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1f12m"]
@@ -547,7 +546,7 @@ collision_mask = 2
 script = ExtResource("1_3fm13")
 fall_damage = 10
 fall_damage_threshold = -5.6
-jump_sound = ExtResource("3_1sodd")
+jump_sound = ExtResource("2_5miix")
 STEP_MAX_SLOPE_DEGREE = 1.0
 
 [node name="PlayerPropertySynchronizer" type="MultiplayerSynchronizer" parent="."]
@@ -565,13 +564,14 @@ camera_3D = NodePath("../Neck/Head/Eyes/Camera")
 [node name="TempBodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 layers = 524289
-mesh = SubResource("CapsuleMesh_51qed")
+material_override = SubResource("StandardMaterial3D_c3ld8")
+mesh = SubResource("CapsuleMesh_02fea")
 
 [node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("carryable_position")]
 script = ExtResource("4_mguki")
 carryable_position = NodePath("../CarryablePosition")
 default_position = Vector3(0.329, -0.264, -0.535)
-sound_primary_use = ExtResource("11_45f3g")
+sound_primary_use = ExtResource("5_ikht5")
 
 [node name="WeaponInventory" type="Control" parent="."]
 visible = false
@@ -774,7 +774,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 reset_on_save = false
 root_node = NodePath("../..")
 libraries = {
-"": ExtResource("4_juktk")
+"": ExtResource("25_4tcjr")
 }
 
 [node name="Camera" type="Camera3D" parent="Neck/Head/Eyes"]
@@ -854,7 +854,7 @@ transform = Transform3D(1, 0, -1.81899e-12, 0, 1, 0, 0, 0, 1, 0.277335, 0.060144
 [node name="WeaponAnimationPlayer" type="AnimationPlayer" parent="Neck/Head/WeaponAttachments"]
 reset_on_save = false
 libraries = {
-"": ExtResource("6_nt2qd")
+"": ExtResource("32_3ggig")
 }
 
 [node name="WeaponAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck/Head/WeaponAttachments"]
@@ -944,7 +944,7 @@ mouse_filter = 1
 [node name="Player_HUD" type="CanvasLayer" parent="UI" node_paths=PackedStringArray("player")]
 script = ExtResource("21_r8tdw")
 player = NodePath("../..")
-default_hint_icon = ExtResource("22_72wj0")
+default_hint_icon = ExtResource("43_r47di")
 
 [node name="DamageOverlay" type="Control" parent="UI/Player_HUD"]
 layout_mode = 3
@@ -963,7 +963,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("23_cawh8")
+texture = ExtResource("44_y726a")
 expand_mode = 5
 
 [node name="Crosshair" type="Control" parent="UI/Player_HUD"]
@@ -990,7 +990,7 @@ offset_right = 16.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("24_jy0ck")
+texture = ExtResource("45_py4aa")
 expand_mode = 1
 
 [node name="ButtonPrompt" type="Control" parent="UI/Player_HUD"]
@@ -1020,7 +1020,7 @@ grow_horizontal = 2
 visible = false
 custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
-texture = ExtResource("25_odgrj")
+texture = ExtResource("46_6pgel")
 expand_mode = 2
 
 [node name="Container" type="MarginContainer" parent="UI/Player_HUD/ButtonPrompt/HBoxContainer"]
@@ -1062,7 +1062,7 @@ layout_mode = 2
 [node name="HintIcon" type="TextureRect" parent="UI/Player_HUD/HintPrompt/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-texture = ExtResource("22_72wj0")
+texture = ExtResource("43_r47di")
 expand_mode = 2
 
 [node name="HintText" type="Label" parent="UI/Player_HUD/HintPrompt/MarginContainer/HBoxContainer"]
@@ -1100,7 +1100,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 value = 40.0
-texture_progress = ExtResource("27_bqavb")
+texture_progress = ExtResource("48_n2b8e")
 
 [node name="SanityBar" type="ProgressBar" parent="UI/Player_HUD/PlayerAttributes/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 16)
@@ -1271,6 +1271,7 @@ grow_vertical = 0
 mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerTails/PlayerSkills"]
+layout_direction = 1
 layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0

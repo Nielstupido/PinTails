@@ -184,6 +184,12 @@ func _enter_tree():
 func _ready() -> void:
 	# Disables camera on non-host server setups, or dedicated server builds
 	camera.current = false
+	var mesh = $TempBodyMesh  # Adjust the path to your actual mesh node
+	var mat = mesh.material_override
+	var unique_mat = mat.duplicate()
+	unique_mat.resource_local_to_scene = true
+	mesh.set_surface_override_material(0, unique_mat)
+	body = $TempBodyMesh
 	
 	if is_multiplayer_authority():
 		camera.make_current()
@@ -319,7 +325,7 @@ func _on_brightness_changed(current_brightness,max_brightness):
 
 # Method to pause input (for Menu or Dialogues etc)
 func on_pause_movement():
-	if !is_movement_paused:
+	if !is_movement_paused: 
 		is_movement_paused = true
 		is_looking_aroung_paused = true
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

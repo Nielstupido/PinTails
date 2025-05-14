@@ -29,8 +29,7 @@ func _on_animation_player_animation_finished(anim_name):
 		get_tree().root.get_node("Game").get_map_node().spawner.rpc("remove_obj",  self.get_path(), is_multiplayer_authority())
 
 
-func _on_vision_area_body_entered(body):
-	if body.is_in_group("Player"):
+func _on_vision_area_body_entered(body):	if body.is_in_group("Player"):
 		body.set_mesh_transparent(self)
 		print("Enemy Detected! " + str(body.name))
 

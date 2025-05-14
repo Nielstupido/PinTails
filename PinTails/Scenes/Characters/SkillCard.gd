@@ -1,7 +1,11 @@
 extends Control
 
 
-@onready var disabled_cover = $DisabledCover
+@onready var _disabled_cover = $VBox/Panel/DisabledCover
+@onready var _activated_skill_cover = $VBox/SkillHotkey/ActivatedSkillCover
+@onready var cd_text = $VBox/Panel/CD
+@onready var skill_label_text = $VBox/Panel/Label
+@onready var hotkey = $VBox/SkillHotkey
 var tail_data : TailData = null
 var skill_cooldown : int
 
@@ -9,29 +13,31 @@ var skill_cooldown : int
 func _ready():
 	$Timer.timeout.connect(_on_cooldown_finished)
 	self.clear_skill_card()
+	toggle_skill_cover(true)
+	toggle_hotkey_cover(false)
 
 
 func _process(delta):
-	if !$Timer.is_stopped():
-		$CD.text = str(int($Timer.time_left))
+	if !$Timer.is_stopped(): 
+		cd_text.text = str(int($Timer.time_left))
 
 
 func setup_skill_card(passed_tail_data, on_cooldown = false, remaining_cooldown = 0):
 	self.tail_data = passed_tail_data          
-	$Label.text = StringHelper.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
+	skill_label_text.text = StringHelper.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
 	self.skill_cooldown = self.tail_data.skill_cd
-	disabled_cover.hide()
+	toggle_skill_cover(false)
 	
 	if on_cooldown:
 		self.start_cooldown(remaining_cooldown)
 
 
 func clear_skill_card():
-	disabled_cover.show()
+	toggle_skill_cover(true)
 	self.tail_data = null
-	$Label.text = "Empty"
+	skill_label_text.text = "Empty"
 	$Timer.stop()
-	$CD.text = "" 
+	cd_text.text = "" 
 
 
 func can_use_skill() -> bool:
@@ -54,9 +60,24 @@ func start_cooldown(remaining_cooldown = 0):
 	else:
 		$Timer.start(remaining_cooldown)
 	
-	disabled_cover.show()
+	toggle_hotkey_cover(false)     
+	toggle_skill_cover(true)
+
+
+func toggle_skill_cover(is_activate_cover : bool):
+	if is_activate_cover:
+		_disabled_cover.show()
+	else:
+		_disabled_cover.hide()
+
+
+func toggle_hotkey_cover(is_activate_cover : bool):
+	if is_activate_cover:
+		_activated_skill_cover.show()
+	else:
+		_activated_skill_cover.hide()
 
 
 func _on_cooldown_finished():
-	$CD.text = ""
-	disabled_cover.hide()
+	cd_text.text = ""
+	_disabled_cover.hide()

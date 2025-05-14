@@ -1,12 +1,13 @@
 extends Control
 
 @onready var player_skills_container = $"../UI/PlayerTails/PlayerSkills/HBoxContainer"
-@onready var skill_hotkey1 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard/SkillHotkey"
-@onready var skill_hotkey2 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard2/SkillHotkey"
-@onready var skill_hotkey3 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard3/SkillHotkey"
 @onready var skill_card1 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard"
 @onready var skill_card2 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard2"
 @onready var skill_card3 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard3"
+
+var skill_hotkey1 
+var skill_hotkey2
+var skill_hotkey3 
 
 var _acqrd_skills : int = 0
 var is_waiting_shot_trigger = false
@@ -23,6 +24,13 @@ func _ready():
 	GameplayManager.tail_picked_up.connect(reset_skill_dup)
 	GameplayManager.tail_removed.connect(remove_skill)
 	GameplayManager.tail_removed.connect(reset_skill)
+	call_deferred("_setup_hotkeys")
+
+
+func _setup_hotkeys():
+	skill_hotkey1 = skill_card1.hotkey
+	skill_hotkey2 = skill_card2.hotkey
+	skill_hotkey3 = skill_card3.hotkey
 	skill_hotkey1.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|first_skill"))[0].keycode))
 	skill_hotkey2.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|second_skill"))[0].keycode))
 	skill_hotkey3.text = str(OS.get_keycode_string((InputMap.action_get_events("ablty|third_skill"))[0].keycode))
@@ -144,7 +152,12 @@ func reset_skill_dup(tail_data) -> void:
 
 func execute_skill():
 	if is_multiplayer_authority():
-		owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).execute_skill(active_skill_card.tail_data.skill_value)
+		var node_str = StringHelper.filter_string(active_skill_card.tail_data.skill_name)
+		await owner.skill_nodes.get_node(node_str).execute_skill(
+				active_skill_card.tail_data.skill_value,
+				self,
+				active_skill_card,
+				)
 		
 		if is_timed_trigger_enabled:
 			await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout

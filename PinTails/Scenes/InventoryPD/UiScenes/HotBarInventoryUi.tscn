@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://bf2qmquc7ys81"]
 
 [ext_resource type="Script" path="res://Scenes/InventoryPD/UiScenes/hot_bar_inventory.gd" id="1_l0n8a"]
-[ext_resource type="Texture2D" uid="uid://v5n8ollqt3qt" path="res://Scenes/Assets/Graphics/InputIcons/Gamepad/DPad_Left.png" id="3_xr4j1"]
-[ext_resource type="Texture2D" uid="uid://ebik12lcrif" path="res://Scenes/Assets/Graphics/InputIcons/Gamepad/DPad_Uppng.png" id="4_s68ar"]
-[ext_resource type="Texture2D" uid="uid://c2bynu0pq88st" path="res://Scenes/Assets/Graphics/InputIcons/Gamepad/DPad_Down.png" id="5_2cv2u"]
-[ext_resource type="Texture2D" uid="uid://cv0phb0f2xlns" path="res://Scenes/Assets/Graphics/InputIcons/Gamepad/DPad_Right.png" id="6_swbt2"]
+[ext_resource type="Texture2D" uid="uid://v5n8ollqt3qt" path="res://Assets/Graphics/InputIcons/Gamepad/DPad_Left.png" id="3_xr4j1"]
+[ext_resource type="Texture2D" uid="uid://ebik12lcrif" path="res://Assets/Graphics/InputIcons/Gamepad/DPad_Uppng.png" id="4_s68ar"]
+[ext_resource type="Texture2D" uid="uid://c2bynu0pq88st" path="res://Assets/Graphics/InputIcons/Gamepad/DPad_Down.png" id="5_2cv2u"]
+[ext_resource type="Texture2D" uid="uid://cv0phb0f2xlns" path="res://Assets/Graphics/InputIcons/Gamepad/DPad_Right.png" id="6_swbt2"]
 [ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="10_ipb46"]
 
 [node name="HotBarInventory" type="PanelContainer"]

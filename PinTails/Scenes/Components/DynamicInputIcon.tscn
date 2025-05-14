@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://btf6bmlgtfk1b"]
 
 [ext_resource type="Script" path="res://Scenes/Components/DynamicInputIcon.gd" id="2_px0yb"]
-[ext_resource type="Texture2D" uid="uid://5evydcsc3qjg" path="res://Scenes/Assets/Graphics/InputIcons/InputIconSheet_Gamepad.png" id="3_hxvpc"]
+[ext_resource type="Texture2D" uid="uid://5evydcsc3qjg" path="res://Assets/Graphics/InputIcons/InputIconSheet_Gamepad.png" id="3_hxvpc"]
 
 [node name="DynamicInputIcon" type="Sprite2D"]
 position = Vector2(50, 50)

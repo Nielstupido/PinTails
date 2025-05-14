@@ -20,6 +20,7 @@ func spawn_object(node_caller, obj_path : String, var_list : Dictionary) -> void
 		
 		if node_caller is NodePath:
 			get_node(node_caller).add_child(obj_instance, true)
+			obj_instance.global_transform = get_node(node_caller).global_transform
 		else:
 			world_items.add_child(obj_instance, true)
 			obj_instance.global_transform = node_caller
@@ -29,7 +30,7 @@ func spawn_object(node_caller, obj_path : String, var_list : Dictionary) -> void
 				obj_instance.set(var_name, var_list.get(var_name))
 
 
-@rpc("any_peer", "call_local", "reliable") 
+@rpc("any_peer", "call_local", "reliable")
 func spawn_tail(spawn_pos : Vector3, tail_data_bytes : String) -> void:
 	if multiplayer.is_server():
 		var tail_instance = tail_obj.instantiate()
@@ -59,7 +60,7 @@ func spawn_weapon(node_caller, weapon_type : Weapons.Weapon_Types, weapon_data_b
 			get_node(node_caller).add_child(weapon_instance, true)
 		else:
 			world_items.add_child(weapon_instance, true)
-			weapon_instance.global_transform = node_caller
+			#weapon_instance.global_transform = node_caller
 		
 		weapon_instance.item_data_bytes = weapon_data_bytes
 	

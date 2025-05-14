@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cp8en37sojhym"]
+[gd_scene load_steps=5 format=3 uid="uid://dfinowmt7rin6"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Map/BaseMap.gd" id="1_87jqd"]
 [ext_resource type="Script" path="res://Scenes/Game/GameplayHandler.gd" id="2_hoe06"]
 [ext_resource type="PackedScene" uid="uid://dicv1xbv4quvs" path="res://Scenes/Game/Spawner.tscn" id="2_opho5"]
-[ext_resource type="PackedScene" uid="uid://gfblikdt6ba8" path="res://Scenes/Game/Map/Map1.tscn" id="3_phcek"]
+[ext_resource type="PackedScene" uid="uid://b422kd3eeh4kf" path="res://Scenes/Game/Map/Map1.tscn" id="3_phcek"]
 
 [node name="BaseMap" type="Node"]
 script = ExtResource("1_87jqd")

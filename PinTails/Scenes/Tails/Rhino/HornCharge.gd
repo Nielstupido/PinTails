@@ -1,4 +1,4 @@
-extends Node3D
+extends TailSkill
 
 
 @onready var player_effects_manager = $"../../PlayerEffectsManager"
@@ -9,7 +9,8 @@ func _ready() -> void:
 	owner.connect("player_dash_stopped", func(): is_active = false)
 
 
-func execute_skill(dash_rate : int) -> void:
+#Override this function
+func _execute_skill(dash_rate : int) -> void:
 	if is_active:
 		do_ground_slam()
 	else:

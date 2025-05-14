@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cjs44e1ow53rv"]
 
 [ext_resource type="Script" path="res://COGITO/Scripts/hazard_zone.gd" id="1_38o7t"]
-[ext_resource type="Texture2D" uid="uid://d0so3oo1yk4kh" path="res://COGITO/Assets/Graphics/HintIcons/Hint_Heart.png" id="2_el00j"]
+[ext_resource type="Texture2D" uid="uid://d0so3oo1yk4kh" path="res://Assets/Graphics/HintIcons/Hint_Heart.png" id="2_el00j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_in244"]
 size = Vector3(1.5, 3, 1.5)

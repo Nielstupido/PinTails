@@ -1,4 +1,4 @@
-extends Node3D
+extends TailSkill
 
 
 @onready var tower_positioner_obj = preload("res://Scenes/Tails/Meerkat/TowerPositioner.tscn")
@@ -9,7 +9,8 @@ func _input(event):
 		pass
 
 
-func execute_skill(value : int) -> void:
+#Override this function
+func _execute_skill(value : int) -> void:
 	if owner.interaction_raycast.get_child_count() == 0:
 		var tower_pos = tower_positioner_obj.instantiate()
 		owner.interaction_raycast.add_child(tower_pos)

@@ -9,6 +9,9 @@ var camera_collision : Vector3 :
 		
 		var direction = (value - get_parent().get_global_transform().origin).normalized()
 		set_linear_velocity(direction * projectile_velocity)
+		look_at(global_transform.origin + direction)
+		print("rotation = " + str(global_rotation))
+		print("rotation = " + str(get_parent().global_rotation))
 
 
 func _on_body_entered(body): 

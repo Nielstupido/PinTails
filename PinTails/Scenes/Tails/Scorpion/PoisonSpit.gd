@@ -1,4 +1,5 @@
-extends Node3D
+extends TailSkill
+
 
 @onready var skill_animation_player = $"../SkillAnimationsPlayer"
 @onready var spawn_point = $"../../Neck/Head/SkillAttachments/ProjectileStartingPoint"
@@ -18,7 +19,8 @@ func _on_enemy_hit(body) -> void:
 		print("ENEMY HIT!! ----> " + str(body))
  
 
-func execute_skill(damage : int) -> void:
+#Override this function
+func _execute_skill(damage : int) -> void:
 	stab_damage = damage
 	is_skill_triggered = true
 	

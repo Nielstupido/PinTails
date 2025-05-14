@@ -1,10 +1,11 @@
-extends Node3D
+extends TailSkill
 
 
 var is_skill_triggered = false
 
 
-func execute_skill(value : int) -> void:
+#Override this function
+func _execute_skill(value : int) -> void:
 	is_skill_triggered = true
 
 
