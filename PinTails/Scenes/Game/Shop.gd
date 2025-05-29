@@ -8,14 +8,14 @@ extends CanvasLayer
 
 func open_buy_menu():
 	self.show()
-	owner.is_looking_aroung_paused = true
+	owner.is_looking_around_paused = true
 	owner.camera.set_process_input(false)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _on_CloseBuyMenuBtn_pressed():
 	self.hide()
-	owner.is_looking_aroung_paused = false
+	owner.is_looking_around_paused = false
 	owner.camera.set_process_input(true)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 

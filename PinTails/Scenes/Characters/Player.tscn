@@ -72,9 +72,10 @@ properties/1/path = NodePath(".:input_motion")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3ld8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2bcje"]
+render_priority = 1
 transparency = 1
-albedo_color = Color(1, 0.266667, 0.301961, 1)
+albedo_color = Color(0.452353, 0.00255305, 0.802596, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_02fea"]
 height = 1.8
@@ -564,7 +565,7 @@ camera_3D = NodePath("../Neck/Head/Eyes/Camera")
 [node name="TempBodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 layers = 524289
-material_override = SubResource("StandardMaterial3D_c3ld8")
+material_override = SubResource("StandardMaterial3D_2bcje")
 mesh = SubResource("CapsuleMesh_02fea")
 
 [node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("carryable_position")]
@@ -787,7 +788,7 @@ target_position = Vector3(0, 0, -2.5)
 collision_mask = 8
 
 [node name="MovementMotionBlur" parent="Neck/Head/Eyes/Camera" instance=ExtResource("20_f5bfb")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -3)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.135747, 0.0185144, -2.94095)
 
 [node name="InviScreenEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("21_uodof")]
 mouse_filter = 2

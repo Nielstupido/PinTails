@@ -38,7 +38,7 @@ func _process(delta):
 		hold_time += (delta * 15)
 		if hold_time > HOLD_TIME_THRES:
 			if !owner.tail_config_menu.visible:
-				owner.is_looking_aroung_paused = true
+				owner.is_looking_around_paused = true
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 				owner.tail_config_menu.show()
 	elif Input.is_action_just_released("player|attach_tail") and owner.is_multiplayer_authority():
@@ -53,7 +53,7 @@ func _process(delta):
 						pickupable_tail_obj = null
 		hold_time = 0
 	elif owner.tail_config_menu.visible:
-		owner.is_looking_aroung_paused = false
+		owner.is_looking_around_paused = false
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		owner.tail_config_menu.hide()
 	
@@ -75,7 +75,7 @@ func _process(delta):
 
 
 func _input(event):
-	if !owner.is_looking_aroung_paused and owner.is_multiplayer_authority():
+	if !owner.is_looking_around_paused and owner.is_multiplayer_authority():
 		if event.is_action_pressed("player|buy_menu"):
 			buy_weapon_menu.open_buy_menu() 
 		

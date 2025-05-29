@@ -15,7 +15,7 @@ func _input(event):
 				"spawn_object", 
 				global_transform, 
 				tower_scene_path,
-				{})
+				{"skill_owner" : get_parent().owner.name})
 		
 		self.queue_free()
 

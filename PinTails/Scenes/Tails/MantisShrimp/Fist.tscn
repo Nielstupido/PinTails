@@ -1,9 +1,15 @@
-[gd_scene load_steps=35 format=3 uid="uid://cu4r7pa1h5euo"]
+[gd_scene load_steps=36 format=3 uid="uid://cu4r7pa1h5euo"]
 
 [ext_resource type="ArrayMesh" uid="uid://c738tclcrgyjq" path="res://3dModels/SkillObjects/BoxingGloves.obj" id="1_3bdbl"]
 [ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Fist.gd" id="1_fikpk"]
 [ext_resource type="Shader" uid="uid://idufj4xm0qdo" path="res://Scenes/Tails/MantisShrimp/StunRangeEffect.tres" id="3_hwtre"]
 [ext_resource type="Shader" uid="uid://d038l06jroqft" path="res://Scenes/GlobalShaderEffects/SmokeClouds.tres" id="3_qo4tb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ie5b"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0.227451, 0.415686, 0, 0.32549)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_byrlr"]
 radius = 0.4
@@ -264,6 +270,12 @@ script = ExtResource("1_fikpk")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.1, 0, 0.6)
 mesh = ExtResource("1_3bdbl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(5, 0, 3.17865e-07, 0, 5, 0, -3.17865e-07, 0, 5, 0, 0, 0)
+mesh = ExtResource("1_3bdbl")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_3ie5b")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.6)

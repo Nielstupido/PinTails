@@ -6,6 +6,7 @@ signal player_state_loaded()
 signal player_just_landed()
 signal player_dash_stopped()
 
+@onready var player_detected_mat = load("res://Scenes/Characters/PlayerDetected.material")
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.
 @export var fall_damage : int
 ## Fall velocity at which fall damage is triggered. This is negative y-Axis. -5 is a good starting point but might be a bit too sensitive.
@@ -137,7 +138,7 @@ var bunny_hop_speed = SPRINTING_SPEED
 var last_velocity = Vector3.ZERO
 var stand_after_roll = false
 var is_movement_paused = false
-var is_looking_aroung_paused = false
+var is_looking_around_paused = false
 var is_dead : bool = false
 var is_dmg_immuned : bool = false 
 var temp = 0
@@ -170,66 +171,12 @@ var side = ""
 var is_wallrun_jumping = false
 var wall_jump_dir = Vector3.ZERO
 var _network_manager
+var activated_skill = false
 
 #@export_group("Player Properties")
 var player := 1
 var _is_player_invisible = false
 @export var is_player_invisible : bool = false 
-
-
-func _enter_tree():
-	set_multiplayer_authority(name.to_int())
-
-
-func _ready() -> void:
-	# Disables camera on non-host server setups, or dedicated server builds
-	camera.current = false
-	var mesh = $TempBodyMesh  # Adjust the path to your actual mesh node
-	var mat = mesh.material_override
-	var unique_mat = mat.duplicate()
-	unique_mat.resource_local_to_scene = true
-	mesh.set_surface_override_material(0, unique_mat)
-	body = $TempBodyMesh
-	
-	if is_multiplayer_authority():
-		camera.make_current()
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		
-		# if this is actually a host mode, we need to setup network manager as it is also a server
-		if GameplayManager.server_mode_selected:
-			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
-	else: 
-		set_process(false)
-		#set_process_input(false)
-		_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
-		player_hud.hide()
-		player_tails.hide()
-	
-	player = name.to_int()
-	
-	#Some Setup steps
-	#CogitoSceneManager._current_player_node = self
-	randomize()
-	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	initial_carryable_height = carryable_position.position.y #DEPRECATED
-	
-	player_hud.setup_player_hud()
-	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
-	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
-	
-	get_tree().get_root().get_node("Game").player_ready_signal.emit()
-	
-	#if is_multiplayer_authority() && (GameplayManager.local_host_mode || not multiplayer.is_server()):
-		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	#else: 
-		#set_process(false)
-		#set_process_input(false)
-	
-	##player tail initialization
-	#tail_manager.add_tail(MatchManager.match_players.get(PlayerAccount.username))
-	#GameplayManager.emit_signal("tail_picked_up", MatchManager.match_players.get(PlayerAccount.username))
-	player_dash_stopped.connect(_stop_dash)
 
 
 # Use this function to manipulate player attributes.
@@ -291,18 +238,125 @@ func add_sanity(value):
 	sanity_component.add(value)
 
 
-func set_mesh_transparent(vision_tower_node):
-	return 
-	
-	if vision_tower_node.vision_stopped.is_connected(_set_mesh_default) or body.get_active_material(0).no_depth_test:
-		return
-	
-	body.get_active_material(0).no_depth_test = true
-	vision_tower_node.vision_stopped.connect(_set_mesh_default)
+func params(transform3d, motion) -> PhysicsTestMotionParameters3D:
+	var params : PhysicsTestMotionParameters3D = _params
+	params.from = transform3d 
+	params.motion = motion
+	params.recovery_as_collision = true
+	return params
 
 
-func _set_mesh_default() -> void:
-	body.get_active_material(0).no_depth_test = false
+# Method to pause input (for Menu or Dialogues etc)
+func on_pause_movement():
+	if !is_movement_paused: 
+		is_movement_paused = true
+		is_looking_around_paused = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+# Method to unpause/continue input (for Menu or Dialogues etc)
+func on_resume_movement():
+	if is_movement_paused:
+		is_movement_paused = false
+		is_looking_around_paused = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
+	return PhysicsServer3D.body_test_motion(self_rid, params(transform3d, motion), test_motion_result)
+
+ 
+@rpc("any_peer", "call_local", "reliable")
+func apply_vision_material():
+	body.material_override.next_pass = player_detected_mat
+	await get_tree().create_timer(2.0).timeout
+	body.get_active_material(0).next_pass = null
+
+
+func _enter_tree():
+	set_multiplayer_authority(name.to_int())
+
+
+func _ready() -> void:
+	# Disables camera on non-host server setups, or dedicated server builds
+	camera.current = false
+	var mat = body.material_override
+	var unique_mat = mat.duplicate()
+	body.material_override = unique_mat
+	
+	if is_multiplayer_authority():
+		camera.make_current()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		
+		# if this is actually a host mode, we need to setup network manager as it is also a server
+		if GameplayManager.server_mode_selected:
+			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
+	else: 
+		set_process(false)
+		#set_process_input(false)
+		_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
+		player_hud.hide()
+		player_tails.hide()
+	
+	player = name.to_int()
+	
+	#Some Setup steps
+	#CogitoSceneManager._current_player_node = self
+	randomize()
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	initial_carryable_height = carryable_position.position.y #DEPRECATED
+	
+	player_hud.setup_player_hud()
+	health_component.death.connect(_on_death) # Hookup HealthComponent signal to detect player death
+	brightness_component.brightness_changed.connect(_on_brightness_changed) # Hookup brightness component signal
+	
+	get_tree().get_root().get_node("Game").player_ready_signal.emit()
+	
+	#if is_multiplayer_authority() && (GameplayManager.local_host_mode || not multiplayer.is_server()):
+		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#else: 
+		#set_process(false)
+		#set_process_input(false)
+	
+	##player tail initialization
+	#tail_manager.add_tail(MatchManager.match_players.get(PlayerAccount.username))
+	#GameplayManager.emit_signal("tail_picked_up", MatchManager.match_players.get(PlayerAccount.username))
+	player_dash_stopped.connect(_stop_dash)
+
+
+func _input(event):
+	#if multiplayer.is_server():
+	if is_multiplayer_authority():
+		_take_input(event)
+	
+	if event is InputEventMouseMotion and !is_looking_around_paused and is_multiplayer_authority():
+		if is_free_looking:
+			neck.rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
+			neck.rotation.y = clamp(neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
+		else:
+			rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
+		
+		if INVERT_Y_AXIS:
+			head.rotate_x(-deg_to_rad(-event.relative.y * MOUSE_SENS))
+		else:
+			head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENS))
+		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+
+
+func _process(delta): 
+	# If SanityComponent is used, this decreases health when sanity is 0.
+	if sanity_component.current_sanity <= 0:
+		take_damage(health_component.no_sanity_damage * delta)
+
+
+func _physics_process(delta): 
+	#if multiplayer.is_server():
+	if is_multiplayer_authority():
+		_apply_player_controls(delta)
+	
+	#if not multiplayer.is_server() || GameplayManager.local_host_mode:
+		#animate(current_animation, delta)
 
 
 func _on_death(): 
@@ -323,22 +377,6 @@ func _on_brightness_changed(current_brightness,max_brightness):
 			sanity_component.start_recovery(2.0, (sanity_component.max_sanity/max_brightness) * current_brightness)
 
 
-# Method to pause input (for Menu or Dialogues etc)
-func on_pause_movement():
-	if !is_movement_paused: 
-		is_movement_paused = true
-		is_looking_aroung_paused = true
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-
-# Method to unpause/continue input (for Menu or Dialogues etc)
-func on_resume_movement():
-	if is_movement_paused:
-		is_movement_paused = false
-		is_looking_aroung_paused = false
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
 # reload options user may have changed while paused.
 #func _reload_options():
 	#var err = config.load(OptionsConstants.config_file_name)
@@ -346,59 +384,13 @@ func on_resume_movement():
 		#INVERT_Y_AXIS = config.get_value(OptionsConstants.section_name, OptionsConstants.invert_vertical_axis_key, true)
 
 
-func _input(event):
-	#if multiplayer.is_server():
-	if is_multiplayer_authority():
-		_take_input(event)
-	
-	if event is InputEventMouseMotion and !is_looking_aroung_paused and is_multiplayer_authority():
-		if is_free_looking:
-			neck.rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
-			neck.rotation.y = clamp(neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
-		else:
-			rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENS))
-		
-		if INVERT_Y_AXIS:
-			head.rotate_x(-deg_to_rad(-event.relative.y * MOUSE_SENS))
-		else:
-			head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENS))
-		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-
-
 func _take_input(event):
 	# Checking Analog stick input for mouse look
-	if event is InputEventJoypadMotion and !is_looking_aroung_paused:
+	if event is InputEventJoypadMotion and !is_looking_around_paused:
 		if event.get_axis() == 2:
 			joystick_v_event = event
 		if event.get_axis() == 3:
 			joystick_h_event = event
-
-
-func _process(delta): 
-	# If SanityComponent is used, this decreases health when sanity is 0.
-	if sanity_component.current_sanity <= 0:
-		take_damage(health_component.no_sanity_damage * delta)
-
-
-func params(transform3d, motion) -> PhysicsTestMotionParameters3D:
-	var params : PhysicsTestMotionParameters3D = _params
-	params.from = transform3d
-	params.motion = motion
-	params.recovery_as_collision = true
-	return params
-
-
-func test_motion(transform3d: Transform3D, motion: Vector3) -> bool:
-	return PhysicsServer3D.body_test_motion(self_rid, params(transform3d, motion), test_motion_result)	
-
-
-func _physics_process(delta): 
-	#if multiplayer.is_server():
-	if is_multiplayer_authority():
-		_apply_player_controls(delta)
-	
-	#if not multiplayer.is_server() || GameplayManager.local_host_mode:
-		#animate(current_animation, delta)
 
 
 func _apply_player_controls(delta):
@@ -936,9 +928,9 @@ func _process_footstep_sound() -> void:
 			footstep_player.play()
 			# These "magic numbers" determine the frequency of sounds depending on speed of player. Need to make these variables.
 			if velocity.length() >= 3.4:
-				footstep_timer.start(.3) 
+				footstep_timer.start(0.3) 
 			else:
-				footstep_timer.start(.6)
+				footstep_timer.start(0.6)
 
 
 func _on_sliding_timer_timeout() -> void:

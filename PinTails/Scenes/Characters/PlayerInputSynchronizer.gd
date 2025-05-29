@@ -10,7 +10,7 @@ extends MultiplayerSynchronizer
 @export var do_jump := false
 
 @export var is_movement_paused = false
-@export var is_looking_aroung_paused = false
+@export var is_looking_around_paused = false
 
 const CAMERA_MOUSE_ROTATION_SPEED := 0.001
 const CAMERA_X_ROT_MIN := deg_to_rad(-89.9)
@@ -67,7 +67,7 @@ func _ready():
 
 func _input(event):
 	return 
-	if event is InputEventMouseMotion and !owner.is_looking_aroung_paused and is_multiplayer_authority():
+	if event is InputEventMouseMotion and !owner.is_looking_around_paused and is_multiplayer_authority():
 		if owner.is_free_looking:
 			neck.rotate_y(deg_to_rad(-event.relative.x * owner.MOUSE_SENS))
 			neck.rotation.y = clamp(neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
