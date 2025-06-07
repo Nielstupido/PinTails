@@ -11,6 +11,8 @@ var skill_hotkey3
 
 var _acqrd_skills : int = 0
 var is_waiting_shot_trigger = false
+var is_skill_toggle = false
+var is_toggle_enabled = false
 var is_waiting_double_trigger = false
 var is_timed_trigger_enabled = false
 var is_multiple_trigger_enabled = false
@@ -20,6 +22,7 @@ var active_skill_card = null
 
 func _ready():
 	owner.player_dash_stopped.connect(on_skill_duration_finished)
+	owner.on_skill_cd.connect(on_skill_duration_finished)
 	GameplayManager.tail_picked_up.connect(add_skill)
 	GameplayManager.tail_picked_up.connect(reset_skill_dup)
 	GameplayManager.tail_removed.connect(remove_skill)
@@ -98,6 +101,11 @@ func use_skill(skill_card : Node) -> void:
 	if is_waiting_double_trigger and active_skill_card != null:
 		execute_skill()
 		return
+	
+	if is_skill_toggle:
+		is_skill_toggle = false
+		execute_skill()
+		return
 	 
 	active_skill_card = skill_card
 	
@@ -114,6 +122,8 @@ func use_skill(skill_card : Node) -> void:
 			is_timed_trigger_enabled = true
 			execute_skill()
 		Skills.Skill_Types.TOGGLE_TRIGGER:
+			is_skill_toggle = true
+			is_toggle_enabled = true
 			execute_skill()
 		Skills.Skill_Types.DOUBLE_TRIGGER: 
 			execute_skill()
@@ -126,6 +136,8 @@ func use_skill(skill_card : Node) -> void:
 func reset_skill(tail_data, skill_index) -> void:
 	is_waiting_shot_trigger = false
 	is_timed_trigger_enabled = false
+	is_skill_toggle = false
+	is_toggle_enabled = false
 	active_skill_card = null
 
 
@@ -133,7 +145,7 @@ func reset_skill_dup(tail_data) -> void:
 	reset_skill(tail_data, null)
 
 
-##Filler - might needed later on
+##Filler - might be needed later on
 #func prepare_skill():
 	#match(owner.tail_manager.get_skill_effect(active_skill_card.tail_data.skill_name)):
 		#Skills.Skill_Effects.DAMAGE:
@@ -163,12 +175,13 @@ func execute_skill():
 			await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
 			owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
 			on_skill_duration_finished()
-		elif !is_waiting_shot_trigger and trigger_remaining == 0:
+		elif !is_waiting_shot_trigger and trigger_remaining == 0 and !is_skill_toggle:
 			on_skill_duration_finished()
 
 
 func on_skill_duration_finished():
-	if active_skill_card == null or trigger_remaining != 0:
+	if active_skill_card == null or trigger_remaining != 0 or is_toggle_enabled:
+		is_toggle_enabled = false
 		return
 	
 	active_skill_card.start_cooldown()

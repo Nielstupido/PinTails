@@ -14,7 +14,6 @@ func _ready():
 func add_tail(passed_tail : TailData) -> bool:
 	if !tails.has(passed_tail):
 		tails.append(passed_tail)
-		print("passed tail == " + str(passed_tail))
 		return true
 	
 	return false

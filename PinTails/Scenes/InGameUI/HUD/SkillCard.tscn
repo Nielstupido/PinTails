@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bqt1jaupt3x5k"]
 
-[ext_resource type="Script" path="res://Scenes/Characters/SkillCard.gd" id="1"]
+[ext_resource type="Script" path="res://Scenes/InGameUI/HUD/SkillCard.gd" id="1_jied1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v534l"]
 
@@ -14,7 +14,7 @@ offset_bottom = 100.0
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_v534l")
-script = ExtResource("1")
+script = ExtResource("1_jied1")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -23,6 +23,16 @@ theme_override_constants/separation = 0
 [node name="Panel" type="PanelContainer" parent="VBox"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBox/Panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Empty"
+
+[node name="DisabledCover" type="ColorRect" parent="VBox/Panel"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+color = Color(0.301961, 0.227451, 0.227451, 0.894118)
 
 [node name="CD" type="Label" parent="VBox/Panel"]
 layout_mode = 2
@@ -33,15 +43,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_vx5s4")
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Label" type="Label" parent="VBox/Panel"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Empty"
-
-[node name="DisabledCover" type="ColorRect" parent="VBox/Panel"]
-layout_mode = 2
-color = Color(0.301961, 0.227451, 0.227451, 0.894118)
 
 [node name="SkillHotkey" type="Label" parent="VBox"]
 custom_minimum_size = Vector2(100, 30)

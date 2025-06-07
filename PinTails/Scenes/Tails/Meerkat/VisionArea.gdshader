@@ -2,7 +2,7 @@ shader_type spatial;
 //Simple 3D shader to create a force-field effect inspired by Faultless Defense from Guilty Gear Xrd.
 //In summary, it takes logic used for simple rim lighting and uses it to create the alpha instead.
 
-render_mode blend_mix,depth_draw_always,cull_back,diffuse_burley,specular_schlick_ggx;//depth_test_disable;
+render_mode blend_mix,depth_draw_always,diffuse_burley,specular_schlick_ggx;//depth_test_disable;
 uniform vec4 albedo : source_color;
 uniform vec4 emission_color : source_color;
 uniform sampler2D texture_albedo : source_color;

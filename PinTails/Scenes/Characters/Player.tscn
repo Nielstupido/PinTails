@@ -36,7 +36,6 @@
 [ext_resource type="FontFile" uid="uid://6eajnwb5v8sn" path="res://Fonts/Aldrich-Regular.ttf" id="25_1wh4p"]
 [ext_resource type="AnimationLibrary" uid="uid://cdchpsv104er2" path="res://Assets/Animations/player_eyes.tres" id="25_4tcjr"]
 [ext_resource type="PackedScene" uid="uid://btf6bmlgtfk1b" path="res://Scenes/Components/DynamicInputIcon.tscn" id="26_qgdrd"]
-[ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/Characters/SkillCard.tscn" id="27_6lvhb"]
 [ext_resource type="Script" path="res://Scenes/Characters/TailConfigMenu.gd" id="29_mjx67"]
 [ext_resource type="Shader" path="res://Scenes/Characters/FastMotionLines.gdshader" id="30_epre4"]
 [ext_resource type="Script" path="res://Scenes/Characters/ScreenEffects.gd" id="30_ndda8"]
@@ -55,6 +54,7 @@
 [ext_resource type="Texture2D" uid="uid://ryhle5u4d4mn" path="res://Assets/Graphics/InputIcons/Keyboard/Keyboard_F.png" id="46_6pgel"]
 [ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Assets/Graphics/ProgressBar_FiveUnits.png" id="48_n2b8e"]
 [ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
+[ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/InGameUI/HUD/SkillCard.tscn" id="51_51lsc"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4fg2d"]
 properties/0/path = NodePath(".:transform")
@@ -564,7 +564,6 @@ camera_3D = NodePath("../Neck/Head/Eyes/Camera")
 
 [node name="TempBodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-layers = 524289
 material_override = SubResource("StandardMaterial3D_2bcje")
 mesh = SubResource("CapsuleMesh_02fea")
 
@@ -967,6 +966,17 @@ grow_vertical = 2
 texture = ExtResource("44_y726a")
 expand_mode = 5
 
+[node name="TextureRect2" type="TextureRect" parent="UI/Player_HUD/DamageOverlay"]
+material = SubResource("CanvasItemMaterial_1f12m")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("44_y726a")
+expand_mode = 5
+
 [node name="Crosshair" type="Control" parent="UI/Player_HUD"]
 layout_mode = 3
 anchors_preset = 8
@@ -1283,13 +1293,13 @@ size_flags_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="SkillCard" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+[node name="SkillCard" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("51_51lsc")]
 layout_mode = 2
 
-[node name="SkillCard2" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+[node name="SkillCard2" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("51_51lsc")]
 layout_mode = 2
 
-[node name="SkillCard3" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("27_6lvhb")]
+[node name="SkillCard3" parent="UI/PlayerTails/PlayerSkills/HBoxContainer" instance=ExtResource("51_51lsc")]
 layout_mode = 2
 
 [node name="TailConfigMenu" type="Control" parent="UI/PlayerTails"]

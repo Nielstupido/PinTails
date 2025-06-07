@@ -26,7 +26,6 @@ func prepare_tail_card(passed_tail_data):
 #<---------- IN-GAME ---------->
 func clear_tail_card():
 	self.tail_data = null
-	
 	self.title_node.text = ""
 	self.attrb_node.text = ""
 	self.blank_card.show()

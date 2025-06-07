@@ -8,6 +8,7 @@ extends Control
 @onready var hotkey = $VBox/SkillHotkey
 var tail_data : TailData = null
 var skill_cooldown : int
+var cooled_down : bool = false
 
 
 func _ready():
@@ -23,6 +24,7 @@ func _process(delta):
 
 
 func setup_skill_card(passed_tail_data, on_cooldown = false, remaining_cooldown = 0):
+	cooled_down = false
 	self.tail_data = passed_tail_data          
 	skill_label_text.text = StringHelper.filter_string(Tail.Classes.find_key(self.tail_data.tail_class))
 	self.skill_cooldown = self.tail_data.skill_cd
@@ -38,6 +40,7 @@ func clear_skill_card():
 	skill_label_text.text = "Empty"
 	$Timer.stop()
 	cd_text.text = "" 
+	cooled_down = false 
 
 
 func can_use_skill() -> bool:
@@ -54,8 +57,14 @@ func on_cooldown() -> Array:
 	return [true, $Timer.time_left]
 
 
-func start_cooldown(remaining_cooldown = 0):
+func start_cooldown(remaining_cooldown = 0): 
+	if cooled_down:
+		return
+	
+	cooled_down = true
+	
 	if remaining_cooldown == 0:
+		owner.emit_signal("on_skill_cd")
 		$Timer.start(self.skill_cooldown)
 	else:
 		$Timer.start(remaining_cooldown)
@@ -79,5 +88,6 @@ func toggle_hotkey_cover(is_activate_cover : bool):
 
 
 func _on_cooldown_finished():
+	cooled_down = false
 	cd_text.text = ""
 	_disabled_cover.hide()

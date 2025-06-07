@@ -13,7 +13,7 @@ func _input(event):
 	if event.is_action_pressed("playerhand|action_primary"):
 		get_tree().root.get_node("Game").get_map_node().spawner.rpc(
 				"spawn_object", 
-				global_transform, 
+				global_transform,
 				tower_scene_path,
 				{"skill_owner" : get_parent().owner.name})
 		

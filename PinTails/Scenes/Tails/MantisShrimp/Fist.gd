@@ -1,7 +1,8 @@
 extends RigidBody3D
 
 
-var projectile_velocity = 50
+var enemies_hit : Array = []
+var projectile_velocity : int = 50
 var camera_collision : Vector3 :
 	set(value):
 		if value == Vector3.ZERO:
@@ -26,6 +27,10 @@ func _on_stun_effect_player_animation_finished(_anim_name):
 
 
 func _on_stun_area_body_entered(body):
+	if not is_multiplayer_authority():
+		return
+	
 	if body.is_in_group("Player"):
-		if self.get_parent().owner.name != body.name:
+		if self.get_parent().owner.name != body.name and not enemies_hit.has(body):
+			enemies_hit.append(body)
 			get_tree().root.get_node("Game").get_map_node().gameplay_handler.rpc.call("player_took_damage", body.name)

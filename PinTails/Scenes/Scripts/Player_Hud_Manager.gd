@@ -19,12 +19,6 @@ extends CanvasLayer
 
 ## Reference to the Node that has the player.gd script.
 @export var player : Node
-
-var hurt_tween : Tween
-
-var device_id : int = -1
-var interaction_texture : Texture2D
-
 ## Used to reset icons etc, useful to have.
 @export var empty_texture : Texture2D
 # The hint icon that displays when no other icon is passed.
@@ -34,6 +28,10 @@ var interaction_texture : Texture2D
 @export var use_sanity_component : bool
 @export var use_brightness_component : bool
 @export var use_stamina_component : bool
+
+var device_id : int = -1
+var interaction_texture : Texture2D
+var _tween : Tween
 
 
 func setup_player_hud():
@@ -138,15 +136,16 @@ func _on_player_health_changed(new_health, max_health):
 	health_bar.max_value = max_health
 	health_bar.value = new_health
 	health_bar_label.text = str(int(health_bar.value), "/", int(health_bar.max_value))
-	
+
 
 # Function that controls damage vignette when damage taken.
 func _on_player_damage_taken():
-	damage_overlay.modulate = Color.WHITE
-	if hurt_tween:
-		hurt_tween.kill()
-	hurt_tween = create_tween()
-	hurt_tween.tween_property(damage_overlay,"modulate", Color.TRANSPARENT, 0.5)
+	damage_overlay.modulate.a = 1.0
+	if _tween:
+		_tween.kill()
+	
+	_tween = get_tree().create_tween()
+	_tween.tween_property(damage_overlay,"modulate:a", 0.0, 2.0)
 
 
 # Function called when player dies.

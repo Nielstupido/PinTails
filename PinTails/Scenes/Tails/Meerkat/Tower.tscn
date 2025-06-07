@@ -1,9 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://upn8qwao30xy"]
+[gd_scene load_steps=27 format=3 uid="uid://upn8qwao30xy"]
 
 [ext_resource type="Script" path="res://Scenes/Tails/Meerkat/Tower.gd" id="1_qjnvj"]
 [ext_resource type="ArrayMesh" uid="uid://bgwke674kr60c" path="res://3dModels/SkillObjects/RockTower.obj" id="2_vyac0"]
 [ext_resource type="Texture2D" uid="uid://brg2qx761d667" path="res://Assets/Textures/Prototype Textures/PNG/Dark/texture_07.png" id="3_m5fhp"]
-[ext_resource type="Shader" path="res://Scenes/Tails/Meerkat/VisionArea.gdshader" id="3_mk6ey"]
 [ext_resource type="ArrayMesh" uid="uid://cbjsqre76ik0" path="res://3dModels/SkillObjects/Stones/Stone2/stone.obj" id="4_jqimk"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ad3kp"]
@@ -165,15 +164,13 @@ collision_use_scale = true
 radius = 20.0
 height = 40.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yykl8"]
-render_priority = 0
-shader = ExtResource("3_mk6ey")
-shader_parameter/albedo = Color(0.717196, 0.72948, 0.405179, 1)
-shader_parameter/emission_color = Color(0.662166, 0.672336, 0.86846, 1)
-shader_parameter/emission_amount = 7.898
-shader_parameter/rim_steepness = 4.008
-shader_parameter/uv_scale = null
-shader_parameter/uv_offset = null
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4i2vo"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.811765, 0.862745, 0.901961, 0.12549)
+refraction_scale = -1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_c0m12"]
 radius = 20.0
@@ -240,8 +237,9 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VisionArea"]
+layers = 524289
 mesh = SubResource("SphereMesh_lkfly")
-surface_material_override/0 = SubResource("ShaderMaterial_yykl8")
+surface_material_override/0 = SubResource("StandardMaterial3D_4i2vo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VisionArea"]
 shape = SubResource("SphereShape3D_c0m12")

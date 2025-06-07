@@ -5,6 +5,7 @@ signal toggle_inventory_interface()
 signal player_state_loaded()
 signal player_just_landed()
 signal player_dash_stopped()
+signal on_skill_cd()
 
 @onready var player_detected_mat = load("res://Scenes/Characters/PlayerDetected.material")
 ## Damage the player takes if falling from great height. Leave at 0 if you don't want to use this.

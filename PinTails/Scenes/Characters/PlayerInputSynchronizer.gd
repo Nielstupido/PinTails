@@ -66,7 +66,6 @@ func _ready():
 
 
 func _input(event):
-	return 
 	if event is InputEventMouseMotion and !owner.is_looking_around_paused and is_multiplayer_authority():
 		if owner.is_free_looking:
 			neck.rotate_y(deg_to_rad(-event.relative.x * owner.MOUSE_SENS))

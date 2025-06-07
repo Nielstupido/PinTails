@@ -14,7 +14,7 @@ func _input(event):
 			owner.on_pause_movement()
 			self.show()
 
-
+ 
 func _on_Button_pressed():
 	get_tree().quit()
 
