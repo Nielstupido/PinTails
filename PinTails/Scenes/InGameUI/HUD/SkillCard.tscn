@@ -1,14 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqt1jaupt3x5k"]
+[gd_scene load_steps=7 format=3 uid="uid://bqt1jaupt3x5k"]
 
 [ext_resource type="Script" path="res://Scenes/InGameUI/HUD/SkillCard.gd" id="1_jied1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v534l"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pr2bd"]
+bg_color = Color(1, 1, 1, 0.231373)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ve2w1"]
+bg_color = Color(0.219608, 0, 0.223529, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rxk5n"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vx5s4"]
 content_margin_left = 5.0
 
 [node name="SkillCard" type="PanelContainer"]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(100, 150)
 offset_right = 100.0
 offset_bottom = 100.0
 size_flags_horizontal = 4
@@ -20,21 +33,74 @@ script = ExtResource("1_jied1")
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Panel" type="PanelContainer" parent="VBox"]
+[node name="SkillHotkey" type="Label" parent="VBox"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkillDuration" type="ProgressBar" parent="VBox"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_pr2bd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ve2w1")
+value = 100.0
+rounded = true
+fill_mode = 1
+show_percentage = false
+
+[node name="HBox" type="HBoxContainer" parent="VBox/SkillDuration"]
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="Panel1" type="Panel" parent="VBox/SkillDuration/HBox"]
+custom_minimum_size = Vector2(25, 7)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_rxk5n")
+
+[node name="Panel2" type="Panel" parent="VBox/SkillDuration/HBox"]
+custom_minimum_size = Vector2(25, 7)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_rxk5n")
+
+[node name="Panel3" type="Panel" parent="VBox/SkillDuration/HBox"]
+custom_minimum_size = Vector2(25, 7)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_rxk5n")
+
+[node name="VBox" type="VBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Panel" type="PanelContainer" parent="VBox/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBox/Panel"]
+[node name="Label" type="Label" parent="VBox/VBox/Panel"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Empty"
 
-[node name="DisabledCover" type="ColorRect" parent="VBox/Panel"]
+[node name="DisabledCover" type="ColorRect" parent="VBox/VBox/Panel"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
-color = Color(0.301961, 0.227451, 0.227451, 0.894118)
+color = Color(0.301961, 0.227451, 0.227451, 0.811765)
 
-[node name="CD" type="Label" parent="VBox/Panel"]
+[node name="CD" type="Label" parent="VBox/VBox/Panel"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -44,7 +110,7 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SkillHotkey" type="Label" parent="VBox"]
+[node name="SkillHotkey" type="Label" parent="VBox/VBox"]
 custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -53,14 +119,16 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ActivatedSkillCover" type="ColorRect" parent="VBox/SkillHotkey"]
+[node name="ActivatedSkillCover" type="ColorRect" parent="VBox/VBox/SkillHotkey"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.617455, 0.617455, 0.617455, 0.666667)
+color = Color(0.615686, 0.615686, 0.615686, 0.556863)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="SkillLimitTimer" type="Timer" parent="."]

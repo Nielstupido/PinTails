@@ -574,7 +574,6 @@ default_position = Vector3(0.329, -0.264, -0.535)
 sound_primary_use = ExtResource("5_ikht5")
 
 [node name="WeaponInventory" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -1287,7 +1286,7 @@ layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -100.0
+offset_top = -150.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme_override_constants/separation = 50

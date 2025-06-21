@@ -1,6 +1,7 @@
 class_name Character 
 extends CharacterBody3D
 
+
 signal toggle_inventory_interface()
 signal player_state_loaded()
 signal player_just_landed()
@@ -109,7 +110,6 @@ var on_ladder : bool = false
 var input_dir : Vector2
 var joystick_h_event
 var joystick_v_event
- 
 var initial_carryable_height #DEPRECATED Used to change carryable position based if player is standing or crouching
 
 var config = ConfigFile.new()
@@ -283,7 +283,7 @@ func _ready() -> void:
 	camera.current = false
 	var mat = body.material_override
 	var unique_mat = mat.duplicate()
-	body.material_override = unique_mat
+	body.material_override = unique_mat 
 	
 	if is_multiplayer_authority():
 		camera.make_current()

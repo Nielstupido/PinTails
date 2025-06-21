@@ -1,5 +1,6 @@
 extends Control
 
+
 @onready var player_skills_container = $"../UI/PlayerTails/PlayerSkills/HBoxContainer"
 @onready var skill_card1 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard"
 @onready var skill_card2 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard2"
@@ -63,7 +64,7 @@ func remove_skill(tail_data, skill_index) -> void:
 	var skill_status
 	_acqrd_skills -= 1
 	
-	if _acqrd_skills == 0:
+	if _acqrd_skills == 0: 
 		skill_card1.clear_skill_card()
 		return
 	
@@ -134,10 +135,13 @@ func use_skill(skill_card : Node) -> void:
 
 
 func reset_skill(tail_data, skill_index) -> void:
+	print("skill reset")
+	trigger_remaining = 0
 	is_waiting_shot_trigger = false
 	is_timed_trigger_enabled = false
 	is_skill_toggle = false
 	is_toggle_enabled = false
+	is_multiple_trigger_enabled = false
 	active_skill_card = null
 
 
@@ -179,10 +183,11 @@ func execute_skill():
 			on_skill_duration_finished()
 
 
-func on_skill_duration_finished():
-	if active_skill_card == null or trigger_remaining != 0 or is_toggle_enabled:
-		is_toggle_enabled = false
-		return
+func on_skill_duration_finished(_force_reset : bool = false):
+	if not _force_reset:
+		if active_skill_card == null or (trigger_remaining != 0 and is_multiple_trigger_enabled) or is_toggle_enabled:
+			is_toggle_enabled = false
+			return
 	
 	active_skill_card.start_cooldown()
 	reset_skill(null, null)
