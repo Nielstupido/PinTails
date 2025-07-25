@@ -17,6 +17,7 @@ var cooled_down : bool = false
 var skill_time_left : float = 0.0
 var skill_limit_time : float = 15.0
 var is_skill_limit_running : bool = false
+var call_stop_func : bool = false
 
 
 func _ready():
@@ -38,9 +39,14 @@ func _process(delta):
 		if skill_time_left <= 0:
 			skill_time_left = 0
 			is_skill_limit_running = false
-			start_cooldown()
+			
+			if call_stop_func:
+				_skill_node.stop_skill()
+			else:
+				start_cooldown()
+			
 			_prepare_trigger_counter(false)
-			_skill_node.is_activated = false
+			_skill_node.deactivate()
 		
 		_skill_limit_bar.value = skill_time_left
 
@@ -70,6 +76,24 @@ func _prepare_trigger_counter(show : bool):
 			counter.show()
 		else: 
 			counter.hide()
+
+
+func _prepate_timer(show : bool):
+	_skill_limit_bar.modulate.a = 1.0 if show else 0.0 
+
+	if show:
+		_skill_limit_bar.max_value = skill_limit_time
+		_skill_limit_bar.value = skill_limit_time
+		skill_time_left = skill_limit_time
+		toggle_hotkey_cover(true)
+	else: 
+		toggle_hotkey_cover(false)
+	
+	for counter in _trigger_count_nodes.get_children():
+		if show:
+			counter.hide()
+		else: 
+			counter.show()
 
 
 func setup_skill_card(passed_tail_data, on_cooldown = false, remaining_cooldown = 0):
@@ -115,12 +139,23 @@ func add_trigger_count() -> bool:
 		return true
 
 
-func activate_skill(node_obj : Object = null) -> void:
+func activate_skill(
+		node_obj : Object = null, 
+		has_time_limit : bool = true, 
+		has_trigger_counter : bool = true,
+		auto_stop : bool = false, 
+		time_limit : int = 0
+		) -> void:
 	_skill_node = node_obj
 	_hotkey_additional.text = hotkey.text
+	skill_time_left = time_limit
+	call_stop_func = auto_stop
 	
-	if tail_data.skill_type == Skills.Skill_Types.MULTIPLE_TRIGGER:
-		_prepare_trigger_counter(true)
+	if has_time_limit:
+		if has_trigger_counter:
+			_prepare_trigger_counter(true)
+		else:
+			_prepate_timer(true)
 		is_skill_limit_running = true
 
 
@@ -131,7 +166,7 @@ func on_cooldown() -> Array:
 	return [true, $CooldownTimer.time_left]
 
 
-func start_cooldown(remaining_cooldown = 0): 
+func start_cooldown(remaining_cooldown = 0):
 	if cooled_down:
 		return
 	

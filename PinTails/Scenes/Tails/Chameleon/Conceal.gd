@@ -2,7 +2,7 @@ extends TailSkill
 
 
 var _tween : Tween
-var _is_activated = false
+
 
 #Override this function
 func _execute_skill(concealment_length : int) -> void:

@@ -44,7 +44,6 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_pr2bd")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ve2w1")
-value = 100.0
 rounded = true
 fill_mode = 1
 show_percentage = false
@@ -60,21 +59,21 @@ grow_vertical = 2
 theme_override_constants/separation = 7
 alignment = 1
 
-[node name="Panel1" type="Panel" parent="VBox/SkillDuration/HBox"]
+[node name="Counter" type="Panel" parent="VBox/SkillDuration/HBox"]
 custom_minimum_size = Vector2(25, 7)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_rxk5n")
 
-[node name="Panel2" type="Panel" parent="VBox/SkillDuration/HBox"]
+[node name="Counter2" type="Panel" parent="VBox/SkillDuration/HBox"]
 custom_minimum_size = Vector2(25, 7)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_rxk5n")
 
-[node name="Panel3" type="Panel" parent="VBox/SkillDuration/HBox"]
+[node name="Counter3" type="Panel" parent="VBox/SkillDuration/HBox"]
 custom_minimum_size = Vector2(25, 7)
 layout_mode = 2
 size_flags_horizontal = 4

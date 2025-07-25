@@ -65,7 +65,7 @@ signal on_skill_cd()
 @export var SPRINTING_SPEED = 8.0
 @export var CROUCHING_SPEED = 3.0
 @export var CROUCHING_DEPTH = -0.9
-@export var MOUSE_SENS = 0.25
+@export var MOUSE_SENS = 0.258
 @export var LERP_SPEED = 10.0
 @export var AIR_LERP_SPEED = 6.0
 @export var FREE_LOOK_TILT_AMOUNT = 5.0
@@ -681,7 +681,7 @@ func _process_jump(delta) -> void:
 
 ##<<<< WALLRUNNING SKILL >>>>
 func _process_wallrun() -> void:
-	if can_wallrun and wallrun_skill_node.is_skill_enabled:
+	if can_wallrun and wallrun_skill_node._is_activated:
 		if is_on_wall() and Input.is_action_pressed("movement|forward") and Input.is_action_pressed("player|sprint"):
 			var collision = get_slide_collision(0)
 			var normal = collision.get_normal()

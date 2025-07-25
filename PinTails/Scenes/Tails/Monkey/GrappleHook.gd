@@ -9,5 +9,6 @@ func _execute_skill(value : int) -> void:
 	is_skill_triggered = true
 
 
+#Override this function
 func skill_timeout() -> void:
 	is_skill_triggered = false

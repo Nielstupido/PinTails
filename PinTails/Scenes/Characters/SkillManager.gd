@@ -6,9 +6,9 @@ extends Control
 @onready var skill_card2 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard2"
 @onready var skill_card3 = $"../UI/PlayerTails/PlayerSkills/HBoxContainer/SkillCard3"
 
-var skill_hotkey1 
+var skill_hotkey1
 var skill_hotkey2
-var skill_hotkey3 
+var skill_hotkey3
 
 var _acqrd_skills : int = 0
 var is_waiting_shot_trigger = false
@@ -135,7 +135,6 @@ func use_skill(skill_card : Node) -> void:
 
 
 func reset_skill(tail_data, skill_index) -> void:
-	print("skill reset")
 	trigger_remaining = 0
 	is_waiting_shot_trigger = false
 	is_timed_trigger_enabled = false
@@ -177,13 +176,17 @@ func execute_skill():
 		
 		if is_timed_trigger_enabled:
 			await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
-			owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
-			on_skill_duration_finished()
+			if active_skill_card:
+				owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
+			else:
+				on_skill_duration_finished()
 		elif !is_waiting_shot_trigger and trigger_remaining == 0 and !is_skill_toggle:
 			on_skill_duration_finished()
 
 
 func on_skill_duration_finished(_force_reset : bool = false):
+	print("skill finished")
+	
 	if not _force_reset:
 		if active_skill_card == null or (trigger_remaining != 0 and is_multiple_trigger_enabled) or is_toggle_enabled:
 			is_toggle_enabled = false
