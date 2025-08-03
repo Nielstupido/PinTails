@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=140 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Assets/Audio/Kenney/cloth2.ogg" id="2_5miix"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://ctdx2bs6fji20" path="res://Scenes/Components/SanityComponent.tscn" id="12_tv46k"]
 [ext_resource type="Script" path="res://Scenes/Tails/Chameleon/Conceal.gd" id="13_qaocy"]
 [ext_resource type="Script" path="res://Scenes/Tails/Rhino/GroundSlamEffect.gd" id="14_wnnth"]
+[ext_resource type="Shader" path="res://Scenes/Characters/PlayerShield.gdshader" id="14_x2l1s"]
 [ext_resource type="Script" path="res://Scenes/Tails/Scorpion/PoisonSpit.gd" id="15_sqodf"]
 [ext_resource type="Script" path="res://Scenes/Tails/Panther/Pounce.gd" id="15_v0mrh"]
 [ext_resource type="Script" path="res://Scenes/Tails/MantisShrimp/Punch.gd" id="16_cvlqi"]
@@ -75,7 +76,7 @@ properties/1/replication_mode = 1
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2bcje"]
 render_priority = 1
 transparency = 1
-albedo_color = Color(0.452353, 0.00255305, 0.802596, 1)
+albedo_color = Color(0.45098, 0.00392157, 0.803922, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_02fea"]
 height = 1.8
@@ -185,21 +186,17 @@ texture_mode = 1
 curve = SubResource("Curve_88qyy")
 
 [sub_resource type="Curve" id="Curve_dbxfn"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_06crw"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.365854, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.363281, 0.872964), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Curve" id="Curve_tgmn1"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="Curve" id="Curve_06crw"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.101563, 1), 0.0, 0.0, 0, 0, Vector2(0.667969, 0.184853), -1.35505, -1.35505, 0, 0, Vector2(1, 0.0472312), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CurveXYZTexture" id="CurveXYZTexture_pk2j1"]
 curve_x = SubResource("Curve_dbxfn")
 curve_y = SubResource("Curve_06crw")
-curve_z = SubResource("Curve_tgmn1")
+curve_z = SubResource("Curve_dbxfn")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sj1f5"]
 gravity = Vector3(0, 0, 0)
@@ -365,6 +362,67 @@ height = 0.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_w6eol"]
 size = Vector3(3, 1, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uag2i"]
+render_priority = 1
+shader = ExtResource("14_x2l1s")
+shader_parameter/albedo = Color(0.114897, 0.114897, 0.114897, 1)
+shader_parameter/emission_color = Color(0.798373, 0.909056, 0.254776, 1)
+shader_parameter/emission_amount = 2.714
+shader_parameter/rim_steepness = 2.926
+shader_parameter/uv_scale = Vector3(5, 5, 5)
+shader_parameter/uv_offset = Vector3(0.235, 0.32, 0.22)
+shader_parameter/scroll_speed = 1.0
+shader_parameter/pulse_speed = 2.0
+shader_parameter/pulse_strength = 0.5
+
+[sub_resource type="Curve" id="Curve_2her7"]
+max_value = 2.0
+_data = [Vector2(0, 1.00084), 0.0, 0.0, 0, 0, Vector2(0.494432, 0.869088), -9.43723, -9.43723, 0, 0, Vector2(1, 0.539696), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_2apjy"]
+curve = SubResource("Curve_2her7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m0w0d"]
+emission_shape = 2
+emission_sphere_radius = 1.5
+direction = Vector3(0, 0, 0)
+orbit_velocity_min = 0.1
+orbit_velocity_max = 0.5
+orbit_velocity_curve = SubResource("CurveTexture_2apjy")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.7
+scale_max = 0.7
+anim_speed_min = 0.4
+anim_speed_max = 0.85
+turbulence_noise_strength = 5.36
+turbulence_influence_min = 0.36
+turbulence_influence_max = 0.813
+
+[sub_resource type="SphereMesh" id="SphereMesh_0e2gi"]
+radius = 0.2
+height = 0.6
+radial_segments = 4
+rings = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1wg8v"]
+render_priority = 2
+shader = ExtResource("14_x2l1s")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/emission_color = Color(0.555248, 0.584213, 0.958656, 1)
+shader_parameter/emission_amount = 16.0
+shader_parameter/rim_steepness = 6.495
+shader_parameter/uv_scale = Vector3(1, 1, 1)
+shader_parameter/uv_offset = Vector3(0, 0, 0)
+shader_parameter/scroll_speed = 1.0
+shader_parameter/pulse_speed = 2.0
+shader_parameter/pulse_strength = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_28vfd"]
+material = SubResource("ShaderMaterial_1wg8v")
+radius = 1.5
+height = 3.0
 
 [sub_resource type="Animation" id="Animation_wif3r"]
 length = 0.001
@@ -641,9 +699,9 @@ material_override = SubResource("ShaderMaterial_0nlmn")
 cast_shadow = 0
 emitting = false
 amount = 1
-lifetime = 1.5
+lifetime = 2.0
 one_shot = true
-preprocess = 0.2
+preprocess = 0.1
 speed_scale = 2.3
 explosiveness = 1.0
 fixed_fps = 75
@@ -692,6 +750,7 @@ material_override = SubResource("StandardMaterial3D_qb2gr")
 emitting = false
 amount = 80
 lifetime = 0.5
+one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
 visibility_aabb = AABB(-5.9103, -7.73713, -6.3945, 12.4993, 13.2196, 13.0549)
@@ -703,6 +762,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -2.8)
 visible = false
 material_override = SubResource("ShaderMaterial_3lmp7")
 mesh = SubResource("BoxMesh_w6eol")
+
+[node name="ShieldEffect" type="GPUParticles3D" parent="PlayerEffectsManager"]
+visible = false
+material_override = SubResource("ShaderMaterial_uag2i")
+lod_bias = 0.001
+emitting = false
+amount = 50
+lifetime = 2.0
+randomness = 1.0
+fixed_fps = 60
+local_coords = true
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_m0w0d")
+draw_pass_1 = SubResource("SphereMesh_0e2gi")
+
+[node name="ShieldCircle" type="MeshInstance3D" parent="PlayerEffectsManager/ShieldEffect"]
+mesh = SubResource("SphereMesh_28vfd")
 
 [node name="SkillNodes" type="Node3D" parent="."]
 
@@ -786,7 +862,7 @@ target_position = Vector3(0, 0, -2.5)
 collision_mask = 8
 
 [node name="MovementMotionBlur" parent="Neck/Head/Eyes/Camera" instance=ExtResource("20_f5bfb")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.135747, 0.0185144, -2.94095)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.135747, 0.0185144, -1.94095)
 
 [node name="InviScreenEffect" parent="Neck/Head/Eyes/Camera" instance=ExtResource("21_uodof")]
 mouse_filter = 2

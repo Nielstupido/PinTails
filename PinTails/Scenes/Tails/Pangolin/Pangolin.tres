@@ -15,6 +15,6 @@ _skill_name = "Spin Shield"
 _skill_animation = ""
 _skill_effect = 2
 _skill_type = 1
-_skill_value = 50
+_skill_value = 10
 _skill_duration = 0
 _skill_cd = 10

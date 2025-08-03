@@ -80,7 +80,7 @@ func _prepare_trigger_counter(show : bool):
 
 func _prepate_timer(show : bool):
 	_skill_limit_bar.modulate.a = 1.0 if show else 0.0 
-
+	
 	if show:
 		_skill_limit_bar.max_value = skill_limit_time
 		_skill_limit_bar.value = skill_limit_time

@@ -142,6 +142,7 @@ var is_movement_paused = false
 var is_looking_around_paused = false
 var is_dead : bool = false
 var is_dmg_immuned : bool = false 
+var is_slowed : bool = false
 var temp = 0
 
 ## Player tail stats
@@ -431,7 +432,6 @@ func _apply_player_controls(delta):
 	
 	# FOOTSTEP SOUNDS SYSTEM = CHECK IF ON GROUND AND MOVING
 	_process_footstep_sound()
-	
 	_process_pounce()
 	
 	is_jumping = false
@@ -543,6 +543,9 @@ func _process_movement(delta) -> void:
 			is_sprinting = false
 			is_crouching = false
 			movement_motion_blur.toggle_motion_blur(false)
+	
+	if is_slowed:
+		current_speed = current_speed / 4
 	
 	if Input.is_action_pressed("free_look") or !sliding_timer.is_stopped():
 		is_free_looking = true
@@ -903,6 +906,11 @@ func _stop_dash() -> void:
 	temp = 0
 	
 	if is_dashing:
+		if is_dmg_immuned:
+			player_effects_manager.rpc("stop_effect",
+					player_effects_manager.Effects.SHIELD,
+					name.to_int())
+		
 		player_effects_manager.rpc("stop_effect",
 				player_effects_manager.Effects.SMALL_IMPACT_DUST,
 				name.to_int())

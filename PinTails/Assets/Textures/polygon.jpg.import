@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcvjuii8olx61"
-path.s3tc="res://.godot/imported/triangle.png-87035b1ed7c0b9e4470ac6a36db221f7.s3tc.ctex"
+uid="uid://bitq5x2qci0sd"
+path.s3tc="res://.godot/imported/polygon.jpg-33445888ac5b902dfbbdc09a451e0758.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Textures/2dTextures/triangle.png"
-dest_files=["res://.godot/imported/triangle.png-87035b1ed7c0b9e4470ac6a36db221f7.s3tc.ctex"]
+source_file="res://Assets/Textures/polygon.jpg"
+dest_files=["res://.godot/imported/polygon.jpg-33445888ac5b902dfbbdc09a451e0758.s3tc.ctex"]
 
 [params]
 

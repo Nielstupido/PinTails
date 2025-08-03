@@ -29,7 +29,3 @@ func stop_skill() -> void:
 	
 	if last_collided_wall:
 		last_collided_wall.get_parent().mesh.material.set_albedo(Color(1,1,1,1))
-
-
-func skill_timeout() -> void:
-	pass

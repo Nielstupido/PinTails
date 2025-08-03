@@ -57,6 +57,7 @@ func _input(event):
 		if Input.is_action_just_pressed("playerhand|action_primary"):
 			if is_waiting_shot_trigger || is_waiting_double_trigger:
 				is_waiting_shot_trigger = false
+				print("tail data ==" + str(active_skill_card))
 				execute_skill()
 
 
@@ -127,8 +128,8 @@ func use_skill(skill_card : Node) -> void:
 			is_toggle_enabled = true
 			execute_skill()
 		Skills.Skill_Types.DOUBLE_TRIGGER: 
-			execute_skill()
 			is_waiting_double_trigger = true
+			execute_skill()
 		Skills.Skill_Types.WAIT_SHOT_TRIGGER:
 			is_waiting_shot_trigger = true
 			execute_skill()
@@ -141,6 +142,7 @@ func reset_skill(tail_data, skill_index) -> void:
 	is_skill_toggle = false
 	is_toggle_enabled = false
 	is_multiple_trigger_enabled = false
+	is_waiting_double_trigger = false
 	active_skill_card = null
 
 
@@ -162,7 +164,7 @@ func reset_skill_dup(tail_data) -> void:
 			#print("dash skill")
 		#Skills.Skill_Effects.STICK: 
 			#execute_skill()
-			#print("stick skill")
+			#print("stick skill")s
 
 
 func execute_skill():
@@ -180,13 +182,11 @@ func execute_skill():
 				owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
 			else:
 				on_skill_duration_finished()
-		elif !is_waiting_shot_trigger and trigger_remaining == 0 and !is_skill_toggle:
+		elif is_multiple_trigger_enabled:
 			on_skill_duration_finished()
 
 
 func on_skill_duration_finished(_force_reset : bool = false):
-	print("skill finished")
-	
 	if not _force_reset:
 		if active_skill_card == null or (trigger_remaining != 0 and is_multiple_trigger_enabled) or is_toggle_enabled:
 			is_toggle_enabled = false
