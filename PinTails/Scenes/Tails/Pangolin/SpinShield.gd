@@ -19,6 +19,7 @@ func _execute_skill(duration : int) -> void:
 		owner.name.to_int())
 
 
+#Override this function
 func stop_skill() -> void:
 	_is_activated = false
 	_skill_card_node.start_cooldown()

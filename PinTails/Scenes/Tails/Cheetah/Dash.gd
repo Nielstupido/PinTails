@@ -18,5 +18,5 @@ func _execute_skill(dash_rate : int) -> void:
 
 
 #Override this function
-func skill_timeout() -> void:
+func stop_skill() -> void:
 	pass

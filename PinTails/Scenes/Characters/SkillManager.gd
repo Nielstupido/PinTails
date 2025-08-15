@@ -55,7 +55,7 @@ func _input(event):
 				use_skill(skill_card3)
 		
 		if Input.is_action_just_pressed("playerhand|action_primary"):
-			if is_waiting_shot_trigger || is_waiting_double_trigger:
+			if is_waiting_double_trigger:
 				is_waiting_shot_trigger = false
 				print("tail data ==" + str(active_skill_card))
 				execute_skill()
@@ -120,6 +120,7 @@ func use_skill(skill_card : Node) -> void:
 			execute_skill()
 		Skills.Skill_Types.SHOT_TRIGGER:
 			is_waiting_shot_trigger = true
+			execute_skill()
 		Skills.Skill_Types.TIMED_SHOT_TRIGGER:
 			is_timed_trigger_enabled = true
 			execute_skill()
@@ -179,7 +180,7 @@ func execute_skill():
 		if is_timed_trigger_enabled:
 			await get_tree().create_timer(active_skill_card.tail_data.skill_duration).timeout
 			if active_skill_card:
-				owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).skill_timeout()
+				owner.skill_nodes.get_node(StringHelper.filter_string(active_skill_card.tail_data.skill_name)).stop_skill()
 			else:
 				on_skill_duration_finished()
 		elif is_multiple_trigger_enabled:

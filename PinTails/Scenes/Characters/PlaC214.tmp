@@ -1,4 +1,4 @@
-[gd_scene load_steps=141 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=140 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Assets/Audio/Kenney/cloth2.ogg" id="2_5miix"]
@@ -56,7 +56,6 @@
 [ext_resource type="Texture2D" uid="uid://0tbm6xivmc85" path="res://Assets/Graphics/ProgressBar_FiveUnits.png" id="48_n2b8e"]
 [ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 [ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/InGameUI/HUD/SkillCard.tscn" id="51_51lsc"]
-[ext_resource type="PackedScene" uid="uid://dmmxh57pqk4iw" path="res://Scenes/Utils/TextChat/ChatBar.tscn" id="57_hd7mt"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4fg2d"]
 properties/0/path = NodePath(".:transform")
@@ -1295,6 +1294,14 @@ text = "Restart"
 
 [node name="PlayerTails" type="CanvasLayer" parent="UI"]
 
+[node name="Label" type="Label" parent="UI/PlayerTails"]
+offset_left = 40.0
+offset_top = 626.0
+offset_right = 80.0
+offset_bottom = 640.0
+scale = Vector2(4.76602, 4.76602)
+mouse_filter = 1
+
 [node name="Mag" type="Control" parent="UI/PlayerTails"]
 layout_mode = 3
 anchors_preset = 2
@@ -1497,9 +1504,6 @@ text = "Unpin"
 process_mode = 3
 
 [node name="GameMenuSettings" parent="UI" instance=ExtResource("50_yye2e")]
-
-[node name="ChatBar" parent="UI" instance=ExtResource("57_hd7mt")]
-layout_mode = 1
 
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)

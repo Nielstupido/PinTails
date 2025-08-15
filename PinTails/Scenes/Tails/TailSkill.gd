@@ -12,6 +12,11 @@ func _execute_skill(value):
 	pass
 
 
+#Override this function
+func stop_skill():
+	pass
+
+
 func execute_skill(value, calling_node, skill_card_node):
 	_calling_node = calling_node
 	_skill_card_node = skill_card_node

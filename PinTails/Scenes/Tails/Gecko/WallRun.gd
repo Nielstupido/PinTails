@@ -23,6 +23,7 @@ func _process(_delta) -> void:
 				last_collided_wall.get_parent().mesh.material.set_albedo(Color(1,1,1,1))
 
 
+#Override this function
 func stop_skill() -> void:
 	_is_activated = false
 	_skill_card_node.start_cooldown()

@@ -36,7 +36,7 @@ signal on_skill_cd()
 @onready var head: Node3D = $Neck/Head
 @onready var eyes: Node3D = $Neck/Head/Eyes
 @onready var camera: Camera3D = $Neck/Head/Eyes/Camera
-@onready var animationPlayer: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
+@onready var animation_player: AnimationPlayer = $Neck/Head/Eyes/AnimationPlayer
 @onready var wallrun_skill_node = $SkillNodes/WallRun
 @onready var movement_motion_blur = $Neck/Head/Eyes/Camera/MovementMotionBlur
 @onready var invi_screen_effect = $Neck/Head/Eyes/Camera/InviScreenEffect
@@ -144,7 +144,7 @@ var is_dead : bool = false
 var is_dmg_immuned : bool = false 
 var is_slowed : bool = false
 var temp = 0
-
+ 
 ## Player tail stats
 var adtnl_movement_speed = 0
 var adtnl_armor = 0
@@ -295,7 +295,6 @@ func _ready() -> void:
 			_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
 	else: 
 		set_process(false)
-		#set_process_input(false)
 		_network_manager = get_tree().get_current_scene().get_node("NetworkManager")
 		player_hud.hide()
 		player_tails.hide()
@@ -638,9 +637,9 @@ func _process_jump(delta) -> void:
 			head.position.y = lerp(head.position.y, CROUCHING_DEPTH, delta * LERP_SPEED)
 			standing_collision_shape.disabled = false
 			crouching_collision_shape.disabled = true
-			animationPlayer.play("roll")
+			animation_player.play("roll")
 		elif last_velocity.y <= -5.0:
-			animationPlayer.play("landing")
+			animation_player.play("landing")
 			if is_multiplayer_authority():
 				player_effects_manager.rpc("play_effect", 
 						player_effects_manager.Effects.IMPACT_DUST, 
@@ -665,7 +664,7 @@ func _process_jump(delta) -> void:
 			return
 		
 		movement_motion_blur.toggle_motion_blur(true)
-		animationPlayer.play("jump")
+		animation_player.play("jump")
 		#Audio.play_sound(jump_sound)
 		if !sliding_timer.is_stopped() and velocity == Vector3.ZERO:
 			velocity.y = JUMP_VELOCITY * 1.5 

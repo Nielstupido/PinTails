@@ -8,7 +8,7 @@ var _tween : Tween
 func _execute_skill(concealment_length : int) -> void:
 	if _is_activated:
 		_is_activated = false
-		_stop_skill()
+		stop_skill()
 		return
 	
 	_is_activated = true
@@ -19,10 +19,11 @@ func _execute_skill(concealment_length : int) -> void:
 	await get_tree().create_timer(concealment_length).timeout
 	
 	if _is_activated:
-		_stop_skill()
+		stop_skill()
 
 
-func _stop_skill() -> void:
+#Override this function
+func stop_skill() -> void:
 	if _tween:
 		_tween.stop()
 	

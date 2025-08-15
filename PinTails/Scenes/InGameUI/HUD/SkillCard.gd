@@ -171,15 +171,17 @@ func start_cooldown(remaining_cooldown = 0):
 		return
 	
 	cooled_down = true
+	is_skill_limit_running = false
+	_prepare_trigger_counter(false)
+	toggle_hotkey_cover(false)     
+	toggle_skill_cover(true)
 	
 	if remaining_cooldown == 0:
 		owner.emit_signal("on_skill_cd", true)
 		$CooldownTimer.start(self.skill_cooldown)
 	else:
 		$CooldownTimer.start(remaining_cooldown)
-	
-	toggle_hotkey_cover(false)     
-	toggle_skill_cover(true)
+
 
 
 func toggle_skill_cover(is_activate_cover : bool):

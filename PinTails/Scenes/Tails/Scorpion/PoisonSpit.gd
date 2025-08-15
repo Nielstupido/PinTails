@@ -8,6 +8,11 @@ var is_skill_triggered = false
 var stab_damage : int
 
 
+func _ready():
+	if _skill_card_node and !_is_activated:
+		pass
+
+
 func _input(event) -> void:
 	if event.is_action_pressed("playerhand|action_primary") and is_skill_triggered:
 		skill_animation_player.play("poison_stab")
@@ -33,5 +38,6 @@ func _execute_skill(damage : int) -> void:
 			var_dict)
 
 
-func skill_timeout() -> void:
+#Override this function
+func stop_skill() -> void:
 	is_skill_triggered = false

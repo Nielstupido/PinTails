@@ -1,13 +1,14 @@
 class_name Item
 extends RigidBody3D
 
+
 @export var weapon_data : WeaponData = null
 @export var action_keyword : String
 var interaction_text : String 
 var tail_data : TailData = null
 var is_dropped : bool = false
 var projectile_velocity = 3
-var item_data_bytes : String = "":
+var item_data_bytes : String = "": 
 	set(value):
 		item_data_bytes = value
 		if item_data_bytes != "":
