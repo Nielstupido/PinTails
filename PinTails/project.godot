@@ -31,6 +31,7 @@ VideoSettings="*res://Scenes/Globals/Settings/VideoSettings.gd"
 InputKeySettings="*res://Scenes/Globals/Settings/InputKeySettings.gd"
 Settings="*res://Scenes/Globals/Settings.gd"
 SettingsConfig="*res://Scenes/Globals/SettingsConfig.gd"
+ChatSystem="*res://Scenes/Utils/TextChat/ChatSystem.gd"
 
 [display]
 

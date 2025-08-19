@@ -183,7 +183,6 @@ func start_cooldown(remaining_cooldown = 0):
 		$CooldownTimer.start(remaining_cooldown)
 
 
-
 func toggle_skill_cover(is_activate_cover : bool):
 	if is_activate_cover:
 		_disabled_cover.show()

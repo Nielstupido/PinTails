@@ -138,6 +138,8 @@ var wiggle_current_intensity = 0.0
 var bunny_hop_speed = SPRINTING_SPEED
 var last_velocity = Vector3.ZERO
 var stand_after_roll = false
+var is_player_input_paused = false
+var is_game_paused = false
 var is_movement_paused = false
 var is_looking_around_paused = false
 var is_dead : bool = false
@@ -249,7 +251,7 @@ func params(transform3d, motion) -> PhysicsTestMotionParameters3D:
 
 
 # Method to pause input (for Menu or Dialogues etc)
-func on_pause_movement():
+func on_game_paused():
 	if !is_movement_paused: 
 		is_movement_paused = true
 		is_looking_around_paused = true
@@ -257,7 +259,7 @@ func on_pause_movement():
 
 
 # Method to unpause/continue input (for Menu or Dialogues etc)
-func on_resume_movement():
+func on_game_resumed():
 	if is_movement_paused:
 		is_movement_paused = false
 		is_looking_around_paused = false
@@ -395,7 +397,7 @@ func _take_input(event):
 
 
 func _apply_player_controls(delta):
-	if is_movement_paused or on_wall_run:
+	if is_game_paused or on_wall_run:
 		return
 		
 	if on_ladder:

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://8kau84x4vnm3"]
+
+[ext_resource type="Script" path="res://Scenes/Utils/TextChat/ChatSystem.gd" id="1_kivsc"]
+
+[node name="ChatSystem" type="Node"]
+script = ExtResource("1_kivsc")

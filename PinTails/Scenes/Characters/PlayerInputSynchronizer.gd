@@ -9,6 +9,7 @@ extends MultiplayerSynchronizer
 @export var input_motion := Vector2()
 @export var do_jump := false
 
+@export var is_game_paused = false
 @export var is_movement_paused = false
 @export var is_looking_around_paused = false
 

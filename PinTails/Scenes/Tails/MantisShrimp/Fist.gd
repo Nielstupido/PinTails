@@ -33,4 +33,4 @@ func _on_stun_area_body_entered(body):
 	if body.is_in_group("Player"):
 		if self.get_parent().owner.name != body.name and not enemies_hit.has(body):
 			enemies_hit.append(body)
-			get_tree().root.get_node("Game").get_map_node().gameplay_handler.rpc.call("player_took_damage", body.name)
+			get_tree().root.get_node("Game").get_map_node().gameplay_handler.rpc("player_took_damage", body.name)

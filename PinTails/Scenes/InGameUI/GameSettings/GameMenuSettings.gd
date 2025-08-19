@@ -8,10 +8,10 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("menu") and !owner.is_dead:
 		if self.visible:
-			owner.on_resume_movement()
+			owner.on_game_resumed()
 			self.hide()
 		else:
-			owner.on_pause_movement()
+			owner.on_game_paused()
 			self.show()
 
  

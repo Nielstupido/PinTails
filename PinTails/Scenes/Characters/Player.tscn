@@ -1,4 +1,4 @@
-[gd_scene load_steps=141 format=3 uid="uid://kicjwmh02uwf"]
+[gd_scene load_steps=142 format=3 uid="uid://kicjwmh02uwf"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Player.gd" id="1_3fm13"]
 [ext_resource type="AudioStream" uid="uid://ba8gpptnnapyh" path="res://Assets/Audio/Kenney/cloth2.ogg" id="2_5miix"]
@@ -57,6 +57,7 @@
 [ext_resource type="PackedScene" uid="uid://c47g8f3mkdcrr" path="res://Scenes/InGameUI/GameSettings/GameMenuSettings.tscn" id="50_yye2e"]
 [ext_resource type="PackedScene" uid="uid://bqt1jaupt3x5k" path="res://Scenes/InGameUI/HUD/SkillCard.tscn" id="51_51lsc"]
 [ext_resource type="PackedScene" uid="uid://dmmxh57pqk4iw" path="res://Scenes/Utils/TextChat/ChatBar.tscn" id="57_hd7mt"]
+[ext_resource type="PackedScene" uid="uid://8kau84x4vnm3" path="res://Scenes/Utils/TextChat/ChatSystem.tscn" id="58_iru6o"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4fg2d"]
 properties/0/path = NodePath(".:transform")
@@ -1503,6 +1504,8 @@ layout_mode = 1
 
 [node name="DropPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36923, 0.835016)
+
+[node name="ChatSystem" parent="." instance=ExtResource("58_iru6o")]
 
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="TailCollisionArea" to="PlayerInteractionComponent" method="_on_tail_collision_area_body_entered"]

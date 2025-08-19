@@ -1,5 +1,4 @@
-@tool
-class_name ChatSystem
+extends Node
 
 
 signal on_chat_sent(text_chat)
